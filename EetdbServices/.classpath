@@ -13,24 +13,5 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="jar/spring-aop-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-aspects-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-beans-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-context-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-context-support-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-core-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-expression-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-instrument-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-instrument-tomcat-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-jdbc-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-jms-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-orm-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-oxm-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-struts-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-test-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-tx-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-web-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-webmvc-3.2.0.RELEASE.jar"/>
-	<classpathentry kind="lib" path="jar/spring-webmvc-portlet-3.2.0.RELEASE.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
