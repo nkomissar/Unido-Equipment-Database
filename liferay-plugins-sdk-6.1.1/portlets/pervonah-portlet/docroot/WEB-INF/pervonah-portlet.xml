@@ -13,7 +13,7 @@
         ">
         
 	<!-- Auto-detect controllers in these packages -->
-	<context:component-scan base-package="web" />
+	<context:component-scan base-package="org.unido.eetdb.pervonah" />
 	
 	<!-- We're using Annotations -->
 	<context:annotation-config />

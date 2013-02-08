@@ -8,7 +8,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 
 @Controller
-@RequestMapping("VIEW")
+@RequestMapping("view")
 public class MainController 
 {
 
