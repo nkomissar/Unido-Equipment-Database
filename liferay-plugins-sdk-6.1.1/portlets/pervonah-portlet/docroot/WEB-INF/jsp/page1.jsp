@@ -4,9 +4,9 @@
 <portlet:renderURL var="showPage2URL">
 	<portlet:param name="action" value="showPage2" />
 </portlet:renderURL>
-<portlet:renderURL var="doSimpleFormURL">
+<portlet:actionURL var="doSimpleFormURL">
 	<portlet:param name="action" value="doSimpleForm" />
-</portlet:renderURL>
+</portlet:actionURL>
 
 <a href="${showPage2URL}">Show me page 2</a>
 

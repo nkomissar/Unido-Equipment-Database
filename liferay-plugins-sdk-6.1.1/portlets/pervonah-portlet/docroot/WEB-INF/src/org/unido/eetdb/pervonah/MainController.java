@@ -33,7 +33,8 @@ public class MainController {
 	}
 
 	@ActionMapping(params = "action=doSimpleForm")
-	public void changePreferences(@RequestParam String first,
+	public void changePreferences(
+			@RequestParam String first,
 			@RequestParam String last,
 			@RequestParam String company,
 			@RequestParam String email,
