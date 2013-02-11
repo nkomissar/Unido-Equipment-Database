@@ -6,8 +6,8 @@
 		<portlet-name>pervonah</portlet-name>
 		<icon>/icon.png</icon>
 		<instanceable>false</instanceable>
-		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
+		<header-portlet-css>/css/extjs/ext-all.css</header-portlet-css>
+		<header-portlet-javascript>/js/extjs/ext-all.js?js_fast_load=0</header-portlet-javascript>
 		<css-class-wrapper>pervonah-portlet</css-class-wrapper>
 	</portlet>
 	<role-mapper>
