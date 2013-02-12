@@ -2,12 +2,15 @@ package org.unido.eetdb.common.model;
 
 public class EntityProperty
 {
+    private long    id;
     private String  name;
     private boolean displayInGrid;
-    private Object  value;
+    private String  value;
     private String  format;
     private String  unitOfMeasure;
     private String  type;
+    
+    public EntityProperty(){};
 
     public String getName()
     {
@@ -29,12 +32,12 @@ public class EntityProperty
         this.displayInGrid = displayInGrid;
     }
 
-    public Object getValue()
+    public String getValue()
     {
         return value;
     }
 
-    public void setValue(Object value)
+    public void setValue(String value)
     {
         this.value = value;
     }
@@ -67,5 +70,15 @@ public class EntityProperty
     public void setType(String type)
     {
         this.type = type;
+    }
+
+    public long getId()
+    {
+        return id;
+    }
+
+    public void setId(long id)
+    {
+        this.id = id;
     }
 }

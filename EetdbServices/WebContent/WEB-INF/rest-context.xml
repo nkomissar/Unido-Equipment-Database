@@ -14,9 +14,23 @@
         <property name="url" value="jdbc:mysql://92.53.105.222:3306/eetdb"/>
         <property name="maxActive" value="-1" />
         <property name="maxIdle" value="1" />
-        <property name="username" value=""/>
-        <property name="password" value=""/>
+        <property name="username" value="eetSite"/>
+        <property name="password" value="eetdb"/>
     </bean>
+    
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+    	<property name="dataSource" ref="dataSource"/>
+    	<property name="mappingResources">
+	      <list>
+	        <value>Hib/Entity.hbm.xml</value>
+	      </list>
+    	</property>
+	    <property name="hibernateProperties">
+	      <value>
+	        hibernate.dialect=org.hibernate.dialect.MySQLDialect
+	      </value>
+	    </property>
+  	</bean>
 
 	<bean id="entityService" class="org.unido.eetdb.service.EntityServiceImpl" />
 </beans>
