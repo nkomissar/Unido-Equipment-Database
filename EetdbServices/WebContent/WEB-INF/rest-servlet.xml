@@ -24,6 +24,5 @@
 		<property name="supportedMediaTypes" value="application/json" />
 	</bean>
 
-	<bean id="employeeController" class="org.unido.eetdb.controller.EntityController">
-	</bean>
+	<bean id="entityController" class="org.unido.eetdb.controller.EntityController" />
 </beans>
