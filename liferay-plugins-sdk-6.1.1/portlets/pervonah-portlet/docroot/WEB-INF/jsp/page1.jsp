@@ -8,6 +8,7 @@
 <portlet:actionURL var="doSimpleFormURL">
 	<portlet:param name="action" value="doSimpleForm" />
 </portlet:actionURL>
+
 <portlet:renderURL var="doAjaxLoadURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
 	<portlet:param name="action" value="doAjaxLoad" />
 </portlet:renderURL>
