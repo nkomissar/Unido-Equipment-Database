@@ -5,7 +5,7 @@ import org.unido.eetdb.common.model.Topic;
 
 public interface EntityService
 {
-    public Entity getEntity(long entityId, boolean loadChilds);
+    public Entity getEntity(Long entityId, boolean loadChilds);
     
-    public Topic getTopic(long topicId);
+    public Topic getTopic(Long topicId);
 }

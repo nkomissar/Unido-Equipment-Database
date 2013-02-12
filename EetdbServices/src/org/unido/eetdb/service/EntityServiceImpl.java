@@ -18,13 +18,13 @@ public class EntityServiceImpl implements EntityService
     }
 
     @Override
-    public Entity getEntity(long entityId, boolean loadChilds)
+    public Entity getEntity(Long entityId, boolean loadChilds)
     {
-        return null;
+        return (Entity)sessionFactory.getCurrentSession().load(Entity.class, entityId);
     }
 
     @Override
-    public Topic getTopic(long topicId)
+    public Topic getTopic(Long topicId)
     {
         return null;
     }

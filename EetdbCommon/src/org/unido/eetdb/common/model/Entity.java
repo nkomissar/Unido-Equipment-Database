@@ -1,15 +1,17 @@
 package org.unido.eetdb.common.model;
 
-import java.util.ArrayList;
+import java.util.Set;
 
 public class Entity
 {
-    private long                      id;
-    private String                    name;
-    private ArrayList<EntityProperty> properties;
-    private ArrayList<Entity>         childEntities;
-    
-    public Entity(){};
+    private long   id;
+    private String name;
+    private Set    properties;
+    private Set    childEntities;
+
+    public Entity()
+    {
+    };
 
     public String getName()
     {
@@ -21,26 +23,6 @@ public class Entity
         this.name = name;
     }
 
-    public ArrayList<EntityProperty> getProperties()
-    {
-        return properties;
-    }
-
-    public void setProperties(ArrayList<EntityProperty> properties)
-    {
-        this.properties = properties;
-    }
-
-    public ArrayList<Entity> getChildEntities()
-    {
-        return childEntities;
-    }
-
-    public void setChildEntities(ArrayList<Entity> childEntities)
-    {
-        this.childEntities = childEntities;
-    }
-
     public long getId()
     {
         return id;
@@ -49,5 +31,25 @@ public class Entity
     public void setId(long id)
     {
         this.id = id;
+    }
+
+    public Set getProperties()
+    {
+        return properties;
+    }
+
+    public void setProperties(Set properties)
+    {
+        this.properties = properties;
+    }
+
+    public Set getChildEntities()
+    {
+        return childEntities;
+    }
+
+    public void setChildEntities(Set childEntities)
+    {
+        this.childEntities = childEntities;
     }
 }

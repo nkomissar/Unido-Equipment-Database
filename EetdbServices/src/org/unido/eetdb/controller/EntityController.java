@@ -23,7 +23,7 @@ public class EntityController
 
     @RequestMapping(method = RequestMethod.GET, value = "/entity/{id}", headers = "application/json")
     public @ResponseBody
-    Entity getEntity(@PathVariable long id)
+    Entity getEntity(@PathVariable Long id)
     {
         Entity entity = entityService.getEntity(id, true);
 
@@ -32,7 +32,7 @@ public class EntityController
     
     @RequestMapping(method = RequestMethod.GET, value = "/topic/{id}", headers = "application/json")
     public @ResponseBody
-    Topic getTopic(@PathVariable long id)
+    Topic getTopic(@PathVariable Long id)
     {
         Topic topic = entityService.getTopic(id);
 
