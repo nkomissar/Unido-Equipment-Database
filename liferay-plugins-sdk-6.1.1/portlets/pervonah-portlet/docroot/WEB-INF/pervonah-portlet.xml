@@ -11,13 +11,13 @@
         http://www.springframework.org/schema/util
 		http://www.springframework.org/schema/util/spring-util-3.0.xsd
         ">
-        
+
 	<!-- Auto-detect controllers in these packages -->
 	<context:component-scan base-package="org.unido.eetdb.pervonah" />
-	
+
 	<!-- We're using Annotations -->
 	<context:annotation-config />
-	
+
 	<!-- View Resolver -->
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -26,4 +26,11 @@
 		<property name="prefix" value="/WEB-INF/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
+
+	<bean id="jaxbAnnotationBinder" class="org.codehaus.jackson.xc.JaxbAnnotationIntrospector" />
+	<bean id="jsonObjectMapper" class="org.codehaus.jackson.map.ObjectMapper" />
+	<bean id="jsonview"
+		class="org.springframework.web.servlet.view.json.MappingJacksonJsonView"
+		p:objectMapper="#{jsonObjectMapper.setAnnotationIntrospector(jaxbAnnotationBinder)}" />
+		
 </beans>
