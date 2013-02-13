@@ -10,12 +10,14 @@ import javax.portlet.ActionResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
 import org.unido.eetdb.pervonah.model.pervoClass;
 
@@ -58,34 +60,32 @@ public class MainController {
 	}
 
 	@RenderMapping(params = "action=doAjaxLoad")
-	public ModelAndView createBlankContactJson() 
+	public ModelAndView createBlankContactJson(pervoClass myClass) 
 	{
 	
-		return new ModelAndView(jsonView, "response", new pervoClass("first",
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("data", new pervoClass("first",
 				"last", "company", "email", new Date()));
+		
+		return new ModelAndView(jsonView, data);
 		
 	}
 
-	public @ResponseBody
-	Map<String, ? extends Object> load(pervoClass myClass) {
-
-		pervoClass pc = new pervoClass("first", "last", "company", "email",
-				new Date());
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("success", Boolean.TRUE);
-		data.put("data", pc);
-
-		return data;
-	}
 
 	@ActionMapping(params = "action=doAjax")
-	public @ResponseBody
-	Map<String, ? extends Object> uselessFuncName(pervoClass myClass,
+	public void uselessFuncName(@RequestParam String myClass,
 			ActionRequest actionRequest) {
 
 		System.out.println("got here");
 
-		return null;
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("data", new pervoClass("first",
+				"last", "company", "email", new Date()));
+		
+		//return new ModelAndView(jsonView, data);
+		
 
 	}
 

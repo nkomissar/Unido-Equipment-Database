@@ -9,10 +9,11 @@
 	<portlet:param name="action" value="doSimpleForm" />
 </portlet:actionURL>
 
-<portlet:renderURL var="doAjaxLoadURL" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+<portlet:renderURL var="doAjaxLoadURL"
+	windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
 	<portlet:param name="action" value="doAjaxLoad" />
 </portlet:renderURL>
-<portlet:actionURL var="doAjaxURL">
+<portlet:actionURL var="doAjaxURL" windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
 	<portlet:param name="action" value="doAjax" />
 </portlet:actionURL>
 
@@ -21,8 +22,9 @@
 <div id='pervonah-div'></div>
 
 <script type="text/javascript">
-	Ext.require([ 'Ext.form.*', 'Ext.layout.container.Column',
-					'Ext.tab.Panel' ]);
+	Ext
+			.require([ 'Ext.form.*', 'Ext.layout.container.Column',
+					'Ext.tab.Panel', 'Ext.util.*' ]);
 
 	Ext.onReady(function() {
 
@@ -100,15 +102,15 @@
 			headers : {
 				Accept : 'application/json, text/javascript, */*; q=0.01'
 			},
-			waitMsg : 'loading...',
+			//waitMsg : 'loading...',
 			params : {
 				id : 1
 			},
-			success : function(form, action) {
-				//Ext.getCmp('mf.btn.add').setDisabled(false);		
-				//Ext.getCmp('mf.btn.reset').setDisabled(false);		
-				//Ext.getCmp('mf.btn.load').setDisabled(true);		
-			},
+			//success : function(form, action) {
+			//Ext.getCmp('mf.btn.add').setDisabled(false);		
+			//Ext.getCmp('mf.btn.reset').setDisabled(false);		
+			//Ext.getCmp('mf.btn.load').setDisabled(true);		
+			//},
 			failure : function(form, action) {
 				Ext.Msg.alert('Warning', 'Error Unable to Load Form Data.'); //action.result.errorMessage
 			}
@@ -116,7 +118,22 @@
 	}
 
 	function fnUpdateForm(theForm) {
-		theForm.getForm().submit({
+
+		var formData = Ext.encode(theForm.getForm().getValues());
+		var data = Ext.JSON.encode(formData);
+		
+		Ext.Ajax.request({
+			url : '${doAjaxURL}',
+			method : 'POST',
+			headers : {
+				'Content-Type' : 'application/json;charset=UTF-8'
+			},
+			params : {
+				myClass : data
+			},
+			//jsonData : {
+			//	myClass : theForm.getForm().getValues()
+			//},
 			success : function(form, action) {
 				Ext.Msg.alert('Success', 'Data is stored in session.');
 				form.reset();
@@ -125,5 +142,6 @@
 				Ext.Msg.alert('Warning', action.result.errorMessage);
 			}
 		});
+
 	}
 </script>
