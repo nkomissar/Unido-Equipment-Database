@@ -3,6 +3,7 @@ package org.unido.eetdb.service;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.Topic;
 
@@ -18,6 +19,7 @@ public class EntityServiceImpl implements EntityService
     }
 
     @Override
+    @Transactional(readOnly = true)
     public Entity getEntity(Long entityId, boolean loadChilds)
     {
         return (Entity)sessionFactory.getCurrentSession().load(Entity.class, entityId);

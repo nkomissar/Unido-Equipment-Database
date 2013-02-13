@@ -1,15 +1,18 @@
 package org.unido.eetdb.common.model;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Topic
 {
-    private long              id;
-    private String            name;
-    private ArrayList<Topic>  childTopics;
-    private ArrayList<Entity> entitiesOfTheTopic;
-    
-    public Topic(){};
+    private long        id;
+    private String      name;
+    private Set<Topic>  childTopics        = new HashSet<Topic>();
+    private Set<Entity> entitiesOfTheTopic = new HashSet<Entity>();
+
+    public Topic()
+    {
+    };
 
     public String getName()
     {
@@ -21,26 +24,6 @@ public class Topic
         this.name = name;
     }
 
-    public ArrayList<Topic> getChildTopics()
-    {
-        return childTopics;
-    }
-
-    public void setChildTopics(ArrayList<Topic> childTopics)
-    {
-        this.childTopics = childTopics;
-    }
-
-    public ArrayList<Entity> getEntitiesOfTheTopic()
-    {
-        return entitiesOfTheTopic;
-    }
-
-    public void setEntitiesOfTheTopic(ArrayList<Entity> entitiesOfTheTopic)
-    {
-        this.entitiesOfTheTopic = entitiesOfTheTopic;
-    }
-
     public long getId()
     {
         return id;
@@ -49,5 +32,25 @@ public class Topic
     public void setId(long id)
     {
         this.id = id;
+    }
+
+    public Set<Topic> getChildTopics()
+    {
+        return childTopics;
+    }
+
+    public void setChildTopics(Set<Topic> childTopics)
+    {
+        this.childTopics = childTopics;
+    }
+
+    public Set<Entity> getEntitiesOfTheTopic()
+    {
+        return entitiesOfTheTopic;
+    }
+
+    public void setEntitiesOfTheTopic(Set<Entity> entitiesOfTheTopic)
+    {
+        this.entitiesOfTheTopic = entitiesOfTheTopic;
     }
 }

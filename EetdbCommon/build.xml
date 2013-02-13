@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="eetdb-common" default="build" basedir=".">
+	<!-- Package information. -->
+	<property name="version" value="0.0.1" />
+	
+	<!-- Output paths -->
+	<property name="src-dir" location="src" />
+	<property name="build-dir" location="build" />
+	<property name="lib-dir" location="jar" />
+	<property name="classes-dir" value="${build-dir}/classes" />
+	<property name="package-dir" value="${build-dir}/${ant.project.name}-${version}" />
+	<property name="package" value="${package-dir}.tar.gz" />
+	<property name="package-bin-dir" value="${package-dir}/bin" />
+	<property name="package-lib-dir" value="${package-dir}/lib" />
+	<property name="jar" value="${package-lib-dir}/${ant.project.name}-${version}.jar" />
+
+	<property name="eetdb-services" location="../EetdbServices" />
+
+	<target name="build" depends="compile">
+		<copy file="${jar}" todir="${eetdb-services}/WebContent/WEB-INF/lib" />
+		<mkdir dir="${package-bin-dir}" />
+		<tar basedir="${package-dir}" destfile="${package}" compression="gzip" />
+		<delete dir="${package-dir}" />
+	</target>
+	
+	<target name="compile">
+		<mkdir dir="${classes-dir}" />
+		<javac srcdir="${src-dir}" destdir="${classes-dir}" target="1.6" includeAntRuntime="false" />
+		<mkdir dir="${classes-dir}/META-INF" />
+		<manifest file="${classes-dir}/META-INF/MANIFEST.MF" />
+		<jar basedir="${classes-dir}" destfile="${jar}" />
+		<delete dir="${classes-dir}" />
+	</target>
+</project>

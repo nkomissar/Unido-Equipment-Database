@@ -1,13 +1,15 @@
 package org.unido.eetdb.common.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 public class Entity
 {
-    private long   id;
-    private String name;
-    private Set    properties;
-    private Set    childEntities;
+    private long                id;
+    private String              name;
+    private String              entityType;
+    private Set<EntityProperty> properties    = new HashSet<EntityProperty>();
+    private Set<Entity>         childEntities = new HashSet<Entity>();         ;
 
     public Entity()
     {
@@ -33,23 +35,33 @@ public class Entity
         this.id = id;
     }
 
-    public Set getProperties()
+    public Set<EntityProperty> getProperties()
     {
         return properties;
     }
 
-    public void setProperties(Set properties)
+    public void setProperties(Set<EntityProperty> properties)
     {
         this.properties = properties;
     }
 
-    public Set getChildEntities()
+    public Set<Entity> getChildEntities()
     {
         return childEntities;
     }
 
-    public void setChildEntities(Set childEntities)
+    public void setChildEntities(Set<Entity> childEntities)
     {
         this.childEntities = childEntities;
+    }
+
+    public String getEntityType()
+    {
+        return entityType;
+    }
+
+    public void setEntityType(String entityType)
+    {
+        this.entityType = entityType;
     }
 }

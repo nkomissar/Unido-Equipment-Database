@@ -21,7 +21,7 @@ public class EntityController
         this.entityService = entityService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/entity/{id}", headers = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/entity/{id}")
     public @ResponseBody
     Entity getEntity(@PathVariable Long id)
     {
@@ -30,7 +30,7 @@ public class EntityController
         return entity;
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "/topic/{id}", headers = "application/json")
+    @RequestMapping(method = RequestMethod.GET, value = "/topic/{id}")
     public @ResponseBody
     Topic getTopic(@PathVariable Long id)
     {
