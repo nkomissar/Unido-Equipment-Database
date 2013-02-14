@@ -16,7 +16,7 @@ public class pervoClass implements Serializable
 	
 	private String email;
 	
-	private Date time;
+	private Date date;
 
 	public String getFirst() {
 		return first;
@@ -50,24 +50,24 @@ public class pervoClass implements Serializable
 		this.email = email;
 	}
 
-	public Date getTime() {
-		return time;
+	public Date getDate() {
+		return date;
 	}
 
-	public void setTime(Date time) {
-		this.time = time;
+	public void setDate(Date date) {
+		this.date = date;
 	}
 	
 	public pervoClass() {}
 	
 	public pervoClass(String first, String last, String company, String email,
-			Date time) {
+			Date date) {
 		super();
 		this.first = first;
 		this.last = last;
 		this.company = company;
 		this.email = email;
-		this.time = time;
+		this.date = date;
 	}
 	
 	

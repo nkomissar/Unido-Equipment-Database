@@ -1,21 +1,36 @@
 package org.unido.eetdb.pervonah;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.ResourceRequest;
+import javax.portlet.ResourceResponse;
 
+import org.codehaus.jackson.JsonNode;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.AnnotationIntrospector;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.xc.JaxbAnnotationIntrospector;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
 import org.unido.eetdb.pervonah.model.pervoClass;
 
@@ -58,34 +73,55 @@ public class MainController {
 	}
 
 	@RenderMapping(params = "action=doAjaxLoad")
-	public ModelAndView createBlankContactJson() 
-	{
-	
-		return new ModelAndView(jsonView, "response", new pervoClass("first",
-				"last", "company", "email", new Date()));
-		
-	}
+	public ModelAndView createBlankContactJson(pervoClass myClass) {
 
-	public @ResponseBody
-	Map<String, ? extends Object> load(pervoClass myClass) {
-
-		pervoClass pc = new pervoClass("first", "last", "company", "email",
-				new Date());
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
-		data.put("data", pc);
+		data.put("data", new pervoClass("first", "last", "company", "email",
+				new Date()));
 
-		return data;
+		return new ModelAndView(jsonView, data);
+
 	}
 
-	@ActionMapping(params = "action=doAjax")
-	public @ResponseBody
-	Map<String, ? extends Object> uselessFuncName(pervoClass myClass,
-			ActionRequest actionRequest) {
+	@ResourceMapping(value = "doAjaxPost")
+	public void uselessFuncName(ResourceRequest request,
+			ResourceResponse response) {
 
 		System.out.println("got here");
 
-		return null;
+		ObjectMapper mapper = new ObjectMapper();
+		AnnotationIntrospector introspector = new JaxbAnnotationIntrospector();
+		mapper.getDeserializationConfig().withAnnotationIntrospector(introspector);
+		mapper.getSerializationConfig().withAnnotationIntrospector(introspector);
+
+		DateFormat df = new SimpleDateFormat("m d y");
+		mapper.setDateFormat(df);
+		
+		InputStream strm = null;
+		try {
+			strm = request.getPortletInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+				
+		pervoClass readValue = null;
+		try {
+			readValue = mapper.readValue(strm, pervoClass.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("data", new pervoClass("first", "last", "company", "email",
+				new Date()));
+
+		// return new ModelAndView(jsonView, data);
 
 	}
 
