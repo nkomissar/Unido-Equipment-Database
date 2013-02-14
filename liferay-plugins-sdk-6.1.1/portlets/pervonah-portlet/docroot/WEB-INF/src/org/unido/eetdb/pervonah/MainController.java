@@ -27,11 +27,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.springframework.web.servlet.View;
+import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.pervonah.model.pervoClass;
 
 @Controller
@@ -125,4 +127,18 @@ public class MainController {
 
 	}
 
+	@RenderMapping(params = "action=doEntityLoad")
+	public ModelAndView loadEntity(@RequestParam long id) 
+	{
+
+		RestTemplate tmpl = new RestTemplate();
+		Entity ent = tmpl.getForObject("http://localhost:8080/EetdbServices/entity/1", Entity.class);
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("data", ent);
+
+		return new ModelAndView(jsonView, data);
+
+	}
 }
