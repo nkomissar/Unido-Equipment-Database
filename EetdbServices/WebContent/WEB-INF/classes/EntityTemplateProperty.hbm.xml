@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping 
+	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.unido.eetdb.service.dbmodel">
+	<class name="DbEntityTemplateProperty" table="UNIDO_ENTITY_TEMPLATE_PROPERTY" lazy="false">
+	    <id name="id" column="TEMPLATE_PROPERTY_ID">
+        	<generator class="native"/>
+    	</id>
+
+    	<timestamp name="lastUpdatedDate" column="UPDATE_DATE" />
+
+    	<property name="lastUpdatedBy" column="UPDATED_BY"/>
+    	<property name="name" column="PROPERTY_NAME"/>
+		<property name="displayInGrid" type="numeric_boolean" column="DISPLAY_IN_GRID"/>
+		<property name="mandatory" type="numeric_boolean" column="MANDATORY"/>
+	</class>
+</hibernate-mapping>

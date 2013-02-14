@@ -29,6 +29,9 @@
 		<property name="mappingResources">
 			<list>
 				<value>Entity.hbm.xml</value>
+				<value>EntityProperty.hbm.xml</value>
+				<value>EntityTemplate.hbm.xml</value>
+				<value>EntityTemplateProperty.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

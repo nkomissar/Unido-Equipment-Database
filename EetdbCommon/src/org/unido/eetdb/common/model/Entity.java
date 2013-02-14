@@ -1,15 +1,17 @@
 package org.unido.eetdb.common.model;
 
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 public class Entity
 {
-    private long                id;
-    private String              name;
-    private String              entityType;
-    private Set<EntityProperty> properties    = new HashSet<EntityProperty>();
-    private Set<Entity>         childEntities = new HashSet<Entity>();         ;
+    private long                        id;
+    private String                      name;
+    private String                      entityType;
+    private Map<String, EntityProperty> properties    = new HashMap<String, EntityProperty>();
+    private Set<Entity>                 childEntities = new HashSet<Entity>();
 
     public Entity()
     {
@@ -35,16 +37,6 @@ public class Entity
         this.id = id;
     }
 
-    public Set<EntityProperty> getProperties()
-    {
-        return properties;
-    }
-
-    public void setProperties(Set<EntityProperty> properties)
-    {
-        this.properties = properties;
-    }
-
     public Set<Entity> getChildEntities()
     {
         return childEntities;
@@ -63,5 +55,15 @@ public class Entity
     public void setEntityType(String entityType)
     {
         this.entityType = entityType;
+    }
+
+    public Map<String, EntityProperty> getProperties()
+    {
+        return properties;
+    }
+
+    public void setProperties(Map<String, EntityProperty> properties)
+    {
+        this.properties = properties;
     }
 }

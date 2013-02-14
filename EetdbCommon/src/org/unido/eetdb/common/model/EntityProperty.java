@@ -5,12 +5,15 @@ public class EntityProperty
     private long    id;
     private String  name;
     private boolean displayInGrid;
+    private boolean mandatory;
     private String  value;
     private String  format;
     private String  unitOfMeasure;
     private String  type;
-    
-    public EntityProperty(){};
+
+    public EntityProperty()
+    {
+    };
 
     public String getName()
     {
@@ -80,5 +83,15 @@ public class EntityProperty
     public void setId(long id)
     {
         this.id = id;
+    }
+
+    public boolean isMandatory()
+    {
+        return mandatory;
+    }
+
+    public void setMandatory(boolean mandatory)
+    {
+        this.mandatory = mandatory;
     }
 }
