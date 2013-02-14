@@ -15,9 +15,11 @@
 	<property name="jar" value="${package-lib-dir}/${ant.project.name}-${version}.jar" />
 
 	<property name="eetdb-services" location="../EetdbServices" />
+	<property name="pervonah-portlet" location="../liferay-plugins-sdk-6.1.1/portlets/pervonah-portlet" />
 
 	<target name="build" depends="compile">
 		<copy file="${jar}" todir="${eetdb-services}/WebContent/WEB-INF/lib" />
+		<copy file="${jar}" todir="${pervonah-portlet}/docroot/WEB-INF/lib" />
 		<mkdir dir="${package-bin-dir}" />
 		<tar basedir="${package-dir}" destfile="${package}" compression="gzip" />
 		<delete dir="${package-dir}" />

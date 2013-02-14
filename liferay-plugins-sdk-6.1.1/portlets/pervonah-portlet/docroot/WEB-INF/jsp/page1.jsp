@@ -9,13 +9,11 @@
 	<portlet:param name="action" value="doSimpleForm" />
 </portlet:actionURL>
 
-<portlet:renderURL var="doAjaxLoadURL"
-	windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
+<portlet:renderURL var="doAjaxLoadURL" windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
 	<portlet:param name="action" value="doAjaxLoad" />
 </portlet:renderURL>
-<portlet:actionURL var="doAjaxURL" windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
-	<portlet:param name="action" value="doAjax" />
-</portlet:actionURL>
+
+<portlet:resourceURL id="doAjaxPost" var="doAjaxURL" />
 
 <a href="${showPage2URL}">Show me page 2</a>
 
@@ -60,11 +58,11 @@
 				name : 'email',
 				vtype : 'email'
 			}, {
-				xtype : 'timefield',
-				fieldLabel : 'Time',
-				name : 'time',
-				minValue : '8:00am',
-				maxValue : '6:00pm'
+				xtype : 'datefield',
+				fieldLabel : 'Date',
+				name : 'date',
+				format: 'm d Y'
+		        //,altFormats: 'm,d,Y|m.d.Y'
 			} ],
 
 			buttons : [ {
@@ -128,15 +126,16 @@
 			headers : {
 				'Content-Type' : 'application/json;charset=UTF-8'
 			},
-			params : {
-				myClass : data
-			},
+			//params : {
+			//	myClass : data
+			//},
 			//jsonData : {
 			//	myClass : theForm.getForm().getValues()
 			//},
+			jsonData : theForm.getForm().getValues(),
 			success : function(form, action) {
 				Ext.Msg.alert('Success', 'Data is stored in session.');
-				form.reset();
+				theForm.getForm().reset();
 			},
 			failure : function(form, action) {
 				Ext.Msg.alert('Warning', action.result.errorMessage);
