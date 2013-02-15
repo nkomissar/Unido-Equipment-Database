@@ -15,6 +15,12 @@
 
 <portlet:resourceURL id="doAjaxPost" var="doAjaxURL" />
 
+<portlet:renderURL var="doEntityLoadURL" windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
+	<portlet:param name="action" value="doEntityLoad" />
+</portlet:renderURL>
+
+
+
 <a href="${showPage2URL}">Show me page 2</a>
 
 <div id='pervonah-div'></div>
@@ -68,7 +74,7 @@
 			buttons : [ {
 				text : 'Load',
 				handler : function() {
-					fnLoadForm(simple);
+					fnLoadForm(simple, '${doAjaxLoadURL}');
 				}
 			}, {
 				text : 'Ajax',
@@ -90,13 +96,50 @@
 		});
 
 		simple.render(myDiv);
+		
+		var entityForm = new Ext.FormPanel({
+			url : '${doEntityLoadURL}',
+			frame : true,
+			title : 'Entity Form',
+			bodyStyle : 'padding:5px 5px 0',
+			width : 350,
+			fieldDefaults : {
+				msgTarget : 'side',
+				labelWidth : 75
+			},
+			defaultType : 'textfield',
+			defaults : {
+				anchor : '100%'
+			},
+
+			items : [ {
+				fieldLabel : 'ID',
+				name : 'id',
+				allowBlank : false
+			}, {
+				fieldLabel : 'Name',
+				name : 'name'
+			}, {
+				fieldLabel : 'Entity Type',
+				name : 'entityType'
+			}],
+
+			buttons : [ {
+				text : 'Load',
+				handler : function() {
+					fnLoadForm(entityForm, '${doEntityLoadURL}');
+				}
+			}]
+		});
+
+		entityForm.render(myDiv);
 
 	});
 
-	function fnLoadForm(theForm) {
-		//for the purpose of this tutorial, load 1 record.
+	function fnLoadForm(theForm, handlerUrl) {
+
 		theForm.getForm().load({
-			url : '${doAjaxLoadURL}',
+			url : handlerUrl,
 			headers : {
 				Accept : 'application/json, text/javascript, */*; q=0.01'
 			},
@@ -104,11 +147,6 @@
 			params : {
 				id : 1
 			},
-			//success : function(form, action) {
-			//Ext.getCmp('mf.btn.add').setDisabled(false);		
-			//Ext.getCmp('mf.btn.reset').setDisabled(false);		
-			//Ext.getCmp('mf.btn.load').setDisabled(true);		
-			//},
 			failure : function(form, action) {
 				Ext.Msg.alert('Warning', 'Error Unable to Load Form Data.'); //action.result.errorMessage
 			}
