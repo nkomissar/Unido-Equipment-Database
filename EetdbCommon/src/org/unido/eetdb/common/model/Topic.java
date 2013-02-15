@@ -8,7 +8,7 @@ public class Topic
     private long        id;
     private String      name;
     private Set<Topic>  childTopics        = new HashSet<Topic>();
-    private Set<Entity> entitiesOfTheTopic = new HashSet<Entity>();
+    private Set<Entity> entitiesOfTopic = new HashSet<Entity>();
 
     public Topic()
     {
@@ -44,13 +44,13 @@ public class Topic
         this.childTopics = childTopics;
     }
 
-    public Set<Entity> getEntitiesOfTheTopic()
+    public Set<Entity> getEntitiesOfTopic()
     {
-        return entitiesOfTheTopic;
+        return entitiesOfTopic;
     }
 
-    public void setEntitiesOfTheTopic(Set<Entity> entitiesOfTheTopic)
+    public void setEntitiesOfTopic(Set<Entity> entitiesOfTopic)
     {
-        this.entitiesOfTheTopic = entitiesOfTheTopic;
+        this.entitiesOfTopic = entitiesOfTopic;
     }
 }

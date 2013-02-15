@@ -18,9 +18,14 @@
     	
     	<many-to-one name="entityTemplate" column="ENTITY_TEMPLATE_ID" unique="true" />
 
-    	<set name="properties" table="UNIDO_ENTITY_PROPERTY" lazy="false">
+    	<set name="properties" table="UNIDO_ENTITY_PROPERTY" lazy="false" cascade="all">
 			<key column="ENTITY_ID" />
 			<one-to-many class="DbEntityProperty" />
+		</set>
+		
+		<set name="childEntities" table="UNIDO_ENTITY_LINK" lazy="false">
+			<key column="PARENT_ENTITY_ID" />
+			<many-to-many column="LINKED_ENTITY_ID"  class="DbEntity" />
 		</set>
 	</class>
 </hibernate-mapping>

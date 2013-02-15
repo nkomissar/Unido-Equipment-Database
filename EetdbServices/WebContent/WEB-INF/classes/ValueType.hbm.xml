@@ -5,17 +5,16 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping package="org.unido.eetdb.service.dbmodel">
-	<class name="DbEntityProperty" table="UNIDO_ENTITY_PROPERTY" lazy="false">
-	    <id name="id" column="ENTITY_PROPERTY_ID">
+	<class name="DbValueType" table="UNIDO_VALUE_TYPE" lazy="false">
+	    <id name="id" column="VALUE_TYPE_ID">
         	<generator class="native"/>
     	</id>
 
     	<timestamp name="lastUpdatedDate" column="UPDATE_DATE" />
 
     	<property name="lastUpdatedBy" column="UPDATED_BY"/>
-    	<property name="value" column="VALUE"/>
-    	
-    	<many-to-one name="valueType" column="VALUE_TYPE_ID" unique="true" />
-    	<many-to-one name="templateProperty" column="TEMPLATE_PROPERTY_ID" unique="true"/>
+    	<property name="format" />
+		<property name="type" />
+		<property name="unitOfMeasure" column="UNIT_OF_MEASURE"/>
 	</class>
 </hibernate-mapping>

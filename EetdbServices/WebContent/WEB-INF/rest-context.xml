@@ -32,6 +32,8 @@
 				<value>EntityProperty.hbm.xml</value>
 				<value>EntityTemplate.hbm.xml</value>
 				<value>EntityTemplateProperty.hbm.xml</value>
+				<value>ValueType.hbm.xml</value>
+				<value>Topic.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
