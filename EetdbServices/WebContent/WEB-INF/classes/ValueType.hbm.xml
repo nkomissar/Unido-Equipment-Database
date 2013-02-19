@@ -15,6 +15,5 @@
     	<property name="lastUpdatedBy" column="UPDATED_BY"/>
     	<property name="format" />
 		<property name="type" />
-		<property name="unitOfMeasure" column="UNIT_OF_MEASURE"/>
 	</class>
 </hibernate-mapping>

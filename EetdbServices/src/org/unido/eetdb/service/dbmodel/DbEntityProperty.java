@@ -6,6 +6,7 @@ public class DbEntityProperty extends DbGenericEntity
     private Object                   valueBlob;
     private DbEntityTemplateProperty templateProperty;
     private DbValueType              valueType;
+    private String                   unitOfMeasure;
 
     public DbEntityTemplateProperty getTemplateProperty()
     {
@@ -45,5 +46,15 @@ public class DbEntityProperty extends DbGenericEntity
     public void setValueType(DbValueType valueType)
     {
         this.valueType = valueType;
+    }
+
+    public String getUnitOfMeasure()
+    {
+        return unitOfMeasure;
+    }
+
+    public void setUnitOfMeasure(String unitOfMeasure)
+    {
+        this.unitOfMeasure = unitOfMeasure;
     }
 }

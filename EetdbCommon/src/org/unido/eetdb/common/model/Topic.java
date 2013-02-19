@@ -7,6 +7,7 @@ public class Topic
 {
     private long        id;
     private String      name;
+    private String      description;
     private Set<Topic>  childTopics        = new HashSet<Topic>();
     private Set<Entity> entitiesOfTopic = new HashSet<Entity>();
 
@@ -52,5 +53,15 @@ public class Topic
     public void setEntitiesOfTopic(Set<Entity> entitiesOfTopic)
     {
         this.entitiesOfTopic = entitiesOfTopic;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
     }
 }

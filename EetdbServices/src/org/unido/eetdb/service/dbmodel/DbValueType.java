@@ -4,7 +4,6 @@ public class DbValueType extends DbGenericEntity
 {
     private String format;
     private String type;
-    private String unitOfMeasure;
 
     public String getFormat()
     {
@@ -24,15 +23,5 @@ public class DbValueType extends DbGenericEntity
     public void setType(String type)
     {
         this.type = type;
-    }
-
-    public String getUnitOfMeasure()
-    {
-        return unitOfMeasure;
-    }
-
-    public void setUnitOfMeasure(String unitOfMeasure)
-    {
-        this.unitOfMeasure = unitOfMeasure;
     }
 }
