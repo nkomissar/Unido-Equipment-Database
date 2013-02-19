@@ -55,5 +55,5 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManager"/>
 
-	<bean id="entityService" class="org.unido.eetdb.service.EntityServiceImpl" />
+	<bean id="dataAccessService" class="org.unido.eetdb.service.DataAccessServiceImpl" />
 </beans>

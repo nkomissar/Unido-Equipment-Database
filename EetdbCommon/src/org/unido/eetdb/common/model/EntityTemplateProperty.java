@@ -1,6 +1,6 @@
-package org.unido.eetdb.service.dbmodel;
+package org.unido.eetdb.common.model;
 
-public class DbEntityTemplateProperty extends DbGenericEntity
+public class EntityTemplateProperty extends GenericObject
 {
     private String  name;
     private boolean displayInGrid;
