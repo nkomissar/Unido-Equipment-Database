@@ -27,11 +27,17 @@ public class EntityController
 	{
 
 		RestTemplate tmpl = new RestTemplate();
-		Entity ent = tmpl.getForObject("http://localhost:8080/EetdbServices/entity/1", Entity.class);
+		
+		Entity[] entities = new Entity[5];
+
+		for (int i=0; i<entities.length; i++)
+		{
+			entities[i] = tmpl.getForObject("http://localhost:8080/EetdbServices/entity/{i}", Entity.class, i+1);
+		}
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
-		data.put("data", ent);
+		data.put("data", entities);
 
 		return new ModelAndView(jsonView, data);
 

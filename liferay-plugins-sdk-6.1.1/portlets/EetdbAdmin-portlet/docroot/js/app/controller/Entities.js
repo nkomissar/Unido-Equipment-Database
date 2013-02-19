@@ -43,7 +43,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     	
         var dataview = this.getEntityData(),
             store = this.getEntitiesStore();
-            
+        
         dataview.bindStore(store);
         //dataview.getSelectionModel().select(store.getAt(0));
     },

@@ -8,6 +8,6 @@ Ext.define('EetdbAdmin.model.Entity', {
     fields: [
         {name: 'id',  type: 'string'}
         ,{name: 'name', type: 'string'}
-        ,{name: 'type', type: 'string'}
+        ,{name: 'entityType', type: 'string'}
     ]
 });
