@@ -7,13 +7,54 @@ import java.util.Set;
 
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityProperty;
+import org.unido.eetdb.common.model.EntityTemplate;
+import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.common.model.Topic;
 import org.unido.eetdb.service.dbmodel.DbEntity;
 import org.unido.eetdb.service.dbmodel.DbEntityProperty;
+import org.unido.eetdb.service.dbmodel.DbEntityTemplate;
+import org.unido.eetdb.service.dbmodel.DbEntityTemplateProperty;
 import org.unido.eetdb.service.dbmodel.DbTopic;
 
 public class DbToDomainMapper
 {
+    public static EntityTemplate mapEntityTemplate(DbEntityTemplate dbEntityTemplate)
+    {
+        EntityTemplate template = new EntityTemplate();
+
+        template.setId(dbEntityTemplate.getId());
+        template.setName(dbEntityTemplate.getName());
+        
+        template.setProperties(mapEntityTemplateProperties(dbEntityTemplate.getProperties()));
+
+        return template;
+    }
+    
+    public static Set<EntityTemplateProperty> mapEntityTemplateProperties(Set<DbEntityTemplateProperty> dbProperties)
+    {
+        Set<EntityTemplateProperty> properties = new HashSet<EntityTemplateProperty>();
+
+        for(DbEntityTemplateProperty dbProperty : dbProperties)
+        {
+            properties.add(mapEntityTemplateProperty(dbProperty));
+        }
+        
+        return properties;
+    }
+    
+    public static EntityTemplateProperty mapEntityTemplateProperty(DbEntityTemplateProperty dbTemplateProperty)
+    {
+        EntityTemplateProperty templateProperty = new EntityTemplateProperty();
+        
+        templateProperty.setId(dbTemplateProperty.getId());
+        templateProperty.setName(dbTemplateProperty.getName());
+        templateProperty.setDisplayInGrid(dbTemplateProperty.isDisplayInGrid());
+        templateProperty.setMandatory(dbTemplateProperty.isMandatory());
+        templateProperty.setUnitOfMeasure(dbTemplateProperty.getLastUpdatedBy());
+
+        return templateProperty;
+    }
+    
     public static Topic mapTopic(DbTopic dbTopic)
     {
         Topic topic = new Topic();
@@ -34,35 +75,32 @@ public class DbToDomainMapper
 
         for(DbTopic dbTopic : dbTopics)
         {
-            Topic topic = mapTopic(dbTopic);
-
-            topics.add(topic);
+            topics.add(mapTopic(dbTopic));
         }
         
         return topics;
     }
-    
+
     public static Set<Entity> mapEntities(Set<DbEntity> dbEntities)
     {
         Set<Entity> entities = new HashSet<Entity>();
 
         for(DbEntity dbEntity : dbEntities)
         {
-            Entity entity = mapEntity(dbEntity);
-
-            entities.add(entity);
+            entities.add(mapEntity(dbEntity));
         }
         
         return entities;
     }
-    
+
     public static Entity mapEntity(DbEntity dbEntity)
     {
         Entity entity = new Entity();
 
+        entity.setId(dbEntity.getId());
         entity.setEntityType(dbEntity.getEntityTemplate().getName());
         entity.setName(dbEntity.getName());
-        entity.setId(dbEntity.getId());
+        entity.setTypeId(dbEntity.getEntityTemplate().getId());
 
         entity.setProperties(mapProperties(dbEntity.getProperties()));
 
@@ -81,7 +119,7 @@ public class DbToDomainMapper
         
         entityProperty.setFormat(dbEntityProperty.getValueType().getFormat());
         entityProperty.setType(dbEntityProperty.getValueType().getType());
-        entityProperty.setUnitOfMeasure(dbEntityProperty.getUnitOfMeasure());
+        entityProperty.setUnitOfMeasure(dbEntityProperty.getTemplateProperty().getUnitOfMeasure());
 
         return entityProperty;
     }

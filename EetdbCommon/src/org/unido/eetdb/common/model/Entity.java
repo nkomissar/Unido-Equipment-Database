@@ -5,9 +5,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class Entity
+public class Entity extends GenericObject
 {
-    private long                        id;
+    private long                        typeId;
     private String                      name;
     private String                      entityType;
     private Map<String, EntityProperty> properties    = new HashMap<String, EntityProperty>();
@@ -25,16 +25,6 @@ public class Entity
     public void setName(String name)
     {
         this.name = name;
-    }
-
-    public long getId()
-    {
-        return id;
-    }
-
-    public void setId(long id)
-    {
-        this.id = id;
     }
 
     public Set<Entity> getChildEntities()
@@ -65,5 +55,15 @@ public class Entity
     public void setProperties(Map<String, EntityProperty> properties)
     {
         this.properties = properties;
+    }
+
+    public long getTypeId()
+    {
+        return typeId;
+    }
+
+    public void setTypeId(long typeId)
+    {
+        this.typeId = typeId;
     }
 }

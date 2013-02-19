@@ -12,11 +12,10 @@
 
     	<timestamp name="lastUpdatedDate" column="UPDATE_DATE" />
 
-    	<property name="lastUpdatedBy" column="UPDATED_BY"/>
-    	<property name="value" column="VALUE"/>
-    	<property name="unitOfMeasure" column="UNIT_OF_MEASURE"/>
+    	<property name="lastUpdatedBy" column="UPDATED_BY" />
+    	<property name="value" column="VALUE" />
     	
     	<many-to-one name="valueType" column="VALUE_TYPE_ID" unique="true" />
-    	<many-to-one name="templateProperty" column="TEMPLATE_PROPERTY_ID" unique="true"/>
+    	<many-to-one name="templateProperty" column="TEMPLATE_PROPERTY_ID" unique="true" />
 	</class>
 </hibernate-mapping>
