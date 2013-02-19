@@ -12,8 +12,9 @@
 
     	<timestamp name="lastUpdatedDate" column="UPDATE_DATE" />
 
-    	<property name="lastUpdatedBy" column="UPDATED_BY"/>
-		<property name="name" column="TOPIC_NAME"/>
+    	<property name="lastUpdatedBy" column="UPDATED_BY" />
+		<property name="name" column="TOPIC_NAME" />
+		<property name="description" />
 		
 		<set name="entitiesOfTopic" table="UNIDO_ENTITY_REFERENCE" lazy="false">
 			<key column="TOPIC_ID" />

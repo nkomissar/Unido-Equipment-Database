@@ -18,8 +18,9 @@ public class DbToDomainMapper
     {
         Topic topic = new Topic();
 
-        topic.setName(dbTopic.getName());
         topic.setId(dbTopic.getId());
+        topic.setName(dbTopic.getName());
+        topic.setDescription(dbTopic.getDescription());
 
         topic.setEntitiesOfTopic(mapEntities(dbTopic.getEntitiesOfTopic()));
         topic.setChildTopics(mapTopics(dbTopic.getChildTopics()));
@@ -80,7 +81,7 @@ public class DbToDomainMapper
         
         entityProperty.setFormat(dbEntityProperty.getValueType().getFormat());
         entityProperty.setType(dbEntityProperty.getValueType().getType());
-        entityProperty.setUnitOfMeasure(dbEntityProperty.getValueType().getUnitOfMeasure());
+        entityProperty.setUnitOfMeasure(dbEntityProperty.getUnitOfMeasure());
 
         return entityProperty;
     }

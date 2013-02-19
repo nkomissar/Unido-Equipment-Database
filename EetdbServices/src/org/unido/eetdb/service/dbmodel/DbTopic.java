@@ -5,6 +5,7 @@ import java.util.Set;
 public class DbTopic extends DbGenericEntity
 {
     private String        name;
+    private String        description;
     private Set<DbEntity> entitiesOfTopic;
     private Set<DbTopic>  childTopics;
 
@@ -36,5 +37,15 @@ public class DbTopic extends DbGenericEntity
     public void setChildTopics(Set<DbTopic> childTopics)
     {
         this.childTopics = childTopics;
+    }
+
+    public String getDescription()
+    {
+        return description;
+    }
+
+    public void setDescription(String description)
+    {
+        this.description = description;
     }
 }
