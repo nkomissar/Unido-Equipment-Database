@@ -15,10 +15,10 @@ Ext.define('EetdbAdmin.view.entitytemplate.List', {
                 	xtype: 'dataview',
                 	trackOver: true,
                 	store: this.store,
-                	cls: 'entity-list',
-                	itemSelector: '.entity-list-item',
-                	overItemCls: 'entity-list-item-hover',
-                	tpl: '<tpl for="."><div class="entity-list-item">{name}</div></tpl>',
+                	cls: 'entitytemplate-list',
+                	itemSelector: '.entitytemplate-list-item',
+                	overItemCls: 'entitytemplate-list-item-hover',
+                	tpl: '<tpl for="."><div class="entitytemplate-list-item">{name}</div></tpl>',
                 	listeners: {
                 		selectionchange: this.onSelectionChange,
                 		scope: this

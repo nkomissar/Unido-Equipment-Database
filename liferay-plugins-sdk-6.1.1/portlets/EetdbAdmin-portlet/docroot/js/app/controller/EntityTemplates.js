@@ -41,8 +41,6 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     
     onLaunch: function() {
     	
-    	debugger;
-    	
         var dataview = this.getEntityTemplateData();
         var store = this.getEntityTemplatesStore();
         

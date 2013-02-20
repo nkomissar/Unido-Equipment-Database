@@ -21,7 +21,7 @@ public class TemplateController {
 	@Qualifier("jsonview")
 	private View jsonView;
 	
-	@RenderMapping(params = "action=doTemplateList")
+	@RenderMapping(params = "action=doEntityTemplateList")
 	public ModelAndView loadEntity() 
 	{
 

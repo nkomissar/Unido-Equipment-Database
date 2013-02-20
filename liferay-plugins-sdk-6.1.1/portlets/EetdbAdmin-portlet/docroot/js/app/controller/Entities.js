@@ -40,9 +40,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     },
     
     onLaunch: function() {
-    	
-    	debugger;
-    	
+   	
         var dataview = this.getEntityData(),
             store = this.getEntitiesStore();
         
