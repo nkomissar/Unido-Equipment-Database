@@ -9,6 +9,10 @@
 	<portlet:param name="action" value="doEntityLoad" />
 </portlet:renderURL>
 
+<portlet:renderURL var="doEntityTemplateListURL" windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
+	<portlet:param name="action" value="doEntityTemplateList" />
+</portlet:renderURL>
+
 <div id="landingBody"></div>
 
 <script type="text/javascript">
@@ -20,6 +24,7 @@
 	              'Ext.data.proxy']);
 	
 	var doEntityLoadURL = '${doEntityLoadURL}';
+	var doEntityTemplateListURL = '${doEntityTemplateListURL}';
 
 	Ext.application({
 	    name: 'EetdbAdmin',
@@ -28,7 +33,8 @@
 
 	    // Define all the controllers that should initialize at boot up of your application
 	    controllers: [
-	        'Entities'
+	        'Entities',
+	        'EntityTemplates'
 	    ],
 	    
 	    autoCreateViewport: true

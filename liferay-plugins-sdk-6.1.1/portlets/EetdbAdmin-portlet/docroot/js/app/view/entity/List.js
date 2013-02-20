@@ -7,23 +7,21 @@ Ext.define('EetdbAdmin.view.entity.List', {
     title: 'Entities',
     collapsible: true,
     animCollapse: true,
-    margins: '5 0 5 5',
-    layout: 'fit',
 
     initComponent: function() {
         Ext.apply(this, {
             items: [{
-                xtype: 'dataview',
-                trackOver: true,
-                store: this.store,
-                cls: 'entity-list',
-                itemSelector: '.entity-list-item',
-                overItemCls: 'entity-list-item-hover',
-                tpl: '<tpl for="."><div class="entity-list-item">{name}</div></tpl>',
-                listeners: {
-                    selectionchange: this.onSelectionChange,
-                    scope: this
-                }
+            	xtype: 'dataview',
+            	trackOver: true,
+            	store: this.store,
+            	cls: 'entity-list',
+            	itemSelector: '.entity-list-item',
+            	overItemCls: 'entity-list-item-hover',
+            	tpl: '<tpl for="."><div class="entity-list-item">{name}</div></tpl>',
+            	listeners: {
+            		selectionchange: this.onSelectionChange,
+            		scope: this
+            	}
             }],
 
             dockedItems: [{

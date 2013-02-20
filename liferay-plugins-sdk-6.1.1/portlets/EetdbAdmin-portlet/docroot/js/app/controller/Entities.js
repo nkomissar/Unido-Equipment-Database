@@ -24,7 +24,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     // is executed on the Application
     init: function() {
         this.control({
-            'feedlist dataview': {
+            'entitylist dataview': {
                 selectionchange: this.loadEntity
             }/*,
             'feedlist button[action=add]': {
@@ -40,6 +40,8 @@ Ext.define('EetdbAdmin.controller.Entities', {
     },
     
     onLaunch: function() {
+    	
+    	debugger;
     	
         var dataview = this.getEntityData(),
             store = this.getEntitiesStore();

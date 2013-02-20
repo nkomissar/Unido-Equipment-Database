@@ -6,7 +6,7 @@
 		<portlet-name>EetdbAdmin</portlet-name>
 		<icon>/icon.png</icon>
 		<instanceable>false</instanceable>
-		<header-portlet-css>/css/extjs/ext-all.css</header-portlet-css>
+		<header-portlet-css>/resources/css/ext-all.css</header-portlet-css>
 		<header-portlet-javascript>/js/extjs/ext-all.js</header-portlet-javascript>
 		<css-class-wrapper>EetdbAdmin-portlet</css-class-wrapper>
 	</portlet>
