@@ -1,7 +1,9 @@
 package org.unido.eetdb.util;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -18,18 +20,31 @@ import org.unido.eetdb.service.dbmodel.DbTopic;
 
 public class DbToDomainMapper
 {
-    public static EntityTemplate mapEntityTemplate(DbEntityTemplate dbEntityTemplate)
+    public static EntityTemplate mapEntityTemplate(DbEntityTemplate dbEntityTemplate, boolean skipChilds)
     {
         EntityTemplate template = new EntityTemplate();
 
         template.setId(dbEntityTemplate.getId());
         template.setName(dbEntityTemplate.getName());
         
-        template.setProperties(mapEntityTemplateProperties(dbEntityTemplate.getProperties()));
+        if(!skipChilds)
+            template.setProperties(mapEntityTemplateProperties(dbEntityTemplate.getProperties()));
 
         return template;
     }
     
+    public static List<EntityTemplate> mapEntityTemplates(List<DbEntityTemplate> dbEntityTemplates, boolean skipChilds)
+    {
+        List<EntityTemplate> templates = new ArrayList<EntityTemplate>();
+
+        for(DbEntityTemplate dbEntityTemplate : dbEntityTemplates)
+        {
+            templates.add(mapEntityTemplate(dbEntityTemplate, skipChilds));
+        }
+        
+        return templates;
+    }
+
     public static Set<EntityTemplateProperty> mapEntityTemplateProperties(Set<DbEntityTemplateProperty> dbProperties)
     {
         Set<EntityTemplateProperty> properties = new HashSet<EntityTemplateProperty>();

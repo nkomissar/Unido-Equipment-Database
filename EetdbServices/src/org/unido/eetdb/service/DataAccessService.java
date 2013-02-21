@@ -1,6 +1,7 @@
 package org.unido.eetdb.service;
 
-import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityTemplate;
@@ -10,6 +11,7 @@ public interface DataAccessService
 {
     public Entity getEntity(Long entityId, boolean loadChilds);
     public Topic getTopic(Long topicId);
+    public Set<Topic> getTopics();
     public EntityTemplate getEntityTemplate(Long templateId);
-    public ArrayList<EntityTemplate> getEntityTemplates();
+    public List<EntityTemplate> getEntityTemplates();
 }

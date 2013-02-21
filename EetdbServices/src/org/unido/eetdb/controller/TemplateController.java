@@ -1,6 +1,6 @@
 package org.unido.eetdb.controller;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,7 +17,7 @@ public class TemplateController
     private DataAccessService dataAccessService;
 
     @Autowired
-    public void setEntityService(DataAccessService dataAccessService)
+    public void setDataAccessService(DataAccessService dataAccessService)
     {
         this.dataAccessService = dataAccessService;
     }
@@ -33,7 +33,7 @@ public class TemplateController
 
     @RequestMapping(method = RequestMethod.GET, value = "/templates")
     public @ResponseBody
-    ArrayList<EntityTemplate> getTemplates()
+    List<EntityTemplate> getTemplates()
     {
         return dataAccessService.getEntityTemplates();
     }

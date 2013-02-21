@@ -1,6 +1,8 @@
 package org.unido.eetdb.service;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,8 +31,9 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional(readOnly = true)
     public Entity getEntity(Long entityId, boolean loadChilds)
     {
-        DbEntity dbEntity = (DbEntity)sessionFactory.getCurrentSession().load(DbEntity.class, entityId); 
-        
+        DbEntity dbEntity = (DbEntity) sessionFactory.getCurrentSession().load(DbEntity.class,
+                entityId);
+
         return DbToDomainMapper.mapEntity(dbEntity);
     }
 
@@ -38,7 +41,7 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional(readOnly = true)
     public Topic getTopic(Long topicId)
     {
-        DbTopic dbTopic = (DbTopic)sessionFactory.getCurrentSession().load(DbTopic.class, topicId);
+        DbTopic dbTopic = (DbTopic) sessionFactory.getCurrentSession().load(DbTopic.class, topicId);
 
         return DbToDomainMapper.mapTopic(dbTopic);
     }
@@ -47,15 +50,26 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional(readOnly = true)
     public EntityTemplate getEntityTemplate(Long templateId)
     {
-        DbEntityTemplate dbEntityTemplate = (DbEntityTemplate)sessionFactory.getCurrentSession().load(DbEntityTemplate.class, templateId);
+        DbEntityTemplate dbEntityTemplate = (DbEntityTemplate) sessionFactory.getCurrentSession()
+                .load(DbEntityTemplate.class, templateId);
 
-        return DbToDomainMapper.mapEntityTemplate(dbEntityTemplate);
+        return DbToDomainMapper.mapEntityTemplate(dbEntityTemplate, false);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true)
-    public ArrayList<EntityTemplate> getEntityTemplates()
+    public List<EntityTemplate> getEntityTemplates()
     {
-        return new ArrayList<EntityTemplate>(sessionFactory.getCurrentSession().createQuery("from DbEntityTemplate").list());
+        return DbToDomainMapper.mapEntityTemplates(sessionFactory.getCurrentSession()
+                .createQuery("from DbEntityTemplate").list(), true);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public Set<Topic> getTopics()
+    {
+        return DbToDomainMapper.mapTopics(new HashSet<DbTopic>(sessionFactory.getCurrentSession()
+                .createQuery("from DbTopic where ").list()));
     }
 }

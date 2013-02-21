@@ -1,5 +1,7 @@
 package org.unido.eetdb.controller;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,7 +18,7 @@ public class EntityController
     private DataAccessService dataAccessService;
 
     @Autowired
-    public void setEntityService(DataAccessService dataAccessService)
+    public void setDataAccessService(DataAccessService dataAccessService)
     {
         this.dataAccessService = dataAccessService;
     }
@@ -37,5 +39,12 @@ public class EntityController
         Topic topic = dataAccessService.getTopic(id);
 
         return topic;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/topics")
+    public @ResponseBody
+    Set<Topic> getTopics()
+    {
+        return null;
     }
 }
