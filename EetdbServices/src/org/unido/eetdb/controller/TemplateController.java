@@ -28,6 +28,13 @@ public class TemplateController
     {
         return dataAccessService.getEntityTemplate(id);
     }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/template")
+    public @ResponseBody
+    EntityTemplate createTemplate(@PathVariable EntityTemplate template)
+    {
+        return dataAccessService.createEntityTemplate(template);
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/templates")
     public @ResponseBody

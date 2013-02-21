@@ -15,6 +15,7 @@ import org.unido.eetdb.service.dbmodel.DbEntity;
 import org.unido.eetdb.service.dbmodel.DbEntityTemplate;
 import org.unido.eetdb.service.dbmodel.DbTopic;
 import org.unido.eetdb.util.DbToDomainMapper;
+import org.unido.eetdb.util.DomainToDbMapper;
 
 @Repository
 public class DataAccessServiceImpl implements DataAccessService
@@ -72,5 +73,16 @@ public class DataAccessServiceImpl implements DataAccessService
     {
         return DbToDomainMapper.mapTopics(new HashSet<DbTopic>(sessionFactory.getCurrentSession()
                 .createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(DbTopic.class).list()));
+    }
+
+    @Override
+    @Transactional
+    public EntityTemplate createEntityTemplate(EntityTemplate template)
+    {
+        DbEntityTemplate dbTemplate = DomainToDbMapper.mapEntityTemplate(template);
+
+        sessionFactory.getCurrentSession().save(dbTemplate);
+
+        return DbToDomainMapper.mapEntityTemplate(dbTemplate, false);
     }
 }

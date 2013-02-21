@@ -2,6 +2,7 @@ package org.unido.eetdb.common.model;
 
 public class EntityProperty extends GenericObject
 {
+    private long    propertyTypeId;
     private String  name;
     private boolean displayInGrid;
     private boolean mandatory;
@@ -82,5 +83,15 @@ public class EntityProperty extends GenericObject
     public void setMandatory(boolean mandatory)
     {
         this.mandatory = mandatory;
+    }
+
+    public long getPropertyTypeId()
+    {
+        return propertyTypeId;
+    }
+
+    public void setPropertyTypeId(long propertyTypeId)
+    {
+        this.propertyTypeId = propertyTypeId;
     }
 }

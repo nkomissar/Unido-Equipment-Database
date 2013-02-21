@@ -14,4 +14,6 @@ public interface DataAccessService
     public Set<Topic> getRootTopics();
     public EntityTemplate getEntityTemplate(Long templateId);
     public List<EntityTemplate> getEntityTemplates();
+    
+    public EntityTemplate createEntityTemplate(EntityTemplate template);
 }

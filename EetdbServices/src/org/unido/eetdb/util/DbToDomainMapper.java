@@ -133,6 +133,7 @@ public class DbToDomainMapper
         EntityProperty entityProperty = new EntityProperty();
 
         entityProperty.setId(dbEntityProperty.getId());
+        entityProperty.setPropertyTypeId(dbEntityProperty.getTemplateProperty().getId());
         entityProperty.setName(dbEntityProperty.getTemplateProperty().getName());
         entityProperty.setDisplayInGrid(dbEntityProperty.getTemplateProperty().isDisplayInGrid());
         entityProperty.setMandatory(dbEntityProperty.getTemplateProperty().isMandatory());
