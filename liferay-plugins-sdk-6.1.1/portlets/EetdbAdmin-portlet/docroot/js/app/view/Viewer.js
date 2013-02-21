@@ -12,7 +12,8 @@ Ext.define('EetdbAdmin.view.Viewer', {
     initComponent: function() {
         this.items = [{
             xtype: 'feedshow',
-            title: 'Sencha Blog'
+            title: 'Sencha Blog',
+            html: '<p>Useless</p>'
         }];
         
         this.callParent(arguments);
