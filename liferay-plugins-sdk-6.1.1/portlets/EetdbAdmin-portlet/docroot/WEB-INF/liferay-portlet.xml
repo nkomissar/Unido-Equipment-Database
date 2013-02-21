@@ -8,6 +8,7 @@
 		<instanceable>false</instanceable>
 		<header-portlet-css>/resources/css/ext-all.css</header-portlet-css>
 		<header-portlet-css>/resources/css/ux/GroupTabPanel.css</header-portlet-css>
+		<header-portlet-css>/css/main.css</header-portlet-css>
 		<header-portlet-javascript>/js/extjs/ext-all.js</header-portlet-javascript>
 		<css-class-wrapper>EetdbAdmin-portlet</css-class-wrapper>
 	</portlet>

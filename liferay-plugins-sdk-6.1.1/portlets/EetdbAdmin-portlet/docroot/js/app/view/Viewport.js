@@ -15,7 +15,7 @@ Ext.define('EetdbAdmin.view.Viewport', {
     ],
     
     layout: 'fit',
-    height: 300,
+    height: 400,
     
     renderTo: myDiv,
     
@@ -36,7 +36,7 @@ Ext.define('EetdbAdmin.view.Viewport', {
                 collapsible: true,
                 //animCollapse: true,
                 //margins: '5 0 5 5',
-                width: 300,
+                width: 500,
             	layout: 'fit',
             	items: [{
             		xtype: 'grouptabpanel',
