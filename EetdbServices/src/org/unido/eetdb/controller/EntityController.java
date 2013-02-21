@@ -27,24 +27,20 @@ public class EntityController
     public @ResponseBody
     Entity getEntity(@PathVariable Long id)
     {
-        Entity entity = dataAccessService.getEntity(id, true);
-
-        return entity;
+        return dataAccessService.getEntity(id, true);
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "/topic/{id}")
     public @ResponseBody
     Topic getTopic(@PathVariable Long id)
     {
-        Topic topic = dataAccessService.getTopic(id);
-
-        return topic;
+        return dataAccessService.getTopic(id);
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "/topics")
     public @ResponseBody
-    Set<Topic> getTopics()
+    Set<Topic> getRootTopics()
     {
-        return null;
+        return dataAccessService.getRootTopics();
     }
 }

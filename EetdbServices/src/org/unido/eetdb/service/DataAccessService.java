@@ -11,7 +11,7 @@ public interface DataAccessService
 {
     public Entity getEntity(Long entityId, boolean loadChilds);
     public Topic getTopic(Long topicId);
-    public Set<Topic> getTopics();
+    public Set<Topic> getRootTopics();
     public EntityTemplate getEntityTemplate(Long templateId);
     public List<EntityTemplate> getEntityTemplates();
 }

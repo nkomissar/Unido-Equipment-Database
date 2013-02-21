@@ -20,47 +20,51 @@ import org.unido.eetdb.service.dbmodel.DbTopic;
 
 public class DbToDomainMapper
 {
-    public static EntityTemplate mapEntityTemplate(DbEntityTemplate dbEntityTemplate, boolean skipChilds)
+    public static EntityTemplate mapEntityTemplate(DbEntityTemplate dbEntityTemplate,
+            boolean skipChilds)
     {
         EntityTemplate template = new EntityTemplate();
 
         template.setId(dbEntityTemplate.getId());
         template.setName(dbEntityTemplate.getName());
-        
-        if(!skipChilds)
+
+        if (!skipChilds)
             template.setProperties(mapEntityTemplateProperties(dbEntityTemplate.getProperties()));
 
         return template;
     }
-    
-    public static List<EntityTemplate> mapEntityTemplates(List<DbEntityTemplate> dbEntityTemplates, boolean skipChilds)
+
+    public static List<EntityTemplate> mapEntityTemplates(List<DbEntityTemplate> dbEntityTemplates,
+            boolean skipChilds)
     {
         List<EntityTemplate> templates = new ArrayList<EntityTemplate>();
 
-        for(DbEntityTemplate dbEntityTemplate : dbEntityTemplates)
+        for (DbEntityTemplate dbEntityTemplate : dbEntityTemplates)
         {
             templates.add(mapEntityTemplate(dbEntityTemplate, skipChilds));
         }
-        
+
         return templates;
     }
 
-    public static Set<EntityTemplateProperty> mapEntityTemplateProperties(Set<DbEntityTemplateProperty> dbProperties)
+    public static Set<EntityTemplateProperty> mapEntityTemplateProperties(
+            Set<DbEntityTemplateProperty> dbProperties)
     {
         Set<EntityTemplateProperty> properties = new HashSet<EntityTemplateProperty>();
 
-        for(DbEntityTemplateProperty dbProperty : dbProperties)
+        for (DbEntityTemplateProperty dbProperty : dbProperties)
         {
             properties.add(mapEntityTemplateProperty(dbProperty));
         }
-        
+
         return properties;
     }
-    
-    public static EntityTemplateProperty mapEntityTemplateProperty(DbEntityTemplateProperty dbTemplateProperty)
+
+    public static EntityTemplateProperty mapEntityTemplateProperty(
+            DbEntityTemplateProperty dbTemplateProperty)
     {
         EntityTemplateProperty templateProperty = new EntityTemplateProperty();
-        
+
         templateProperty.setId(dbTemplateProperty.getId());
         templateProperty.setName(dbTemplateProperty.getName());
         templateProperty.setDisplayInGrid(dbTemplateProperty.isDisplayInGrid());
@@ -69,8 +73,8 @@ public class DbToDomainMapper
 
         return templateProperty;
     }
-    
-    public static Topic mapTopic(DbTopic dbTopic)
+
+    public static Topic mapTopic(DbTopic dbTopic, boolean skipChilds)
     {
         Topic topic = new Topic();
 
@@ -78,21 +82,23 @@ public class DbToDomainMapper
         topic.setName(dbTopic.getName());
         topic.setDescription(dbTopic.getDescription());
 
-        topic.setEntitiesOfTopic(mapEntities(dbTopic.getEntitiesOfTopic()));
+        if(!skipChilds)
+            topic.setEntitiesOfTopic(mapEntities(dbTopic.getEntitiesOfTopic()));
+
         topic.setChildTopics(mapTopics(dbTopic.getChildTopics()));
 
         return topic;
     }
-    
+
     public static Set<Topic> mapTopics(Set<DbTopic> dbTopics)
     {
         Set<Topic> topics = new HashSet<Topic>();
 
-        for(DbTopic dbTopic : dbTopics)
+        for (DbTopic dbTopic : dbTopics)
         {
-            topics.add(mapTopic(dbTopic));
+            topics.add(mapTopic(dbTopic, true));
         }
-        
+
         return topics;
     }
 
@@ -100,11 +106,11 @@ public class DbToDomainMapper
     {
         Set<Entity> entities = new HashSet<Entity>();
 
-        for(DbEntity dbEntity : dbEntities)
+        for (DbEntity dbEntity : dbEntities)
         {
             entities.add(mapEntity(dbEntity));
         }
-        
+
         return entities;
     }
 
@@ -125,31 +131,31 @@ public class DbToDomainMapper
     public static EntityProperty mapProperty(DbEntityProperty dbEntityProperty)
     {
         EntityProperty entityProperty = new EntityProperty();
-        
+
         entityProperty.setId(dbEntityProperty.getId());
         entityProperty.setName(dbEntityProperty.getTemplateProperty().getName());
         entityProperty.setDisplayInGrid(dbEntityProperty.getTemplateProperty().isDisplayInGrid());
         entityProperty.setMandatory(dbEntityProperty.getTemplateProperty().isMandatory());
         entityProperty.setValue(dbEntityProperty.getValue());
-        
+
         entityProperty.setFormat(dbEntityProperty.getValueType().getFormat());
         entityProperty.setType(dbEntityProperty.getValueType().getType());
         entityProperty.setUnitOfMeasure(dbEntityProperty.getTemplateProperty().getUnitOfMeasure());
 
         return entityProperty;
     }
-    
+
     public static Map<String, EntityProperty> mapProperties(Set<DbEntityProperty> dbProperties)
     {
         Map<String, EntityProperty> properties = new HashMap<String, EntityProperty>();
 
-        for(DbEntityProperty property : dbProperties)
+        for (DbEntityProperty property : dbProperties)
         {
             EntityProperty entityProperty = mapProperty(property);
 
             properties.put(entityProperty.getName(), entityProperty);
         }
-        
+
         return properties;
     }
 }

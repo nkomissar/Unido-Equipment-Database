@@ -43,7 +43,7 @@ public class DataAccessServiceImpl implements DataAccessService
     {
         DbTopic dbTopic = (DbTopic) sessionFactory.getCurrentSession().load(DbTopic.class, topicId);
 
-        return DbToDomainMapper.mapTopic(dbTopic);
+        return DbToDomainMapper.mapTopic(dbTopic, false);
     }
 
     @Override
@@ -67,9 +67,10 @@ public class DataAccessServiceImpl implements DataAccessService
 
     @SuppressWarnings("unchecked")
     @Override
-    public Set<Topic> getTopics()
+    @Transactional(readOnly = true)
+    public Set<Topic> getRootTopics()
     {
         return DbToDomainMapper.mapTopics(new HashSet<DbTopic>(sessionFactory.getCurrentSession()
-                .createQuery("from DbTopic where ").list()));
+                .createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(DbTopic.class).list()));
     }
 }

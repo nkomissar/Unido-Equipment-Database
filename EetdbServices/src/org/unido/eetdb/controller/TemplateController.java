@@ -26,9 +26,7 @@ public class TemplateController
     public @ResponseBody
     EntityTemplate getTemplate(@PathVariable Long id)
     {
-        EntityTemplate template = dataAccessService.getEntityTemplate(id);
-
-        return template;
+        return dataAccessService.getEntityTemplate(id);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/templates")
