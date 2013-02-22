@@ -43,11 +43,4 @@ public class EntityController
     {
         return dataAccessService.getRootTopics();
     }
-    
-    @RequestMapping(method = RequestMethod.POST, value = "/topic")
-    public @ResponseBody
-    Topic createTopic(@PathVariable Topic topic)
-    {
-        return null;
-    }
 }
