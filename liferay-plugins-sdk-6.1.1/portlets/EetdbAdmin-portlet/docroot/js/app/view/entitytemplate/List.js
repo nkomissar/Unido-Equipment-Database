@@ -19,13 +19,13 @@ Ext.define('EetdbAdmin.view.entitytemplate.List', {
                 	itemSelector: '.entitytemplate-list-item',
                 	overItemCls: 'entitytemplate-list-item-hover',
                 	tpl: '<tpl for="."><div class="entitytemplate-list-item">{name}</div></tpl>',
-                	listeners: {
+                	/*listeners: {
                 		selectionchange: this.onSelectionChange,
                 		scope: this
-                	}
-                }],
+                	}*/
+                }]
 
-            dockedItems: [{
+            /*,dockedItems: [{
                 xtype: 'toolbar',
                 items: [{
                     iconCls: 'entity-add',
@@ -37,21 +37,21 @@ Ext.define('EetdbAdmin.view.entitytemplate.List', {
                     disabled: true,
                     action: 'remove'
                 }]
-            }]
+            }]*/
         });
 
         this.callParent(arguments);
     },
 
     onSelectionChange: function(selmodel, selection) {
-    	debugger;
-        var selected = selection[0],
-            button = this.down('button[action=remove]');
+        var selected = selection[0]
+        	//,button = this.down('button[action=remove]')
+        	;
         if (selected) {
-            button.enable();
+            //button.enable();
         }
         else {
-            button.disable();
+            //button.disable();
         }
     }
 });

@@ -52,6 +52,9 @@ Ext.define('EetdbAdmin.view.Viewport', {
                     		}]
                     	},{
                     		title: 'Add Template'
+                    	},{
+                    		title: 'Remove Template',
+                    		disabled: true
                     	}]
                     },{
                     	expanded: false,
@@ -60,10 +63,13 @@ Ext.define('EetdbAdmin.view.Viewport', {
                     	}, {
                     		title: 'Search',
                     		items: [{
-                    			xtype: 'entitylist'
+                    			xtype: 'entitylist',
+                    			layout: 'fit'
                     		}]
                     	}, {
                     		title: 'Add Entity'
+                    	}, {
+                    		title: 'Remove Entity'
                     	}]
                     },{
                     	expanded: false,
@@ -73,6 +79,8 @@ Ext.define('EetdbAdmin.view.Viewport', {
                     		title: 'Search'
                     	}, {
                     		title: 'Add Topic'
+                    	}, {
+                    		title: 'Remove Topic'
                     	}]
                     }]
             	}]

@@ -2,16 +2,16 @@ Ext.define('EetdbAdmin.view.Viewer', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.viewer',
     
-    requires: ['EetdbAdmin.view.feed.Show'],
+    requires: ['EetdbAdmin.view.entitytemplate.Preview'],
     
     activeItem: 0,
-    margins: '5 5 5 5',
+    //margins: '5 5 5 5',
     
     cls: 'preview',
     
     initComponent: function() {
         this.items = [{
-            xtype: 'feedshow',
+            xtype: 'entitytemplatepreview',
             title: 'Sencha Blog',
             html: '<p>Useless</p>'
         }];

@@ -5,13 +5,17 @@ Ext.define('EetdbAdmin.view.entity.List', {
     requires: ['Ext.toolbar.Toolbar'],
 
     title: 'Entities',
-    collapsible: true,
-    animCollapse: true,
+    //collapsible: true,
+    //animCollapse: true,
 
     initComponent: function() {
         Ext.apply(this, {
+        	
+        	layout: 'fit',
+        	
             items: [{
             	xtype: 'dataview',
+            	layout: 'fit',
             	trackOver: true,
             	store: this.store,
             	cls: 'entity-list',
@@ -22,9 +26,9 @@ Ext.define('EetdbAdmin.view.entity.List', {
             		selectionchange: this.onSelectionChange,
             		scope: this
             	}
-            }],
+            }]
 
-            dockedItems: [{
+            /*,dockedItems: [{
                 xtype: 'toolbar',
                 items: [{
                     iconCls: 'entity-add',
@@ -36,7 +40,7 @@ Ext.define('EetdbAdmin.view.entity.List', {
                     disabled: true,
                     action: 'remove'
                 }]
-            }]
+            }]*/
         });
 
         this.callParent(arguments);

@@ -21,8 +21,6 @@
 
 <c:url var="extUxUrl" context="${renderRequest.contextPath}" value="/js/extjs/ux" />
 
-<div class="entitytemplate-list-item-hover">sssss</div>
-
 <div id="landingBody"></div>
 
 <script type="text/javascript">

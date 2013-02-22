@@ -3,11 +3,12 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
 
     stores: ['EntityTemplates'],
     models: ['EntityTemplate'],
-    views: ['entitytemplate.List'],
+    views: ['entitytemplate.List', 'entitytemplate.Preview'],
     
     refs: [
         {ref: 'entityTemplateList', selector: 'entitytemplatelist'},
         {ref: 'entityTemplateData', selector: 'entitytemplatelist dataview'},
+        {ref: 'entityTemplatePreview', selector: 'entitytemplatepreview'},
         //{ref: 'feedShow', selector: 'feedshow'},
         //{ref: 'feedForm', selector: 'feedwindow form'},
         //{ref: 'feedCombo', selector: 'feedwindow combobox'},
@@ -25,7 +26,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     init: function() {
         this.control({
             'entitytemplatelist dataview': {
-                selectionchange: this.loadEntity
+                selectionchange: this.loadEntityTemplate
             }/*,
             'feedlist button[action=add]': {
                 click: this.addFeed
@@ -41,28 +42,33 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     
     onLaunch: function() {
     	
+    	debugger;
+    	
         var dataview = this.getEntityTemplateData();
         var store = this.getEntityTemplatesStore();
         
         dataview.bindStore(store);
-        //dataview.getSelectionModel().select(store.getAt(0));
+        dataview.getSelectionModel().select(store.getAt(0));
     },
     
     /**
      * Loads the given feed into the viewer
      * @param {FV.model.feed} feed The feed to load
      */
-    loadEntity: function(selModel, selected) {
-        var grid = this.getArticleGrid(),
-            store = this.getArticlesStore(),
-            feed = selected[0];
+    loadEntityTemplate: function(selModel, selected) {
+    	
+    	debugger;
+    	
+        var /*grid = this.getArticleGrid(),*/
+            store = this.getEntityTemplatesStore(),
+            entityTemplate = selected[0];
 
-        if (feed) {
-            this.getFeedShow().setTitle(feed.get('name'));
-            grid.enable();
+        if (entityTemplate) {
+            this.getEntityTemplatePreview().setTitle(entityTemplate.get('name'));
+            //grid.enable();
             store.load({
                 params: {
-                    feed: feed.get('url')
+                    entityTemplateId: entityTemplate.get('id')
                 }
             });            
         }
