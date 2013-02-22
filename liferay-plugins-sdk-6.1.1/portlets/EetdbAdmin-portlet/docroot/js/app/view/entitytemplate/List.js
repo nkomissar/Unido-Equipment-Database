@@ -44,6 +44,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.List', {
     },
 
     onSelectionChange: function(selmodel, selection) {
+    	debugger;
         var selected = selection[0],
             button = this.down('button[action=remove]');
         if (selected) {
