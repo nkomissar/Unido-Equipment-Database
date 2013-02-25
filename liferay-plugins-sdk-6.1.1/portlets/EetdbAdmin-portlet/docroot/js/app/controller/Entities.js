@@ -23,6 +23,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     // At this point things haven't rendered yet since init gets called on controllers before the launch function
     // is executed on the Application
     init: function() {
+    	
         this.control({
             'entitylist dataview': {
                 selectionchange: this.loadEntity

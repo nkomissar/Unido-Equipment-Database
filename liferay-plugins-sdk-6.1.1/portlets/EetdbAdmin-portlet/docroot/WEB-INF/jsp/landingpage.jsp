@@ -8,8 +8,8 @@
 
 <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
 
-
 <portlet:defineObjects />
+<liferay-theme:defineObjects/>
 
 <portlet:renderURL var="doEntityLoadURL" windowState="<%=LiferayWindowState.EXCLUSIVE.toString()%>">
 	<portlet:param name="action" value="doEntityLoad" />
@@ -24,7 +24,18 @@
 <div id="landingBody"></div>
 
 <script type="text/javascript">
-   
+
+	var doEntityLoadURL, doEntityTemplateListURL
+		,entityTemplateControllerURL, portletUrl;
+	
+	var portletId = '${portletDisplay.getId()}';
+	var exclusiveWindowState = '<%=LiferayWindowState.EXCLUSIVE.toString()%>';
+	
+</script>
+
+<aui:script use="liferay-portlet-url">
+	
+	
 	Ext.Loader.setPath('Ext.ux', '${extUxUrl}');
 	
 	Ext.require([ 'Ext.form.*', 
@@ -34,9 +45,14 @@
 	              'Ext.data.proxy',
 	              'Ext.ux.GroupTabPanel']);
 	
-	var doEntityLoadURL = '${doEntityLoadURL}';
-	var doEntityTemplateListURL = '${doEntityTemplateListURL}';
-
+	doEntityLoadURL = '${doEntityLoadURL}';
+	
+	entityTemplateControllerURL = Liferay.PortletURL.createRenderURL();
+	entityTemplateControllerURL.setPortletId(portletId);
+	entityTemplateControllerURL.setWindowState(exclusiveWindowState);
+	
+	portletUrl = Liferay.PortletURL;
+	
 	
 	Ext.application({
 	    name: 'EetdbAdmin',
@@ -53,4 +69,4 @@
 	});
 	
 	
-</script>
+</aui:script>

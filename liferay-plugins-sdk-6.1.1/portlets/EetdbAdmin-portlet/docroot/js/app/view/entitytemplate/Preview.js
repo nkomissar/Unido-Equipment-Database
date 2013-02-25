@@ -13,9 +13,9 @@ Ext.define('EetdbAdmin.view.entitytemplate.Preview', {
             tpl: new Ext.XTemplate(
                 '<div class="post-data">',
                     '<span class="post-date">{pubDate:this.formatDate}</span>',
-                    '<h3 class="post-title">{title}</h3>',
+                    '<h3 class="post-title">{name}</h3>',
                     '<h4 class="post-author">by {author:this.defaultValue}</h4>',
-                '</div>',
+                '</div><tpl for="properties">{name}<br/></tpl>',
                 '<div class="post-body">{content:this.getBody}</div>', {
 
                 getBody: function(value, all) {
@@ -32,9 +32,9 @@ Ext.define('EetdbAdmin.view.entitytemplate.Preview', {
                     }
                     return Ext.Date.format(value, 'M j, Y, g:i a');
                 }
-            }),
+            })
 
-            dockedItems: [{
+            /*,dockedItems: [{
                 dock: 'top',
                 xtype: 'toolbar',
                 items: [{
@@ -46,7 +46,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Preview', {
                     text: 'Go to post',
                     action: 'gotopost'
                 }]
-            }]
+            }]*/
         });
 
         this.callParent(arguments);

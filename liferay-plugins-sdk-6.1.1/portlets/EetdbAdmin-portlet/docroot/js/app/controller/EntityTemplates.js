@@ -1,7 +1,7 @@
 Ext.define('EetdbAdmin.controller.EntityTemplates', {
     extend: 'Ext.app.Controller',
 
-    stores: ['EntityTemplates'],
+    stores: ['EntityTemplateSearchResult'/*, 'EntityTemplate'*/],
     models: ['EntityTemplate'],
     views: ['entitytemplate.List', 'entitytemplate.Preview'],
     
@@ -24,7 +24,8 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     // At this point things haven't rendered yet since init gets called on controllers before the launch function
     // is executed on the Application
     init: function() {
-        this.control({
+    	
+    	this.control({
             'entitytemplatelist dataview': {
                 selectionchange: this.loadEntityTemplate
             }/*,
@@ -42,13 +43,11 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     
     onLaunch: function() {
     	
-    	debugger;
-    	
         var dataview = this.getEntityTemplateData();
-        var store = this.getEntityTemplatesStore();
+        var store = this.getEntityTemplateSearchResultStore();
         
         dataview.bindStore(store);
-        dataview.getSelectionModel().select(store.getAt(0));
+        //dataview.getSelectionModel().select(store.getAt(0));
     },
     
     /**
@@ -57,20 +56,32 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
      */
     loadEntityTemplate: function(selModel, selected) {
     	
-    	debugger;
-    	
         var /*grid = this.getArticleGrid(),*/
-            store = this.getEntityTemplatesStore(),
+        	entityTemplatePreview = this.getEntityTemplatePreview(),
+            store = this.getEntityTemplateStore(),
             entityTemplate = selected[0];
-
+        
         if (entityTemplate) {
-            this.getEntityTemplatePreview().setTitle(entityTemplate.get('name'));
-            //grid.enable();
-            store.load({
+        	
+        	/*Ext.getClass(entityTemplate).load(entityTemplate.get('id'), {
+        		success: function (r, o) {
+        			
+                	entityTemplatePreview.setTitle(r.get('name'));
+                	entityTemplatePreview.update(r.data);
+                	
+        		}
+        	});*/
+            
+            /*store.load({
                 params: {
+                	action: 'doEntityTemplateLoad',
                     entityTemplateId: entityTemplate.get('id')
+                },
+                callback: function(records, operation, success) {
+                	entityTemplatePreview.update(records.data);
                 }
-            });            
+            });*/
+            
         }
     },
     
