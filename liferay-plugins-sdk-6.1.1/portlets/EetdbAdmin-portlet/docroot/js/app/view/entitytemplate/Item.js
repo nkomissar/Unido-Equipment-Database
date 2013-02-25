@@ -8,6 +8,18 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	fieldLabel: 'Name',
     	xtype: 'textfield',
     	name: 'name'
+    },{
+    	fieldLabel: 'Display in grid',
+    	xtype: 'checkbox',
+    	name: 'displayingrid'
+    },{
+    	fieldLabel: 'Mandatory',
+    	xtype: 'checkbox',
+    	name: 'mandatory'
+    },{
+    	fieldLabel: 'Unit of measure',
+    	xtype: 'textfield',
+    	name: 'unitofmeasure'
     }],
     initLegend: function () {
         var me = this;
@@ -29,6 +41,31 @@ Ext.define('Ext.form.ClosableFieldSet', {
     loadRecord: function (record) {
     	var me = this;
     	
+    	var nm = me.down('[isFormField][name="name"]');
+    	var inGrid = me.down('[isFormField][name="displayingrid"]');
+    	var mandatory = me.down('[isFormField][name="mandatory"]');
+    	var uom = me.down('[isFormField][name="unitofmeasure"]');
+    	
+    	if(typeof nm != 'undefined')
+    	{
+    		nm.setValue(record.name);
+    	}
+
+    	if(typeof inGrid != 'undefined')
+    	{
+    		inGrid.setValue(record.displayInGrid);
+    	}
+
+    	if(typeof mandatory != 'undefined')
+    	{
+    		mandatory.setValue(record.mandatory);
+    	}
+
+    	if(typeof uom != 'undefined')
+    	{
+    		uom.setValue(record.unitOfMeasure);
+    	}
+
     }
 });    	
 

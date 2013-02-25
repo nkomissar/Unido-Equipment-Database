@@ -8,8 +8,8 @@ Ext.define('EetdbAdmin.model.EntityTemplateProperty', {
     fields: [
         {name: 'id',  type: 'string'}
         ,{name: 'name', type: 'string'}
-        ,{name: 'unitofmeasure', type: 'string'}
-        ,{name: 'displayingrid', type: 'boolean'}
+        ,{name: 'unitOfMeasure', type: 'string'}
+        ,{name: 'displayInGrid', type: 'boolean'}
         ,{name: 'mandatory', type: 'boolean'}
     ]
 });
