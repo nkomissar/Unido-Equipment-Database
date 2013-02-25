@@ -14,7 +14,7 @@ Ext.define('EetdbAdmin.store.EntityTemplateSearchResult', {
     	reader: 
     	{
     		type: 'json',
-    		root: 'data'
+    		root: 'templates'
     	}
 	},
 

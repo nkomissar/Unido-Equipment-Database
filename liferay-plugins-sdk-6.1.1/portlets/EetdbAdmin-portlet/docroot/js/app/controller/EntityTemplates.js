@@ -1,14 +1,14 @@
 Ext.define('EetdbAdmin.controller.EntityTemplates', {
     extend: 'Ext.app.Controller',
 
-    stores: ['EntityTemplateSearchResult'/*, 'EntityTemplate'*/],
-    models: ['EntityTemplate'],
-    views: ['entitytemplate.List', 'entitytemplate.Preview'],
+    stores: ['EntityTemplateSearchResult', 'EntityTemplate'],
+    models: ['EntityTemplate', 'EntityTemplateProperty'],
+    views: ['entitytemplate.List', 'entitytemplate.Item'],
     
     refs: [
         {ref: 'entityTemplateList', selector: 'entitytemplatelist'},
         {ref: 'entityTemplateData', selector: 'entitytemplatelist dataview'},
-        {ref: 'entityTemplatePreview', selector: 'entitytemplatepreview'},
+        {ref: 'entityTemplateItem', selector: 'entitytemplateitem'},
         //{ref: 'feedShow', selector: 'feedshow'},
         //{ref: 'feedForm', selector: 'feedwindow form'},
         //{ref: 'feedCombo', selector: 'feedwindow combobox'},
@@ -21,8 +21,6 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         }
     ],
     
-    // At this point things haven't rendered yet since init gets called on controllers before the launch function
-    // is executed on the Application
     init: function() {
     	
     	this.control({
@@ -43,44 +41,36 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     
     onLaunch: function() {
     	
-        var dataview = this.getEntityTemplateData();
-        var store = this.getEntityTemplateSearchResultStore();
+        var searchDataview = this.getEntityTemplateData();
+        var searchStore = this.getEntityTemplateSearchResultStore();
         
-        dataview.bindStore(store);
-        //dataview.getSelectionModel().select(store.getAt(0));
+        searchDataview.bindStore(searchStore);
+        searchDataview.getSelectionModel().select(searchStore.getAt(0));
     },
     
     /**
-     * Loads the given feed into the viewer
-     * @param {FV.model.feed} feed The feed to load
+     * Loads the given template into the viewer
      */
     loadEntityTemplate: function(selModel, selected) {
     	
-        var /*grid = this.getArticleGrid(),*/
-        	entityTemplatePreview = this.getEntityTemplatePreview(),
-            store = this.getEntityTemplateStore(),
+        var store = this.getEntityTemplateStore(),
             entityTemplate = selected[0];
+        
+        var etItem = this.getEntityTemplateItem();
         
         if (entityTemplate) {
         	
-        	/*Ext.getClass(entityTemplate).load(entityTemplate.get('id'), {
-        		success: function (r, o) {
-        			
-                	entityTemplatePreview.setTitle(r.get('name'));
-                	entityTemplatePreview.update(r.data);
-                	
-        		}
-        	});*/
-            
-            /*store.load({
+            store.load({
                 params: {
                 	action: 'doEntityTemplateLoad',
                     entityTemplateId: entityTemplate.get('id')
                 },
                 callback: function(records, operation, success) {
-                	entityTemplatePreview.update(records.data);
+                	
+                	etItem.loadRecord(records[0]);
+                	
                 }
-            });*/
+            });
             
         }
     },

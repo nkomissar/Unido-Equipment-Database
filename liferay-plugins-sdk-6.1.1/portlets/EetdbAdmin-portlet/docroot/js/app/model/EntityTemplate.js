@@ -7,9 +7,9 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
     
     requires:['EetdbAdmin.model.EntityTemplateProperty'],
           
-    /*proxy: {
+    proxy: {
         type: 'memory'
-    },*/
+    },
     
     /*proxy: {
     	type: 'ajax',
@@ -26,9 +26,15 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
         ,{name: 'name', type: 'string'}
     ]
     
-    ,hasMany: {model: 'EetdbAdmin.model.EntityTemplateProperty', name: 'properties'/*, autoLoad: true*/}
+    ,hasMany: 
+    {
+    	model: 'EetdbAdmin.model.EntityTemplateProperty', 
+    	name: 'properties', 
+    	autoLoad: true,
+    	associationKey: 'properties'
+    }
    
-	,statics: {
+	/*,statics: {
 		load1: function( id, config) {
 
 			debugger;
@@ -44,5 +50,5 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
 
 			this.callParent(arguments);
 		}
-	}
+	}*/
 });

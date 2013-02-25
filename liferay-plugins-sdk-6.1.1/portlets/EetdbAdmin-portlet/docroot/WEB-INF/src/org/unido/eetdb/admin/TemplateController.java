@@ -32,7 +32,7 @@ public class TemplateController {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
-		data.put("data", templates);
+		data.put("templates", templates);
 
 		return new ModelAndView(jsonView, data);
 
@@ -48,7 +48,7 @@ public class TemplateController {
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
-		data.put("data", template);
+		data.put("template", template);
 
 		return new ModelAndView(jsonView, data);
 

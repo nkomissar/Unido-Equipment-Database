@@ -2,7 +2,7 @@ Ext.define('EetdbAdmin.view.Viewer', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.viewer',
     
-    requires: ['EetdbAdmin.view.entitytemplate.Preview'],
+    requires: ['EetdbAdmin.view.entitytemplate.Item'],
     
     activeItem: 0,
     //margins: '5 5 5 5',
@@ -11,7 +11,7 @@ Ext.define('EetdbAdmin.view.Viewer', {
     
     initComponent: function() {
         this.items = [{
-            xtype: 'entitytemplatepreview',
+            xtype: 'entitytemplateitem',
             title: 'Sencha Blog',
             html: '<p>Useless</p>'
         }];

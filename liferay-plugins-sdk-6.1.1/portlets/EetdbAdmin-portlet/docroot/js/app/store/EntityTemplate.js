@@ -1,6 +1,6 @@
 
-entityTemplateControllerURL.setParameter('action', 'doEntityTemplateLoad');
-entityTemplateControllerURL.setParameter('entityTemplateId', '2');
+//entityTemplateControllerURL.setParameter('action', 'doEntityTemplateLoad');
+//entityTemplateControllerURL.setParameter('entityTemplateId', '2');
 
 Ext.define('EetdbAdmin.store.EntityTemplate', {
     extend: 'Ext.data.Store',
@@ -15,13 +15,13 @@ Ext.define('EetdbAdmin.store.EntityTemplate', {
     	reader: 
     	{
     		type: 'json',
-    		root: 'data'
+    		root: 'template'
     	}
 	},
 
-	autoLoad: true,
+	//autoLoad: true,
 	
-	load1: function (options){
+	load: function (options){
 		
 		debugger;
 		
@@ -38,7 +38,9 @@ Ext.define('EetdbAdmin.store.EntityTemplate', {
         	loadUrl.setParameter('entityTemplateId', options.params.entityTemplateId);
         
         } else {
-        	loadUrl.setParameter('entityTemplateId', 0);
+        	
+        	loadUrl.setParameter('entityTemplateId', 1);
+        	
         }
         
         this.proxy.url = loadUrl.toString();
