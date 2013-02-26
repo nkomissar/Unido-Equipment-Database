@@ -22,7 +22,7 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
 	},*/
     
     fields: [
-        {name: 'id',  type: 'string'}
+        {name: 'id',  type: 'int'}
         ,{name: 'name', type: 'string'}
     ]
     

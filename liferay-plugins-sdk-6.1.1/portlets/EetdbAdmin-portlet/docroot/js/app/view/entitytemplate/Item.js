@@ -78,7 +78,7 @@ Ext.define('Ext.form.ClosableFieldSet', {
     }
     , getFieldValues: function(){
     	var me = this;
-    	var prop = Ext.create('EetdbAdmin.model.EntityTemplateProperty');
+    	var prop = {};
     	
     	var id = me.down('[isFormField][name="id"]');
     	var nm = me.down('[isFormField][name="name"]');
@@ -88,27 +88,27 @@ Ext.define('Ext.form.ClosableFieldSet', {
 
     	if(typeof id != 'undefined')
     	{
-    		prop.set('id', id['getModelData']());
+    		prop['id'] = +id.getValue();
     	}
 
     	if(typeof nm != 'undefined')
     	{
-    		prop.set('name', nm['getModelData']());
+    		prop['name'] = nm.getValue();
     	}
 
     	if(typeof inGrid != 'undefined')
     	{
-    		prop.set('displayInGrid', inGrid['getModelData']());
+    		prop['displayInGrid'] = inGrid.getValue();
     	}
 
     	if(typeof mandatory != 'undefined')
     	{
-    		prop.set('mandatory', mandatory['getModelData']());
+    		prop['mandatory'] = mandatory.getValue();
     	}
 
     	if(typeof uom != 'undefined')
     	{
-    		prop.set('unitOfMeasure', uom['getModelData']());
+    		prop['unitOfMeasure'] = uom.getValue();
     	}
     	
     	return prop;
@@ -141,6 +141,14 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
         		},{
         			xtype: 'hidden',
         			name: 'id'
+        		},{
+        			xtype: 'button',
+        			text: 'Add Property',
+        			handler: function(btn){
+        				var form = btn.up('form');
+        				this.addProperty(form);
+        			},
+        			scope: this
         		}],
         		buttons: [{
         			text: 'Save',
@@ -153,8 +161,22 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
         this.callParent(arguments);
     }
 
-	,loadRecord: function(record) {
+	,addProperty: function(frm) {
 		
+		var fieldSet = frm.add(Ext.widget('closablefieldset', {
+            columnWidth: 0.5,
+            title: 'Property',
+            collapsible: true,
+            collapsed: false,
+            defaults: { anchor: '100%' },
+            layout: 'anchor'
+        }));
+		
+		return fieldSet;
+	}
+
+	,loadRecord: function(record) {
+		var me = this;
 		var form = this.down('form');
 		
 		form.loadRecord(record);
@@ -170,14 +192,9 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 		Ext.each(record.raw.properties, 
 				function(property)
 				{
-					var fieldSet = form.add(Ext.widget('closablefieldset', {
-		                columnWidth: 0.5,
-		                title: property.name,
-		                collapsible: true,
-		                collapsed: true,
-		                defaults: { anchor: '100%' },
-		                layout: 'anchor'
-		            }));
+			
+					var fieldSet = me.addProperty(form);
+					fieldSet.collapse();
 					
 					fieldSet.loadRecord(property);
 					
@@ -189,7 +206,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 		
 		var form = this.down('form');
 		
-    	var template = Ext.create('EetdbAdmin.model.EntityTemplate');
+    	var template = {};
     	
     	var id = form.down('[isFormField][name="id"]');
     	var nm = form.down('[isFormField][name="name"]');
@@ -197,16 +214,24 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 
     	if(typeof id != 'undefined')
     	{
-    		template.set('id', id['getModelData']());
+    		template['id'] = +id.getValue();
     	}
 
     	if(typeof nm != 'undefined')
     	{
-    		template.set('name', nm['getModelData']());
+    		template['name'] = nm.getValue();
     	}
     	
-    	Ext.each(fieldSets, function(fieldSet){
-    		template.properties.add(fieldSet.getFieldValues());
+    	Ext.each(fieldSets, function(fieldSet)
+    	{
+    		
+    		var val = fieldSet.getFieldValues();
+    		
+    		if (template.hasOwnProperty('properties')){
+    			template['properties'].push(val);
+    		} else {
+    			template['properties'] = [val];
+    		}
     	});
 		
 		return template;
