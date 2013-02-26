@@ -5,6 +5,9 @@ Ext.define('Ext.form.ClosableFieldSet', {
     
     alias: 'widget.closablefieldset',
     items:[{
+    	xtype: 'hidden',
+    	name: 'id'
+    },{
     	fieldLabel: 'Name',
     	xtype: 'textfield',
     	name: 'name'
@@ -21,7 +24,7 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	xtype: 'textfield',
     	name: 'unitofmeasure'
     }],
-    initLegend: function () {
+    initComponent: function () {
         var me = this;
         me.callParent(arguments);
         if (!me.legend.closable) {
@@ -41,11 +44,17 @@ Ext.define('Ext.form.ClosableFieldSet', {
     loadRecord: function (record) {
     	var me = this;
     	
+    	var id = me.down('[isFormField][name="id"]');
     	var nm = me.down('[isFormField][name="name"]');
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
     	
+    	if(typeof id != 'undefined')
+    	{
+    		id.setValue(record.id);
+    	}
+
     	if(typeof nm != 'undefined')
     	{
     		nm.setValue(record.name);
@@ -65,6 +74,44 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	{
     		uom.setValue(record.unitOfMeasure);
     	}
+
+    }
+    , getFieldValues: function(){
+    	var me = this;
+    	var prop = Ext.create('EetdbAdmin.model.EntityTemplateProperty');
+    	
+    	var id = me.down('[isFormField][name="id"]');
+    	var nm = me.down('[isFormField][name="name"]');
+    	var inGrid = me.down('[isFormField][name="displayingrid"]');
+    	var mandatory = me.down('[isFormField][name="mandatory"]');
+    	var uom = me.down('[isFormField][name="unitofmeasure"]');
+
+    	if(typeof id != 'undefined')
+    	{
+    		prop.set('id', id['getModelData']());
+    	}
+
+    	if(typeof nm != 'undefined')
+    	{
+    		prop.set('name', nm['getModelData']());
+    	}
+
+    	if(typeof inGrid != 'undefined')
+    	{
+    		prop.set('displayInGrid', inGrid['getModelData']());
+    	}
+
+    	if(typeof mandatory != 'undefined')
+    	{
+    		prop.set('mandatory', mandatory['getModelData']());
+    	}
+
+    	if(typeof uom != 'undefined')
+    	{
+    		prop.set('unitOfMeasure', uom['getModelData']());
+    	}
+    	
+    	return prop;
 
     }
 });    	
@@ -89,17 +136,15 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
         		bodyPadding: 10,
         		items: [{
         			xtype: 'textfield',
-        			itemId: 'etname',
         			name: 'name',
         			fieldLabel: 'Name'
-        		}, {
-        			xtype: 'closablefieldset',
-                    columnWidth: 0.5,
-                    title: 'Test Fieldset',
-                    collapsible: true,
-                    defaultType: 'textfield',
-                    defaults: { anchor: '100%' },
-                    layout: 'anchor'
+        		},{
+        			xtype: 'hidden',
+        			name: 'id'
+        		}],
+        		buttons: [{
+        			text: 'Save',
+        			action: 'create'
         		}]
         	}]
         	
@@ -127,8 +172,9 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 				{
 					var fieldSet = form.add(Ext.widget('closablefieldset', {
 		                columnWidth: 0.5,
-		                title: 'Test Fieldset',
+		                title: property.name,
 		                collapsible: true,
+		                collapsed: true,
 		                defaults: { anchor: '100%' },
 		                layout: 'anchor'
 		            }));
@@ -138,4 +184,32 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 				}
 		);
 	}
+	
+	,getFieldValues: function() {
+		
+		var form = this.down('form');
+		
+    	var template = Ext.create('EetdbAdmin.model.EntityTemplate');
+    	
+    	var id = form.down('[isFormField][name="id"]');
+    	var nm = form.down('[isFormField][name="name"]');
+    	var fieldSets = form.query('fieldset');
+
+    	if(typeof id != 'undefined')
+    	{
+    		template.set('id', id['getModelData']());
+    	}
+
+    	if(typeof nm != 'undefined')
+    	{
+    		template.set('name', nm['getModelData']());
+    	}
+    	
+    	Ext.each(fieldSets, function(fieldSet){
+    		template.properties.add(fieldSet.getFieldValues());
+    	});
+		
+		return template;
+	}
+	
 });

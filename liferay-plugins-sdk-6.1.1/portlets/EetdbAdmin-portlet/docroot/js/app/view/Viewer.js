@@ -12,8 +12,7 @@ Ext.define('EetdbAdmin.view.Viewer', {
     initComponent: function() {
         this.items = [{
             xtype: 'entitytemplateitem',
-            title: 'Sencha Blog',
-            html: '<p>Useless</p>'
+            title: 'Template'
         }];
         
         this.callParent(arguments);

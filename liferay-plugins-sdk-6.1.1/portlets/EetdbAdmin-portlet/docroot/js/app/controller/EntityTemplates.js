@@ -9,6 +9,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         {ref: 'entityTemplateList', selector: 'entitytemplatelist'},
         {ref: 'entityTemplateData', selector: 'entitytemplatelist dataview'},
         {ref: 'entityTemplateItem', selector: 'entitytemplateitem'},
+        {ref: 'entityTemplateForm', selector: 'entitytemplateitem form'},
         //{ref: 'feedShow', selector: 'feedshow'},
         //{ref: 'feedForm', selector: 'feedwindow form'},
         //{ref: 'feedCombo', selector: 'feedwindow combobox'},
@@ -32,10 +33,10 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
             },
             'feedlist button[action=remove]': {
                 click: this.removeFeed
-            },
-            'feedwindow button[action=create]': {
-                click: this.createFeed
             }*/
+            ,'entitytemplateitem button[action=create]': {
+                click: this.submitEntityTemplate
+            }
         });
     },
     
@@ -122,5 +123,31 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
                 form.down('[name=feed]').markInvalid('The URL specified is not a valid RSS2 feed.');
             }
         });
+    }
+    
+    ,submitEntityTemplate: function() {
+    	
+    	var itemForm = this.getEntityTemplateForm();
+    	var itemView = this.getEntityTemplateItem();
+    	var store = this.getEntityTemplateStore();
+    	var values = itemView.getFieldValues();
+    	
+    	debugger;
+    	
+    	if (store.count() == 0){
+    		store.add(Ext.create('EetdbAdmin.model.EntityTemplate'));
+    	}
+    	
+    	var record = store.getAt(0);
+    	
+    	record.set(values);
+    	/*var k;
+    	for (k in model.data) {
+    		record.data[k] = model.data[k];
+        }*/
+    	record.commit();
+    	
+    	
+    	
     }
 });
