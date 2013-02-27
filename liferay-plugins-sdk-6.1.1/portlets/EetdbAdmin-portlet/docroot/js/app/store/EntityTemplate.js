@@ -52,7 +52,7 @@ Ext.define('EetdbAdmin.store.EntityTemplate', {
         ,writer:
     	{
     		type: 'json'
-       		,root: 'template'
+       		//,root: 'template'
     	}
 	},
 
