@@ -1,13 +1,15 @@
 Ext.define('EetdbAdmin.controller.EntityTemplates', {
     extend: 'Ext.app.Controller',
 
-    stores: ['EntityTemplates'],
-    models: ['EntityTemplate'],
-    views: ['entitytemplate.List'],
+    stores: ['EntityTemplateSearchResult', 'EntityTemplate'],
+    models: ['EntityTemplate', 'EntityTemplateProperty'],
+    views: ['entitytemplate.List', 'entitytemplate.Item'],
     
     refs: [
         {ref: 'entityTemplateList', selector: 'entitytemplatelist'},
         {ref: 'entityTemplateData', selector: 'entitytemplatelist dataview'},
+        {ref: 'entityTemplateItem', selector: 'entitytemplateitem'},
+        {ref: 'entityTemplateForm', selector: 'entitytemplateitem form'},
         //{ref: 'feedShow', selector: 'feedshow'},
         //{ref: 'feedForm', selector: 'feedwindow form'},
         //{ref: 'feedCombo', selector: 'feedwindow combobox'},
@@ -20,51 +22,57 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         }
     ],
     
-    // At this point things haven't rendered yet since init gets called on controllers before the launch function
-    // is executed on the Application
     init: function() {
-        this.control({
+    	
+    	this.control({
             'entitytemplatelist dataview': {
-                selectionchange: this.loadEntity
+                selectionchange: this.loadEntityTemplate
             }/*,
             'feedlist button[action=add]': {
                 click: this.addFeed
             },
             'feedlist button[action=remove]': {
                 click: this.removeFeed
-            },
-            'feedwindow button[action=create]': {
-                click: this.createFeed
             }*/
+            ,'entitytemplateitem button[action=create]': {
+                click: this.submitEntityTemplate
+            }
         });
     },
     
     onLaunch: function() {
     	
-        var dataview = this.getEntityTemplateData();
-        var store = this.getEntityTemplatesStore();
+        var searchDataview = this.getEntityTemplateData();
+        var searchStore = this.getEntityTemplateSearchResultStore();
         
-        dataview.bindStore(store);
-        //dataview.getSelectionModel().select(store.getAt(0));
+        searchDataview.bindStore(searchStore);
+        searchDataview.getSelectionModel().select(searchStore.getAt(0));
     },
     
     /**
-     * Loads the given feed into the viewer
-     * @param {FV.model.feed} feed The feed to load
+     * Loads the given template into the viewer
      */
-    loadEntity: function(selModel, selected) {
-        var grid = this.getArticleGrid(),
-            store = this.getArticlesStore(),
-            feed = selected[0];
-
-        if (feed) {
-            this.getFeedShow().setTitle(feed.get('name'));
-            grid.enable();
+    loadEntityTemplate: function(selModel, selected) {
+    	
+        var store = this.getEntityTemplateStore(),
+            entityTemplate = selected[0];
+        
+        var etItem = this.getEntityTemplateItem();
+        
+        if (entityTemplate) {
+        	
             store.load({
                 params: {
-                    feed: feed.get('url')
+                	action: 'doEntityTemplateLoad',
+                    entityTemplateId: entityTemplate.get('id')
+                },
+                callback: function(records, operation, success) {
+                	
+                	etItem.loadRecord(records[0]);
+                	
                 }
-            });            
+            });
+            
         }
     },
     
@@ -115,5 +123,31 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
                 form.down('[name=feed]').markInvalid('The URL specified is not a valid RSS2 feed.');
             }
         });
+    }
+    
+    ,submitEntityTemplate: function() {
+    	
+    	var itemForm = this.getEntityTemplateForm();
+    	var itemView = this.getEntityTemplateItem();
+    	var store = this.getEntityTemplateStore();
+    	var values = itemView.getFieldValues();
+    	
+    	debugger;
+    	
+    	if (store.count() == 0){
+    		store.add(Ext.create('EetdbAdmin.model.EntityTemplate'));
+    	}
+    	
+    	var record = store.getAt(0);
+    	
+    	record.set(values);
+    	/*var k;
+    	for (k in model.data) {
+    		record.data[k] = model.data[k];
+        }*/
+    	record.commit();
+    	
+    	
+    	
     }
 });

@@ -1,9 +1,4 @@
 
-
-//var portletUrl = new Liferay.PortletURL.createRenderURL();
-//portletURL.setParameter("action", "doEntityLoad");
-//portletURL.setWindowState(LiferayWindowState.EXCLUSIVE);
-
 Ext.define('EetdbAdmin.store.Entities', {
     extend: 'Ext.data.Store',
 
@@ -18,8 +13,8 @@ Ext.define('EetdbAdmin.store.Entities', {
     		type: 'json',
     		root: 'data'
     	}
-	},
+	}
 
-	autoLoad: true
+	//,autoLoad: true
 
 });
