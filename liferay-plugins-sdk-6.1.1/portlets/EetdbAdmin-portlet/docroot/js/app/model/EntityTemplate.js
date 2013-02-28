@@ -13,12 +13,20 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
     
     /*proxy: {
     	type: 'ajax',
+    	actionMethods: {
+            create: 'POST', read: 'GET', update: 'POST', destroy: 'POST'
+        },
     	url: entityTemplateControllerURL.toString(),
     	reader: 
     	{
     		type: 'json',
+    		root: 'template'
+    	},
+    	writer:
+    	{
+    		type: 'json',
     		root: 'data'
-    	}
+    	},
 	},*/
     
     fields: [
@@ -51,4 +59,21 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
 			this.callParent(arguments);
 		}
 	}*/
+	,set: function(fieldName, newValue)
+	{
+		 var me = this, 
+         	single = (typeof fieldName == 'string');
+		 
+		 debugger;
+		 
+		 this.callParent(arguments);
+
+		 if (!single
+				 && typeof fieldName['properties'] !== 'undefined') {
+			 me.properties().removeAll();
+			 me.properties().add(fieldName['properties']);
+			 me.dirty = true;
+		 }	
+	}
+
 });

@@ -89,40 +89,6 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
      */
     removeFeed: function() {
         this.getFeedsStore().remove(this.getFeedData().getSelectionModel().getSelection()[0]);
-    },
-    
-    /**
-     * @private
-     * Creates a new feed in the store based on a given url. First validates that the feed is well formed
-     * using FV.lib.FeedValidator.
-     * @param {String} name The name of the Feed to create
-     * @param {String} url The url of the Feed to create
-     */
-    createFeed: function() {
-        var win   = this.getFeedWindow(),
-            form  = this.getFeedForm(),
-            combo = this.getFeedCombo(),
-            store = this.getFeedsStore(),
-            feed  = this.getFeedModel().create({
-                name: combo.getDisplayValue(),
-                url: combo.getValue()
-            });
-
-        form.setLoading({
-            msg: 'Validating feed...'
-        });
-        
-        FV.lib.FeedValidator.validate(feed, {
-            success: function() {
-                store.add(feed);
-                form.setLoading(false);
-                win.hide();
-            },
-            failure: function() {
-                form.setLoading(false);
-                form.down('[name=feed]').markInvalid('The URL specified is not a valid RSS2 feed.');
-            }
-        });
     }
     
     ,submitEntityTemplate: function() {
@@ -141,13 +107,20 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	var record = store.getAt(0);
     	
     	record.set(values);
-    	/*var k;
-    	for (k in model.data) {
-    		record.data[k] = model.data[k];
-        }*/
-    	record.commit();
+
+    	itemForm.setLoading({
+            msg: 'Saving template...'
+        });
     	
-    	
+    	store.sync({
+    		success: function(){
+    	    	itemForm.setLoading(false);
+    		}
+    		,failure: function (){
+    	    	itemForm.setLoading(false);
+    		},
+    		scope: this
+    	});
     	
     }
 });
