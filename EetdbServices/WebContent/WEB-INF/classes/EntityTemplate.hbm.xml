@@ -8,9 +8,9 @@
 	<class name="DbEntityTemplate" table="UNIDO_ENTITY_TEMPLATE" lazy="false">
 	   
 	    <id name="id" column="ENTITY_TEMPLATE_ID">
-        	<generator class="native"/>
+        	<generator class="identity"/>
     	</id>
-    	
+
     	<timestamp name="lastUpdatedDate" column="UPDATE_DATE" />
 
     	<property name="name" column="TEMPLATE_NAME"/>
