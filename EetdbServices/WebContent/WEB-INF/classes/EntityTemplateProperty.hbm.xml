@@ -7,7 +7,7 @@
 <hibernate-mapping package="org.unido.eetdb.service.dbmodel">
 	<class name="DbEntityTemplateProperty" table="UNIDO_ENTITY_TEMPLATE_PROPERTY" lazy="false">
 	    <id name="id" column="TEMPLATE_PROPERTY_ID">
-        	<generator class="native"/>
+        	<generator class="identity"/>
     	</id>
 
     	<timestamp name="lastUpdatedDate" column="UPDATE_DATE" />

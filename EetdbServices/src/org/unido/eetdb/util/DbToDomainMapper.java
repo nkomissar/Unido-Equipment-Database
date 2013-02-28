@@ -69,7 +69,7 @@ public class DbToDomainMapper
         templateProperty.setName(dbTemplateProperty.getName());
         templateProperty.setDisplayInGrid(dbTemplateProperty.isDisplayInGrid());
         templateProperty.setMandatory(dbTemplateProperty.isMandatory());
-        templateProperty.setUnitOfMeasure(dbTemplateProperty.getLastUpdatedBy());
+        templateProperty.setUnitOfMeasure(dbTemplateProperty.getUnitOfMeasure());
 
         return templateProperty;
     }
