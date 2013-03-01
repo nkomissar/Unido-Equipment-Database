@@ -16,4 +16,5 @@ public interface DataAccessService
     public List<EntityTemplate> getEntityTemplates();
     
     public EntityTemplate createEntityTemplate(EntityTemplate template);
+    public void deleteEntityTemplate(EntityTemplate template);
 }

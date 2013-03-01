@@ -16,7 +16,7 @@ public class DomainToDbMapper
 
         dbTemplate.setId(entityTemplate.getId());
         dbTemplate.setName(entityTemplate.getName());
-        
+
         dbTemplate.setLastUpdatedBy("System");
 
         dbTemplate.setProperties(mapEntityTemplateProperties(entityTemplate.getProperties()));

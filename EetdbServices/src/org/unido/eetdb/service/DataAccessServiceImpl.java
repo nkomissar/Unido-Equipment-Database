@@ -83,6 +83,13 @@ public class DataAccessServiceImpl implements DataAccessService
 
         sessionFactory.getCurrentSession().save(dbTemplate);
 
-        return DbToDomainMapper.mapEntityTemplate(dbTemplate, false);
+        return DbToDomainMapper.mapEntityTemplate(dbTemplate, true);
+    }
+
+    @Override
+    @Transactional
+    public void deleteEntityTemplate(EntityTemplate template)
+    {
+        sessionFactory.getCurrentSession().delete(DomainToDbMapper.mapEntityTemplate(template));
     }
 }
