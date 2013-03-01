@@ -27,6 +27,7 @@ public class DbToDomainMapper
 
         template.setId(dbEntityTemplate.getId());
         template.setName(dbEntityTemplate.getName());
+        template.setLastUpdatedDate(dbEntityTemplate.getLastUpdatedDate());
 
         if (!skipChilds)
             template.setProperties(mapEntityTemplateProperties(dbEntityTemplate.getProperties()));
@@ -71,6 +72,8 @@ public class DbToDomainMapper
         templateProperty.setMandatory(dbTemplateProperty.isMandatory());
         templateProperty.setUnitOfMeasure(dbTemplateProperty.getUnitOfMeasure());
 
+        templateProperty.setLastUpdatedDate(dbTemplateProperty.getLastUpdatedDate());
+
         return templateProperty;
     }
 
@@ -81,6 +84,8 @@ public class DbToDomainMapper
         topic.setId(dbTopic.getId());
         topic.setName(dbTopic.getName());
         topic.setDescription(dbTopic.getDescription());
+        
+        topic.setLastUpdatedDate(dbTopic.getLastUpdatedDate());
 
         if(!skipChilds)
             topic.setEntitiesOfTopic(mapEntities(dbTopic.getEntitiesOfTopic()));
@@ -122,6 +127,8 @@ public class DbToDomainMapper
         entity.setEntityType(dbEntity.getEntityTemplate().getName());
         entity.setName(dbEntity.getName());
         entity.setTypeId(dbEntity.getEntityTemplate().getId());
+        
+        entity.setLastUpdatedDate(dbEntity.getLastUpdatedDate());
 
         entity.setProperties(mapProperties(dbEntity.getProperties()));
 
@@ -142,6 +149,8 @@ public class DbToDomainMapper
         entityProperty.setFormat(dbEntityProperty.getValueType().getFormat());
         entityProperty.setType(dbEntityProperty.getValueType().getType());
         entityProperty.setUnitOfMeasure(dbEntityProperty.getTemplateProperty().getUnitOfMeasure());
+        
+        entityProperty.setLastUpdatedDate(dbEntityProperty.getLastUpdatedDate());
 
         return entityProperty;
     }

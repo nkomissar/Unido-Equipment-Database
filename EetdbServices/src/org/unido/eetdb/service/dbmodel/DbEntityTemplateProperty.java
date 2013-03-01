@@ -2,10 +2,11 @@ package org.unido.eetdb.service.dbmodel;
 
 public class DbEntityTemplateProperty extends DbGenericEntity
 {
-    private String  name;
-    private boolean displayInGrid;
-    private boolean mandatory;
-    private String  unitOfMeasure;
+    private String           name;
+    private boolean          displayInGrid;
+    private boolean          mandatory;
+    private String           unitOfMeasure;
+    private DbEntityTemplate parentTemplate;
 
     public String getName()
     {
@@ -45,5 +46,15 @@ public class DbEntityTemplateProperty extends DbGenericEntity
     public void setUnitOfMeasure(String unitOfMeasure)
     {
         this.unitOfMeasure = unitOfMeasure;
+    }
+
+    public DbEntityTemplate getParentTemplate()
+    {
+        return parentTemplate;
+    }
+
+    public void setParentTemplate(DbEntityTemplate parentTemplate)
+    {
+        this.parentTemplate = parentTemplate;
     }
 }

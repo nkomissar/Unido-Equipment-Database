@@ -1,6 +1,7 @@
 package org.unido.eetdb.daemon;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -8,14 +9,18 @@ import org.apache.log4j.Logger;
 import org.unido.eetdb.servicehost.Service;
 import org.unido.eetdb.servicehost.ServiceStatus;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+
 public class FileSystemDaemon extends Service
 {
-    private static final Logger logger    = Logger.getLogger(FileSystemDaemon.class);
+    private static final Logger logger           = Logger.getLogger(FileSystemDaemon.class);
 
     private String              pathToMonitor;
     private String              pathToStorage;
     private Timer               refreshTimer;
-    private volatile boolean    stillBusy = false;
+    private volatile boolean    stillBusy        = false;
+    private HashSet<String>     supportedFormats = new HashSet<String>();
 
     private void checkFolderToMonitor()
     {
@@ -30,12 +35,16 @@ public class FileSystemDaemon extends Service
             for (File file : dataFolder.listFiles())
             {
                 logger.info(String.format("Started processing data file: %s", file.getName()));
-                
-                if (!file.getName().endsWith(".csv"))
+
+                if (!supportedFormats.contains(FilenameUtils.getExtension(file.getName())))
                 {
                     logger.info(String.format("Unsupported file format, deleting..."));
 
                     file.delete();
+                }
+                else
+                {
+
                 }
             }
         }

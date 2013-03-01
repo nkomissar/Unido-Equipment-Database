@@ -1,19 +1,17 @@
 package org.unido.eetdb.service.dbmodel;
 
-import java.util.Date;
-
 public abstract class DbGenericEntity
 {
     private long   id;
-    private Date   lastUpdatedDate;
+    private long   lastUpdatedDate;
     private String lastUpdatedBy;
 
-    public Date getLastUpdatedDate()
+    public long getLastUpdatedDate()
     {
         return lastUpdatedDate;
     }
 
-    public void setLastUpdatedDate(Date lastUpdatedDate)
+    public void setLastUpdatedDate(long lastUpdatedDate)
     {
         this.lastUpdatedDate = lastUpdatedDate;
     }

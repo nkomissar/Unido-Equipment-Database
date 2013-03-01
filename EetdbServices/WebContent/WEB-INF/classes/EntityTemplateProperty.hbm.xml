@@ -17,5 +17,7 @@
 		<property name="displayInGrid" type="numeric_boolean" column="DISPLAY_IN_GRID" />
 		<property name="mandatory" type="numeric_boolean" column="MANDATORY" />
 		<property name="unitOfMeasure" column="UNIT_OF_MEASURE" />
+		
+		<many-to-one name="parentTemplate" column="ENTITY_TEMPLATE_ID" not-null="true" />
 	</class>
 </hibernate-mapping>
