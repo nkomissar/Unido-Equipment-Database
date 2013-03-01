@@ -1,5 +1,6 @@
 package org.unido.eetdb.util;
 
+import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +19,7 @@ public class DomainToDbMapper
         dbTemplate.setName(entityTemplate.getName());
 
         dbTemplate.setLastUpdatedBy("System");
-        dbTemplate.setLastUpdatedDate(entityTemplate.getLastUpdatedDate());
+        dbTemplate.setLastUpdatedDate(new Timestamp(entityTemplate.getLastUpdatedDate()));
 
         dbTemplate.setProperties(mapEntityTemplateProperties(entityTemplate.getProperties()));
 
@@ -50,7 +51,7 @@ public class DomainToDbMapper
         dbTemplateProperty.setUnitOfMeasure(templateProperty.getUnitOfMeasure());
 
         dbTemplateProperty.setLastUpdatedBy("System");
-        dbTemplateProperty.setLastUpdatedDate(templateProperty.getLastUpdatedDate());
+        dbTemplateProperty.setLastUpdatedDate(new Timestamp(templateProperty.getLastUpdatedDate()));
 
         return dbTemplateProperty;
     }
