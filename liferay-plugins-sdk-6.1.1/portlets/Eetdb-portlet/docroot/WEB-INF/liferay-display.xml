@@ -3,6 +3,6 @@
 
 <display>
 	<category name="Unido">
-		<portlet id="EetdbAdmin" />
+		<portlet id="Eetdb" />
 	</category>
 </display>
