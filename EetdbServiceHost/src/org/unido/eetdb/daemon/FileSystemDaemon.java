@@ -26,32 +26,48 @@ public class FileSystemDaemon extends Service
     {
         File dataFolder = null;
         File storageFolder = null;
+        File garbageFolder = null;
+        
+        stillBusy = true;
 
         try
         {
             dataFolder = new File(pathToMonitor);
             storageFolder = new File(pathToStorage);
+            garbageFolder = new File(storageFolder.getPath() + "/Garbage");
 
             for (File file : dataFolder.listFiles())
             {
                 logger.info(String.format("Started processing data file: %s", file.getName()));
 
-                if (!supportedFormats.contains(FilenameUtils.getExtension(file.getName())))
+                try
                 {
-                    logger.info(String.format("Unsupported file format, deleting..."));
+                    if (!supportedFormats.contains(FilenameUtils.getExtension(file.getName())))
+                    {
+                        logger.info(String.format("Unsupported file format, deleting..."));
 
-                    file.delete();
+                        file.delete();
+                    }
+                    else
+                    {
+                        FileUtils.moveFileToDirectory(file, storageFolder, false);
+                    }
                 }
-                else
+                catch (Throwable ex)
                 {
+                    logger.error(String.format("Failed to process the file: %s with error: %s",
+                            file.getName(), ex));
 
+                    FileUtils.moveFileToDirectory(file, garbageFolder, true);
                 }
             }
         }
         catch (Throwable ex)
         {
-            logger.error(ex.getMessage() + ex.getStackTrace());
+            logger.error(String.format("Fatal error accessing source folder: %s", ex));
         }
+        
+        stillBusy = false;
     }
 
     @Override
