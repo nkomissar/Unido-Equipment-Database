@@ -17,9 +17,8 @@ public class FileSystemDaemon extends Service
     private static final Logger logger           = Logger.getLogger(FileSystemDaemon.class);
 
     private String              pathToMonitor;
-    private String              pathToStorage;
+    private String              pathToStore;
     private Timer               refreshTimer;
-    private volatile boolean    stillBusy        = false;
     private HashSet<String>     supportedFormats = new HashSet<String>();
 
     private void checkFolderToMonitor()
@@ -27,13 +26,11 @@ public class FileSystemDaemon extends Service
         File dataFolder = null;
         File storageFolder = null;
         File garbageFolder = null;
-        
-        stillBusy = true;
 
         try
         {
             dataFolder = new File(pathToMonitor);
-            storageFolder = new File(pathToStorage);
+            storageFolder = new File(pathToStore);
             garbageFolder = new File(storageFolder.getPath() + "/Garbage");
 
             for (File file : dataFolder.listFiles())
@@ -66,8 +63,6 @@ public class FileSystemDaemon extends Service
         {
             logger.error(String.format("Fatal error accessing source folder: %s", ex));
         }
-        
-        stillBusy = false;
     }
 
     @Override
@@ -84,9 +79,9 @@ public class FileSystemDaemon extends Service
             return false;
         }
 
-        if (pathToStorage == null)
+        if (pathToStore == null)
         {
-            logger.error("Property pathToStorage is not set.");
+            logger.error("Property pathToStore is not set.");
             setStatus(ServiceStatus.Broken);
             return false;
         }
@@ -97,10 +92,7 @@ public class FileSystemDaemon extends Service
             @Override
             public void run()
             {
-                if (!stillBusy)
-                {
-                    checkFolderToMonitor();
-                }
+                checkFolderToMonitor();
             }
         }, 0, 5000);
 
@@ -136,11 +128,11 @@ public class FileSystemDaemon extends Service
 
     public String getPathToStorage()
     {
-        return pathToStorage;
+        return pathToStore;
     }
 
     public void setPathToStorage(String pathToStorage)
     {
-        this.pathToStorage = pathToStorage;
+        this.pathToStore = pathToStorage;
     }
 }

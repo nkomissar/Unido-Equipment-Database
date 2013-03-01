@@ -15,7 +15,22 @@
         <property name="username" value="" />
         <property name="password" value="" />
     </bean>
+    
+    <bean id="fileDaemon" class="org.unido.eetdb.daemon.FileSystemDaemon">
+        <property name="pathToMonitor" value="C:\\Temp" />
+        <property name="pathToStore" value="C:\\Temp\Storage" />
+        <property name="supportedFormats">
+        	<set>
+        		<value>csv</value>
+        	</set>
+        </property>
+    </bean>
 
 	<bean id="serviceHost" class="org.unido.eetdb.servicehost.ServiceHost">
+		<property name="services">
+			<list>
+				<ref bean="fileDaemon" />
+			</list>
+		</property>
 	</bean>	
 </beans>
