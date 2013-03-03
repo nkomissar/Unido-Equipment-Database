@@ -38,9 +38,22 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
                 click: this.submitEntityTemplate
             }
         });
+    	
     },
     
     onLaunch: function() {
+    	
+    	var searchView = this.getEntityTemplateList();
+    	debugger;
+    	searchView.fireEvent = Ext.Function.createInterceptor(
+    			searchView.fireEvent,
+                function (evt) {
+    				debugger;
+                    a = arguments;
+                    console.log(this, 'fired event ', evt, ' with args ', Array.prototype.slice.call(a, 1, a.length));
+                    //console.log('log event');
+                });    	
+
     	
         var searchDataview = this.getEntityTemplateData();
         var searchStore = this.getEntityTemplateSearchResultStore();
