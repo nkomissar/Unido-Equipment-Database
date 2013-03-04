@@ -36,6 +36,8 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
     	
     	this.application.fireEvent('addTemplate');
     	
+    	return false;
+    	
     }
     
 });

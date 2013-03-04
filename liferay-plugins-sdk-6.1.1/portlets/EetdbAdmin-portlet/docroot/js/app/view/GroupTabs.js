@@ -24,6 +24,7 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
             			beforeactivate: function(pnl, e, eOpts){
             				
             				console.log('herrr');
+            				return false;
             			}
             		}*/
             	},{

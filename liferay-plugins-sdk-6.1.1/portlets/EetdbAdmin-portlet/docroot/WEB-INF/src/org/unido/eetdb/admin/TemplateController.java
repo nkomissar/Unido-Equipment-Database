@@ -12,7 +12,11 @@ import javax.portlet.RenderRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -106,13 +110,27 @@ public class TemplateController {
 		}
 		
 
-		/*Properties props = System.getProperties();
+		Properties props = System.getProperties();
 		props.put("http.proxyHost", "localhost");
-		props.put("http.proxyPort", "8888");*/
+		props.put("http.proxyPort", "8888");
 		
 		RestTemplate tmpl = new RestTemplate();
-		
-		EntityTemplate template = tmpl.postForObject("http://localhost:8080/EetdbServices/template", readValue, EntityTemplate.class);
+		EntityTemplate template;
+		if (readValue.getId() == 0) {
+			template = tmpl.postForObject("http://localhost:8080/EetdbServices/template", readValue, EntityTemplate.class);
+		}
+		else 
+		{
+	        String url = "http://msk-1125:8080/EetdbServices/template";
+
+	        HttpHeaders headers = new HttpHeaders();
+	        headers.setContentType(MediaType.APPLICATION_JSON);
+	        HttpEntity<EntityTemplate> entity = new HttpEntity<EntityTemplate>(readValue, headers);
+	        ResponseEntity<EntityTemplate> responseWrapper = tmpl.exchange(url, HttpMethod.PUT, entity, EntityTemplate.class);
+	        EntityTemplate resp = responseWrapper.getBody();
+	        
+	        template = resp;
+		}
 		
 		request.setAttribute("newTemplate", template);
 		response.setRenderParameter("action", "returnNewTemplate");

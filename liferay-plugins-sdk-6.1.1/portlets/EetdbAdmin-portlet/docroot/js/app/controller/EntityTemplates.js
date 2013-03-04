@@ -52,10 +52,6 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     
     onLaunch: function() {
 
-    	debugger;
-    	var list = this.getEntityTemplateList();
-    	var act = list.down('panel[action=addtemplate]');
-    	
     	var searchDataview = this.getEntityTemplateData();
         var searchStore = this.getEntityTemplateSearchResultStore();
         
@@ -115,8 +111,6 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	var itemView = this.getEntityTemplateItem();
     	var store = this.getEntityTemplateStore();
     	var values = itemView.getFieldValues();
-    	
-    	debugger;
     	
     	if (store.count() == 0){
     		store.add(Ext.create('EetdbAdmin.model.EntityTemplate'));
