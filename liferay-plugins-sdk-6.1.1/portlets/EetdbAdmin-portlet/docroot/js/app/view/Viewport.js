@@ -6,7 +6,7 @@ Ext.define('EetdbAdmin.view.Viewport', {
     
     requires: [
         'EetdbAdmin.view.Viewer', 
-        //'EetdbAdmin.view.feed.List',
+        'EetdbAdmin.view.GroupTabs', 
         'EetdbAdmin.view.entity.List', 
         'EetdbAdmin.view.entitytemplate.List', 
         'Ext.layout.container.Fit', 
@@ -29,7 +29,8 @@ Ext.define('EetdbAdmin.view.Viewport', {
                 split: true
             },
             items: [{
-            	xtype: 'panel',
+            	xtype: 'mygrouptabs',
+            	//xtype: 'panel',
             	//title: 'Collapsible',
                 region: 'west',
                 split: true,
@@ -37,8 +38,9 @@ Ext.define('EetdbAdmin.view.Viewport', {
                 //animCollapse: true,
                 //margins: '5 0 5 5',
                 width: 500,
-            	layout: 'fit',
-            	items: [{
+            	layout: 'fit'/*,
+            	 items: [
+            	    {
             		xtype: 'grouptabpanel',
                     activeGroup: 0,
                     items: [{
@@ -51,7 +53,14 @@ Ext.define('EetdbAdmin.view.Viewport', {
                     			xtype: 'entitytemplatelist'
                     		}]
                     	},{
-                    		title: 'Add Template'
+                    		title: 'Add Template',
+                    		action: 'addtemplate',
+                    		listeners: {
+                    			beforeactivate: function(pnl, e, eOpts){
+                    				
+                    				console.log('herrr');
+                    			}
+                    		}
                     	},{
                     		title: 'Remove Template',
                     		disabled: true
@@ -84,13 +93,7 @@ Ext.define('EetdbAdmin.view.Viewport', {
                     	}]
                     }]
             	}]
-                    
-                    
-                    /*items: [{
-                            xtype: 'entitylist'
-                        }, {
-                            xtype: 'entitytemplatelist'
-                        }]*/
+*/
                 }, {
                     
                     region: 'center',

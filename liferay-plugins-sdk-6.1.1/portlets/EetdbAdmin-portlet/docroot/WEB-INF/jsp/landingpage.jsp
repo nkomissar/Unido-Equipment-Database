@@ -62,11 +62,18 @@
 	    // Define all the controllers that should initialize at boot up of your application
 	    controllers: [
 	        'Entities',
-	        'EntityTemplates'
+	        'EntityTemplates',
+	        'GroupTabs'
 	    ],
 	    
-	    autoCreateViewport: true
+	    autoCreateViewport: true,
+	    
+	    launch : function() {
+        	EetdbAdmin.app = this;
+    	}
 	});
 	
 	
 </aui:script>
+
+<a href="javascript:(function(){var a,l,o=(Ext?Ext.util.Observable.prototype:false);if(!o){alert('Ext not in page');return;}if(!(l=console?console.log:false)){alert('Use Firefox with Firebug');return;}o.fireEvent=Ext.Function.createInterceptor(o.fireEvent, function(evt){debugger;a=arguments;console.log(this,' fired event ',evt,' with args ',Array.prototype.slice.call(a,1,a.length));});})();">Log all Ext events</a>
