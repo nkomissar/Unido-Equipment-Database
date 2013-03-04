@@ -37,25 +37,26 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
             ,'entitytemplateitem button[action=create]': {
                 click: this.submitEntityTemplate
             }
+            ,'entitytemplatelist panel[action=addtemplate]': {
+                beforeactivate: this.addTemplate
+            }
         });
+    	
+    	this.application.on(
+    			{
+    				addTemplate: this.addTemplate,
+    				scope: this
+    			});
     	
     },
     
     onLaunch: function() {
-    	
-    	var searchView = this.getEntityTemplateList();
-    	debugger;
-    	searchView.fireEvent = Ext.Function.createInterceptor(
-    			searchView.fireEvent,
-                function (evt) {
-    				debugger;
-                    a = arguments;
-                    console.log(this, 'fired event ', evt, ' with args ', Array.prototype.slice.call(a, 1, a.length));
-                    //console.log('log event');
-                });    	
 
+    	debugger;
+    	var list = this.getEntityTemplateList();
+    	var act = list.down('panel[action=addtemplate]');
     	
-        var searchDataview = this.getEntityTemplateData();
+    	var searchDataview = this.getEntityTemplateData();
         var searchStore = this.getEntityTemplateSearchResultStore();
         
         searchDataview.bindStore(searchStore);
@@ -94,6 +95,10 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
      */
     addFeed: function() {
         this.getFeedWindow().show();
+    },
+    
+    addTemplate: function(){
+    	console.log('here');
     },
     
     /**
