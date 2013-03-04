@@ -83,7 +83,7 @@ public class DataAccessServiceImpl implements DataAccessService
 
         sessionFactory.getCurrentSession().save(dbTemplate);
 
-        return DbToDomainMapper.mapEntityTemplate(dbTemplate, true);
+        return DbToDomainMapper.mapEntityTemplate(dbTemplate, false);
     }
 
     @Override

@@ -26,26 +26,26 @@ public class DomainToDbMapper
                 new Timestamp(entityTemplate.getLastUpdatedDate())
         );
 
-        dbTemplate.setProperties(mapEntityTemplateProperties(entityTemplate.getProperties()));
+        dbTemplate.setProperties(mapEntityTemplateProperties(entityTemplate.getProperties(), dbTemplate));
 
         return dbTemplate;
     }
     
     public static Set<DbEntityTemplateProperty> mapEntityTemplateProperties(
-            Set<EntityTemplateProperty> properties)
+            Set<EntityTemplateProperty> properties, DbEntityTemplate parentTemplate)
     {
         Set<DbEntityTemplateProperty> dbProperties = new HashSet<DbEntityTemplateProperty>();
 
         for (EntityTemplateProperty property : properties)
         {
-            dbProperties.add(mapEntityTemplateProperty(property));
+            dbProperties.add(mapEntityTemplateProperty(property, parentTemplate));
         }
 
         return dbProperties;
     }
     
     public static DbEntityTemplateProperty mapEntityTemplateProperty(
-            EntityTemplateProperty templateProperty)
+            EntityTemplateProperty templateProperty, DbEntityTemplate parentTemplate)
     {
         DbEntityTemplateProperty dbTemplateProperty = new DbEntityTemplateProperty();
 
@@ -54,6 +54,8 @@ public class DomainToDbMapper
         dbTemplateProperty.setDisplayInGrid(templateProperty.isDisplayInGrid());
         dbTemplateProperty.setMandatory(templateProperty.isMandatory());
         dbTemplateProperty.setUnitOfMeasure(templateProperty.getUnitOfMeasure());
+        
+        dbTemplateProperty.setParentTemplate(parentTemplate);
 
         dbTemplateProperty.setLastUpdatedBy("System");
         dbTemplateProperty.setLastUpdatedDate
