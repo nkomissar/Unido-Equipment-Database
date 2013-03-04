@@ -76,4 +76,4 @@
 	
 </aui:script>
 
-<a href="javascript:(function(){var a,l,o=(Ext?Ext.util.Observable.prototype:false);if(!o){alert('Ext not in page');return;}if(!(l=console?console.log:false)){alert('Use Firefox with Firebug');return;}o.fireEvent=Ext.Function.createInterceptor(o.fireEvent, function(evt){debugger;a=arguments;console.log(this,' fired event ',evt,' with args ',Array.prototype.slice.call(a,1,a.length));});})();">Log all Ext events</a>
+<a href="javascript:(function(){var a,l,o=(Ext?Ext.util.Observable.prototype:false);if(!o){alert('Ext not in page');return;}if(!(l=console?console.log:false)){alert('Use Firefox with Firebug');return;}o.fireEvent=Ext.Function.createInterceptor(o.fireEvent, function(evt){a=arguments;console.log(this,' fired event ',evt,' with args ',Array.prototype.slice.call(a,1,a.length));});})();">Log all Ext events</a>
