@@ -4,36 +4,24 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
     views: ['GroupTabs'],
     
     refs: [
-        {ref: 'myGroupTabs', selector: 'mygrouptabs'}
+        {ref: 'myGroupTabs', selector: 'mygrouptabs grouptabpanel'}
     ],
     
     init: function() {
     	
     	this.control({
-            'entitytemplatelist dataview': {
-                selectionchange: this.loadEntityTemplate
-            }/*,
-            'feedlist button[action=add]': {
-                click: this.addFeed
-            },
-            'feedlist button[action=remove]': {
-                click: this.removeFeed
-            }*/
-            ,'mygrouptabs *[action=addtemplate]': {
+            'mygrouptabs *[action=addtemplate]': {
                 beforeactivate: this.addTemplate
             }
         });
     	
     },
     
-    onLaunch: function() {
+    /*onLaunch: function() {
 
-    	debugger;
-    	var tabs = this.getMyGroupTabs();
     	
-    	//tabs.setActiveTab(tabs.items.getAt(1));
     	
-    },
+    },*/
     
     addTemplate: function(a, b, c) 
     {

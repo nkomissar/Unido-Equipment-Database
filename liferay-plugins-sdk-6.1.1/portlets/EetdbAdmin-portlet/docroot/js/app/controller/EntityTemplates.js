@@ -31,6 +31,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     				addTemplate: this.addTemplate,
     				scope: this
     			});
+       
     	
     },
     
@@ -40,7 +41,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         var searchStore = this.getEntityTemplateSearchResultStore();
         
         searchDataview.bindStore(searchStore);
-        debugger;
+        //debugger;
         //searchDataview.getSelectionModel().select(0);
     },
     
@@ -50,19 +51,24 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     loadEntityTemplate: function(selModel, selected) {
     	
         var store = this.getEntityTemplateStore(),
-            entityTemplate = selected[0];
+            entityTemplate = selected[0],
+            itemForm = this.getEntityTemplateForm();
         
         var etItem = this.getEntityTemplateItem();
         
-        /*if (typeof entityTemplate === 'undefined')
+        if (typeof entityTemplate === 'undefined')
         {
         	return;
         }
         
         if (entityTemplate.get('id') > 0
         		&& !entityTemplate.dirty) 
-        {*/
+        {
         	
+        	itemForm.setLoading({
+                msg: 'Loading template...'
+            });
+
         	store.load({
                 params: {
                 	action: 'doEntityTemplateLoad',
@@ -70,28 +76,29 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
                 },
                 callback: function(records, operation, success) {
                 	
+                	itemForm.setLoading(false);
                 	etItem.loadRecord(records[0]);
                 	
                 }
             });
         	
-        /*	return;
+        	return;
         } 
         
         etItem.loadRecord(entityTemplate);
-        */
+        
         
     },
     
     addTemplate: function()
     {
     	
-    	/*var searchDataview = this.getEntityTemplateData();
+    	var searchDataview = this.getEntityTemplateData();
         var searchStore = this.getEntityTemplateSearchResultStore();
         
         var record = searchStore.insert(0, Ext.create('EetdbAdmin.model.EntityTemplate', { name: 'New Template'} ));
         
-        searchDataview.getSelectionModel().select(0);*/
+        searchDataview.getSelectionModel().select(0);
 
     }
     
