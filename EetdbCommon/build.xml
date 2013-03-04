@@ -31,7 +31,14 @@
 	
 	<target name="compile">
 		<mkdir dir="${classes-dir}" />
-		<javac srcdir="${src-dir}" destdir="${classes-dir}" target="1.6" includeAntRuntime="false" />
+		<javac srcdir="${src-dir}" destdir="${classes-dir}" source="1.6" target="1.6" includeAntRuntime="false">
+			<classpath>
+				<pathelement path="${classpath}" />
+				<fileset dir="${lib-dir}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
 		<mkdir dir="${classes-dir}/META-INF" />
 		<manifest file="${classes-dir}/META-INF/MANIFEST.MF" />
 		<jar basedir="${classes-dir}" destfile="${jar}" />

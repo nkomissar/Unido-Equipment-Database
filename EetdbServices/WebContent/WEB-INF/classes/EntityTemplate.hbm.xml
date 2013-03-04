@@ -11,7 +11,7 @@
         	<generator class="identity"/>
     	</id>
 
-    	<version name="lastUpdatedDate" column="UPDATE_DATE" type="timestamp" generated="always" />
+    	<version name="lastUpdatedDate" column="UPDATE_DATE" type="dbtimestamp" />
 
     	<property name="name" column="TEMPLATE_NAME"/>
     	<property name="lastUpdatedBy" column="UPDATED_BY"/>

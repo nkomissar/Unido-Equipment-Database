@@ -52,5 +52,6 @@
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/eetdb-common-0.0.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/slf4j-api-1.6.1.jar"/>
 	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/jackson-annotations-2.1.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/lib/joda-time-2.1.jar"/>
 	<classpathentry kind="output" path="build"/>
 </classpath>
