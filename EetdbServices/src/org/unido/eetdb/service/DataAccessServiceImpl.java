@@ -92,4 +92,15 @@ public class DataAccessServiceImpl implements DataAccessService
     {
         sessionFactory.getCurrentSession().delete(DomainToDbMapper.mapEntityTemplate(template));
     }
+
+    @Override
+    @Transactional
+    public EntityTemplate updateEntityTemplate(EntityTemplate template)
+    {
+        DbEntityTemplate dbTemplate = DomainToDbMapper.mapEntityTemplate(template);
+
+        sessionFactory.getCurrentSession().update(dbTemplate);
+
+        return DbToDomainMapper.mapEntityTemplate(dbTemplate, false);
+    }
 }

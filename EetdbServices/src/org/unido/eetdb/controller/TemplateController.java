@@ -42,6 +42,13 @@ public class TemplateController
     {
         dataAccessService.deleteEntityTemplate(template);
     }
+    
+    @RequestMapping(method = RequestMethod.PUT, value = "/template")
+    public @ResponseBody
+    EntityTemplate updateTemplate(@RequestBody EntityTemplate template)
+    {
+        return dataAccessService.updateEntityTemplate(template);
+    }
 
     @RequestMapping(method = RequestMethod.GET, value = "/templates")
     public @ResponseBody
