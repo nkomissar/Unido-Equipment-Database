@@ -23,6 +23,9 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	fieldLabel: 'Unit of measure',
     	xtype: 'textfield',
     	name: 'unitofmeasure'
+    },{
+    	xtype: 'hidden',
+    	name: 'lastupdatedate'
     }],
     initComponent: function () {
         var me = this;
@@ -49,6 +52,7 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
+    	var lud = me.down('[isFormField][name="lastupdatedate"]');
     	
     	if(typeof id != 'undefined')
     	{
@@ -75,6 +79,11 @@ Ext.define('Ext.form.ClosableFieldSet', {
     		uom.setValue(record.unitOfMeasure);
     	}
 
+    	if(typeof lud != 'undefined')
+    	{
+    		lud.setValue(record.lastUpdatedDate);
+    	}
+
     }
     , getFieldValues: function(){
     	var me = this;
@@ -85,6 +94,7 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
+    	var lud = me.down('[isFormField][name="lastupdatedate"]');
 
     	if(typeof id != 'undefined')
     	{
@@ -109,6 +119,11 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	if(typeof uom != 'undefined')
     	{
     		prop['unitOfMeasure'] = uom.getValue();
+    	}
+    	
+    	if(typeof lud != 'undefined')
+    	{
+    		prop['lastUpdatedDate'] = lud.getValue();
     	}
     	
     	return prop;

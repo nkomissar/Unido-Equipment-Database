@@ -56,7 +56,8 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         var searchStore = this.getEntityTemplateSearchResultStore();
         
         searchDataview.bindStore(searchStore);
-        searchDataview.getSelectionModel().select(searchStore.getAt(0));
+        debugger;
+        //searchDataview.getSelectionModel().select(0);
     },
     
     /**
@@ -69,9 +70,16 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         
         var etItem = this.getEntityTemplateItem();
         
-        if (entityTemplate) {
+        if (typeof entityTemplate === 'undefined')
+        {
+        	return;
+        }
+        
+        if (entityTemplate.get('id') > 0
+        		&& !entityTemplate.dirty) 
+        {
         	
-            store.load({
+        	store.load({
                 params: {
                 	action: 'doEntityTemplateLoad',
                     entityTemplateId: entityTemplate.get('id')
@@ -82,8 +90,12 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
                 	
                 }
             });
-            
-        }
+        	
+        	return;
+        } 
+        
+        etItem.loadRecord(entityTemplate);
+        
     },
     
     /**
@@ -93,8 +105,16 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         this.getFeedWindow().show();
     },
     
-    addTemplate: function(){
-    	console.log('here');
+    addTemplate: function()
+    {
+    	
+    	var searchDataview = this.getEntityTemplateData();
+        var searchStore = this.getEntityTemplateSearchResultStore();
+        
+        var record = searchStore.insert(0, Ext.create('EetdbAdmin.model.EntityTemplate', { name: 'New Template'} ));
+        
+        searchDataview.getSelectionModel().select(0);
+
     },
     
     /**

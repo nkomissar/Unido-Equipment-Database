@@ -29,6 +29,10 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
     onLaunch: function() {
 
     	debugger;
+    	var tabs = this.getMyGroupTabs();
+    	
+    	//tabs.setActiveTab(tabs.items.getAt(1));
+    	
     },
     
     addTemplate: function(a, b, c) 
