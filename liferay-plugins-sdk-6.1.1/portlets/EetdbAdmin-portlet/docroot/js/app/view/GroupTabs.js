@@ -6,6 +6,7 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
     
     activeGroup: 0,
     //activeItem: 1,
+    collapsible: true,
     items: [{
     	mainItem: 0,
         //activeItem: 1,

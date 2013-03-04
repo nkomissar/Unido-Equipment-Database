@@ -10,16 +10,6 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         {ref: 'entityTemplateData', selector: 'entitytemplatelist dataview'},
         {ref: 'entityTemplateItem', selector: 'entitytemplateitem'},
         {ref: 'entityTemplateForm', selector: 'entitytemplateitem form'},
-        //{ref: 'feedShow', selector: 'feedshow'},
-        //{ref: 'feedForm', selector: 'feedwindow form'},
-        //{ref: 'feedCombo', selector: 'feedwindow combobox'},
-        //{ref: 'articleGrid', selector: 'articlegrid'},
-        {
-            ref: 'feedWindow', 
-            selector: 'feedwindow', 
-            autoCreate: true,
-            xtype: 'feedwindow'
-        }
     ],
     
     init: function() {
@@ -27,13 +17,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	this.control({
             'entitytemplatelist dataview': {
                 selectionchange: this.loadEntityTemplate
-            }/*,
-            'feedlist button[action=add]': {
-                click: this.addFeed
-            },
-            'feedlist button[action=remove]': {
-                click: this.removeFeed
-            }*/
+            }
             ,'entitytemplateitem button[action=create]': {
                 click: this.submitEntityTemplate
             }
@@ -70,14 +54,14 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         
         var etItem = this.getEntityTemplateItem();
         
-        if (typeof entityTemplate === 'undefined')
+        /*if (typeof entityTemplate === 'undefined')
         {
         	return;
         }
         
         if (entityTemplate.get('id') > 0
         		&& !entityTemplate.dirty) 
-        {
+        {*/
         	
         	store.load({
                 params: {
@@ -91,38 +75,24 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
                 }
             });
         	
-        	return;
+        /*	return;
         } 
         
         etItem.loadRecord(entityTemplate);
+        */
         
-    },
-    
-    /**
-     * Shows the add feed dialog window
-     */
-    addFeed: function() {
-        this.getFeedWindow().show();
     },
     
     addTemplate: function()
     {
     	
-    	var searchDataview = this.getEntityTemplateData();
+    	/*var searchDataview = this.getEntityTemplateData();
         var searchStore = this.getEntityTemplateSearchResultStore();
         
         var record = searchStore.insert(0, Ext.create('EetdbAdmin.model.EntityTemplate', { name: 'New Template'} ));
         
-        searchDataview.getSelectionModel().select(0);
+        searchDataview.getSelectionModel().select(0);*/
 
-    },
-    
-    /**
-     * Removes the given feed from the Feeds store
-     * @param {FV.model.Feed} feed The feed to remove
-     */
-    removeFeed: function() {
-        this.getFeedsStore().remove(this.getFeedData().getSelectionModel().getSelection()[0]);
     }
     
     ,submitEntityTemplate: function() {
