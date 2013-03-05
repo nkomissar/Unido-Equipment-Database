@@ -26,10 +26,18 @@
         </property>
     </bean>
 
+    <bean id="pop3Daemon" class="org.unido.eetdb.daemon.Pop3Daemon">
+        <property name="pathToStorage" value="C:\\Temp" />
+        <property name="pop3Host" value="" />
+        <property name="uid" value="" />
+        <property name="pwd" value="" />
+    </bean>
+
 	<bean id="serviceHost" class="org.unido.eetdb.servicehost.ServiceHost">
 		<property name="services">
 			<list>
 				<ref bean="fileDaemon" />
+				<ref bean="pop3Daemon" />
 			</list>
 		</property>
 	</bean>	
