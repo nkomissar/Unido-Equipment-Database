@@ -7,7 +7,6 @@ import java.util.Set;
 import org.apache.log4j.Logger;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
-import org.unido.eetdb.common.util.DateTimeUtil;
 import org.unido.eetdb.service.dbmodel.DbEntityTemplate;
 import org.unido.eetdb.service.dbmodel.DbEntityTemplateProperty;
 
