@@ -7,18 +7,18 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
     items: [{
             xtype: 'grouptabpanel',
             activeGroup: 0,
-            activeItem: 1,
-            activeTab: 1,
+            activeTab: 'searchTemplateTab',
             collapsible: true,
             
             items: [{
+                    //id: 'templatesGroup',
                     mainItem: 0,
-                    activeItem: 1,
-                    activeTab: 1,
+                    activeTab: 'searchTemplateTab',
                     items: [{
                             title: 'Templates'
                         }, {
                             title: 'Search',
+                            activeTab: true,
                             id: 'searchTemplateTab',
                             items: [{
                                     xtype: 'entitytemplatelist'
@@ -64,16 +64,20 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
     
     
     initComponent: function() {
-    	      
-    	      this.on('afterlayout', function(){
-    	    	  var tab = Ext.getCmp('searchTemplateTab');
-    	    	  var tabGroup = tab.ownerCt;
-    	    	  var groupingPanel = tabGroup.ownerCt;
 
-    	    	  groupingPanel.setActiveGroup(tabGroup);
-    	    	  groupingPanel.setActiveTab(tab);
-    	    });
-    	      
-    	     this.callParent(arguments);
+        var tabs = this.down('grouptabpanel treepanel');
+
+        this.on('afterlayout', function() {
+            
+            var store = tabs.getStore();
+            var searchNode = store.getNodeById('searchTemplateTab');
+            
+            tabs.getSelectionModel().select(searchNode);
+            
+        });
+        
+        
+        
+        this.callParent(arguments);
     }
 });
