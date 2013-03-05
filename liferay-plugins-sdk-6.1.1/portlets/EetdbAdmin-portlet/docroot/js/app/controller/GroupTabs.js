@@ -5,6 +5,7 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
     
     refs: [
         {ref: 'myGroupTabs', selector: 'mygrouptabs grouptabpanel'}
+        ,{ref: 'myView', selector: 'mygrouptabs'}
     ],
     
     init: function() {
@@ -13,17 +14,33 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
             'mygrouptabs *[action=addtemplate]': {
                 beforeactivate: this.addTemplate
             }
+	        ,'mygrouptabs *[action=removetemplate]': {
+	        	beforeactivate: this.removeTemplate
+	        }
+	        ,'*': {
+	        	removetemplateselected: this.removeTemplate
+	        }
         });
+    	
+    	this.application.on(
+    			{
+    				templateSelected: function() { this.activateTemplateControls(true); },
+    				templateUnselected: function() { this.activateTemplateControls(false); },
+    				scope: this
+    			});
     	
     },
     
+    /*listeners: {
+    	removetemplateselect: this.removeTemplate
+    },*/
     /*onLaunch: function() {
 
     	
     	
     },*/
     
-    addTemplate: function(a, b, c) 
+    addTemplate: function(groupPanel, newTab, oldTab) 
     {
     	
     	this.application.fireEvent('addTemplate');
@@ -32,4 +49,21 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
     	
     }
     
+    ,removeTemplate: function(groupPanel, newTab, oldTab) 
+    {
+    	
+    	this.application.fireEvent('removeTemplate');
+    	
+    	this.getMyView().selectTemplateSearch();
+    	
+    	return false;
+    	
+    }
+    
+    ,activateTemplateControls: function(activate)
+    {
+    	
+    	this.getMyView().activateTemplateControls(activate);
+    	
+    }
 });

@@ -86,13 +86,24 @@ Ext.define('EetdbAdmin.store.EntityTemplate', {
 	,sync: function (options)
 	{
 		
-		var postUrl = portletUrl.createActionURL();
-		postUrl.setPortletId(portletId);
-		postUrl.setWindowState(exclusiveWindowState);
+		var pUrl = portletUrl.createActionURL();
+		pUrl.setPortletId(portletId);
+		pUrl.setWindowState(exclusiveWindowState);
 		
-		postUrl.setParameter('action', 'doEntityTemplatePost');
+		pUrl.setParameter('action', 'doEntityTemplatePost');
         
-        this.proxy.url = postUrl.toString();
+        var postUrl = pUrl.toString();
+        
+        pUrl.setParameter('action', 'doEntityTemplateDestroy');
+        
+        var destroyUrl = pUrl.toString();
+        
+        Ext.apply(this.proxy.api, {
+            create  : postUrl,
+            read    : undefined,
+            update  : postUrl,
+            destroy : destroyUrl
+        });
         
 		this.callParent(arguments);
 		
