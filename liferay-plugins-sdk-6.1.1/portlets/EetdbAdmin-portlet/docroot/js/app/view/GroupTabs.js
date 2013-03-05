@@ -7,28 +7,27 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
     items: [{
             xtype: 'grouptabpanel',
             activeGroup: 0,
-            activeTab: 'searchTemplateTab',
             collapsible: true,
             
             items: [{
-                    //id: 'templatesGroup',
+                    action: 'templatesGroup',
                     mainItem: 0,
-                    activeTab: 'searchTemplateTab',
                     items: [{
                             title: 'Templates'
                         }, {
                             title: 'Search',
-                            activeTab: true,
                             id: 'searchTemplateTab',
                             items: [{
                                     xtype: 'entitytemplatelist'
                                 }]
                         }, {
                             title: 'Add Template',
+                            id: 'addTemplateTab',
                             action: 'addtemplate'
                         }, {
                             title: 'Remove Template',
-                            disabled: true
+                            id: 'removeTemplateTab',
+                            action: 'removetemplate'
                         }]
                 }, {
                     expanded: false,
@@ -56,28 +55,84 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                         }, {
                             title: 'Remove Topic'
                         }]
-                }],
-        
-        
+                }]
         
         }],
     
     
     initComponent: function() {
+    	
+    	var me = this;
+    	
+    	me.on('afterlayout', function() {
+        	
+    		me.selectTemplateSearch();
+    		me.activateTemplateControls(false);
 
-        var tabs = this.down('grouptabpanel treepanel');
-
-        this.on('afterlayout', function() {
+    		var tabs = me.down('grouptabpanel treepanel');
+            tabs.on('select', 
+            	function(selModel, node, idx) 
+            	{
+            		
+            	
+	            	if (!node.data.leaf)
+	            	{
+	            		
+	            		tabs.getSelectionModel().select(node.firstChild);
+	            		
+	            		return false;
+	            		
+	            	}
+	            	
+	            	return true;
+            	
+            	});
             
-            var store = tabs.getStore();
-            var searchNode = store.getNodeById('searchTemplateTab');
-            
-            tabs.getSelectionModel().select(searchNode);
-            
+            tabs.on('beforeselect', 
+                	function(selModel, node, idx) 
+                	{
+                	
+    	            	if (node.get('id') == 'removeTemplateTab')
+    	            	{
+    	            		me.fireEvent('removetemplateselected');
+    	            		return false;
+    	            	}
+    	            	
+    	            	return true;
+                	
+                	});
+                            
+                        
         });
         
-        
+        me.addEvents(
+                /**
+                 * @event removetemplateselected
+                 * Fires when 'Remove Template' tab selected.
+                 */
+                'removetemplateselected'
+        		);
         
         this.callParent(arguments);
     }
+
+	,selectTemplateSearch: function()
+	{
+    	var tabs = this.down('grouptabpanel treepanel');
+        var store = tabs.getStore();
+        var searchNode = store.getNodeById('searchTemplateTab');
+                    
+        tabs.getSelectionModel().select(searchNode);
+	}
+	
+	,activateTemplateControls: function(activate)
+	{
+    	var tabs = this.down('grouptabpanel treepanel');
+        var store = tabs.getStore();
+        var addNode = store.getNodeById('addTemplateTab');
+        var removeNode = store.getNodeById('removeTemplateTab');
+        
+        addNode.enabled = activate;
+        removeNode.enadled = activate;
+	}
 });

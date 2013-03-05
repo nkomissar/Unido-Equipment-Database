@@ -2,6 +2,7 @@ package org.unido.eetdb.admin;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -17,6 +18,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,8 +29,10 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.servlet.View;
+import org.unido.eetdb.admin.util.HttpEntityEnclosingDeleteRequest;
 import org.unido.eetdb.common.model.EntityTemplate;
 
+import org.apache.http.client.methods.HttpUriRequest;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
@@ -146,6 +152,78 @@ public class TemplateController {
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
 		data.put("template", template);
+
+		return new ModelAndView(jsonView, data);
+
+	}
+
+	@ActionMapping(params = "action=doEntityTemplateDestroy")
+	public void destroyEntityTemplate(ActionRequest request, ActionResponse response) 
+	{
+		
+	    ObjectMapper mapper = new ObjectMapper();
+	    AnnotationIntrospector primary = new JaxbAnnotationIntrospector( TypeFactory.defaultInstance() );
+	    AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+	    AnnotationIntrospector pair = AnnotationIntrospector.pair(primary, secondary);
+	    mapper.getDeserializationConfig().with(pair);
+	    mapper.getSerializationConfig().with(pair);
+
+		InputStream strm = null;
+		try {
+			strm = request.getPortletInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+				
+		EntityTemplate readValue = null;
+		try {
+			readValue = mapper.readValue(strm, EntityTemplate.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+
+		Properties props = System.getProperties();
+		props.put("http.proxyHost", "localhost");
+		props.put("http.proxyPort", "8888");
+		
+		RestTemplate tmpl = new RestTemplate();
+		
+		tmpl.setRequestFactory(new HttpComponentsClientHttpRequestFactory() {
+	        @Override
+	        protected HttpUriRequest createHttpUriRequest(HttpMethod httpMethod, URI uri) {
+	            if (HttpMethod.DELETE == httpMethod) {
+	                return new HttpEntityEnclosingDeleteRequest(uri);
+	            }
+	            return super.createHttpUriRequest(httpMethod, uri);
+	        }
+	    });
+
+
+		String url = "http://msk-1125:8080/EetdbServices/template";
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<EntityTemplate> entity = new HttpEntity<EntityTemplate>(readValue, headers);
+        ResponseEntity<EntityTemplate> responseWrapper = tmpl.exchange(url, HttpMethod.DELETE, entity, EntityTemplate.class);
+        EntityTemplate resp = responseWrapper.getBody();
+        
+		
+		response.setRenderParameter("action", "reportDestroy");
+
+	}
+	
+	@RenderMapping(params = "action=reportDestroy")
+	public ModelAndView reportDestroy(RenderRequest request) 
+	{
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("template", null);
 
 		return new ModelAndView(jsonView, data);
 
