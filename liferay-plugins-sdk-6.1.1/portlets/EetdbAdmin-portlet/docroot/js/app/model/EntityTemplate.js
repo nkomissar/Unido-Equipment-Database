@@ -11,24 +11,6 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
         type: 'memory'
     },
     
-    /*proxy: {
-    	type: 'ajax',
-    	actionMethods: {
-            create: 'POST', read: 'GET', update: 'POST', destroy: 'POST'
-        },
-    	url: entityTemplateControllerURL.toString(),
-    	reader: 
-    	{
-    		type: 'json',
-    		root: 'template'
-    	},
-    	writer:
-    	{
-    		type: 'json',
-    		root: 'data'
-    	},
-	},*/
-    
     fields: [
         {name: 'id',  type: 'int'}
         ,{name: 'name', type: 'string'}
@@ -40,7 +22,8 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
     	model: 'EetdbAdmin.model.EntityTemplateProperty', 
     	name: 'properties', 
     	autoLoad: true,
-    	associationKey: 'properties'
+    	associationKey: 'properties',
+    	instanceName: 'properties'
     }
    
 	,set: function(fieldName, newValue)
