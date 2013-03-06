@@ -158,12 +158,6 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     		},
     		scope: this
     	});
-        
-        
-    	
-    	
-
-    	
     }
     
     ,submitEntityTemplate: function() {
@@ -172,6 +166,12 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	var itemView = this.getEntityTemplateItem();
     	var store = this.getEntityTemplateStore();
     	var values = itemView.getFieldValues();
+
+    	var searchDataview = this.getEntityTemplateData();
+    	var searchStore = this.getEntityTemplateSearchResultStore();
+        var recordInSearch = searchDataview.getSelectionModel().getSelection()[0];
+
+    	
     	
     	if (store.count() == 0){
     		store.add(Ext.create('EetdbAdmin.model.EntityTemplate'));
@@ -187,7 +187,14 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	
     	store.sync({
     		success: function(){
+    			
+    			var newrec = store.getAt(0);
+    			
+    			recordInSearch.set(newrec.data);
+    			itemView.loadRecord(newrec);
+    			
     	    	itemForm.setLoading(false);
+    	    	
     		}
     		,failure: function (){
     	    	itemForm.setLoading(false);

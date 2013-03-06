@@ -127,7 +127,7 @@ public class TemplateController {
 		}
 		else 
 		{
-	        String url = "http://msk-1125:8080/EetdbServices/template";
+	        String url = "http://192.168.1.2:8080/EetdbServices/template";
 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setContentType(MediaType.APPLICATION_JSON);
@@ -204,13 +204,13 @@ public class TemplateController {
 	    });
 
 
-		String url = "http://msk-1125:8080/EetdbServices/template";
+		String url = "http://192.168.1.2:8080/EetdbServices/template";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<EntityTemplate> entity = new HttpEntity<EntityTemplate>(readValue, headers);
         ResponseEntity<EntityTemplate> responseWrapper = tmpl.exchange(url, HttpMethod.DELETE, entity, EntityTemplate.class);
-        EntityTemplate resp = responseWrapper.getBody();
+        //EntityTemplate resp = responseWrapper.getBody();
         
 		
 		response.setRenderParameter("action", "reportDestroy");
