@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.service.dbmodel.DbEntityTemplate;
@@ -12,8 +11,6 @@ import org.unido.eetdb.service.dbmodel.DbEntityTemplateProperty;
 
 public class DomainToDbMapper
 {
-    private static final Logger logger = Logger.getLogger(DomainToDbMapper.class);
-
     public static DbEntityTemplate mapEntityTemplate(EntityTemplate entityTemplate)
     {
         DbEntityTemplate dbTemplate = new DbEntityTemplate();

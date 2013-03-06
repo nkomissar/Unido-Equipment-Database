@@ -1,11 +1,14 @@
 package org.unido.eetdb.daemon;
 
 import java.io.File;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
+import org.unido.eetdb.daemon.db.DbWriter;
+import org.unido.eetdb.daemon.parser.Parser;
 import org.unido.eetdb.servicehost.Service;
 import org.unido.eetdb.servicehost.ServiceStatus;
 
@@ -19,7 +22,8 @@ public class FileSystemDaemon extends Service
     private String              pathToMonitor;
     private String              pathToStore;
     private Timer               refreshTimer;
-    private HashSet<String>     supportedFormats = new HashSet<String>();
+    private Map<String, Parser> supportedFormats = new HashMap<String, Parser>();
+    private DbWriter            dbWriter;
 
     private void checkFolderToMonitor()
     {
@@ -39,7 +43,9 @@ public class FileSystemDaemon extends Service
 
                 try
                 {
-                    if (!supportedFormats.contains(FilenameUtils.getExtension(file.getName())))
+                    String fileExtension = FilenameUtils.getExtension(file.getName());
+
+                    if (!supportedFormats.containsKey(fileExtension))
                     {
                         logger.info(String.format("Unsupported file format, deleting..."));
 
@@ -47,7 +53,20 @@ public class FileSystemDaemon extends Service
                     }
                     else
                     {
-                        FileUtils.moveFileToDirectory(file, storageFolder, false);
+                        Parser parser = supportedFormats.get(fileExtension);
+
+                        if(!dbWriter.persistEntities(parser.parse(file)))
+                        {
+                            logger.error("Failed to save parsed Entities to DB, moving the file to Garbage...");
+
+                            FileUtils.moveFileToDirectory(file, garbageFolder, true);
+                        }
+                        else
+                        {
+                            logger.error("Saved parsed Entities to DB, moving the file to Storage...");
+
+                            FileUtils.moveFileToDirectory(file, storageFolder, false);
+                        }
                     }
                 }
                 catch (Throwable ex)
@@ -134,5 +153,25 @@ public class FileSystemDaemon extends Service
     public void setPathToStorage(String pathToStorage)
     {
         this.pathToStore = pathToStorage;
+    }
+
+    public Map<String, Parser> getSupportedFormats()
+    {
+        return supportedFormats;
+    }
+
+    public void setSupportedFormats(Map<String, Parser> supportedFormats)
+    {
+        this.supportedFormats = supportedFormats;
+    }
+
+    public DbWriter getDbWriter()
+    {
+        return dbWriter;
+    }
+
+    public void setDbWriter(DbWriter dbWriter)
+    {
+        this.dbWriter = dbWriter;
     }
 }

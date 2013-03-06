@@ -15,12 +15,14 @@
 	<property name="jar" value="${package-lib-dir}/${ant.project.name}-${version}.jar" />
 
 	<property name="eetdb-services" location="../EetdbServices" />
+	<property name="eetdb-servicehost" location="../EetdbServiceHost" />
 	<property name="pervonah-portlet" location="../liferay-plugins-sdk-6.1.1/portlets/pervonah-portlet" />
 	<property name="eetdbadmin-portlet" location="../liferay-plugins-sdk-6.1.1/portlets/eetdbadmin-portlet" />
 	<property name="eetdb-portlet" location="../liferay-plugins-sdk-6.1.1/portlets/eetdb-portlet" />
 
 	<target name="build" depends="compile">
 		<copy file="${jar}" todir="${eetdb-services}/WebContent/WEB-INF/lib" />
+		<copy file="${jar}" todir="${eetdb-servicehost}/jar" />
 		<copy file="${jar}" todir="${pervonah-portlet}/docroot/WEB-INF/lib" />
 		<copy file="${jar}" todir="${eetdbadmin-portlet}/docroot/WEB-INF/lib" />
 		<copy file="${jar}" todir="${eetdb-portlet}/docroot/WEB-INF/lib" />

@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 		
-	<bean id="jdbcDataSource" class="org.apache.commons.dbcp.BasicDataSource">
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="maxActive" value="-1" />
         <property name="maxIdle" value="1" />
@@ -16,13 +16,21 @@
         <property name="password" value="" />
     </bean>
     
+    <bean id="csvParser" class="org.unido.eetdb.daemon.parser.CsvParser">
+    </bean>
+
+    <bean id="dbWriter" class="org.unido.eetdb.daemon.db.DbWriter">
+    	<property name="dataSource" ref="dataSource" />
+    </bean>
+
     <bean id="fileDaemon" class="org.unido.eetdb.daemon.FileSystemDaemon">
         <property name="pathToMonitor" value="C:\\Temp" />
         <property name="pathToStore" value="C:\\Temp\Storage" />
+        <property name="dbWriter" ref="dbWriter" />
         <property name="supportedFormats">
-        	<set>
-        		<value>csv</value>
-        	</set>
+        	<map>
+        		<entry key="csv" value-ref="csvParser" />
+        	</map>
         </property>
     </bean>
 
