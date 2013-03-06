@@ -204,7 +204,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
              }
 		});
 		
-		Ext.each(record.raw.properties, 
+		Ext.each(record[record.persistenceProperty].properties, 
 				function(property)
 				{
 			

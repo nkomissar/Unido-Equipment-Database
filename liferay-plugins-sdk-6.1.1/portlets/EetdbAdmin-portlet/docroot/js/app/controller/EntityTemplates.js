@@ -62,7 +62,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         	return;
         }
         
-        if (entityTemplate.get('id') > 0
+        if (!entityTemplate.phantom
         		&& !entityTemplate.dirty) 
         {
         	
@@ -88,6 +88,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         } 
         
         etItem.loadRecord(entityTemplate);
+        store.loadRecords([entityTemplate]);
     	this.application.fireEvent('templateSelected');
         
         
@@ -124,14 +125,26 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         }
         
         store.remove(record);
-        
-        if (recordInSearch.get('id') == 0)
-        {
-	    	searchStore.remove(recordInSearch);
+    	
+    	if (record.phantom
+    			|| recordInSearch.phantom)
+    	{
+
+        	searchStore.remove(recordInSearch);
+    		
+    		if (searchDataview.store.data.length === 0)
+	    	{
+	    		return;
+	    	}
+
+	    	var newIndex = recordInSearch.index > 0 ? recordInSearch.index - 1 : 0;	
+	    	
+	    	searchDataview.getSelectionModel().select(newIndex);
+
 	    	return;
-        }
+    	}
         
-        itemForm.setLoading({
+    	searchDataview.setLoading({
             msg: 'Removing template...'
         });
     	
@@ -140,14 +153,14 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     		{
     			
     			searchDataview.setLoading(false);
-    	    	searchStore.remove(record);
+    	    	searchStore.remove(recordInSearch);
 
     	    	if (searchDataview.store.data.length === 0)
     	    	{
     	    		return;
     	    	}
 
-    	    	var newIndex = record.index > 0 ? record.index - 1 : 0;	
+    	    	var newIndex = recordInSearch.index > 0 ? recordInSearch.index - 1 : 0;	
     	    	
     	    	searchDataview.getSelectionModel().select(newIndex);
 
