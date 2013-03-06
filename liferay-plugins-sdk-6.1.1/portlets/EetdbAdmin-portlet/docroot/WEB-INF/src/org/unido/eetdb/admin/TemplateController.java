@@ -116,9 +116,9 @@ public class TemplateController {
 		}
 		
 
-		Properties props = System.getProperties();
+		/*Properties props = System.getProperties();
 		props.put("http.proxyHost", "localhost");
-		props.put("http.proxyPort", "8888");
+		props.put("http.proxyPort", "8888");*/
 		
 		RestTemplate tmpl = new RestTemplate();
 		EntityTemplate template;
@@ -127,7 +127,7 @@ public class TemplateController {
 		}
 		else 
 		{
-	        String url = "http://192.168.1.2:8080/EetdbServices/template";
+	        String url = "http://localhost:8080/EetdbServices/template";
 
 	        HttpHeaders headers = new HttpHeaders();
 	        headers.setContentType(MediaType.APPLICATION_JSON);
@@ -187,9 +187,9 @@ public class TemplateController {
 		}
 		
 
-		Properties props = System.getProperties();
+		/*Properties props = System.getProperties();
 		props.put("http.proxyHost", "localhost");
-		props.put("http.proxyPort", "8888");
+		props.put("http.proxyPort", "8888");*/
 		
 		RestTemplate tmpl = new RestTemplate();
 		
@@ -204,12 +204,12 @@ public class TemplateController {
 	    });
 
 
-		String url = "http://192.168.1.2:8080/EetdbServices/template";
+		String url = "http://localhost:8080/EetdbServices/template";
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<EntityTemplate> entity = new HttpEntity<EntityTemplate>(readValue, headers);
-        ResponseEntity<EntityTemplate> responseWrapper = tmpl.exchange(url, HttpMethod.DELETE, entity, EntityTemplate.class);
+        ResponseEntity<String> responseWrapper = tmpl.exchange(url, HttpMethod.DELETE, entity, String.class);
         //EntityTemplate resp = responseWrapper.getBody();
         
 		

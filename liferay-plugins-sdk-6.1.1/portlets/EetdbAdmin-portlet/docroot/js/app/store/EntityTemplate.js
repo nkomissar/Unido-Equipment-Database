@@ -1,3 +1,32 @@
+Ext.data.Model.override({
+    
+    /**
+     * @Override
+     * Copies association data after calling super.copyFrom
+     */
+    copyFrom: function(sourceRecord) {
+        this.callParent(arguments);
+        var associations = this.associations.items,
+            i, association, mine, theirs, instanceName;
+        
+        for (i=0; i<associations.length; i++) {
+            association = associations[i];
+            instanceName = association.instanceName;
+            theirs = sourceRecord[instanceName];
+            if (theirs) {
+                mine = this[instanceName];
+                if (mine) {
+                    mine.copyFrom(theirs);
+                }
+                else {
+                    this[instanceName] = theirs;
+                }
+            }
+        }
+    }
+    
+});
+
 
 Ext.data.writer.Json.override({
     getRecordData: function(record) {
