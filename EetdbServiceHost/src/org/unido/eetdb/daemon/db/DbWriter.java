@@ -4,6 +4,7 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.List;
@@ -24,6 +25,8 @@ public class DbWriter
 
     private static final String INSERT_ENTITY_PROPERTY_SQL = "INSERT INTO datapoint(datasource_id, timestamp, value, init_flag) "
             + "VALUES(?, ?, ?, ?) ";
+    
+    private static final String GET_ID = "{? = call SEQ_NEXTVAL}";
     
     private DataSource          dataSource;
 
@@ -49,8 +52,8 @@ public class DbWriter
 
                 entityStatement = connection.prepareCall(INSERT_ENTITY_SQL);
                 entityPropertyStatement = connection.prepareCall(INSERT_ENTITY_PROPERTY_SQL);
-                idGenerator = connection.prepareCall("{? = call SEQ_NEXTVAL}");
-                
+                idGenerator = connection.prepareCall(GET_ID);
+
                 idGenerator.registerOutParameter(1, Types.INTEGER);
 
                 for (Entity entity : entities)
@@ -66,13 +69,16 @@ public class DbWriter
                     entityStatement.setString(5, "SYSTEM");
                     entityStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
 
-                    entityStatement.execute();
+                    entityStatement.addBatch();
                     
-                    //for (EntityProperty entityProperty : entity.getProperties().entrySet())
+                    for (EntityProperty entityProperty : entity.getProperties().entrySet())
                     {
                         
                     }
                 }
+
+                entityStatement.executeBatch();
+                entityPropertyStatement.executeBatch();
                 
                 connection.commit();
 
@@ -98,17 +104,9 @@ public class DbWriter
         }
         finally
         {
-            if (entityStatement != null)
-            {
-                try
-                {
-                    entityStatement.close();
-                }
-                catch (SQLException e)
-                {
-                    logger.error("Failed to close statement.", e);
-                }
-            }
+            closeStatement(entityStatement);
+            closeStatement(entityPropertyStatement);
+            closeStatement(idGenerator);
 
             if (connection != null)
             {
@@ -120,6 +118,21 @@ public class DbWriter
                 {
                     logger.error("Failed to close connection.", e);
                 }
+            }
+        }
+    }
+    
+    private void closeStatement(Statement statement)
+    {
+        if (statement != null)
+        {
+            try
+            {
+                statement.close();
+            }
+            catch (SQLException e)
+            {
+                logger.error("Failed to close statement.", e);
             }
         }
     }

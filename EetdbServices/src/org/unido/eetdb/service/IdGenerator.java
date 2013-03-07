@@ -35,7 +35,7 @@ public class IdGenerator implements IdentifierGenerator
         {
             logger.error(ex);
 
-            throw new HibernateException("Unable to generate Stock Code Sequence");
+            throw new HibernateException("Unable to generate id");
         }
     }
 }
