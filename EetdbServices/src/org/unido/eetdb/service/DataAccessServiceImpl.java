@@ -98,8 +98,11 @@ public class DataAccessServiceImpl implements DataAccessService
     public EntityTemplate updateEntityTemplate(EntityTemplate template)
     {
         DbEntityTemplate dbTemplate = DomainToDbMapper.mapEntityTemplate(template);
+        
+        dbTemplate = (DbEntityTemplate)sessionFactory.getCurrentSession().merge(dbTemplate);
+        
+        sessionFactory.getCurrentSession().flush();
 
-        return DbToDomainMapper.mapEntityTemplate((DbEntityTemplate) sessionFactory
-                .getCurrentSession().merge(dbTemplate), false);
+        return DbToDomainMapper.mapEntityTemplate(dbTemplate, false);
     }
 }
