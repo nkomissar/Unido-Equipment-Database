@@ -6,6 +6,7 @@ import java.util.Set;
 public class EntityTemplate extends GenericObject
 {
     private String                      name;
+    private String                      code;
     private Set<EntityTemplateProperty> properties = new HashSet<EntityTemplateProperty>();
 
     public String getName()
@@ -26,5 +27,15 @@ public class EntityTemplate extends GenericObject
     public void setProperties(Set<EntityTemplateProperty> properties)
     {
         this.properties = properties;
+    }
+
+    public String getCode()
+    {
+        return code;
+    }
+
+    public void setCode(String code)
+    {
+        this.code = code;
     }
 }

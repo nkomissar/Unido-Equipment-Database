@@ -3,6 +3,7 @@ package org.unido.eetdb.common.model;
 public class EntityTemplateProperty extends GenericObject
 {
     private String  name;
+    private String  code;
     private boolean displayInGrid;
     private boolean mandatory;
     private String  unitOfMeasure;
@@ -45,5 +46,15 @@ public class EntityTemplateProperty extends GenericObject
     public void setUnitOfMeasure(String unitOfMeasure)
     {
         this.unitOfMeasure = unitOfMeasure;
+    }
+
+    public String getCode()
+    {
+        return code;
+    }
+
+    public void setCode(String code)
+    {
+        this.code = code;
     }
 }

@@ -17,6 +17,7 @@ public class DomainToDbMapper
 
         dbTemplate.setId(entityTemplate.getId());
         dbTemplate.setName(entityTemplate.getName());
+        dbTemplate.setCode(entityTemplate.getCode());
 
         dbTemplate.setLastUpdatedBy("System");
         
@@ -52,6 +53,7 @@ public class DomainToDbMapper
 
         dbTemplateProperty.setId(templateProperty.getId());
         dbTemplateProperty.setName(templateProperty.getName());
+        dbTemplateProperty.setCode(templateProperty.getCode());
         dbTemplateProperty.setDisplayInGrid(templateProperty.isDisplayInGrid());
         dbTemplateProperty.setMandatory(templateProperty.isMandatory());
         dbTemplateProperty.setUnitOfMeasure(templateProperty.getUnitOfMeasure());

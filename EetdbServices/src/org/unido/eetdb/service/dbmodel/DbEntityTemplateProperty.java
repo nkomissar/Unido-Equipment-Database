@@ -3,6 +3,7 @@ package org.unido.eetdb.service.dbmodel;
 public class DbEntityTemplateProperty extends DbGenericEntity
 {
     private String           name;
+    private String           code;
     private boolean          displayInGrid;
     private boolean          mandatory;
     private String           unitOfMeasure;
@@ -56,5 +57,15 @@ public class DbEntityTemplateProperty extends DbGenericEntity
     public void setParentTemplate(DbEntityTemplate parentTemplate)
     {
         this.parentTemplate = parentTemplate;
+    }
+
+    public String getCode()
+    {
+        return code;
+    }
+
+    public void setCode(String code)
+    {
+        this.code = code;
     }
 }

@@ -6,6 +6,7 @@ import java.util.Set;
 public class DbEntityTemplate extends DbGenericEntity
 {
     private String                        name;
+    private String                        code;
     private Set<DbEntityTemplateProperty> properties = new HashSet<DbEntityTemplateProperty>();
 
     public String getName()
@@ -26,5 +27,15 @@ public class DbEntityTemplate extends DbGenericEntity
     public void setProperties(Set<DbEntityTemplateProperty> properties)
     {
         this.properties = properties;
+    }
+
+    public String getCode()
+    {
+        return code;
+    }
+
+    public void setCode(String code)
+    {
+        this.code = code;
     }
 }
