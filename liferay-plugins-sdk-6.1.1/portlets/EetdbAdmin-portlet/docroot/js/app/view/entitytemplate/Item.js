@@ -56,32 +56,32 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	
     	if(typeof id != 'undefined')
     	{
-    		id.setValue(record.id);
+    		id.setValue(record.get('id'));
     	}
 
     	if(typeof nm != 'undefined')
     	{
-    		nm.setValue(record.name);
+    		nm.setValue(record.get('name'));
     	}
 
     	if(typeof inGrid != 'undefined')
     	{
-    		inGrid.setValue(record.displayInGrid);
+    		inGrid.setValue(record.get('displayInGrid'));
     	}
 
     	if(typeof mandatory != 'undefined')
     	{
-    		mandatory.setValue(record.mandatory);
+    		mandatory.setValue(record.get('mandatory'));
     	}
 
     	if(typeof uom != 'undefined')
     	{
-    		uom.setValue(record.unitOfMeasure);
+    		uom.setValue(record.get('unitOfMeasure'));
     	}
 
     	if(typeof lud != 'undefined')
     	{
-    		lud.setValue(record.lastUpdatedDate);
+    		lud.setValue(record.get('lastUpdatedDate'));
     	}
 
     }
@@ -204,7 +204,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
              }
 		});
 		
-		Ext.each(record.raw.properties, 
+		Ext.each(record['properties']().data.items, 
 				function(property)
 				{
 			

@@ -5,24 +5,23 @@ Ext.data.Model.override({
      * Copies association data after calling super.copyFrom
      */
     copyFrom: function(sourceRecord) {
-        this.callParent(arguments);
-        var associations = this.associations.items,
-            i, association, mine, theirs, instanceName;
         
-        for (i=0; i<associations.length; i++) {
-            association = associations[i];
-            instanceName = association.instanceName;
-            theirs = sourceRecord[instanceName];
-            if (theirs) {
-                mine = this[instanceName];
-                if (mine) {
-                    mine.copyFrom(theirs);
-                }
-                else {
-                    this[instanceName] = theirs;
-                }
-            }
-        }
+    	var me = this,
+    		assData = sourceRecord.getAssociatedData();
+    	
+    	me.callParent(arguments);
+    	
+    	Ext.apply(me[me.persistenceProperty], assData);
+    	
+    	for(var assName in assData)
+    	{
+    		
+    		var assStore = me[assName]();
+    		assStore.clearFilter(true); //don't know why there is filter defined
+    		assStore.loadData(assData[assName]);
+    		
+    	}
+    	
     }
     
 });
