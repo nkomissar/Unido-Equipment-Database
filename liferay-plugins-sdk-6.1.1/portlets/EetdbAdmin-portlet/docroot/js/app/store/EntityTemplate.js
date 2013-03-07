@@ -6,11 +6,21 @@ Ext.data.Model.override({
      */
     copyFrom: function(sourceRecord) {
         
-    	var me = this;
+    	var me = this,
+    		assData = sourceRecord.getAssociatedData();
     	
     	me.callParent(arguments);
     	
-    	Ext.apply(me[me.persistenceProperty], sourceRecord.getAssociatedData());
+    	Ext.apply(me[me.persistenceProperty], assData);
+    	
+    	for(var assName in assData)
+    	{
+    		
+    		var assStore = me[assName]();
+    		assStore.clearFilter(true); //don't know why there is filter defined
+    		assStore.loadData(assData[assName]);
+    		
+    	}
     	
     }
     

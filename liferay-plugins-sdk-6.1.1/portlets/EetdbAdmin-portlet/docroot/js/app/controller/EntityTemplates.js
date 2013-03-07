@@ -111,7 +111,6 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	
     	var searchDataview = this.getEntityTemplateData();
         var searchStore = this.getEntityTemplateSearchResultStore();
-    	var itemForm = this.getEntityTemplateForm();
     	var store = this.getEntityTemplateStore();
 
         var recordInSearch = searchDataview.getSelectionModel().getSelection()[0];
@@ -137,7 +136,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
 	    		return;
 	    	}
 
-	    	var newIndex = recordInSearch.index > 0 ? recordInSearch.index - 1 : 0;	
+	    	var newIndex = recordInSearch.removedFrom > 0 ? recordInSearch.removedFrom - 1 : 0;	
 	    	
 	    	searchDataview.getSelectionModel().select(newIndex);
 
@@ -160,7 +159,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	    		return;
     	    	}
 
-    	    	var newIndex = recordInSearch.index > 0 ? recordInSearch.index - 1 : 0;	
+    	    	var newIndex = recordInSearch.removedFrom > 0 ? recordInSearch.removedFrom - 1 : 0;	
     	    	
     	    	searchDataview.getSelectionModel().select(newIndex);
 
@@ -181,7 +180,6 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	var values = itemView.getFieldValues();
 
     	var searchDataview = this.getEntityTemplateData();
-    	var searchStore = this.getEntityTemplateSearchResultStore();
         var recordInSearch = searchDataview.getSelectionModel().getSelection()[0];
 
     	
@@ -204,6 +202,8 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     			var newrec = store.getAt(0);
     			
     			recordInSearch.set(newrec.data);
+    			recordInSearch.commit();
+    			
     			itemView.loadRecord(newrec);
     			
     	    	itemForm.setLoading(false);
