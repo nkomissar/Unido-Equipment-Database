@@ -71,7 +71,7 @@ public class DbWriter
 
                     entityStatement.addBatch();
                     
-                    for (EntityProperty entityProperty : entity.getProperties().entrySet())
+                    //for (EntityProperty entityProperty : entity.getProperties().entrySet())
                     {
                         
                     }
