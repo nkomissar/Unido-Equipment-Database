@@ -8,7 +8,7 @@
 	<class name="DbEntity" table="UNIDO_ENTITY" lazy="false">
 	   
 	    <id name="id" column="ENTITY_ID">
-        	<generator class="native"/>
+        	<generator class="org.unido.eetdb.service.IdGenerator"/>
     	</id>
     	
     	<version name="lastUpdatedDate" column="UPDATE_DATE" type="dbtimestamp" />

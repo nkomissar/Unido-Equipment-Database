@@ -63,7 +63,7 @@ public class FileSystemDaemon extends Service
                         }
                         else
                         {
-                            logger.error("Saved parsed Entities to DB, moving the file to Storage...");
+                            logger.info("Saved parsed Entities to DB, moving the file to Storage...");
 
                             FileUtils.moveFileToDirectory(file, storageFolder, false);
                         }
