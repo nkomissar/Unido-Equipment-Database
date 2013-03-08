@@ -12,6 +12,10 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	xtype: 'textfield',
     	name: 'name'
     },{
+    	fieldLabel: 'Code',
+    	xtype: 'textfield',
+    	name: 'code'
+    },{
     	fieldLabel: 'Display in grid',
     	xtype: 'checkbox',
     	name: 'displayingrid'
@@ -49,6 +53,7 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	
     	var id = me.down('[isFormField][name="id"]');
     	var nm = me.down('[isFormField][name="name"]');
+    	var code = me.down('[isFormField][name="code"]');
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
@@ -59,6 +64,10 @@ Ext.define('Ext.form.ClosableFieldSet', {
     		id.setValue(record.get('id'));
     	}
 
+    	if(typeof code != 'undefined')
+    	{
+    		code.setValue(record.get('code'));
+    	}
     	if(typeof nm != 'undefined')
     	{
     		nm.setValue(record.get('name'));
@@ -91,6 +100,7 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	
     	var id = me.down('[isFormField][name="id"]');
     	var nm = me.down('[isFormField][name="name"]');
+    	var code = me.down('[isFormField][name="code"]');
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
@@ -106,6 +116,11 @@ Ext.define('Ext.form.ClosableFieldSet', {
     		prop['name'] = nm.getValue();
     	}
 
+    	if(typeof code != 'undefined')
+    	{
+    		prop['code'] = code.getValue();
+    	}
+    	
     	if(typeof inGrid != 'undefined')
     	{
     		prop['displayInGrid'] = inGrid.getValue();
@@ -153,6 +168,10 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
         			xtype: 'textfield',
         			name: 'name',
         			fieldLabel: 'Name'
+        		},{
+        			xtype: 'textfield',
+        			name: 'code',
+        			fieldLabel: 'Code'
         		},{
         			xtype: 'hidden',
         			name: 'id'
@@ -225,6 +244,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
     	
     	var id = form.down('[isFormField][name="id"]');
     	var nm = form.down('[isFormField][name="name"]');
+    	var code = form.down('[isFormField][name="code"]');
     	var fieldSets = form.query('fieldset');
 
     	if(typeof id != 'undefined')
@@ -235,6 +255,11 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
     	if(typeof nm != 'undefined')
     	{
     		template['name'] = nm.getValue();
+    	}
+
+    	if(typeof code != 'undefined')
+    	{
+    		template['code'] = code.getValue();
     	}
     	
     	Ext.each(fieldSets, function(fieldSet)
