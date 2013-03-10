@@ -5,6 +5,8 @@
 	<portlet>
 		<portlet-name>EetdbAdmin</portlet-name>
 		<icon>/icon.png</icon>
+		<!-- configuration-action-class>org.unido.eetdb.admin.util.ConfigurationActionImpl</configuration-action-class-->
+		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
 		<instanceable>false</instanceable>
 		<header-portlet-css>/resources/css/ext-all.css</header-portlet-css>
 		<header-portlet-css>/resources/css/ux/GroupTabPanel.css</header-portlet-css>
@@ -29,4 +31,5 @@
 		<role-name>user</role-name>
 		<role-link>User</role-link>
 	</role-mapper>
+
 </liferay-portlet-app>

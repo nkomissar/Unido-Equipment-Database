@@ -5,12 +5,14 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 
+import org.apache.http.client.methods.HttpUriRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -18,8 +20,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.client.ClientHttpRequest;
-import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,8 +32,6 @@ import org.springframework.web.servlet.View;
 import org.unido.eetdb.admin.util.HttpEntityEnclosingDeleteRequest;
 import org.unido.eetdb.common.model.EntityTemplate;
 
-import org.apache.http.client.methods.HttpUriRequest;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
 import com.fasterxml.jackson.databind.JsonMappingException;
@@ -41,6 +39,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.kernel.util.ParamUtil;
+import com.liferay.portal.kernel.util.Validator;
+import com.liferay.portlet.PortletPreferencesFactoryUtil;
 
 @Controller
 @RequestMapping("view")
@@ -49,14 +52,44 @@ public class TemplateController {
 	@Autowired
 	@Qualifier("jsonview")
 	private View jsonView;
-	
+
+
+	private String getServUrl(PortletRequest request) {
+
+		PortletPreferences preferences = request.getPreferences();
+		String portletResource = ParamUtil.getString(request, "portletResource");
+		
+		if (Validator.isNotNull(portletResource)) {
+			try 
+			{
+				
+				preferences = PortletPreferencesFactoryUtil.getPortletSetup(
+						request, portletResource);
+				
+			} 
+			catch (PortalException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			catch (SystemException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return preferences.getValue("eetDbServicesUrl", null);
+	}
+
 	@RenderMapping(params = "action=doEntityTemplateList")
-	public ModelAndView loadEntityTemplateList() 
-	{
+	public ModelAndView loadEntityTemplateList(RenderRequest renderRequest) {
 
 		RestTemplate tmpl = new RestTemplate();
-		
-		EntityTemplate[] templates = tmpl.getForObject("http://localhost:8080/EetdbServices/templates", EntityTemplate[].class);
+
+		EntityTemplate[] templates = tmpl.getForObject(
+				this.getServUrl(renderRequest) + "/templates",
+				EntityTemplate[].class);
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
@@ -67,13 +100,16 @@ public class TemplateController {
 	}
 
 	@RenderMapping(params = "action=doEntityTemplateLoad")
-	public ModelAndView loadEntityTemplate(@RequestParam long entityTemplateId) 
-	{
+	public ModelAndView loadEntityTemplate(@RequestParam long entityTemplateId,
+			RenderRequest renderRequest) {
+
 
 		RestTemplate tmpl = new RestTemplate();
-		
-		EntityTemplate template = tmpl.getForObject("http://localhost:8080/EetdbServices/template/{id}", EntityTemplate.class, entityTemplateId);
-		
+
+		EntityTemplate template = tmpl.getForObject(
+				this.getServUrl(renderRequest) + "/template/{id}",
+				EntityTemplate.class, entityTemplateId);
+
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
 		data.put("template", template);
@@ -83,27 +119,28 @@ public class TemplateController {
 	}
 
 	@ActionMapping(params = "action=doEntityTemplatePost")
-	public void postEntityTemplate(ActionRequest request, ActionResponse response) 
-	{
+	public void postEntityTemplate(ActionRequest request,
+			ActionResponse response) {
 
-		
-	    ObjectMapper mapper = new ObjectMapper();
-	    AnnotationIntrospector primary = new JaxbAnnotationIntrospector( TypeFactory.defaultInstance() );
-	    AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-	    AnnotationIntrospector pair = AnnotationIntrospector.pair(primary, secondary);
-	    mapper.getDeserializationConfig().with(pair);
-	    mapper.getSerializationConfig().with(pair);
+		ObjectMapper mapper = new ObjectMapper();
+		AnnotationIntrospector primary = new JaxbAnnotationIntrospector(
+				TypeFactory.defaultInstance());
+		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+		AnnotationIntrospector pair = AnnotationIntrospector.pair(primary,
+				secondary);
+		mapper.getDeserializationConfig().with(pair);
+		mapper.getSerializationConfig().with(pair);
 
-		//DateFormat df = new SimpleDateFormat("m d y");
-		//mapper.setDateFormat(df);
-		
+		// DateFormat df = new SimpleDateFormat("m d y");
+		// mapper.setDateFormat(df);
+
 		InputStream strm = null;
 		try {
 			strm = request.getPortletInputStream();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-				
+
 		EntityTemplate readValue = null;
 		try {
 			readValue = mapper.readValue(strm, EntityTemplate.class);
@@ -114,41 +151,44 @@ public class TemplateController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 
-		/*Properties props = System.getProperties();
-		props.put("http.proxyHost", "localhost");
-		props.put("http.proxyPort", "8888");*/
-		
+		/*
+		 * Properties props = System.getProperties();
+		 * props.put("http.proxyHost", "localhost"); props.put("http.proxyPort",
+		 * "8888");
+		 */
+
 		RestTemplate tmpl = new RestTemplate();
 		EntityTemplate template;
 		if (readValue.getId() == 0) {
-			template = tmpl.postForObject("http://localhost:8080/EetdbServices/template", readValue, EntityTemplate.class);
-		}
-		else 
-		{
-	        String url = "http://localhost:8080/EetdbServices/template";
+			template = tmpl.postForObject(
+					this.getServUrl(request) + "/template", readValue,
+					EntityTemplate.class);
+		} else {
+			String url = this.getServUrl(request) + "/template";
 
-	        HttpHeaders headers = new HttpHeaders();
-	        headers.setContentType(MediaType.APPLICATION_JSON);
-	        HttpEntity<EntityTemplate> entity = new HttpEntity<EntityTemplate>(readValue, headers);
-	        ResponseEntity<EntityTemplate> responseWrapper = tmpl.exchange(url, HttpMethod.PUT, entity, EntityTemplate.class);
-	        EntityTemplate resp = responseWrapper.getBody();
-	        
-	        template = resp;
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+			HttpEntity<EntityTemplate> entity = new HttpEntity<EntityTemplate>(
+					readValue, headers);
+			ResponseEntity<EntityTemplate> responseWrapper = tmpl.exchange(url,
+					HttpMethod.PUT, entity, EntityTemplate.class);
+			EntityTemplate resp = responseWrapper.getBody();
+
+			template = resp;
 		}
-		
+
 		request.setAttribute("newTemplate", template);
 		response.setRenderParameter("action", "returnNewTemplate");
 
 	}
-	
-	@RenderMapping(params = "action=returnNewTemplate")
-	public ModelAndView returnNewEntityTemplate(RenderRequest request) 
-	{
 
-		EntityTemplate template = (EntityTemplate)request.getAttribute("newTemplate");
-		
+	@RenderMapping(params = "action=returnNewTemplate")
+	public ModelAndView returnNewEntityTemplate(RenderRequest request) {
+
+		EntityTemplate template = (EntityTemplate) request
+				.getAttribute("newTemplate");
+
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
 		data.put("template", template);
@@ -158,15 +198,15 @@ public class TemplateController {
 	}
 
 	@ActionMapping(params = "action=doEntityTemplateDestroy")
-	public void destroyEntityTemplate(ActionRequest request, ActionResponse response) 
-	{
-		
-	    ObjectMapper mapper = new ObjectMapper();
-	    AnnotationIntrospector primary = new JaxbAnnotationIntrospector( TypeFactory.defaultInstance() );
-	    AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
-	    AnnotationIntrospector pair = AnnotationIntrospector.pair(primary, secondary);
-	    mapper.getDeserializationConfig().with(pair);
-	    mapper.getSerializationConfig().with(pair);
+	public void destroyEntityTemplate(ActionRequest request,
+			ActionResponse response) {
+
+		ObjectMapper mapper = new ObjectMapper();
+		AnnotationIntrospector primary = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
+		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+		AnnotationIntrospector pair = AnnotationIntrospector.pair(primary, secondary);
+		mapper.getDeserializationConfig().with(pair);
+		mapper.getSerializationConfig().with(pair);
 
 		InputStream strm = null;
 		try {
@@ -174,7 +214,7 @@ public class TemplateController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-				
+
 		EntityTemplate readValue = null;
 		try {
 			readValue = mapper.readValue(strm, EntityTemplate.class);
@@ -185,41 +225,42 @@ public class TemplateController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
 
-		/*Properties props = System.getProperties();
-		props.put("http.proxyHost", "localhost");
-		props.put("http.proxyPort", "8888");*/
-		
+		/*
+		 * Properties props = System.getProperties();
+		 * props.put("http.proxyHost", "localhost"); props.put("http.proxyPort",
+		 * "8888");
+		 */
+
 		RestTemplate tmpl = new RestTemplate();
-		
+
 		tmpl.setRequestFactory(new HttpComponentsClientHttpRequestFactory() {
-	        @Override
-	        protected HttpUriRequest createHttpUriRequest(HttpMethod httpMethod, URI uri) {
-	            if (HttpMethod.DELETE == httpMethod) {
-	                return new HttpEntityEnclosingDeleteRequest(uri);
-	            }
-	            return super.createHttpUriRequest(httpMethod, uri);
-	        }
-	    });
+			@Override
+			protected HttpUriRequest createHttpUriRequest(
+					HttpMethod httpMethod, URI uri) {
+				if (HttpMethod.DELETE == httpMethod) {
+					return new HttpEntityEnclosingDeleteRequest(uri);
+				}
+				return super.createHttpUriRequest(httpMethod, uri);
+			}
+		});
 
+		String url = this.getServUrl(request) + "/template";
 
-		String url = "http://localhost:8080/EetdbServices/template";
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<EntityTemplate> entity = new HttpEntity<EntityTemplate>(
+				readValue, headers);
+		ResponseEntity<String> responseWrapper = tmpl.exchange(url,
+				HttpMethod.DELETE, entity, String.class);
+		// EntityTemplate resp = responseWrapper.getBody();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<EntityTemplate> entity = new HttpEntity<EntityTemplate>(readValue, headers);
-        ResponseEntity<String> responseWrapper = tmpl.exchange(url, HttpMethod.DELETE, entity, String.class);
-        //EntityTemplate resp = responseWrapper.getBody();
-        
-		
 		response.setRenderParameter("action", "reportDestroy");
 
 	}
-	
+
 	@RenderMapping(params = "action=reportDestroy")
-	public ModelAndView reportDestroy(RenderRequest request) 
-	{
+	public ModelAndView reportDestroy(RenderRequest request) {
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
@@ -228,5 +269,5 @@ public class TemplateController {
 		return new ModelAndView(jsonView, data);
 
 	}
-	
+
 }
