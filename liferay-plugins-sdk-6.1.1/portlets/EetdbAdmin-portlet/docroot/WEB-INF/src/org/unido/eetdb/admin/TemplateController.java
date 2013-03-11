@@ -8,8 +8,6 @@ import java.util.Map;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
 import javax.portlet.RenderRequest;
 
 import org.apache.http.client.methods.HttpUriRequest;
@@ -29,6 +27,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.servlet.View;
+import org.unido.eetdb.admin.util.ConfigWrapper;
 import org.unido.eetdb.admin.util.HttpEntityEnclosingDeleteRequest;
 import org.unido.eetdb.common.model.EntityTemplate;
 
@@ -39,11 +38,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
-import com.liferay.portal.kernel.exception.PortalException;
-import com.liferay.portal.kernel.exception.SystemException;
-import com.liferay.portal.kernel.util.ParamUtil;
-import com.liferay.portal.kernel.util.Validator;
-import com.liferay.portlet.PortletPreferencesFactoryUtil;
 
 @Controller
 @RequestMapping("view")
@@ -53,42 +47,13 @@ public class TemplateController {
 	@Qualifier("jsonview")
 	private View jsonView;
 
-
-	private String getServUrl(PortletRequest request) {
-
-		PortletPreferences preferences = request.getPreferences();
-		String portletResource = ParamUtil.getString(request, "portletResource");
-		
-		if (Validator.isNotNull(portletResource)) {
-			try 
-			{
-				
-				preferences = PortletPreferencesFactoryUtil.getPortletSetup(
-						request, portletResource);
-				
-			} 
-			catch (PortalException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} 
-			catch (SystemException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-
-		return preferences.getValue("eetDbServicesUrl", null);
-	}
-
 	@RenderMapping(params = "action=doEntityTemplateList")
 	public ModelAndView loadEntityTemplateList(RenderRequest renderRequest) {
 
 		RestTemplate tmpl = new RestTemplate();
 
 		EntityTemplate[] templates = tmpl.getForObject(
-				this.getServUrl(renderRequest) + "/templates",
+				ConfigWrapper.getServUrl(renderRequest) + "/templates",
 				EntityTemplate[].class);
 		
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -107,7 +72,7 @@ public class TemplateController {
 		RestTemplate tmpl = new RestTemplate();
 
 		EntityTemplate template = tmpl.getForObject(
-				this.getServUrl(renderRequest) + "/template/{id}",
+				ConfigWrapper.getServUrl(renderRequest) + "/template/{id}",
 				EntityTemplate.class, entityTemplateId);
 
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -162,10 +127,10 @@ public class TemplateController {
 		EntityTemplate template;
 		if (readValue.getId() == 0) {
 			template = tmpl.postForObject(
-					this.getServUrl(request) + "/template", readValue,
+					ConfigWrapper.getServUrl(request) + "/template", readValue,
 					EntityTemplate.class);
 		} else {
-			String url = this.getServUrl(request) + "/template";
+			String url = ConfigWrapper.getServUrl(request) + "/template";
 
 			HttpHeaders headers = new HttpHeaders();
 			headers.setContentType(MediaType.APPLICATION_JSON);
@@ -245,14 +210,14 @@ public class TemplateController {
 			}
 		});
 
-		String url = this.getServUrl(request) + "/template";
+		String url = ConfigWrapper.getServUrl(request) + "/template";
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 		HttpEntity<EntityTemplate> entity = new HttpEntity<EntityTemplate>(
 				readValue, headers);
-		ResponseEntity<String> responseWrapper = tmpl.exchange(url,
-				HttpMethod.DELETE, entity, String.class);
+		//ResponseEntity<String> responseWrapper = 
+		tmpl.exchange(url,HttpMethod.DELETE, entity, String.class);
 		// EntityTemplate resp = responseWrapper.getBody();
 
 		response.setRenderParameter("action", "reportDestroy");

@@ -5,8 +5,8 @@ Ext.define('EetdbAdmin.view.entity.List', {
     requires: ['Ext.toolbar.Toolbar'],
 
     title: 'Entities',
-    //collapsible: true,
-    //animCollapse: true,
+    autoScroll: true,
+    border: false,
 
     initComponent: function() {
         Ext.apply(this, {
@@ -21,39 +21,27 @@ Ext.define('EetdbAdmin.view.entity.List', {
             	cls: 'entity-list',
             	itemSelector: '.entity-list-item',
             	overItemCls: 'entity-list-item-hover',
-            	tpl: '<tpl for="."><div class="entity-list-item">{name}</div></tpl>',
-            	listeners: {
+            	tpl: '<tpl for="."><div class="entity-list-item">{name}</div></tpl>'
+            	/*,listeners: {
             		selectionchange: this.onSelectionChange,
             		scope: this
-            	}
+            	}*/
             }]
 
-            /*,dockedItems: [{
+            ,dockedItems: [{
                 xtype: 'toolbar',
                 items: [{
-                    iconCls: 'entity-add',
+                	xtype: 'textfield',
                     text: 'Add Entity',
-                    action: 'add'
+                    emptyText: 'enter search term'
                 }, {
-                    iconCls: 'entity-remove',
-                    text: 'Remove Entity',
-                    disabled: true,
-                    action: 'remove'
+                    text: 'Search',
+                    action: 'search'
                 }]
-            }]*/
+            }]
         });
 
         this.callParent(arguments);
-    },
-
-    onSelectionChange: function(selmodel, selection) {
-        var selected = selection[0],
-            button = this.down('button[action=remove]');
-        if (selected) {
-            button.enable();
-        }
-        else {
-            button.disable();
-        }
     }
+
 });
