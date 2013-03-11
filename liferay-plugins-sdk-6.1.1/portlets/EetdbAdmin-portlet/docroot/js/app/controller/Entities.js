@@ -1,13 +1,14 @@
 Ext.define('EetdbAdmin.controller.Entities', {
     extend: 'Ext.app.Controller',
 
-    stores: ['Entities'],
+    stores: ['EntitySearchResult'],
     models: ['Entity'],
     views: ['entity.List'],
     
     refs: [
         {ref: 'entityList', selector: 'entitylist'},
         {ref: 'entityData', selector: 'entitylist dataview'},
+        {ref: 'searchQuery', selector: 'entitylist dataview textbox'},
         //{ref: 'feedShow', selector: 'feedshow'},
         //{ref: 'feedForm', selector: 'feedwindow form'},
         //{ref: 'feedCombo', selector: 'feedwindow combobox'},
@@ -27,94 +28,35 @@ Ext.define('EetdbAdmin.controller.Entities', {
         this.control({
             'entitylist dataview': {
                 selectionchange: this.loadEntity
-            }/*,
-            'feedlist button[action=add]': {
-                click: this.addFeed
             },
-            'feedlist button[action=remove]': {
-                click: this.removeFeed
-            },
-            'feedwindow button[action=create]': {
-                click: this.createFeed
-            }*/
+            'entitylist button[action=search]': {
+                click: this.doSearch
+            }
         });
     },
     
     onLaunch: function() {
    	
         var dataview = this.getEntityData(),
-            store = this.getEntitiesStore();
+            store = this.getEntitySearchResultStore();
         
         dataview.bindStore(store);
         //dataview.getSelectionModel().select(store.getAt(0));
     },
     
-    /**
-     * Loads the given feed into the viewer
-     * @param {FV.model.feed} feed The feed to load
-     */
+
     loadEntity: function(selModel, selected) {
-        var grid = this.getArticleGrid(),
-            store = this.getArticlesStore(),
-            feed = selected[0];
 
-        if (feed) {
-            this.getFeedShow().setTitle(feed.get('name'));
-            grid.enable();
-            store.load({
-                params: {
-                    feed: feed.get('url')
-                }
-            });            
-        }
     },
     
-    /**
-     * Shows the add feed dialog window
-     */
-    addFeed: function() {
-        this.getFeedWindow().show();
-    },
-    
-    /**
-     * Removes the given feed from the Feeds store
-     * @param {FV.model.Feed} feed The feed to remove
-     */
-    removeFeed: function() {
-        this.getFeedsStore().remove(this.getFeedData().getSelectionModel().getSelection()[0]);
-    },
-    
-    /**
-     * @private
-     * Creates a new feed in the store based on a given url. First validates that the feed is well formed
-     * using FV.lib.FeedValidator.
-     * @param {String} name The name of the Feed to create
-     * @param {String} url The url of the Feed to create
-     */
-    createFeed: function() {
-        var win   = this.getFeedWindow(),
-            form  = this.getFeedForm(),
-            combo = this.getFeedCombo(),
-            store = this.getFeedsStore(),
-            feed  = this.getFeedModel().create({
-                name: combo.getDisplayValue(),
-                url: combo.getValue()
-            });
-
-        form.setLoading({
-            msg: 'Validating feed...'
-        });
-        
-        FV.lib.FeedValidator.validate(feed, {
-            success: function() {
-                store.add(feed);
-                form.setLoading(false);
-                win.hide();
-            },
-            failure: function() {
-                form.setLoading(false);
-                form.down('[name=feed]').markInvalid('The URL specified is not a valid RSS2 feed.');
-            }
-        });
+    doSearch: function()
+    {
+    	var queryBox = this.getSearchQuery(),
+    	 store = this.getEntitySearchResultStore();
+    	
+    	store.load()
+    	
+    	
+    	
     }
 });
