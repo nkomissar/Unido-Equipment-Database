@@ -27,6 +27,7 @@ public class DbToDomainMapper
 
         template.setId(dbEntityTemplate.getId());
         template.setName(dbEntityTemplate.getName());
+        template.setCode(dbEntityTemplate.getCode());
         template.setLastUpdatedDate(dbEntityTemplate.getLastUpdatedDate().getTime());
 
         if (!skipChilds)
@@ -71,6 +72,7 @@ public class DbToDomainMapper
         templateProperty.setDisplayInGrid(dbTemplateProperty.isDisplayInGrid());
         templateProperty.setMandatory(dbTemplateProperty.isMandatory());
         templateProperty.setUnitOfMeasure(dbTemplateProperty.getUnitOfMeasure());
+        templateProperty.setCode(dbTemplateProperty.getCode());
 
         templateProperty.setLastUpdatedDate(dbTemplateProperty.getLastUpdatedDate().getTime());
 
@@ -155,15 +157,13 @@ public class DbToDomainMapper
         return entityProperty;
     }
 
-    public static Map<String, EntityProperty> mapProperties(Set<DbEntityProperty> dbProperties)
+    public static Set<EntityProperty> mapProperties(Set<DbEntityProperty> dbProperties)
     {
-        Map<String, EntityProperty> properties = new HashMap<String, EntityProperty>();
+        Set<EntityProperty> properties = new HashSet<EntityProperty>();
 
         for (DbEntityProperty property : dbProperties)
         {
-            EntityProperty entityProperty = mapProperty(property);
-
-            properties.put(entityProperty.getName(), entityProperty);
+            properties.add(mapProperty(property));
         }
 
         return properties;

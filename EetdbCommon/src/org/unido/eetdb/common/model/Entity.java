@@ -7,11 +7,11 @@ import java.util.Set;
 
 public class Entity extends GenericObject
 {
-    private long                        typeId;
-    private String                      name;
-    private String                      entityType;
-    private Map<String, EntityProperty> properties    = new HashMap<String, EntityProperty>();
-    private Set<Entity>                 childEntities = new HashSet<Entity>();
+    private long                typeId;
+    private String              name;
+    private String              entityType;
+    private Set<EntityProperty> properties    = new HashSet<EntityProperty>();
+    private Set<Entity>         childEntities = new HashSet<Entity>();
 
     public Entity()
     {
@@ -47,16 +47,6 @@ public class Entity extends GenericObject
         this.entityType = entityType;
     }
 
-    public Map<String, EntityProperty> getProperties()
-    {
-        return properties;
-    }
-
-    public void setProperties(Map<String, EntityProperty> properties)
-    {
-        this.properties = properties;
-    }
-
     public long getTypeId()
     {
         return typeId;
@@ -65,5 +55,15 @@ public class Entity extends GenericObject
     public void setTypeId(long typeId)
     {
         this.typeId = typeId;
+    }
+
+    public Set<EntityProperty> getProperties()
+    {
+        return properties;
+    }
+
+    public void setProperties(Set<EntityProperty> properties)
+    {
+        this.properties = properties;
     }
 }
