@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.List;
 
@@ -14,7 +13,6 @@ import javax.sql.DataSource;
 import org.apache.log4j.Logger;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityProperty;
-import org.unido.eetdb.common.model.EntityTemplate;
 
 public class DbWriter
 {

@@ -65,10 +65,7 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional
     public EntityTemplate createEntityTemplate(EntityTemplate template)
     {
-        for(EntityTemplateProperty property : template.getProperties())
-        {
-            property.setParentTemplate(template);
-        }
+        Helper.ensureParent(template);
 
         sessionFactory.getCurrentSession().save(template);
 
@@ -86,6 +83,8 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional
     public EntityTemplate updateEntityTemplate(EntityTemplate template)
     {
+        Helper.ensureParent(template);
+
         template = (EntityTemplate)sessionFactory.getCurrentSession().merge(template);
         
         sessionFactory.getCurrentSession().flush();
@@ -99,5 +98,16 @@ public class DataAccessServiceImpl implements DataAccessService
     public Set<ValueType> getValueTypes()
     {
         return new HashSet<ValueType>(sessionFactory.getCurrentSession().createQuery("from ValueType").list());
+    }
+    
+    private static class Helper
+    {
+        public static void ensureParent(EntityTemplate template)
+        {
+            for(EntityTemplateProperty property : template.getProperties())
+            {
+                property.setParentTemplate(template);
+            }
+        }
     }
 }
