@@ -27,7 +27,7 @@ public class EntityController
     public @ResponseBody
     Entity getEntity(@PathVariable Long id)
     {
-        return dataAccessService.getEntity(id, true);
+        return dataAccessService.getEntity(id);
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "/topic/{id}")

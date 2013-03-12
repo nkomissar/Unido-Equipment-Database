@@ -4,18 +4,17 @@
 	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="org.unido.eetdb.service.dbmodel">
-	<class name="DbEntityProperty" table="UNIDO_ENTITY_PROPERTY" lazy="false">
+<hibernate-mapping package="org.unido.eetdb.common.model">
+	<class name="EntityProperty" table="UNIDO_ENTITY_PROPERTY" lazy="false">
 	    <id name="id" column="ENTITY_PROPERTY_ID">
-        	<generator class="native"/>
+        	<generator class="identity"/>
     	</id>
 
-    	<version name="lastUpdatedDate" column="UPDATE_DATE" type="dbtimestamp" />
+    	<version name="version" column="VERSION" />
 
-    	<property name="lastUpdatedBy" column="UPDATED_BY" />
     	<property name="value" column="VALUE" />
+    	<property name="lastUpdatedBy" column="UPDATED_BY" />
     	
-    	<many-to-one name="valueType" column="VALUE_TYPE_ID" unique="true" />
-    	<many-to-one name="templateProperty" column="TEMPLATE_PROPERTY_ID" unique="true" />
+    	<many-to-one name="templateProperty" fetch="join" column="TEMPLATE_PROPERTY_ID" unique="true" />
 	</class>
 </hibernate-mapping>

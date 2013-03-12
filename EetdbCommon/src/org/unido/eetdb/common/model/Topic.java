@@ -7,50 +7,42 @@ public class Topic extends GenericObject
 {
     private String      name;
     private String      description;
-    private Set<Topic>  childTopics        = new HashSet<Topic>();
     private Set<Entity> entitiesOfTopic = new HashSet<Entity>();
-
-    public Topic()
-    {
-    };
-
+    private Set<Topic>  childTopics = new HashSet<Topic>();
+    
     public String getName()
     {
         return name;
     }
-
     public void setName(String name)
     {
         this.name = name;
     }
-
-    public Set<Topic> getChildTopics()
-    {
-        return childTopics;
-    }
-
-    public void setChildTopics(Set<Topic> childTopics)
-    {
-        this.childTopics = childTopics;
-    }
-
-    public Set<Entity> getEntitiesOfTopic()
-    {
-        return entitiesOfTopic;
-    }
-
-    public void setEntitiesOfTopic(Set<Entity> entitiesOfTopic)
-    {
-        this.entitiesOfTopic = entitiesOfTopic;
-    }
-
+    
     public String getDescription()
     {
         return description;
     }
-
     public void setDescription(String description)
     {
         this.description = description;
+    }
+    
+    public Set<Entity> getEntitiesOfTopic()
+    {
+        return entitiesOfTopic;
+    }
+    public void setEntitiesOfTopic(Set<Entity> entitiesOfTopic)
+    {
+        this.entitiesOfTopic = entitiesOfTopic;
+    }
+    
+    public Set<Topic> getChildTopics()
+    {
+        return childTopics;
+    }
+    public void setChildTopics(Set<Topic> childTopics)
+    {
+        this.childTopics = childTopics;
     }
 }

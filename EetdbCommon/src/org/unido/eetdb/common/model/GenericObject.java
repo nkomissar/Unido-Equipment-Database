@@ -2,8 +2,9 @@ package org.unido.eetdb.common.model;
 
 public abstract class GenericObject
 {
-    private long id;
-    private long lastUpdatedDate;
+    private long   id;
+    private String lastUpdatedBy;
+    private int    version;
 
     public long getId()
     {
@@ -15,13 +16,23 @@ public abstract class GenericObject
         this.id = id;
     }
 
-    public long getLastUpdatedDate()
+    public String getLastUpdatedBy()
     {
-        return lastUpdatedDate;
+        return lastUpdatedBy;
     }
 
-    public void setLastUpdatedDate(long lastUpdatedDate)
+    public void setLastUpdatedBy(String lastUpdatedBy)
     {
-        this.lastUpdatedDate = lastUpdatedDate;
+        this.lastUpdatedBy = lastUpdatedBy;
+    }
+
+    public int getVersion()
+    {
+        return version;
+    }
+
+    public void setVersion(int version)
+    {
+        this.version = version;
     }
 }

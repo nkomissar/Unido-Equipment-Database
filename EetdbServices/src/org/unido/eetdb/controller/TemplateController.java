@@ -1,6 +1,6 @@
 package org.unido.eetdb.controller;
 
-import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.unido.eetdb.common.model.EntityTemplate;
+import org.unido.eetdb.common.model.ValueType;
 import org.unido.eetdb.service.DataAccessService;
 
 @Controller
@@ -21,6 +22,13 @@ public class TemplateController
     public void setDataAccessService(DataAccessService dataAccessService)
     {
         this.dataAccessService = dataAccessService;
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/value-types")
+    public @ResponseBody
+    Set<ValueType> getValueTypes()
+    {
+        return dataAccessService.getValueTypes();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/template/{id}")
@@ -55,7 +63,7 @@ public class TemplateController
 
     @RequestMapping(method = RequestMethod.GET, value = "/templates")
     public @ResponseBody
-    List<EntityTemplate> getTemplates()
+    Set<EntityTemplate> getTemplates()
     {
         return dataAccessService.getEntityTemplates();
     }

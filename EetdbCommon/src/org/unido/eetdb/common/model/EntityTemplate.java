@@ -13,7 +13,6 @@ public class EntityTemplate extends GenericObject
     {
         return name;
     }
-
     public void setName(String name)
     {
         this.name = name;
@@ -23,7 +22,6 @@ public class EntityTemplate extends GenericObject
     {
         return properties;
     }
-
     public void setProperties(Set<EntityTemplateProperty> properties)
     {
         this.properties = properties;
@@ -33,7 +31,6 @@ public class EntityTemplate extends GenericObject
     {
         return code;
     }
-
     public void setCode(String code)
     {
         this.code = code;

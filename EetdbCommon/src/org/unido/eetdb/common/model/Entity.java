@@ -5,63 +5,44 @@ import java.util.Set;
 
 public class Entity extends GenericObject
 {
-    private long                typeId;
     private String              name;
-    private String              entityType;
     private Set<EntityProperty> properties    = new HashSet<EntityProperty>();
     private Set<Entity>         childEntities = new HashSet<Entity>();
-
-    public Entity()
-    {
-    };
+    private EntityTemplate      entityTemplate;
 
     public String getName()
     {
         return name;
     }
-
     public void setName(String name)
     {
         this.name = name;
     }
-
+    
+    public Set<EntityProperty> getProperties()
+    {
+        return properties;
+    }
+    public void setProperties(Set<EntityProperty> properties)
+    {
+        this.properties = properties;
+    }
+    
     public Set<Entity> getChildEntities()
     {
         return childEntities;
     }
-
     public void setChildEntities(Set<Entity> childEntities)
     {
         this.childEntities = childEntities;
     }
 
-    public String getEntityType()
+    public EntityTemplate getEntityTemplate()
     {
-        return entityType;
+        return entityTemplate;
     }
-
-    public void setEntityType(String entityType)
+    public void setEntityTemplate(EntityTemplate entityTemplate)
     {
-        this.entityType = entityType;
-    }
-
-    public long getTypeId()
-    {
-        return typeId;
-    }
-
-    public void setTypeId(long typeId)
-    {
-        this.typeId = typeId;
-    }
-
-    public Set<EntityProperty> getProperties()
-    {
-        return properties;
-    }
-
-    public void setProperties(Set<EntityProperty> properties)
-    {
-        this.properties = properties;
+        this.entityTemplate = entityTemplate;
     }
 }

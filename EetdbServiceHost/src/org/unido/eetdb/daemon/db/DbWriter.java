@@ -20,14 +20,29 @@ public class DbWriter
     private static final Logger logger   = Logger.getLogger(DbWriter.class);
 
     private static final String INSERT_ENTITY_SQL = "INSERT INTO" +
-    		"unido_entity(entity_template_id, entity_name, version, status, updated_by, update_date) " +
-            "VALUES(?, ?, ?, ?, ?, ?)";
+    		"unido_entity(" +
+    		    "entity_id, " +
+    		    "entity_template_id, " +
+    		    "entity_name, " +
+    		    "version, " +
+    		    "status, " +
+    		    "updated_by, " +
+    		    "update_date) " +
+            "VALUES(?, ?, ?, ?, ?, ?, ?)";
 
-    private static final String INSERT_ENTITY_PROPERTY_SQL = "INSERT INTO datapoint(datasource_id, timestamp, value, init_flag) "
-            + "VALUES(?, ?, ?, ?) ";
+    private static final String INSERT_ENTITY_PROPERTY_SQL = "INSERT INTO" +
+            "unido_entity_property(" +
+                "entity_id, " +
+                "template_property_id, " +
+                "value_type_id, " +
+                "value, " +
+                "version, " +
+                "updated_by, " +
+                "update_date) " +
+            "VALUES(?, ?, ?, ?, ?, ?)";
     
     private static final String GET_ID = "{? = call SEQ_NEXTVAL}";
-    
+
     private DataSource          dataSource;
 
     public boolean persistEntities(List<Entity> entities)
@@ -43,7 +58,8 @@ public class DbWriter
         {
             if (!entities.isEmpty())
             {
-                long id;
+                long entityId;
+                long entityPropertyId;
 
                 connection = dataSource.getConnection();
 
@@ -60,20 +76,31 @@ public class DbWriter
                 {
                     idGenerator.executeQuery();
 
-                    id = idGenerator.getLong(1);
+                    entityId = idGenerator.getLong(1);
 
-                    entityStatement.setLong(1, id);
+                    entityStatement.setLong(1, entityId);
                     entityStatement.setString(2, entity.getName());
                     entityStatement.setInt(3, 0);
                     entityStatement.setString(4, "PENDING");
                     entityStatement.setString(5, "SYSTEM");
-                    entityStatement.setTimestamp(3, new Timestamp(System.currentTimeMillis()));
+                    entityStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
 
                     entityStatement.addBatch();
-                    
-                    //for (EntityProperty entityProperty : entity.getProperties().entrySet())
+
+                    for (EntityProperty entityProperty : entity.getProperties())
                     {
-                        
+                        idGenerator.executeQuery();
+
+                        entityPropertyId = idGenerator.getLong(1);
+
+                        entityPropertyStatement.setLong(1, entityPropertyId);
+                        entityPropertyStatement.setString(2, entity.getName());
+                        entityPropertyStatement.setInt(3, 0);
+                        entityPropertyStatement.setString(4, "PENDING");
+                        entityPropertyStatement.setString(5, "SYSTEM");
+                        entityPropertyStatement.setTimestamp(6, new Timestamp(System.currentTimeMillis()));
+
+                        entityPropertyStatement.addBatch();
                     }
                 }
 
