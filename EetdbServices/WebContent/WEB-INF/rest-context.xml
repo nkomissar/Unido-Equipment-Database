@@ -45,6 +45,7 @@
 		<prop key="hibernate.cache.use_query_cache">true</prop>
 		<prop key="hibernate.cache.use_second_level_cache">true</prop>
 		<prop key="configurationResourceName">ehcache.xml</prop>
+		<prop key="hibernate.connection.charSet">utf8</prop>
 		</props>
 		</property>
 	</bean>
