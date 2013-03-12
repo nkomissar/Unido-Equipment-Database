@@ -8,17 +8,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     refs: [
         {ref: 'entityList', selector: 'entitylist'},
         {ref: 'entityData', selector: 'entitylist dataview'},
-        {ref: 'searchQuery', selector: 'entitylist dataview textbox'},
-        //{ref: 'feedShow', selector: 'feedshow'},
-        //{ref: 'feedForm', selector: 'feedwindow form'},
-        //{ref: 'feedCombo', selector: 'feedwindow combobox'},
-        //{ref: 'articleGrid', selector: 'articlegrid'},
-        {
-            ref: 'feedWindow', 
-            selector: 'feedwindow', 
-            autoCreate: true,
-            xtype: 'feedwindow'
-        }
+        {ref: 'searchQuery', selector: 'entitylist toolbar searchfield'}
     ],
     
     // At this point things haven't rendered yet since init gets called on controllers before the launch function
@@ -29,8 +19,8 @@ Ext.define('EetdbAdmin.controller.Entities', {
             'entitylist dataview': {
                 selectionchange: this.loadEntity
             },
-            'entitylist button[action=search]': {
-                click: this.doSearch
+            'entitylist toolbar searchfield': {
+            	triggerclick: this.doSearch
             }
         });
     },
@@ -51,12 +41,17 @@ Ext.define('EetdbAdmin.controller.Entities', {
     
     doSearch: function()
     {
+    	
     	var queryBox = this.getSearchQuery(),
     	 store = this.getEntitySearchResultStore();
     	
-    	store.load()
-    	
-    	
+    	store.load(
+    			{
+    				params: 
+    				{
+    					query: queryBox.getValue()
+    				}
+    			});
     	
     }
 });

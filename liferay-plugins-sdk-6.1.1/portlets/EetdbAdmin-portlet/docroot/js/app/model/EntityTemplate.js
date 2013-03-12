@@ -12,7 +12,7 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
     },
     
     fields: [
-        {name: 'id',  type: 'int'}
+         {name: 'id',  type: 'long'}
         ,{name: 'name', type: 'string'}
         ,{name: 'code', type: 'string'}
         ,{name:'lastUpdatedDate', type: 'long'}

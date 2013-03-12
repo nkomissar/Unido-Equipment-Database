@@ -6,7 +6,7 @@ Ext.define('EetdbAdmin.model.EntityProperty', {
     },
     
     fields: [
-        {name: 'id',  type: 'string'}
+         {name: 'id',  type: 'long'}
         ,{name: 'name', type: 'string'}
         ,{name: 'propertyTypeId', type: 'long'}
         ,{name: 'displayInGrid', type: 'boolean'}
@@ -15,5 +15,6 @@ Ext.define('EetdbAdmin.model.EntityProperty', {
         ,{name: 'format', type: 'string'}
         ,{name: 'unitOfMeasure', type: 'string'}
         ,{name: 'type', type: 'string'}
+        ,{name: 'lastUpdatedDate', type: 'long'}
     ]
 });

@@ -6,7 +6,7 @@ Ext.define('EetdbAdmin.model.EntityTemplateProperty', {
     },
     
     fields: [
-         {name: 'id',  type: 'string'}
+         {name: 'id',  type: 'long'}
         ,{name: 'name', type: 'string'}
         ,{name: 'code', type: 'string'}
         ,{name: 'unitOfMeasure', type: 'string'}
