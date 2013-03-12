@@ -1,6 +1,8 @@
 Ext.define('EetdbAdmin.model.Entity', {
     extend: 'Ext.data.Model',
     
+    requires:['EetdbAdmin.model.EntityProperty'], 
+              
     proxy: {
         type: 'memory'
     },

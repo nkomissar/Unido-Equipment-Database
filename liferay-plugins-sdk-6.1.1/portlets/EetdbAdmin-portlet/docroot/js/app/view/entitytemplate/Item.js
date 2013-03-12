@@ -1,9 +1,9 @@
-Ext.define('Ext.form.ClosableFieldSet', {
+Ext.define('Ext.form.TemplateClosableFieldSet', {
     extend: 'Ext.form.FieldSet',
     
     uses: ['Ext.panel.Tool'],
     
-    alias: 'widget.closablefieldset',
+    alias: 'widget.templateclosablefieldset',
     items:[{
     	xtype: 'hidden',
     	name: 'id'
@@ -197,7 +197,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 
 	,addProperty: function(frm) {
 		
-		var fieldSet = frm.add(Ext.widget('closablefieldset', {
+		var fieldSet = frm.add(Ext.widget('templateclosablefieldset', {
             columnWidth: 0.5,
             title: 'Property',
             collapsible: true,
@@ -215,7 +215,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 		
 		form.loadRecord(record);
 		
-		var props = form.query('closablefieldset');
+		var props = form.query('templateclosablefieldset');
 		
 		Ext.each(props, function(prop) {
 			 if (prop.ownerCt) {

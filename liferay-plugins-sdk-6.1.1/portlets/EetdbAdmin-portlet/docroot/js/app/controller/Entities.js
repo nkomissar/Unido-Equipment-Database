@@ -1,14 +1,16 @@
 Ext.define('EetdbAdmin.controller.Entities', {
     extend: 'Ext.app.Controller',
 
-    stores: ['EntitySearchResult'],
-    models: ['Entity'],
-    views: ['entity.List'],
+    stores: ['EntitySearchResult', 'Entity'],
+    models: ['Entity', 'EntityProperty'],
+    views: ['entity.List', 'entity.Item'],
     
     refs: [
         {ref: 'entityList', selector: 'entitylist'},
         {ref: 'entityData', selector: 'entitylist dataview'},
-        {ref: 'searchQuery', selector: 'entitylist toolbar searchfield'}
+        {ref: 'searchQuery', selector: 'entitylist toolbar searchfield'},
+        {ref: 'entityItem', selector: 'entityitem'},
+        {ref: 'entityForm', selector: 'entityitem form'}
     ],
     
     // At this point things haven't rendered yet since init gets called on controllers before the launch function
@@ -35,7 +37,48 @@ Ext.define('EetdbAdmin.controller.Entities', {
     },
     
 
-    loadEntity: function(selModel, selected) {
+    loadEntity: function(selModel, selected) 
+    {
+        var store = this.getEntityStore(),
+        entity = selected[0],
+        itemForm = this.getEntityForm();
+    
+	    var eItem = this.getEntityItem();
+	    
+	    if (typeof entity === 'undefined')
+	    {
+	    	this.application.fireEvent('entityUnselected');
+	    	return;
+	    }
+	    
+	    if (!entity.phantom
+	    		&& !entity.dirty) 
+	    {
+	    	
+	    	
+	    	itemForm.setLoading({
+	            msg: 'Loading entity...'
+	        });
+	
+	    	store.load({
+	            params: {
+	            	action: 'doEntityLoad',
+	                entityId: entity.get('id')
+	            },
+	            callback: function(records, operation, success) {
+	            	
+	            	itemForm.setLoading(false);
+	            	eItem.loadRecord(records[0]);
+	            	
+	            }
+	        });
+	    	
+	    	return;
+	    }
+	    
+        eItem.loadRecord(entity);
+        store.loadRecords([entity]);
+    	this.application.fireEvent('entitySelected');
 
     },
     
