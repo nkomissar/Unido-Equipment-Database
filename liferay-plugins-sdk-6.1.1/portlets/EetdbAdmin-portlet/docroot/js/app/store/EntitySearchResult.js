@@ -13,31 +13,31 @@ Ext.define('EetdbAdmin.store.EntitySearchResult', {
     	}
 	}
 
-,load: function (options)
-{
-	
-	var loadUrl = portletUrl.createRenderURL();
-	loadUrl.setPortletId(portletId);
-	loadUrl.setWindowState(exclusiveWindowState);
-	
-    loadUrl.setParameter('action', 'doEntitySearch');
-    
-    if (typeof options !== 'undefined' 
-    	&& typeof options.params !== 'undefined'
-    	&& typeof options.params.query !== 'undefined') {
-    	
-    	loadUrl.setParameter('query', options.params.query);
-    
-    } else {
-    	
-    	loadUrl.setParameter('query', 1);
-    	
-    }
-    
-    this.proxy.url = loadUrl.toString();
-    
-	this.callParent(arguments);
-	
-}
+	,load: function (options)
+	{
+		
+		var loadUrl = portletUrl.createRenderURL();
+		loadUrl.setPortletId(portletId);
+		loadUrl.setWindowState(exclusiveWindowState);
+		
+	    loadUrl.setParameter('action', 'doEntitySearch');
+	    
+	    if (typeof options !== 'undefined' 
+	    	&& typeof options.params !== 'undefined'
+	    	&& typeof options.params.query !== 'undefined') {
+	    	
+	    	loadUrl.setParameter('query', options.params.query);
+	    
+	    } else {
+	    	
+	    	loadUrl.setParameter('query', 1);
+	    	
+	    }
+	    
+	    this.proxy.url = loadUrl.toString();
+	    
+		this.callParent(arguments);
+		
+	}
 
 });

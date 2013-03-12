@@ -16,6 +16,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.servlet.View;
 import org.unido.eetdb.admin.util.ConfigWrapper;
 import org.unido.eetdb.common.model.Entity;
+import org.unido.eetdb.common.model.EntityTemplate;
 
 @Controller
 @RequestMapping("view")
@@ -26,7 +27,7 @@ public class EntityController
 	private View jsonView;
 	
 	@RenderMapping(params = "action=doEntitySearch")
-	public ModelAndView loadEntity(@RequestParam String query, RenderRequest renderRequest) 
+	public ModelAndView searchEntity(@RequestParam String query, RenderRequest renderRequest) 
 	{
 
 		RestTemplate tmpl = new RestTemplate();
@@ -45,4 +46,24 @@ public class EntityController
 		return new ModelAndView(jsonView, data);
 
 	}
+
+	@RenderMapping(params = "action=doEntityLoad")
+	public ModelAndView loadEntity(@RequestParam long entityId,
+			RenderRequest renderRequest) {
+
+
+		RestTemplate tmpl = new RestTemplate();
+
+		EntityTemplate template = tmpl.getForObject(
+				ConfigWrapper.getServUrl(renderRequest) + "/entity/{id}",
+				EntityTemplate.class, entityId);
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("entity", template);
+
+		return new ModelAndView(jsonView, data);
+
+	}
+
 }

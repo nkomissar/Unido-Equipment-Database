@@ -53,7 +53,66 @@
 	
 	portletUrl = Liferay.PortletURL;
 	
+	Ext.data.writer.Json.override({
+	    getRecordData: function(record) {
+	    	
+	        var /*me = this, i, association, childStore, */data = {};
 	
+	        data = this.callParent(arguments);
+	
+	        /* Iterate over all the hasMany associations */
+	        /*for (i = 0; i < record.associations.length; i++) 
+	        {
+	
+	        	association = record.associations.get(i);
+	        	
+	            if (association.type == 'hasMany')  {
+	            
+	            	data[association.name] = [];
+	                childStore = eval('record.'+association.name+'()');
+	
+	                //Iterate over all the children in the current association
+	                childStore.each(function(childRecord) {
+						data[association.name].push(childRecord.getData());
+	                }, me);
+	            }
+	        }*/
+	        
+	        Ext.apply(data,record.getAssociatedData());
+	                
+	        return data;
+	        
+	    }
+	});
+	
+	Ext.data.Model.override({
+	    
+	    /**
+	     * @Override
+	     * Copies association data after calling super.copyFrom
+	     */
+	    copyFrom: function(sourceRecord) {
+	        
+	    	var me = this,
+	    		assData = sourceRecord.getAssociatedData();
+	    	
+	    	me.callParent(arguments);
+	    	
+	    	Ext.apply(me[me.persistenceProperty], assData);
+	    	
+	    	for(var assName in assData)
+	    	{
+	    		
+	    		var assStore = me[assName]();
+	    		assStore.clearFilter(true); //don't know why there is filter defined
+	    		assStore.loadData(assData[assName]);
+	    		
+	    	}
+	    	
+	    }
+	    
+	});	
+		
 	Ext.application({
 	    name: 'EetdbAdmin',
 	    

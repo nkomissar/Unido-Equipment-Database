@@ -5,8 +5,8 @@ entityTemplateControllerURL.setParameter('action', 'doEntityTemplateList');
 Ext.define('EetdbAdmin.model.EntityTemplate', {
     extend: 'Ext.data.Model',
     
-    requires:['EetdbAdmin.model.EntityTemplateProperty'],
-          
+    requires:['EetdbAdmin.model.EntityTemplateProperty'/*,
+              'EetdbAdmin.lib.overrides.Model'*/],          
     proxy: {
         type: 'memory'
     },
