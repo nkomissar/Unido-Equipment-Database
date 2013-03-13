@@ -13,5 +13,16 @@ Ext.define('EetdbAdmin.model.EntityTemplateProperty', {
         ,{name: 'displayInGrid', type: 'boolean'}
         ,{name: 'mandatory', type: 'boolean'}
         ,{name: 'lastUpdatedDate', type: 'long'}
-    ]
+    ],
+    
+    hasOne: 
+    {
+    	model: 'EetdbAdmin.model.ValueType',
+    	instanceName: 'ValueType',
+    	getterName: 'GetValueType',
+    	setterName: 'SetValueType',
+    	associationKey: 'valueType',
+    	
+    }
+     
 });

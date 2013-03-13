@@ -1,8 +1,8 @@
 Ext.define('EetdbAdmin.controller.EntityTemplates', {
     extend: 'Ext.app.Controller',
 
-    stores: ['EntityTemplateSearchResult', 'EntityTemplate'],
-    models: ['EntityTemplate', 'EntityTemplateProperty'],
+    stores: ['EntityTemplateSearchResult', 'EntityTemplate', 'ValueType'],
+    models: ['EntityTemplate', 'EntityTemplateProperty'/*, 'ValueType'*/],
     views: ['entitytemplate.List', 'entitytemplate.Item'],
     
     refs: [
