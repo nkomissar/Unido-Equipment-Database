@@ -30,6 +30,15 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     },{
     	xtype: 'hidden',
     	name: 'lastupdatedate'
+    },{
+        xtype: 'combobox',
+        name : 'valueType',
+        fieldLabel: 'Value Type',
+        displayField: 'type',
+        queryMode: 'local',
+        valueField: 'id',
+        store: 'ValueType',
+        editable: false
     }],
     initComponent: function () {
         var me = this;
@@ -58,6 +67,7 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
     	var lud = me.down('[isFormField][name="lastupdatedate"]');
+    	var vt = me.down('[isFormField][name="valueType"]');
     	
     	if(typeof id != 'undefined')
     	{
@@ -93,6 +103,11 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     		lud.setValue(record.get('lastUpdatedDate'));
     	}
 
+    	if(typeof vt != 'undefined')
+    	{
+    		vt.setValue(record.GetValueType().get('id'));
+    	}
+    	
     }
     , getFieldValues: function(){
     	var me = this;
@@ -105,6 +120,7 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
     	var lud = me.down('[isFormField][name="lastupdatedate"]');
+    	var vt = me.down('[isFormField][name="valueType"]');
 
     	if(typeof id != 'undefined')
     	{
@@ -139,6 +155,12 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	if(typeof lud != 'undefined')
     	{
     		prop['lastUpdatedDate'] = lud.getValue();
+    	}
+    	
+    	if(typeof vt != 'undefined')
+    	{
+    		var id = vt.getValue();
+    		prop['ValueType'] = vt.findRecord(vt.valueField || vt.displayField, id).data;
     	}
     	
     	return prop;
