@@ -42,7 +42,8 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional(readOnly = true)
     public EntityTemplate getEntityTemplate(Long templateId)
     {
-        return (EntityTemplate) sessionFactory.getCurrentSession().load(EntityTemplate.class, templateId);
+        return (EntityTemplate) sessionFactory.getCurrentSession().load(EntityTemplate.class,
+                templateId);
     }
 
     @SuppressWarnings("unchecked")
@@ -50,7 +51,8 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional(readOnly = true)
     public Set<EntityTemplate> getEntityTemplates()
     {
-        return new HashSet<EntityTemplate>(sessionFactory.getCurrentSession().createQuery("from EntityTemplate").list());
+        return new HashSet<EntityTemplate>(sessionFactory.getCurrentSession()
+                .createQuery("from EntityTemplate").list());
     }
 
     @SuppressWarnings("unchecked")
@@ -58,7 +60,8 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional(readOnly = true)
     public Set<Topic> getRootTopics()
     {
-        return new HashSet<Topic>(sessionFactory.getCurrentSession().createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(Topic.class).list());
+        return new HashSet<Topic>(sessionFactory.getCurrentSession()
+                .createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(Topic.class).list());
     }
 
     @Override
@@ -85,8 +88,8 @@ public class DataAccessServiceImpl implements DataAccessService
     {
         Helper.ensureParent(template);
 
-        template = (EntityTemplate)sessionFactory.getCurrentSession().merge(template);
-        
+        template = (EntityTemplate) sessionFactory.getCurrentSession().merge(template);
+
         sessionFactory.getCurrentSession().flush();
 
         return template;
@@ -97,14 +100,15 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional
     public Set<ValueType> getValueTypes()
     {
-        return new HashSet<ValueType>(sessionFactory.getCurrentSession().createQuery("from ValueType").list());
+        return new HashSet<ValueType>(sessionFactory.getCurrentSession()
+                .createQuery("from ValueType").list());
     }
-    
+
     private static class Helper
     {
         public static void ensureParent(EntityTemplate template)
         {
-            for(EntityTemplateProperty property : template.getProperties())
+            for (EntityTemplateProperty property : template.getProperties())
             {
                 property.setParentTemplate(template);
             }

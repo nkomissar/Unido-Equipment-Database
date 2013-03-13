@@ -7,7 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.apache.log4j.Logger;
-import org.unido.eetdb.daemon.db.DbWriter;
+import org.unido.eetdb.daemon.db.DbHelper;
 import org.unido.eetdb.daemon.parser.Parser;
 import org.unido.eetdb.servicehost.Service;
 import org.unido.eetdb.servicehost.ServiceStatus;
@@ -23,7 +23,7 @@ public class FileSystemDaemon extends Service
     private String              pathToStore;
     private Timer               refreshTimer;
     private Map<String, Parser> supportedFormats = new HashMap<String, Parser>();
-    private DbWriter            dbWriter;
+    private DbHelper            dbWriter;
 
     private void checkFolderToMonitor()
     {
@@ -165,12 +165,12 @@ public class FileSystemDaemon extends Service
         this.supportedFormats = supportedFormats;
     }
 
-    public DbWriter getDbWriter()
+    public DbHelper getDbWriter()
     {
         return dbWriter;
     }
 
-    public void setDbWriter(DbWriter dbWriter)
+    public void setDbWriter(DbHelper dbWriter)
     {
         this.dbWriter = dbWriter;
     }
