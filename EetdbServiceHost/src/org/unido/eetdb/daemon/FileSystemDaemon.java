@@ -23,7 +23,7 @@ public class FileSystemDaemon extends Service
     private String              pathToStore;
     private Timer               refreshTimer;
     private Map<String, Parser> supportedFormats = new HashMap<String, Parser>();
-    private DbHelper            dbWriter;
+    private DbHelper            dbHelper;
 
     private void checkFolderToMonitor()
     {
@@ -55,7 +55,7 @@ public class FileSystemDaemon extends Service
                     {
                         Parser parser = supportedFormats.get(fileExtension);
 
-                        if(!dbWriter.persistEntities(parser.parse(file)))
+                        if(!dbHelper.persistEntities(parser.parse(file)))
                         {
                             logger.error("Failed to save parsed Entities to DB, moving the file to Garbage...");
 
@@ -80,7 +80,7 @@ public class FileSystemDaemon extends Service
         }
         catch (Throwable ex)
         {
-            logger.error(String.format("Fatal error accessing source folder: %s", ex));
+            logger.error("Fatal error accessing source folder.", ex);
         }
     }
 
@@ -165,13 +165,13 @@ public class FileSystemDaemon extends Service
         this.supportedFormats = supportedFormats;
     }
 
-    public DbHelper getDbWriter()
+    public DbHelper getDbHelper()
     {
-        return dbWriter;
+        return dbHelper;
     }
 
-    public void setDbWriter(DbHelper dbWriter)
+    public void setDbHelper(DbHelper dbHelper)
     {
-        this.dbWriter = dbWriter;
+        this.dbHelper = dbHelper;
     }
 }
