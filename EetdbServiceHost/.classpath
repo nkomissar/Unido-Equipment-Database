@@ -14,6 +14,7 @@
 	<classpathentry kind="lib" path="jar/spring-expression-3.2.0.RELEASE.jar"/>
 	<classpathentry kind="lib" path="jar/commons-io-2.4.jar"/>
 	<classpathentry kind="lib" path="jar/mail.jar"/>
-	<classpathentry kind="lib" path="jar/eetdb-common-0.0.1.jar"/>
+	<classpathentry kind="lib" path="jar/eetdb-common-0.0.1.jar" sourcepath="/EetdbCommon/src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/EetdbCommon"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

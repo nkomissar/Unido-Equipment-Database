@@ -7,5 +7,5 @@ import org.unido.eetdb.common.model.Entity;
 
 public interface Parser
 {
-    public List<Entity> parse(File file);
+    public List<Entity> parse(File file) throws Exception;
 }

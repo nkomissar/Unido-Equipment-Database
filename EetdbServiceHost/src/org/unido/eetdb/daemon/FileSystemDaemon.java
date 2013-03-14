@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.UUID;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -49,7 +50,7 @@ public class FileSystemDaemon extends Service
                         logger.info(String
                                 .format("Unsupported file format, moving the file to Garbage..."));
 
-                        FileUtils.moveFileToDirectory(file, garbageFolder, true);
+                        FileUtils.moveFile(file, new File(garbageFolder, getUniqueName(file)));
                     }
                     else
                     {
@@ -59,22 +60,22 @@ public class FileSystemDaemon extends Service
                         {
                             logger.error("Failed to save parsed Entities to DB, moving the file to Garbage...");
 
-                            FileUtils.moveFileToDirectory(file, garbageFolder, true);
+                            FileUtils.moveFile(file, new File(garbageFolder, getUniqueName(file)));
                         }
                         else
                         {
                             logger.info("Saved parsed Entities to DB, moving the file to Storage...");
 
-                            FileUtils.moveFileToDirectory(file, storageFolder, false);
+                            FileUtils.moveFile(file, new File(storageFolder, getUniqueName(file)));
                         }
                     }
                 }
                 catch (Throwable ex)
                 {
-                    logger.error(String.format("Failed to process the file: %s with error: %s",
-                            file.getName(), ex));
+                    logger.error(String.format("Failed to process the file: %s", file.getName()),
+                            ex);
 
-                    FileUtils.moveFileToDirectory(file, garbageFolder, true);
+                    FileUtils.moveFile(file, new File(garbageFolder, getUniqueName(file)));
                 }
             }
         }
@@ -82,6 +83,13 @@ public class FileSystemDaemon extends Service
         {
             logger.error("Fatal error accessing source folder.", ex);
         }
+    }
+
+    private static String getUniqueName(File file)
+    {
+        return FilenameUtils.getBaseName(file.getName()) + UUID.randomUUID()
+                + FilenameUtils.EXTENSION_SEPARATOR_STR
+                + FilenameUtils.getExtension(file.getName());
     }
 
     @Override
