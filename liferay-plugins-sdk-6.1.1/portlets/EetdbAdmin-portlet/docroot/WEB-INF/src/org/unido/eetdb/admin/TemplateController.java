@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -30,6 +31,7 @@ import org.springframework.web.servlet.View;
 import org.unido.eetdb.admin.util.ConfigWrapper;
 import org.unido.eetdb.admin.util.HttpEntityEnclosingDeleteRequest;
 import org.unido.eetdb.common.model.EntityTemplate;
+import org.unido.eetdb.common.model.EntityTemplateProperty;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
@@ -38,6 +40,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
 import com.fasterxml.jackson.databind.type.TypeFactory;
 import com.fasterxml.jackson.module.jaxb.JaxbAnnotationIntrospector;
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.User;
+import com.liferay.portal.util.PortalUtil;
 
 @Controller
 @RequestMapping("view")
@@ -85,7 +91,7 @@ public class TemplateController {
 
 	@ActionMapping(params = "action=doEntityTemplatePost")
 	public void postEntityTemplate(ActionRequest request,
-			ActionResponse response) {
+			ActionResponse response) throws PortalException, SystemException {
 
 		ObjectMapper mapper = new ObjectMapper();
 		AnnotationIntrospector primary = new JaxbAnnotationIntrospector(
@@ -117,6 +123,18 @@ public class TemplateController {
 			e.printStackTrace();
 		}
 
+		User user = PortalUtil.getUser(request);
+		readValue.setLastUpdatedBy(user.getFullName());
+		
+		Iterator<EntityTemplateProperty> itr = readValue.getProperties().iterator();
+		
+		while(itr.hasNext())
+		{
+			EntityTemplateProperty prop = itr.next();
+			prop.setLastUpdatedBy(user.getFullName());
+		}
+		
+		
 		/*
 		 * Properties props = System.getProperties();
 		 * props.put("http.proxyHost", "localhost"); props.put("http.proxyPort",

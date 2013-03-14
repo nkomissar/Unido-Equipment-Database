@@ -42,7 +42,7 @@
 	              'Ext.layout.container.Column',
 	              'Ext.tab.Panel', 
 	              'Ext.util.*',
-	              'Ext.data.proxy',
+	              'Ext.data.proxy.*',
 	              'Ext.ux.GroupTabPanel']);
 	
 	doEntityLoadURL = '${doEntityLoadURL}';
@@ -53,6 +53,7 @@
 	
 	portletUrl = Liferay.PortletURL;
 	
+	Ext.require('Ext.data.writer.Writer', function(){
 	Ext.data.writer.Json.override({
 	    getRecordData: function(record) {
 	    	
@@ -83,8 +84,9 @@
 	        return data;
 	        
 	    }
-	});
+	});});
 	
+	Ext.require('Ext.data.Model', function(){
 	Ext.data.Model.override({
 	    
 	    /**
@@ -112,6 +114,7 @@
 	    }
 	    
 	});	
+	});
 		
 	Ext.application({
 	    name: 'EetdbAdmin',

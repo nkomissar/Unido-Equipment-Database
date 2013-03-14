@@ -15,7 +15,7 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
          {name: 'id',  type: 'long'}
         ,{name: 'name', type: 'string'}
         ,{name: 'code', type: 'string'}
-        ,{name:'lastUpdatedDate', type: 'long'}
+        ,{name: 'version', type: 'long'}
     ]
     
     ,hasMany: 

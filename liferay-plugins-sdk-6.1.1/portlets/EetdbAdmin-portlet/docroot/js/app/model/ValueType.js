@@ -2,7 +2,8 @@ Ext.define('EetdbAdmin.model.ValueType', {
     extend: 'Ext.data.Model',
     
     proxy: {
-        type: 'memory'
+        type: 'memory',
+        reader: 'json'
     },
     
     fields: [
