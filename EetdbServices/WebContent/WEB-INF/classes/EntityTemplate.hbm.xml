@@ -4,21 +4,22 @@
 	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="org.unido.eetdb.service.dbmodel">
-	<class name="DbEntityTemplate" table="UNIDO_ENTITY_TEMPLATE" lazy="false">
-	   
-	    <id name="id" column="ENTITY_TEMPLATE_ID">
-        	<generator class="identity"/>
-    	</id>
+<hibernate-mapping package="org.unido.eetdb.common.model">
+	<class name="EntityTemplate" table="UNIDO_ENTITY_TEMPLATE" lazy="false">
 
-    	<version name="lastUpdatedDate" column="UPDATE_DATE" type="dbtimestamp" />
+		<id name="id" column="ENTITY_TEMPLATE_ID">
+			<generator class="identity" />
+		</id>
 
-    	<property name="name" column="TEMPLATE_NAME"/>
-    	<property name="lastUpdatedBy" column="UPDATED_BY"/>
-    	
-    	<set name="properties" table="UNIDO_ENTITY_TEMPLATE_PROPERTY" lazy="true" inverse="true" cascade="all-delete-orphan">
+		<version name="version" column="VERSION" />
+
+		<property name="name" column="TEMPLATE_NAME" />
+		<property name="code" column="TEMPLATE_CODE" />
+		<property name="lastUpdatedBy" column="UPDATED_BY" />
+
+		<set name="properties" table="UNIDO_ENTITY_TEMPLATE_PROPERTY" lazy="false" inverse="true" cascade="all-delete-orphan">
 			<key column="ENTITY_TEMPLATE_ID" not-null="true" />
-			<one-to-many class="DbEntityTemplateProperty" />
+			<one-to-many class="EntityTemplateProperty" />
 		</set>
 	</class>
 </hibernate-mapping>

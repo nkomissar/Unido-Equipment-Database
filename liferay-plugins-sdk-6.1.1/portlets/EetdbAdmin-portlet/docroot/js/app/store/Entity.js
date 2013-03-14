@@ -1,10 +1,10 @@
 
-Ext.define('EetdbAdmin.store.EntityTemplate', {
+Ext.define('EetdbAdmin.store.Entity', {
     extend: 'Ext.data.Store',
 
-    requires: ['EetdbAdmin.model.EntityTemplate'],
-               
-    model: 'EetdbAdmin.model.EntityTemplate',
+    requires: ['EetdbAdmin.model.Entity'],
+    
+    model: 'EetdbAdmin.model.Entity',
     
     proxy: {
     	type: 'ajax',
@@ -15,7 +15,7 @@ Ext.define('EetdbAdmin.store.EntityTemplate', {
     	reader: 
     	{
     		type: 'json',
-    		root: 'template'
+    		root: 'entity'
     	}
         ,writer:
     	{
@@ -31,17 +31,17 @@ Ext.define('EetdbAdmin.store.EntityTemplate', {
 		loadUrl.setPortletId(portletId);
 		loadUrl.setWindowState(exclusiveWindowState);
 		
-        loadUrl.setParameter('action', 'doEntityTemplateLoad');
+        loadUrl.setParameter('action', 'doEntityLoad');
         
         if (typeof options !== 'undefined' 
         	&& typeof options.params !== 'undefined'
         	&& typeof options.params.entityTemplateId !== 'undefined') {
         	
-        	loadUrl.setParameter('entityTemplateId', options.params.entityTemplateId);
+        	loadUrl.setParameter('entityTemplateId', options.params.entityId);
         
         } else {
         	
-        	loadUrl.setParameter('entityTemplateId', 1);
+        	loadUrl.setParameter('entityId', 1);
         	
         }
         
@@ -58,11 +58,11 @@ Ext.define('EetdbAdmin.store.EntityTemplate', {
 		pUrl.setPortletId(portletId);
 		pUrl.setWindowState(exclusiveWindowState);
 		
-		pUrl.setParameter('action', 'doEntityTemplatePost');
+		pUrl.setParameter('action', 'doEntityPost');
         
         var postUrl = pUrl.toString();
         
-        pUrl.setParameter('action', 'doEntityTemplateDestroy');
+        pUrl.setParameter('action', 'doEntityDestroy');
         
         var destroyUrl = pUrl.toString();
         

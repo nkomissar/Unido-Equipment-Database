@@ -15,18 +15,19 @@
         <property name="username" value="" />
         <property name="password" value="" />
     </bean>
-    
-    <bean id="csvParser" class="org.unido.eetdb.daemon.parser.CsvParser">
+
+    <bean id="dbHelper" class="org.unido.eetdb.daemon.db.DbHelper">
+    	<property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="dbWriter" class="org.unido.eetdb.daemon.db.DbWriter">
-    	<property name="dataSource" ref="dataSource" />
+    <bean id="csvParser" class="org.unido.eetdb.daemon.parser.CsvParser">
+    	<property name="dbHelper" ref="dbHelper" />
     </bean>
 
     <bean id="fileDaemon" class="org.unido.eetdb.daemon.FileSystemDaemon">
         <property name="pathToMonitor" value="C:\\Temp" />
         <property name="pathToStore" value="C:\\Temp\Storage" />
-        <property name="dbWriter" ref="dbWriter" />
+        <property name="dbHelper" ref="dbHelper" />
         <property name="supportedFormats">
         	<map>
         		<entry key="csv" value-ref="csvParser" />

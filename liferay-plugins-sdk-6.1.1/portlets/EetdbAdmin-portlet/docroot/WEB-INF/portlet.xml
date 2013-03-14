@@ -7,10 +7,14 @@
 	<portlet>
 		<portlet-name>EetdbAdmin</portlet-name>
 		<display-name>EetdbAdmin</display-name>
-		<!--portlet-class>com.liferay.util.bridges.mvc.MVCPortlet</portlet-class -->
+
 		<portlet-class>org.springframework.web.portlet.DispatcherPortlet</portlet-class>
-		<!-- init-param> <name>view-template</name> <value>/landingpage.jsp</value> 
-			</init-param -->
+
+		<init-param>
+			<name>config-jsp</name>
+			<value>/WEB-INF/jsp/configuration.jsp</value>
+		</init-param>
+
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -20,6 +24,12 @@
 			<short-title>EetdbAdmin</short-title>
 			<keywords>EetdbAdmin</keywords>
 		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>eetDbServicesUrl</name>
+				<value>http://localhost:8080/EetdbServices</value>
+			</preference>
+		</portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
 		</security-role-ref>
@@ -32,6 +42,6 @@
 		<security-role-ref>
 			<role-name>user</role-name>
 		</security-role-ref>
-
 	</portlet>
+
 </portlet-app>

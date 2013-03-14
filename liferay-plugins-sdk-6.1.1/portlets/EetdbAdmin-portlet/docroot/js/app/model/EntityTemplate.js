@@ -5,15 +5,16 @@ entityTemplateControllerURL.setParameter('action', 'doEntityTemplateList');
 Ext.define('EetdbAdmin.model.EntityTemplate', {
     extend: 'Ext.data.Model',
     
-    requires:['EetdbAdmin.model.EntityTemplateProperty'],
-          
+    requires:['EetdbAdmin.model.EntityTemplateProperty'/*,
+              'EetdbAdmin.lib.overrides.Model'*/],          
     proxy: {
         type: 'memory'
     },
     
     fields: [
-        {name: 'id',  type: 'int'}
+         {name: 'id',  type: 'long'}
         ,{name: 'name', type: 'string'}
+        ,{name: 'code', type: 'string'}
         ,{name:'lastUpdatedDate', type: 'long'}
     ]
     
@@ -34,12 +35,20 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
 		 
 		 this.callParent(arguments);
 
-		 if (!single
-				 && typeof fieldName['properties'] !== 'undefined') {
-			 me.properties().removeAll();
-			 me.properties().add(fieldName['properties']);
-			 me.dirty = true;
+		 if (single)
+		 {
+			 return;
 		 }
+
+		 me.dirty = true;
+		 me.properties().removeAll();
+		 
+		 if (typeof fieldName['properties'] == 'undefined')
+		 {
+			 return;
+		 }
+			 
+		 me.properties().add(fieldName['properties']);
 		 
 	}
 

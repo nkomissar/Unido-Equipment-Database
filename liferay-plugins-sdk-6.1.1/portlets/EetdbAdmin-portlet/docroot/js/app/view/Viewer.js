@@ -2,19 +2,30 @@ Ext.define('EetdbAdmin.view.Viewer', {
     extend: 'Ext.tab.Panel',
     alias: 'widget.viewer',
     
-    requires: ['EetdbAdmin.view.entitytemplate.Item'],
+    requires: ['EetdbAdmin.view.entitytemplate.Item'
+               	,'EetdbAdmin.view.entity.Item'],
     
     activeItem: 0,
-    //margins: '5 5 5 5',
-    
-    cls: 'preview',
     
     initComponent: function() {
-        this.items = [{
+    	
+    	var me = this;
+    	
+        me.items = [
+          {
             xtype: 'entitytemplateitem',
             title: 'Template'
-        }];
+            ,id: 'entitytemplateitem'
+          },{
+              xtype: 'entityitem',
+              title: 'Entity'
+              ,id: 'entityitem'
+          }];
         
-        this.callParent(arguments);
+        
+        me.callParent(arguments);
+        
+        me.getTabBar().hide();
+        
     }
 });

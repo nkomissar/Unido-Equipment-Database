@@ -1,7 +1,6 @@
 package org.unido.eetdb.service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import org.hibernate.SessionFactory;
@@ -10,12 +9,9 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityTemplate;
+import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.common.model.Topic;
-import org.unido.eetdb.service.dbmodel.DbEntity;
-import org.unido.eetdb.service.dbmodel.DbEntityTemplate;
-import org.unido.eetdb.service.dbmodel.DbTopic;
-import org.unido.eetdb.util.DbToDomainMapper;
-import org.unido.eetdb.util.DomainToDbMapper;
+import org.unido.eetdb.common.model.ValueType;
 
 @Repository
 public class DataAccessServiceImpl implements DataAccessService
@@ -30,40 +26,33 @@ public class DataAccessServiceImpl implements DataAccessService
 
     @Override
     @Transactional(readOnly = true)
-    public Entity getEntity(Long entityId, boolean loadChilds)
+    public Entity getEntity(Long entityId)
     {
-        DbEntity dbEntity = (DbEntity) sessionFactory.getCurrentSession().load(DbEntity.class,
-                entityId);
-
-        return DbToDomainMapper.mapEntity(dbEntity);
+        return (Entity) sessionFactory.getCurrentSession().load(Entity.class, entityId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public Topic getTopic(Long topicId)
     {
-        DbTopic dbTopic = (DbTopic) sessionFactory.getCurrentSession().load(DbTopic.class, topicId);
-
-        return DbToDomainMapper.mapTopic(dbTopic, false);
+        return (Topic) sessionFactory.getCurrentSession().load(Topic.class, topicId);
     }
 
     @Override
     @Transactional(readOnly = true)
     public EntityTemplate getEntityTemplate(Long templateId)
     {
-        DbEntityTemplate dbEntityTemplate = (DbEntityTemplate) sessionFactory.getCurrentSession()
-                .load(DbEntityTemplate.class, templateId);
-
-        return DbToDomainMapper.mapEntityTemplate(dbEntityTemplate, false);
+        return (EntityTemplate) sessionFactory.getCurrentSession().load(EntityTemplate.class,
+                templateId);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     @Transactional(readOnly = true)
-    public List<EntityTemplate> getEntityTemplates()
+    public Set<EntityTemplate> getEntityTemplates()
     {
-        return DbToDomainMapper.mapEntityTemplates(sessionFactory.getCurrentSession()
-                .createQuery("from DbEntityTemplate").list(), true);
+        return new HashSet<EntityTemplate>(sessionFactory.getCurrentSession()
+                .createQuery("from EntityTemplate").list());
     }
 
     @SuppressWarnings("unchecked")
@@ -71,38 +60,58 @@ public class DataAccessServiceImpl implements DataAccessService
     @Transactional(readOnly = true)
     public Set<Topic> getRootTopics()
     {
-        return DbToDomainMapper.mapTopics(new HashSet<DbTopic>(sessionFactory.getCurrentSession()
-                .createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(DbTopic.class).list()));
+        return new HashSet<Topic>(sessionFactory.getCurrentSession()
+                .createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(Topic.class).list());
     }
 
     @Override
     @Transactional
     public EntityTemplate createEntityTemplate(EntityTemplate template)
     {
-        DbEntityTemplate dbTemplate = DomainToDbMapper.mapEntityTemplate(template);
+        Helper.ensureParent(template);
 
-        sessionFactory.getCurrentSession().save(dbTemplate);
+        sessionFactory.getCurrentSession().save(template);
 
-        return DbToDomainMapper.mapEntityTemplate(dbTemplate, false);
+        return template;
     }
 
     @Override
     @Transactional
     public void deleteEntityTemplate(EntityTemplate template)
     {
-        sessionFactory.getCurrentSession().delete(DomainToDbMapper.mapEntityTemplate(template));
+        sessionFactory.getCurrentSession().delete(template);
     }
 
     @Override
     @Transactional
     public EntityTemplate updateEntityTemplate(EntityTemplate template)
     {
-        DbEntityTemplate dbTemplate = DomainToDbMapper.mapEntityTemplate(template);
-        
-        dbTemplate = (DbEntityTemplate)sessionFactory.getCurrentSession().merge(dbTemplate);
-        
+        Helper.ensureParent(template);
+
+        template = (EntityTemplate) sessionFactory.getCurrentSession().merge(template);
+
         sessionFactory.getCurrentSession().flush();
 
-        return DbToDomainMapper.mapEntityTemplate(dbTemplate, false);
+        return template;
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    @Transactional
+    public Set<ValueType> getValueTypes()
+    {
+        return new HashSet<ValueType>(sessionFactory.getCurrentSession()
+                .createQuery("from ValueType").list());
+    }
+
+    private static class Helper
+    {
+        public static void ensureParent(EntityTemplate template)
+        {
+            for (EntityTemplateProperty property : template.getProperties())
+            {
+                property.setParentTemplate(template);
+            }
+        }
     }
 }

@@ -1,9 +1,9 @@
-Ext.define('Ext.form.ClosableFieldSet', {
+Ext.define('Ext.form.TemplateClosableFieldSet', {
     extend: 'Ext.form.FieldSet',
     
     uses: ['Ext.panel.Tool'],
     
-    alias: 'widget.closablefieldset',
+    alias: 'widget.templateclosablefieldset',
     items:[{
     	xtype: 'hidden',
     	name: 'id'
@@ -11,6 +11,10 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	fieldLabel: 'Name',
     	xtype: 'textfield',
     	name: 'name'
+    },{
+    	fieldLabel: 'Code',
+    	xtype: 'textfield',
+    	name: 'code'
     },{
     	fieldLabel: 'Display in grid',
     	xtype: 'checkbox',
@@ -26,6 +30,15 @@ Ext.define('Ext.form.ClosableFieldSet', {
     },{
     	xtype: 'hidden',
     	name: 'lastupdatedate'
+    },{
+        xtype: 'combobox',
+        name : 'valueType',
+        fieldLabel: 'Value Type',
+        displayField: 'type',
+        queryMode: 'local',
+        valueField: 'id',
+        store: 'ValueType',
+        editable: false
     }],
     initComponent: function () {
         var me = this;
@@ -49,16 +62,22 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	
     	var id = me.down('[isFormField][name="id"]');
     	var nm = me.down('[isFormField][name="name"]');
+    	var code = me.down('[isFormField][name="code"]');
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
     	var lud = me.down('[isFormField][name="lastupdatedate"]');
+    	var vt = me.down('[isFormField][name="valueType"]');
     	
     	if(typeof id != 'undefined')
     	{
     		id.setValue(record.get('id'));
     	}
 
+    	if(typeof code != 'undefined')
+    	{
+    		code.setValue(record.get('code'));
+    	}
     	if(typeof nm != 'undefined')
     	{
     		nm.setValue(record.get('name'));
@@ -84,6 +103,11 @@ Ext.define('Ext.form.ClosableFieldSet', {
     		lud.setValue(record.get('lastUpdatedDate'));
     	}
 
+    	if(typeof vt != 'undefined')
+    	{
+    		vt.setValue(record.GetValueType().get('id'));
+    	}
+    	
     }
     , getFieldValues: function(){
     	var me = this;
@@ -91,10 +115,12 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	
     	var id = me.down('[isFormField][name="id"]');
     	var nm = me.down('[isFormField][name="name"]');
+    	var code = me.down('[isFormField][name="code"]');
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
     	var lud = me.down('[isFormField][name="lastupdatedate"]');
+    	var vt = me.down('[isFormField][name="valueType"]');
 
     	if(typeof id != 'undefined')
     	{
@@ -106,6 +132,11 @@ Ext.define('Ext.form.ClosableFieldSet', {
     		prop['name'] = nm.getValue();
     	}
 
+    	if(typeof code != 'undefined')
+    	{
+    		prop['code'] = code.getValue();
+    	}
+    	
     	if(typeof inGrid != 'undefined')
     	{
     		prop['displayInGrid'] = inGrid.getValue();
@@ -124,6 +155,12 @@ Ext.define('Ext.form.ClosableFieldSet', {
     	if(typeof lud != 'undefined')
     	{
     		prop['lastUpdatedDate'] = lud.getValue();
+    	}
+    	
+    	if(typeof vt != 'undefined')
+    	{
+    		var id = vt.getValue();
+    		prop['ValueType'] = vt.findRecord(vt.valueField || vt.displayField, id).data;
     	}
     	
     	return prop;
@@ -154,6 +191,10 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
         			name: 'name',
         			fieldLabel: 'Name'
         		},{
+        			xtype: 'textfield',
+        			name: 'code',
+        			fieldLabel: 'Code'
+        		},{
         			xtype: 'hidden',
         			name: 'id'
         		},{
@@ -178,7 +219,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 
 	,addProperty: function(frm) {
 		
-		var fieldSet = frm.add(Ext.widget('closablefieldset', {
+		var fieldSet = frm.add(Ext.widget('templateclosablefieldset', {
             columnWidth: 0.5,
             title: 'Property',
             collapsible: true,
@@ -196,7 +237,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 		
 		form.loadRecord(record);
 		
-		var props = form.query('closablefieldset');
+		var props = form.query('templateclosablefieldset');
 		
 		Ext.each(props, function(prop) {
 			 if (prop.ownerCt) {
@@ -225,6 +266,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
     	
     	var id = form.down('[isFormField][name="id"]');
     	var nm = form.down('[isFormField][name="name"]');
+    	var code = form.down('[isFormField][name="code"]');
     	var fieldSets = form.query('fieldset');
 
     	if(typeof id != 'undefined')
@@ -235,6 +277,11 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
     	if(typeof nm != 'undefined')
     	{
     		template['name'] = nm.getValue();
+    	}
+
+    	if(typeof code != 'undefined')
+    	{
+    		template['code'] = code.getValue();
     	}
     	
     	Ext.each(fieldSets, function(fieldSet)
