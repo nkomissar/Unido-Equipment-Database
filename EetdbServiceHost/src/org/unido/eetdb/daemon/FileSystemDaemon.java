@@ -6,14 +6,13 @@ import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.log4j.Logger;
 import org.unido.eetdb.daemon.db.DbHelper;
 import org.unido.eetdb.daemon.parser.Parser;
 import org.unido.eetdb.servicehost.Service;
 import org.unido.eetdb.servicehost.ServiceStatus;
-
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
 
 public class FileSystemDaemon extends Service
 {
@@ -47,15 +46,16 @@ public class FileSystemDaemon extends Service
 
                     if (!supportedFormats.containsKey(fileExtension))
                     {
-                        logger.info(String.format("Unsupported file format, deleting..."));
+                        logger.info(String
+                                .format("Unsupported file format, moving the file to Garbage..."));
 
-                        file.delete();
+                        FileUtils.moveFileToDirectory(file, garbageFolder, true);
                     }
                     else
                     {
                         Parser parser = supportedFormats.get(fileExtension);
 
-                        if(!dbHelper.persistEntities(parser.parse(file)))
+                        if (!dbHelper.persistEntities(parser.parse(file)))
                         {
                             logger.error("Failed to save parsed Entities to DB, moving the file to Garbage...");
 
@@ -145,14 +145,14 @@ public class FileSystemDaemon extends Service
         this.pathToMonitor = pathToMonitor;
     }
 
-    public String getPathToStorage()
+    public String getPathToStore()
     {
         return pathToStore;
     }
 
-    public void setPathToStorage(String pathToStorage)
+    public void setPathToStore(String pathToStore)
     {
-        this.pathToStore = pathToStorage;
+        this.pathToStore = pathToStore;
     }
 
     public Map<String, Parser> getSupportedFormats()
