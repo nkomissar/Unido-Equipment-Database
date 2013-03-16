@@ -36,7 +36,7 @@ public class EntityController
 
 		for (int i=0; i<entities.length; i++)
 		{
-			entities[i] = tmpl.getForObject(ConfigWrapper.getServUrl(renderRequest) + "/entity/{i}", Entity.class, i+1);
+			entities[i] = tmpl.getForObject(ConfigWrapper.getServUrl(renderRequest) + "/entity/{i};skipChilds=true", Entity.class, i+1);
 		}
 		
 		Map<String, Object> data = new HashMap<String, Object>();

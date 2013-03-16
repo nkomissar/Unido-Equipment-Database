@@ -29,7 +29,7 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	name: 'unitofmeasure'
     },{
     	xtype: 'hidden',
-    	name: 'lastupdatedate'
+    	name: 'version'
     },{
         xtype: 'combobox',
         name : 'valueType',
@@ -66,7 +66,7 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
-    	var lud = me.down('[isFormField][name="lastupdatedate"]');
+    	var version = me.down('[isFormField][name="version"]');
     	var vt = me.down('[isFormField][name="valueType"]');
     	
     	if(typeof id != 'undefined')
@@ -98,9 +98,9 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     		uom.setValue(record.get('unitOfMeasure'));
     	}
 
-    	if(typeof lud != 'undefined')
+    	if(typeof version != 'undefined')
     	{
-    		lud.setValue(record.get('lastUpdatedDate'));
+    		version.setValue(record.get('version'));
     	}
 
     	if(typeof vt != 'undefined')
@@ -119,7 +119,7 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
-    	var lud = me.down('[isFormField][name="lastupdatedate"]');
+    	var version = me.down('[isFormField][name="version"]');
     	var vt = me.down('[isFormField][name="valueType"]');
 
     	if(typeof id != 'undefined')
@@ -154,13 +154,13 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	
     	if(typeof lud != 'undefined')
     	{
-    		prop['lastUpdatedDate'] = lud.getValue();
+    		prop['version'] = version.getValue();
     	}
     	
     	if(typeof vt != 'undefined')
     	{
     		var id = vt.getValue();
-    		prop['ValueType'] = vt.findRecord(vt.valueField || vt.displayField, id).data;
+    		prop['valueType'] = vt.findRecord(vt.valueField || vt.displayField, id).data;
     	}
     	
     	return prop;
@@ -197,6 +197,9 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
         		},{
         			xtype: 'hidden',
         			name: 'id'
+        		},{
+        			xtype: 'hidden',
+        			name: 'version'
         		},{
         			xtype: 'button',
         			text: 'Add Property',
@@ -267,6 +270,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
     	var id = form.down('[isFormField][name="id"]');
     	var nm = form.down('[isFormField][name="name"]');
     	var code = form.down('[isFormField][name="code"]');
+    	var version = form.down('[isFormField][name="version"]');
     	var fieldSets = form.query('fieldset');
 
     	if(typeof id != 'undefined')
@@ -282,6 +286,11 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
     	if(typeof code != 'undefined')
     	{
     		template['code'] = code.getValue();
+    	}
+
+    	if(typeof version != 'version')
+    	{
+    		template['version'] = version.getValue();
     	}
     	
     	Ext.each(fieldSets, function(fieldSet)
