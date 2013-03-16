@@ -57,8 +57,15 @@ public class DataAccessServiceImpl implements DataAccessService
     @Override
     public Set<EntityTemplate> getEntityTemplates()
     {
-        return new HashSet<EntityTemplate>(sessionFactory.getCurrentSession()
+        Set<EntityTemplate> retVal = new HashSet<EntityTemplate>(sessionFactory.getCurrentSession()
                 .createQuery("from EntityTemplate").list());
+        
+        for(EntityTemplate template : retVal)
+        {
+            Helper.ensureChilds(template, true);
+        }
+
+        return retVal;
     }
 
     @SuppressWarnings("unchecked")
