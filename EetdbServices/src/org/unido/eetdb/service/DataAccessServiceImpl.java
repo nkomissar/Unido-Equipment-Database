@@ -6,6 +6,7 @@ import java.util.Set;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityTemplate;
@@ -14,6 +15,7 @@ import org.unido.eetdb.common.model.Topic;
 import org.unido.eetdb.common.model.ValueType;
 
 @Repository
+@Transactional(propagation = Propagation.MANDATORY)
 public class DataAccessServiceImpl implements DataAccessService
 {
     private SessionFactory sessionFactory;
@@ -25,21 +27,22 @@ public class DataAccessServiceImpl implements DataAccessService
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public Entity getEntity(Long entityId)
+    public Entity getEntity(Long entityId, boolean skipChilds)
     {
-        return (Entity) sessionFactory.getCurrentSession().load(Entity.class, entityId);
+        Entity retVal = (Entity) sessionFactory.getCurrentSession().load(Entity.class, entityId);
+        
+        Helper.ensureChilds(retVal, skipChilds);
+        
+        return retVal;
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Topic getTopic(Long topicId)
     {
         return (Topic) sessionFactory.getCurrentSession().load(Topic.class, topicId);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public EntityTemplate getEntityTemplate(Long templateId)
     {
         return (EntityTemplate) sessionFactory.getCurrentSession().load(EntityTemplate.class,
@@ -48,7 +51,6 @@ public class DataAccessServiceImpl implements DataAccessService
 
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional(readOnly = true)
     public Set<EntityTemplate> getEntityTemplates()
     {
         return new HashSet<EntityTemplate>(sessionFactory.getCurrentSession()
@@ -57,7 +59,6 @@ public class DataAccessServiceImpl implements DataAccessService
 
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional(readOnly = true)
     public Set<Topic> getRootTopics()
     {
         return new HashSet<Topic>(sessionFactory.getCurrentSession()
@@ -65,7 +66,6 @@ public class DataAccessServiceImpl implements DataAccessService
     }
 
     @Override
-    @Transactional
     public EntityTemplate createEntityTemplate(EntityTemplate template)
     {
         Helper.ensureParent(template);
@@ -76,14 +76,12 @@ public class DataAccessServiceImpl implements DataAccessService
     }
 
     @Override
-    @Transactional
     public void deleteEntityTemplate(EntityTemplate template)
     {
         sessionFactory.getCurrentSession().delete(template);
     }
 
     @Override
-    @Transactional
     public EntityTemplate updateEntityTemplate(EntityTemplate template)
     {
         Helper.ensureParent(template);
@@ -97,7 +95,6 @@ public class DataAccessServiceImpl implements DataAccessService
 
     @SuppressWarnings("unchecked")
     @Override
-    @Transactional
     public Set<ValueType> getValueTypes()
     {
         return new HashSet<ValueType>(sessionFactory.getCurrentSession()
@@ -111,6 +108,21 @@ public class DataAccessServiceImpl implements DataAccessService
             for (EntityTemplateProperty property : template.getProperties())
             {
                 property.setParentTemplate(template);
+            }
+        }
+        
+        public static void ensureChilds(Entity entity, boolean doAbort)
+        {
+            if(doAbort)
+            {
+                entity.setChildEntities(null);
+            }
+            else
+            {
+                for(Entity child : entity.getChildEntities())
+                {
+                    ensureChilds(child, false);
+                }
             }
         }
     }

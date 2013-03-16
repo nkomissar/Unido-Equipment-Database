@@ -23,9 +23,9 @@
 			<one-to-many class="EntityProperty" />
 		</set>
 		
-		<set name="childEntities" table="UNIDO_ENTITY_LINK">
+		<set name="childEntities" table="UNIDO_ENTITY_LINK" lazy="true">
 			<key column="PARENT_ENTITY_ID" />
-			<many-to-many column="LINKED_ENTITY_ID"  class="Entity" />
+			<many-to-many column="LINKED_ENTITY_ID" class="Entity" />
 		</set>
 	</class>
 </hibernate-mapping>

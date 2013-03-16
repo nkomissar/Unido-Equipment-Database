@@ -23,6 +23,10 @@
     <bean id="csvParser" class="org.unido.eetdb.daemon.parser.CsvParser">
     	<property name="dbHelper" ref="dbHelper" />
     </bean>
+    
+    <bean id="excelParser" class="org.unido.eetdb.daemon.parser.XlsxParser">
+    	<property name="dbHelper" ref="dbHelper" />
+    </bean>
 
     <bean id="fileDaemon" class="org.unido.eetdb.daemon.FileSystemDaemon">
         <property name="pathToMonitor" value="C:\\Temp\Monitor" />
@@ -31,6 +35,8 @@
         <property name="supportedFormats">
         	<map>
         		<entry key="csv" value-ref="csvParser" />
+        		<entry key="xls" value-ref="excelParser" />
+        		<entry key="xlsx" value-ref="excelParser" />
         	</map>
         </property>
     </bean>

@@ -1,0 +1,4 @@
+CODE;CATEGORY;CATEGORY1;TITLE;VENDOR;MODEL;PICTURE;URL;DESCRIPTION;VENDOR_CODE;FUEL;APPLICABLE;POWER;DIAMETER;DIAMETER_MIDDLE;DIAMETER_OUT;LAMBDA;DETAILS
+boiler;Жидкотопливные и газовые горелки;Производство тепла и холода;Продукт 33;Производитель 3;Модель К33;http://www.links.com/small_33.jpg;http://www.links.com/tech_33.html;Описание модели К33;NS-567JK;Дизель;Промышленный сектор;2500;;;;;
+boiler;Блочные котельные;Производство тепла и холода;Продукт 34;Производитель 3;Модель К34;http://www.links.com/small_34.jpg;http://www.links.com/tech_34.html;Описание модели К34;TS-234HG;Газ;Жилой сектор;1240;;;;;
+pipe;Предизолированные трубы;Потребление тепла;Продукт 35;Производитель 3;Модель К35;http://www.links.com/small_35.jpg;http://www.links.com/tech_35.html;Описание модели К35;IT-340B;;;;51,4;63;200;0,03;

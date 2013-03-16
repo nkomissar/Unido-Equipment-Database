@@ -4,6 +4,8 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,7 @@ public class TemplateController
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "/value-types")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
     Set<ValueType> getValueTypes()
     {
@@ -32,6 +35,7 @@ public class TemplateController
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/template/{id}")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
     EntityTemplate getTemplate(@PathVariable Long id)
     {
@@ -39,6 +43,7 @@ public class TemplateController
     }
     
     @RequestMapping(method = RequestMethod.POST, value = "/template")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public @ResponseBody
     EntityTemplate createTemplate(@RequestBody EntityTemplate template)
     {
@@ -46,6 +51,7 @@ public class TemplateController
     }
     
     @RequestMapping(method = RequestMethod.DELETE, value = "/template")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public @ResponseBody
     String deleteTemplate(@RequestBody EntityTemplate template)
     {
@@ -55,6 +61,7 @@ public class TemplateController
     }
     
     @RequestMapping(method = RequestMethod.PUT, value = "/template")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public @ResponseBody
     EntityTemplate updateTemplate(@RequestBody EntityTemplate template)
     {
@@ -62,6 +69,7 @@ public class TemplateController
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/templates")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
     Set<EntityTemplate> getTemplates()
     {

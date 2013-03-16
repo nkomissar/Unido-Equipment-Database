@@ -9,7 +9,7 @@ import org.unido.eetdb.common.model.ValueType;
 
 public interface DataAccessService
 {
-    public Entity getEntity(Long entityId);
+    public Entity getEntity(Long entityId, boolean skipChilds);
 
     public Topic getTopic(Long topicId);
     public Set<Topic> getRootTopics();

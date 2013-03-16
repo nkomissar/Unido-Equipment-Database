@@ -16,5 +16,15 @@
 	<classpathentry kind="lib" path="jar/mail.jar"/>
 	<classpathentry kind="lib" path="jar/eetdb-common-0.0.1.jar" sourcepath="/EetdbCommon/src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/EetdbCommon"/>
+	<classpathentry kind="lib" path="jar/poi-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="jar/poi-ooxml-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="jar/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="jar/poi-ooxml-schemas-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="jar/jsr173_1.0_api.jar"/>
+	<classpathentry kind="lib" path="jar/resolver.jar"/>
+	<classpathentry kind="lib" path="jar/xbean_xpath.jar"/>
+	<classpathentry kind="lib" path="jar/xbean.jar"/>
+	<classpathentry kind="lib" path="jar/xmlbeans-qname.jar"/>
+	<classpathentry kind="lib" path="jar/xmlpublic.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

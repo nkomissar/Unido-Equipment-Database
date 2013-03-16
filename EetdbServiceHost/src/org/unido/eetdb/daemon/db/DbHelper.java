@@ -21,45 +21,70 @@ import org.unido.eetdb.common.model.EntityTemplateProperty;
 
 public class DbHelper
 {
-    private static final Logger logger   = Logger.getLogger(DbHelper.class);
+    private static final Logger                      logger                     = Logger.getLogger(DbHelper.class);
 
-    private final static Map<String, EntityTemplate> templates = new HashMap<String, EntityTemplate>();
+    private final static Map<String, EntityTemplate> templates                  = new HashMap<String, EntityTemplate>();
 
-    private static final String GET_PROPERTIES_SQL =
-            "select " +
-                "template.ENTITY_TEMPLATE_ID as template_id, " +
-                "TEMPLATE_PROPERTY_ID as template_property_id, " +
-                "PROPERTY_CODE as template_property_code " +
-            "from " +
-                "UNIDO_ENTITY_TEMPLATE_PROPERTY properties " +
-            "join " +
-                "UNIDO_ENTITY_TEMPLATE template " + 
-             "on properties.ENTITY_TEMPLATE_ID=template.ENTITY_TEMPLATE_ID " + 
-             "where " +
-                 "template.TEMPLATE_CODE=?";
+    private static final String                      GET_PROPERTIES_SQL         =
+                                                                                        "select "
+                                                                                                +
+                                                                                                "template.ENTITY_TEMPLATE_ID as template_id, "
+                                                                                                +
+                                                                                                "TEMPLATE_PROPERTY_ID as template_property_id, "
+                                                                                                +
+                                                                                                "PROPERTY_CODE as template_property_code "
+                                                                                                +
+                                                                                                "from "
+                                                                                                +
+                                                                                                "UNIDO_ENTITY_TEMPLATE_PROPERTY properties "
+                                                                                                +
+                                                                                                "join "
+                                                                                                +
+                                                                                                "UNIDO_ENTITY_TEMPLATE template "
+                                                                                                +
+                                                                                                "on properties.ENTITY_TEMPLATE_ID=template.ENTITY_TEMPLATE_ID "
+                                                                                                +
+                                                                                                "where "
+                                                                                                +
+                                                                                                "template.TEMPLATE_CODE=?";
 
-    private static final String INSERT_ENTITY_SQL = "INSERT INTO " +
-    		"unido_entity(" +
-    		    "entity_id, " +
-    		    "entity_template_id, " +
-    		    "entity_name, " +
-    		    "version, " +
-    		    "status, " +
-    		    "updated_by) " +
-            "VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String                      INSERT_ENTITY_SQL          = "INSERT INTO "
+                                                                                        +
+                                                                                        "unido_entity("
+                                                                                        +
+                                                                                        "entity_id, "
+                                                                                        +
+                                                                                        "entity_template_id, "
+                                                                                        +
+                                                                                        "entity_name, "
+                                                                                        +
+                                                                                        "version, "
+                                                                                        +
+                                                                                        "status, "
+                                                                                        +
+                                                                                        "updated_by) "
+                                                                                        +
+                                                                                        "VALUES(?, ?, ?, ?, ?, ?)";
 
-    private static final String INSERT_ENTITY_PROPERTY_SQL = "INSERT INTO " +
-            "unido_entity_property(" +
-                "entity_id, " +
-                "template_property_id, " +
-                "value, " +
-                "version, " +
-                "updated_by) " +
-            "VALUES(?, ?, ?, ?, ?)";
+    private static final String                      INSERT_ENTITY_PROPERTY_SQL = "INSERT INTO "
+                                                                                        +
+                                                                                        "unido_entity_property("
+                                                                                        +
+                                                                                        "entity_id, "
+                                                                                        +
+                                                                                        "template_property_id, "
+                                                                                        +
+                                                                                        "value, "
+                                                                                        +
+                                                                                        "version, "
+                                                                                        +
+                                                                                        "updated_by) "
+                                                                                        +
+                                                                                        "VALUES(?, ?, ?, ?, ?)";
 
-    private static final String GET_ID = "{? = call SEQ_NEXTVAL}";
+    private static final String                      GET_ID                     = "{? = call SEQ_NEXTVAL}";
 
-    private DataSource          dataSource;
+    private DataSource                               dataSource;
 
     public boolean persistEntities(List<Entity> entities)
     {
@@ -105,7 +130,8 @@ public class DbHelper
                     for (EntityProperty entityProperty : entity.getProperties())
                     {
                         entityPropertyStatement.setLong(1, entityId);
-                        entityPropertyStatement.setLong(2, entityProperty.getTemplateProperty().getId());
+                        entityPropertyStatement.setLong(2, entityProperty.getTemplateProperty()
+                                .getId());
                         entityPropertyStatement.setString(3, entityProperty.getValue());
                         entityPropertyStatement.setInt(4, 0);
                         entityPropertyStatement.setString(5, "SYSTEM");
@@ -116,7 +142,7 @@ public class DbHelper
 
                 entityStatement.executeBatch();
                 entityPropertyStatement.executeBatch();
-                
+
                 connection.commit();
 
                 logger.debug("Data points saved successfully.");
@@ -127,7 +153,7 @@ public class DbHelper
         catch (Throwable t)
         {
             logger.error("Failed to save data points.", t);
-            
+
             try
             {
                 connection.rollback();
@@ -148,12 +174,12 @@ public class DbHelper
             closeConnection(connection);
         }
     }
-    
+
     public EntityTemplate getEntityTemplate(String templateCode)
     {
         EntityTemplate retVal = null;
-        
-        if(templates.containsKey(templateCode))
+
+        if (templates.containsKey(templateCode))
         {
             retVal = templates.get(templateCode);
         }
@@ -161,72 +187,82 @@ public class DbHelper
         {
             retVal = loadEntityTemplate(templateCode);
 
-            if(retVal != null)
+            if (retVal != null)
             {
-                synchronized(templates)
+                synchronized (templates)
                 {
-                    if(!templates.containsKey(templateCode))
+                    if (!templates.containsKey(templateCode))
                     {
                         templates.put(retVal.getCode(), retVal);
                     }
                 }
             }
         }
-        
+
         return retVal;
     }
-    
+
     private EntityTemplate loadEntityTemplate(String templateCode)
     {
-        logger.info(String.format("Loading entity template: %s", templateCode));
-
-        Connection connection = null;
-        PreparedStatement statement = null;
-        EntityTemplate template = null;
-
-        try
+        if (templateCode != null)
         {
-            connection = dataSource.getConnection();
-            statement = connection.prepareStatement(GET_PROPERTIES_SQL);
-            
-            statement.setString(1, templateCode);
+            logger.info(String.format("Loading entity template: %s", templateCode));
 
-            ResultSet resultSet = statement.executeQuery();
-            
-            if(resultSet.first())
+            Connection connection = null;
+            PreparedStatement statement = null;
+            EntityTemplate template = null;
+
+            try
             {
-                template = new EntityTemplate();
+                connection = dataSource.getConnection();
+                statement = connection.prepareStatement(GET_PROPERTIES_SQL);
 
-                template.setCode(templateCode);
-                template.setId(resultSet.getLong("template_id"));
+                statement.setString(1, templateCode.toUpperCase());
 
-                do
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.first())
                 {
-                    EntityTemplateProperty property = new EntityTemplateProperty();
-                    
-                    property.setId(resultSet.getLong("template_property_id"));
-                    property.setCode(resultSet.getString("template_property_code"));
+                    template = new EntityTemplate();
 
-                    template.getProperties().add(property);
+                    template.setCode(templateCode);
+                    template.setId(resultSet.getLong("template_id"));
+
+                    do
+                    {
+                        EntityTemplateProperty property = new EntityTemplateProperty();
+
+                        property.setId(resultSet.getLong("template_property_id"));
+                        property.setCode(resultSet.getString("template_property_code")
+                                .toUpperCase());
+
+                        template.getProperties().add(property);
+                    }
+                    while (resultSet.next());
                 }
-                while(resultSet.next());
             }
+            catch (Throwable t)
+            {
+                logger.error("Failed to get list of databuses.", t);
+
+                return null;
+            }
+            finally
+            {
+                closeStatement(statement);
+                closeConnection(connection);
+            }
+
+            return template;
         }
-        catch (Throwable t)
+        else
         {
-            logger.error("Failed to get list of databuses.", t);
+            logger.error("Null template code.");
 
             return null;
         }
-        finally
-        {
-            closeStatement(statement);
-            closeConnection(connection);
-        }
-
-        return template;
     }
-    
+
     private void closeStatement(Statement statement)
     {
         if (statement != null)
@@ -241,7 +277,7 @@ public class DbHelper
             }
         }
     }
-    
+
     private void closeConnection(Connection connection)
     {
         if (connection != null)
@@ -256,7 +292,7 @@ public class DbHelper
             }
         }
     }
-    
+
     public DataSource getDataSource()
     {
         return dataSource;
