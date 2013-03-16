@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.unido.eetdb.common.model.Entity;
+import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.common.model.Topic;
@@ -119,6 +120,14 @@ public class DataAccessServiceImpl implements DataAccessService
             for (EntityTemplateProperty property : template.getProperties())
             {
                 property.setParentTemplate(template);
+            }
+        }
+        
+        public static void ensureParent(Entity entity)
+        {
+            for (EntityProperty property : entity.getProperties())
+            {
+                property.setParentEntity(entity);
             }
         }
 

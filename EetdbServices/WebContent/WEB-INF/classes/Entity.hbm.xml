@@ -18,7 +18,7 @@
 
     	<many-to-one name="entityTemplate" fetch="join" column="ENTITY_TEMPLATE_ID" unique="true" />
 
-    	<set name="properties" table="UNIDO_ENTITY_PROPERTY" fetch="join" cascade="all">
+    	<set name="properties" table="UNIDO_ENTITY_PROPERTY" fetch="join" inverse="true" cascade="all-delete-orphan">
 			<key column="ENTITY_ID" />
 			<one-to-many class="EntityProperty" />
 		</set>

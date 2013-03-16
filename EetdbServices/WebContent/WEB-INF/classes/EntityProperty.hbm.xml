@@ -16,5 +16,6 @@
     	<property name="lastUpdatedBy" column="UPDATED_BY" />
     	
     	<many-to-one name="templateProperty" fetch="join" column="TEMPLATE_PROPERTY_ID" unique="true" />
+    	<many-to-one name="parentEntity" column="ENTITY_ID" not-null="true" />
 	</class>
 </hibernate-mapping>
