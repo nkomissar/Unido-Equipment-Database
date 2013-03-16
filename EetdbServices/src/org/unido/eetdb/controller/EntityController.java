@@ -31,7 +31,7 @@ public class EntityController
     @RequestMapping(method = RequestMethod.GET, value = "/entity/{id}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    Entity getEntity(@PathVariable Long id, @MatrixVariable(required=true, defaultValue="1") int skip_childs)
+    Entity getEntity(@PathVariable Long id, @MatrixVariable(required=true) int skip_childs)
     {
         return dataAccessService.getEntity(id, skip_childs == 1 ? true : false);
     }

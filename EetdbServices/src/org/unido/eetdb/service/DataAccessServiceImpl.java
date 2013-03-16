@@ -30,9 +30,9 @@ public class DataAccessServiceImpl implements DataAccessService
     public Entity getEntity(Long entityId, boolean skipChilds)
     {
         Entity retVal = (Entity) sessionFactory.getCurrentSession().load(Entity.class, entityId);
-        
+
         Helper.ensureChilds(retVal, skipChilds);
-        
+
         return retVal;
     }
 
@@ -43,10 +43,14 @@ public class DataAccessServiceImpl implements DataAccessService
     }
 
     @Override
-    public EntityTemplate getEntityTemplate(Long templateId)
+    public EntityTemplate getEntityTemplate(Long templateId, boolean skipChilds)
     {
-        return (EntityTemplate) sessionFactory.getCurrentSession().load(EntityTemplate.class,
-                templateId);
+        EntityTemplate template = (EntityTemplate) sessionFactory.getCurrentSession().load(
+                EntityTemplate.class, templateId);
+
+        Helper.ensureChilds(template, skipChilds);
+
+        return template;
     }
 
     @SuppressWarnings("unchecked")
@@ -110,20 +114,34 @@ public class DataAccessServiceImpl implements DataAccessService
                 property.setParentTemplate(template);
             }
         }
-        
+
+        public static void ensureChilds(EntityTemplate template, boolean doAbort)
+        {
+            if (doAbort)
+            {
+                template.setProperties(null);
+            }
+            else
+            {
+                template.getProperties().size();
+            }
+        }
+
         public static void ensureChilds(Entity entity, boolean doAbort)
         {
-            if(doAbort)
+            if (doAbort)
             {
                 entity.setChildEntities(null);
             }
             else
             {
-                for(Entity child : entity.getChildEntities())
+                for (Entity child : entity.getChildEntities())
                 {
                     ensureChilds(child, false);
                 }
             }
+
+            ensureChilds(entity.getEntityTemplate(), doAbort);
         }
     }
 }
