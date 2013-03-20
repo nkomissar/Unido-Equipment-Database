@@ -29,6 +29,10 @@
 				<name>eetDbServicesUrl</name>
 				<value>http://localhost:8080/EetdbServices</value>
 			</preference>
+			<preference>
+				<name>useFiddlerProxy</name>
+				<value>false</value>
+			</preference>
 		</portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>

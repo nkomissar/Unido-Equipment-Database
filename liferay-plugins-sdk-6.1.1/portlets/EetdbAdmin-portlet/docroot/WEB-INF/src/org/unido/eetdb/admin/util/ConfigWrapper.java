@@ -39,5 +39,36 @@ public class ConfigWrapper
 
 		return preferences.getValue("eetDbServicesUrl", null);
 	}
+	
+	public static boolean useFiddlerProxy(PortletRequest request) {
+		
+		PortletPreferences preferences = request.getPreferences();
+		String portletResource = ParamUtil.getString(request, "portletResource");
+		
+		if (Validator.isNotNull(portletResource)) {
+			try 
+			{
+				
+				preferences = PortletPreferencesFactoryUtil.getPortletSetup(
+						request, portletResource);
+				
+			} 
+			catch (PortalException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			catch (SystemException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return 
+			Boolean.parseBoolean(
+					preferences.getValue("useFiddlerProxy", null)
+					);
+	}
 
 }

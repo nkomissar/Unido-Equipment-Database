@@ -6,6 +6,7 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -75,10 +76,19 @@ public class TemplateController {
 			RenderRequest renderRequest) {
 
 
+		if (ConfigWrapper.useFiddlerProxy(renderRequest))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost"); 
+			props.put("http.proxyPort", "8888");
+			 
+		}
+		
 		RestTemplate tmpl = new RestTemplate();
 
 		EntityTemplate template = tmpl.getForObject(
-				ConfigWrapper.getServUrl(renderRequest) + "/template/{id}",
+				ConfigWrapper.getServUrl(renderRequest) + "/template/{id};skip_childs=0",
 				EntityTemplate.class, entityTemplateId);
 
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -134,12 +144,14 @@ public class TemplateController {
 			prop.setLastUpdatedBy(user.getFullName());
 		}
 		
-		
-		/*
-		 * Properties props = System.getProperties();
-		 * props.put("http.proxyHost", "localhost"); props.put("http.proxyPort",
-		 * "8888");
-		 */
+		if (ConfigWrapper.useFiddlerProxy(request))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost");
+			props.put("http.proxyPort", "8888");
+			 
+		}
 
 		RestTemplate tmpl = new RestTemplate();
 		EntityTemplate template;

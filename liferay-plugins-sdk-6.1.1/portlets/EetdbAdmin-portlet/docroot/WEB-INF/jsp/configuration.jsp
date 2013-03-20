@@ -27,6 +27,8 @@
 
 	String eetDbServicesUrl = preferences.getValue("eetDbServicesUrl",
 			null);
+	String useFiddlerProxy = preferences.getValue("useFiddlerProxy",
+			"false");
 
 %>
 
@@ -43,6 +45,8 @@
 
 	<aui:input name="<portlet:namespace />preferences--eetDbServicesUrl--"
 		type="text" label="EetDb Services Url" value="<%=eetDbServicesUrl%>" />
+	<aui:input name="<portlet:namespace />preferences--useFiddlerProxy--"
+		type="checkbox" label="Use Fiddler Proxy" value="<%=useFiddlerProxy%>" />
 
 	<aui:button-row>
 		<aui:button onClick='submitForm(document.<portlet:namespace />fm);'
