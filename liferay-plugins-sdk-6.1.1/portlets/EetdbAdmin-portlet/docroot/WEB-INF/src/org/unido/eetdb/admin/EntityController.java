@@ -2,6 +2,7 @@ package org.unido.eetdb.admin;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.portlet.RenderRequest;
 
@@ -30,13 +31,25 @@ public class EntityController
 	public ModelAndView searchEntity(@RequestParam String query, RenderRequest renderRequest) 
 	{
 
+
+		if (ConfigWrapper.useFiddlerProxy(renderRequest))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost"); 
+			props.put("http.proxyPort", "8888");
+			 
+		}
+		
 		RestTemplate tmpl = new RestTemplate();
 		
 		Entity[] entities = new Entity[5];
 
 		for (int i=0; i<entities.length; i++)
 		{
-			entities[i] = tmpl.getForObject(ConfigWrapper.getServUrl(renderRequest) + "/entity/{i};skipChilds=true", Entity.class, i+1);
+			entities[i] = tmpl.getForObject(
+					ConfigWrapper.getServUrl(renderRequest) + "/entity/{i};skip_childs=1", 
+					Entity.class, i+1);
 		}
 		
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -51,16 +64,23 @@ public class EntityController
 	public ModelAndView loadEntity(@RequestParam long entityId,
 			RenderRequest renderRequest) {
 
-
+		if (ConfigWrapper.useFiddlerProxy(renderRequest))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost"); 
+			props.put("http.proxyPort", "8888");
+			 
+		}
 		RestTemplate tmpl = new RestTemplate();
 
-		EntityTemplate template = tmpl.getForObject(
-				ConfigWrapper.getServUrl(renderRequest) + "/entity/{id}",
-				EntityTemplate.class, entityId);
+		Entity entity = tmpl.getForObject(
+				ConfigWrapper.getServUrl(renderRequest) + "/entity/{id};skip_childs=0",
+				Entity.class, entityId);
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
-		data.put("entity", template);
+		data.put("entity", entity);
 
 		return new ModelAndView(jsonView, data);
 

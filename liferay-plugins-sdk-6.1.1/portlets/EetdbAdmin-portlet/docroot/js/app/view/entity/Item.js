@@ -43,69 +43,71 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 		
 		var item = null;
 		
-		switch(property.get('propertyTypeId'))
+		debugger;
+		
+		switch(property.TemplateProperty.ValueType.get("type"))
 		{
-		case 1:
+		case "NUMBER":
 			
-			item = frm.add(Ext.widget('textbox', {
+			item = frm.add(Ext.widget('textfield', {
 	            columnWidth: 0.5,
-	            title: property.get('name'),
+	            title: property.TemplateProperty.get('name'),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
-	            value: propert.get('value'),
-	            name: property.get('code')
+	            value: property.get('value'),
+	            name: property.TemplateProperty.get('code')
 	        }));
 			
 			break;
 			
-		case 2:
+		case "TEXT":
 			
 			item = frm.add(Ext.widget('textarea', {
 	            columnWidth: 0.5,
-	            title: property.get('name'),
+	            title: property.TemplateProperty.get('name'),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
-	            value: propert.get('value'),
-	            name: property.get('code')
+	            value: property.get('value'),
+	            name: property.TemplateProperty.get('code')
 	        }));
 			
 			break;
 			
-		case 3:
+		case "STRING":
 			
-			item = frm.add(Ext.widget('textbox', {
+			item = frm.add(Ext.widget('textfield', {
 	            columnWidth: 0.5,
-	            title: property.get('name'),
+	            title: property.TemplateProperty.get('name'),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
-	            value: propert.get('value'),
-	            name: property.get('code')
+	            value: property.get('value'),
+	            name: property.TemplateProperty.get('code')
 	        }));
 			
 			break;
 			
-		case 4:
+		case "INTEGER":
 			
-			item = frm.add(Ext.widget('textbox', {
+			item = frm.add(Ext.widget('textfield', {
 	            columnWidth: 0.5,
-	            title: property.get('name'),
+	            title: property.TemplateProperty.get('name'),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
-	            value: propert.get('value'),
-	            name: property.get('code')
+	            value: property.get('value'),
+	            name: property.TemplateProperty.get('code')
 	        }));
 			
 			break;
 			
-		case 5:
+		case "BOOLEAN":
 			
 			item = frm.add(Ext.widget('checkbox', {
 	            columnWidth: 0.5,
-	            title: property.get('name'),
+	            title: property.TemplateProperty.get('name'),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
-	            value: propert.get('value'),
-	            name: property.get('code')
+	            value: property.get('value'),
+	            name: property.TemplateProperty.get('code')
 	        }));
 			
 			break;
@@ -121,13 +123,13 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 		
 		form.loadRecord(entity);
 		
-		var items = form.items;
+		/*var items = form.items.items;
 		
 		Ext.each(items, function(item) {
 			 if (item.ownerCt) {
 				 item.ownerCt.remove(item, true);
              }
-		});
+		});*/
 		
 		
 		Ext.each(entity['properties']().data.items, 
