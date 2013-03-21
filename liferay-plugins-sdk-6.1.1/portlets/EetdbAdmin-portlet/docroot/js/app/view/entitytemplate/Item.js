@@ -152,7 +152,7 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     		prop['unitOfMeasure'] = uom.getValue();
     	}
     	
-    	if(typeof lud != 'undefined')
+    	if(typeof version != 'undefined')
     	{
     		prop['version'] = version.getValue();
     	}
