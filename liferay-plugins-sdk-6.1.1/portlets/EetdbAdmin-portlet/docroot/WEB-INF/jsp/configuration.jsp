@@ -6,6 +6,7 @@
 
 
 <%@ page import="com.liferay.portal.kernel.util.Constants"%>
+<%@ page import="com.liferay.portal.kernel.util.WebKeys"%>
 
 <%@ page import="javax.portlet.PortletPreferences"%>
 <%@ page import="com.liferay.portal.kernel.util.ParamUtil"%>
@@ -14,7 +15,9 @@
 
 <portlet:defineObjects />
 
+
 <%
+
 	PortletPreferences preferences = renderRequest.getPreferences();
 
 	String portletResource = ParamUtil.getString(request,
@@ -37,19 +40,20 @@
 <liferay-portlet:actionURL portletConfiguration="true"
 	var="configurationActionURL" />
 
-<aui:form action="<%=configurationActionURL%>" method="post"
-	name="<portlet:namespace />fm">
 
-	<aui:input name="<portlet:namespace /><%=Constants.CMD%>" type="hidden"
-		value="<%=Constants.UPDATE%>" />
+<aui:form action="<%= configurationActionURL %>" method="post" name="fm">
 
-	<aui:input name="<portlet:namespace />preferences--eetDbServicesUrl--"
-		type="text" label="EetDb Services Url" value="<%=eetDbServicesUrl%>" />
-	<aui:input name="<portlet:namespace />preferences--useFiddlerProxy--"
+	<aui:input name="<%= Constants.CMD %>" type="hidden"
+		value="<%= Constants.UPDATE %>" />
+
+	<aui:input name="preferences--eetDbServicesUrl--"
+		type="text" label="EetDb Services Url" value="<%= eetDbServicesUrl %>" />
+		
+	<aui:input name="preferences--useFiddlerProxy--"
 		type="checkbox" label="Use Fiddler Proxy" value="<%=useFiddlerProxy%>" />
 
 	<aui:button-row>
-		<aui:button onClick='submitForm(document.<portlet:namespace />fm);'
+		<aui:button onClick="<%= \"submitForm(document.\" + renderResponse.getNamespace() + \"fm);\" %>"
 			type='submit' />
 	</aui:button-row>
 
