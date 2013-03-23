@@ -56,6 +56,8 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
         
         var etItem = this.getEntityTemplateItem();
         
+        etItem.show();
+        
         if (typeof entityTemplate === 'undefined')
         {
         	this.application.fireEvent('templateUnselected');

@@ -45,6 +45,8 @@ Ext.define('EetdbAdmin.controller.Entities', {
     
 	    var eItem = this.getEntityItem();
 	    
+	    eItem.show();
+	    
 	    if (typeof entity === 'undefined')
 	    {
 	    	this.application.fireEvent('entityUnselected');

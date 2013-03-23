@@ -1,7 +1,7 @@
 Ext.define('EetdbAdmin.model.Entity', {
     extend: 'Ext.data.Model',
     
-    requires:['EetdbAdmin.model.EntityProperty'], 
+    requires:['EetdbAdmin.model.EntityProperty', 'EetdbAdmin.model.EntityTemplate'], 
               
     proxy: {
         type: 'memory'
@@ -9,11 +9,20 @@ Ext.define('EetdbAdmin.model.Entity', {
     
     fields: [
          {name: 'id',  type: 'long'}
-        ,{name: 'typeId', type: 'long'}
         ,{name: 'name', type: 'string'}
-        ,{name: 'entityType', type: 'string'}
-        ,{name: 'lastUpdatedDate', type: 'long'}
+        ,{name: 'version', type: 'long'}
     ]
+
+    ,hasOne: 
+    {
+    	model: 'EetdbAdmin.model.EntityTemplate',
+    	instanceName: 'EntityTemplate',
+    	getterName: 'GetEntityTemplate',
+    	setterName: 'SetEntityTemplate',
+    	associationKey: 'entityTemplate', //used by reader.Json
+    	name: 'entityTemplate' //used by writer.Json 
+    	
+    }
     
     ,hasMany: [
 	    {
