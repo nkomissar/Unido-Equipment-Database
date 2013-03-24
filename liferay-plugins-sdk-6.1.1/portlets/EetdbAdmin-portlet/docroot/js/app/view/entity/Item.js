@@ -1,4 +1,142 @@
 
+Ext.define('Ext.form.EntityPropertyFieldSet', {
+    extend: 'Ext.form.FieldSet',
+    
+    uses: ['Ext.panel.Tool'],
+    
+    alias: 'widget.entitypropertyfieldset',
+    items:[{
+    	xtype: 'hidden',
+    	name: 'id'
+    },{
+    	xtype: 'hidden',
+    	name: 'version'
+    },{
+    	xtype: 'hidden',
+    	name: 'templateProperty'
+    }],
+    
+    initComponent: function () {
+        var me = this;
+        me.callParent(arguments);
+        
+    },
+    
+    loadRecord: function (record) {
+    	var me = this;
+    	
+    	me.name = record.TemplateProperty.get('code');
+    	
+    	me.record = record;
+    	
+    	var id = me.down('[isFormField][name="id"]');
+    	var version = me.down('[isFormField][name="version"]');
+    	var tp = me.down('[isFormField][name="templateProperty"]');
+    	
+    	if(typeof id != 'undefined')
+    	{
+    		id.setValue(record.get('id'));
+    	}
+
+    	if(typeof version != 'undefined')
+    	{
+    		version.setValue(record.get('version'));
+    	}
+
+    	if(typeof tp != 'undefined')
+    	{
+    		tp.setValue(record.GetTemplateProperty().get('id'));
+    	}
+
+		switch(record.TemplateProperty.ValueType.get("type"))
+		{
+		case "NUMBER":
+			
+			me.add(Ext.widget('textfield', {
+				name: 'value',
+	            columnWidth: 0.5,
+	            fieldLabel: record.TemplateProperty.get('name'),
+	            defaults: { anchor: '100%' },
+	            layout: 'anchor',
+	            value: record.get('value')
+	        }));
+			
+			break;
+			
+		case "TEXT":
+			
+			me.add(Ext.widget('textarea', {
+				name: 'value',
+	            columnWidth: 0.5,
+	            fieldLabel: record.TemplateProperty.get('name'),
+	            defaults: { anchor: '100%' },
+	            layout: 'anchor',
+	            value: record.get('value')
+	        }));
+			
+			break;
+			
+		case "STRING":
+			
+			me.add(Ext.widget('textfield', {
+				name: 'value',
+	            columnWidth: 0.5,
+	            fieldLabel: record.TemplateProperty.get('name'),
+	            defaults: { anchor: '100%' },
+	            layout: 'anchor',
+	            value: record.get('value')
+	        }));
+			
+			break;
+			
+		case "INTEGER":
+			
+			me.add(Ext.widget('textfield', {
+				name: 'value',
+	            columnWidth: 0.5,
+	            fieldLabel: record.TemplateProperty.get('name'),
+	            defaults: { anchor: '100%' },
+	            layout: 'anchor',
+	            value: record.get('value')
+	        }));
+			
+			break;
+			
+		case "BOOLEAN":
+			
+			me.add(Ext.widget('checkbox', {
+				name: 'value',
+				columnWidth: 0.5,
+	            fieldLabel: record.TemplateProperty.get('name'),
+	            defaults: { anchor: '100%' },
+	            layout: 'anchor',
+	            value: record.get('value')
+	        }));
+			
+			break;
+
+		}
+
+    	
+    }
+    , getFieldValues: function(){
+    	var me = this;
+    	
+    	var value = me.down('[isFormField][name="value"]');
+
+    	if(typeof value != 'undefined')
+    	{
+    		me.record.set('value', value.getValue());
+    	}
+   	
+    	var retValue = me.record.data;
+    	retValue['templateProperty'] = me.record.getAssociatedData().templateProperty;
+    	
+    	return retValue;
+
+    }
+});    	
+
 Ext.define('EetdbAdmin.view.entity.Item', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.entityitem',
@@ -46,83 +184,15 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 
 	,addProperty: function(frm, property) {
 		
-		var item = null;
+		var fieldSet = frm.add(Ext.widget('entitypropertyfieldset', {
+            columnWidth: 0.5,
+            collapsed: false,
+            defaults: { anchor: '100%' },
+            layout: 'anchor'
+        }));
 		
-		switch(property.TemplateProperty.ValueType.get("type"))
-		{
-		case "NUMBER":
-			
-			item = frm.add(Ext.widget('textfield', {
-				templateProperty: true,
-	            columnWidth: 0.5,
-	            fieldLabel: property.TemplateProperty.get('name'),
-	            defaults: { anchor: '100%' },
-	            layout: 'anchor',
-	            value: property.get('value'),
-	            name: property.TemplateProperty.get('code')
-	        }));
-			
-			break;
-			
-		case "TEXT":
-			
-			item = frm.add(Ext.widget('textarea', {
-				templateProperty: true,
-	            columnWidth: 0.5,
-	            fieldLabel: property.TemplateProperty.get('name'),
-	            defaults: { anchor: '100%' },
-	            layout: 'anchor',
-	            value: property.get('value'),
-	            name: property.TemplateProperty.get('code')
-	        }));
-			
-			break;
-			
-		case "STRING":
-			
-			item = frm.add(Ext.widget('textfield', {
-				templateProperty: true,
-	            columnWidth: 0.5,
-	            fieldLabel: property.TemplateProperty.get('name'),
-	            defaults: { anchor: '100%' },
-	            layout: 'anchor',
-	            value: property.get('value'),
-	            name: property.TemplateProperty.get('code')
-	        }));
-			
-			break;
-			
-		case "INTEGER":
-			
-			item = frm.add(Ext.widget('textfield', {
-				templateProperty: true,
-	            columnWidth: 0.5,
-	            fieldLabel: property.TemplateProperty.get('name'),
-	            defaults: { anchor: '100%' },
-	            layout: 'anchor',
-	            value: property.get('value'),
-	            name: property.TemplateProperty.get('code')
-	        }));
-			
-			break;
-			
-		case "BOOLEAN":
-			
-			item = frm.add(Ext.widget('checkbox', {
-				templateProperty: true,
-	            columnWidth: 0.5,
-	            fieldLabel: property.TemplateProperty.get('name'),
-	            defaults: { anchor: '100%' },
-	            layout: 'anchor',
-	            value: property.get('value'),
-	            name: property.TemplateProperty.get('code')
-	        }));
-			
-			break;
-
-		}
-	
-		return item;
+		fieldSet.loadRecord(property);
+		
 	}
 
 	,loadRecord: function(entity) {
@@ -134,7 +204,7 @@ Ext.define('EetdbAdmin.view.entity.Item', {
     	var entityTemplateCombo = form.down('[isFormField][name="entityTemplate"]');
     	entityTemplateCombo.setValue(entity.GetEntityTemplate().get('id'));
 		
-		var items = form.query('[templateProperty]');
+		var items = form.query('entitypropertyfieldset');
 		
 		Ext.each(items, function(item) {
 			
@@ -159,26 +229,26 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 		
 		var form = this.down('form');
 		
-    	var template = {};
+    	var entity = {};
     	
     	var id = form.down('[isFormField][name="id"]');
     	var nm = form.down('[isFormField][name="name"]');
-    	var code = form.down('[isFormField][name="code"]');
-    	var fieldSets = form.query('fieldset');
+    	var version = form.down('[isFormField][name="version"]');
+    	var fieldSets = form.query('entitypropertyfieldset');
 
     	if(typeof id != 'undefined')
     	{
-    		template['id'] = +id.getValue();
+    		entity['id'] = +id.getValue();
     	}
 
     	if(typeof nm != 'undefined')
     	{
-    		template['name'] = nm.getValue();
+    		entity['name'] = nm.getValue();
     	}
 
-    	if(typeof code != 'undefined')
+    	if(typeof version != 'undefined')
     	{
-    		template['code'] = code.getValue();
+    		entity['version'] = version.getValue();
     	}
     	
     	Ext.each(fieldSets, function(fieldSet)
@@ -186,14 +256,14 @@ Ext.define('EetdbAdmin.view.entity.Item', {
     		
     		var val = fieldSet.getFieldValues();
     		
-    		if (template.hasOwnProperty('properties')){
-    			template['properties'].push(val);
+    		if (entity.hasOwnProperty('properties')){
+    			entity['properties'].push(val);
     		} else {
-    			template['properties'] = [val];
+    			entity['properties'] = [val];
     		}
     	});
 		
-		return template;
+		return entity;
 	}
 	
 });

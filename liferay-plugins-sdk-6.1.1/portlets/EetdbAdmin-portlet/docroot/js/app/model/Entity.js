@@ -40,5 +40,30 @@ Ext.define('EetdbAdmin.model.Entity', {
 	    }
 	]
     
+	,set: function(fieldName, newValue)
+	{
+
+		var me = this, 
+         	single = (typeof fieldName == 'string');
+		 
+		 this.callParent(arguments);
+
+		 if (single)
+		 {
+			 return;
+		 }
+
+		 me.dirty = true;
+		 me.properties().removeAll();
+		 
+		 if (typeof fieldName['properties'] == 'undefined')
+		 {
+			 return;
+		 }
+			 
+		 me.properties().add(fieldName['properties']);
+		 
+	}
+    
     
 });

@@ -24,6 +24,9 @@ Ext.define('EetdbAdmin.controller.Entities', {
             'entitylist toolbar searchfield': {
             	triggerclick: this.doSearch
             }
+            ,'entityitem button[action=create]': {
+                click: this.submitEntity
+            }
         });
     },
     
@@ -35,7 +38,6 @@ Ext.define('EetdbAdmin.controller.Entities', {
         dataview.bindStore(store);
         //dataview.getSelectionModel().select(store.getAt(0));
     },
-    
 
     loadEntity: function(selModel, selected) 
     {
@@ -98,5 +100,126 @@ Ext.define('EetdbAdmin.controller.Entities', {
     				}
     			});
     	
+    },
+
+    addEntity: function()
+    {
+    	
+    	var searchDataview = this.getEntityData();
+        var searchStore = this.getEntitySearchResultStore();
+        
+        searchStore.insert(0, Ext.create('EetdbAdmin.model.Entity', { name: 'New Entity'} ));
+        
+        searchDataview.getSelectionModel().select(0);
+
     }
+    
+    ,removeEntity: function()
+    {
+    	
+    	var searchDataview = this.getEntityData();
+        var searchStore = this.getEntitySearchResultStore();
+    	var store = this.getEntityStore();
+
+        var recordInSearch = searchDataview.getSelectionModel().getSelection()[0];
+    	var record = store.getAt(0);
+
+        if (typeof recordInSearch === 'undefined'
+        	|| typeof record === 'undefined'
+        	|| recordInSearch.get('id') != record.get('id')) 
+        {
+        	return;
+        }
+        
+        store.remove(record);
+    	
+    	if (record.phantom
+    			|| recordInSearch.phantom)
+    	{
+
+        	searchStore.remove(recordInSearch);
+    		
+    		if (searchDataview.store.data.length === 0)
+	    	{
+	    		return;
+	    	}
+
+	    	var newIndex = recordInSearch.removedFrom > 0 ? recordInSearch.removedFrom - 1 : 0;	
+	    	
+	    	searchDataview.getSelectionModel().select(newIndex);
+
+	    	return;
+    	}
+        
+    	searchDataview.setLoading({
+            msg: 'Removing entity...'
+        });
+    	
+    	store.sync({
+    		success: function()
+    		{
+    			
+    			searchDataview.setLoading(false);
+    	    	searchStore.remove(recordInSearch);
+
+    	    	if (searchDataview.store.data.length === 0)
+    	    	{
+    	    		return;
+    	    	}
+
+    	    	var newIndex = recordInSearch.removedFrom > 0 ? recordInSearch.removedFrom - 1 : 0;	
+    	    	
+    	    	searchDataview.getSelectionModel().select(newIndex);
+
+    		
+    		}
+    		,failure: function (){
+    			searchDataview.setLoading(false);
+    		},
+    		scope: this
+    	});
+    }
+    
+    ,submitEntity: function() {
+    	
+    	var itemForm = this.getEntityForm();
+    	var itemView = this.getEntityItem();
+    	var store = this.getEntityStore();
+    	var values = itemView.getFieldValues();
+
+    	var searchDataview = this.getEntityData();
+        var recordInSearch = searchDataview.getSelectionModel().getSelection()[0];
+    	
+    	if (store.count() == 0){
+    		store.add(Ext.create('EetdbAdmin.model.Entity'));
+    	}
+    	
+    	var record = store.getAt(0);
+    	
+    	record.set(values);
+
+    	itemForm.setLoading({
+            msg: 'Saving entity...'
+        });
+    	
+    	store.sync({
+    		success: function(){
+    			
+    			var newrec = store.getAt(0);
+    			
+    			recordInSearch.set(newrec.data);
+    			recordInSearch.commit();
+    			
+    			itemView.loadRecord(newrec);
+    			
+    	    	itemForm.setLoading(false);
+    	    	
+    		}
+    		,failure: function (){
+    	    	itemForm.setLoading(false);
+    		},
+    		scope: this
+    	});
+    }
+
 });
