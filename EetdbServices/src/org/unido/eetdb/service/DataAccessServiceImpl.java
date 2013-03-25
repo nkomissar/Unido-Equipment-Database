@@ -36,6 +36,29 @@ public class DataAccessServiceImpl implements DataAccessService
 
         return retVal;
     }
+    
+    @Override
+    public Entity createEntity(Entity entity)
+    {
+        Helper.ensureParent(entity);
+
+        sessionFactory.getCurrentSession().save(entity);
+
+        return entity;
+    }
+
+    @Override
+    public Entity updateEntity(Entity entity)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void deleteEntity(Entity entity)
+    {
+        sessionFactory.getCurrentSession().delete(entity);
+    }
 
     @Override
     public Topic getTopic(Long topicId)

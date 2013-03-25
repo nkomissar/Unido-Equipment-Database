@@ -10,6 +10,9 @@ import org.unido.eetdb.common.model.ValueType;
 public interface DataAccessService
 {
     public Entity getEntity(Long entityId, boolean skipChilds);
+    public Entity createEntity(Entity entity);
+    public Entity updateEntity(Entity entity);
+    public void deleteEntity(Entity entity);
 
     public Topic getTopic(Long topicId);
     public Set<Topic> getRootTopics();
