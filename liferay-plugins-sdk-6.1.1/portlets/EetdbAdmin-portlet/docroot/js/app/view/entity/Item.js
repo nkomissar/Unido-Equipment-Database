@@ -167,10 +167,7 @@ Ext.define('EetdbAdmin.view.entity.Item', {
         	        valueField: 'id',
         	        store: 'EntityTemplateSearchResult',
         	        //editable: false,
-        	        /*listeners: {
-        	            scope: this,
-        	            'select': applyTemplate
-        	       }*/
+        	        
         	    },{
         			xtype: 'hidden',
         			name: 'id'
@@ -279,15 +276,5 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 		
 		return entity;
 	}
-	
-	,applyTemplate: function (combo, records, eOpts)
-	{
-
-		var fieldSets = form.query('entitypropertyfieldset');
-		
-		debugger;
-
-	}
-	
 	
 });

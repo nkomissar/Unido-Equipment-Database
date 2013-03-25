@@ -1,8 +1,8 @@
 Ext.define('EetdbAdmin.controller.Entities', {
     extend: 'Ext.app.Controller',
 
-    stores: ['EntitySearchResult', 'Entity'],
-    models: ['Entity', 'EntityProperty'],
+    stores: ['EntitySearchResult', 'Entity', 'EntityTemplate'],
+    models: ['Entity', 'EntityProperty', 'EntityTemplate'],
     views: ['entity.List', 'entity.Item'],
     
     refs: [
@@ -26,6 +26,9 @@ Ext.define('EetdbAdmin.controller.Entities', {
             }
             ,'entityitem button[action=create]': {
                 click: this.submitEntity
+            }
+            ,'entityitem form combobox': {
+                select: this.applyTemplate
             }
         });
     },
@@ -221,5 +224,61 @@ Ext.define('EetdbAdmin.controller.Entities', {
     		scope: this
     	});
     }
+    
+	,applyTemplate: function (combo, records, eOpts)
+	{
+		
+		var me = this;
+		var form = this.getEntityForm();
+
+	    var eItem = this.getEntityItem();
+		var existingData = eItem.getFieldValues();
+		var template = records[0];
+		var templateStore = this.getEntityTemplateStore();
+		var newEntity = Ext.create('EetdbAdmin.model.Entity');
+		var newPropsStore = newEntity.properties();
+		
+		form.setLoading("Loading template...");
+		templateStore.load({
+            params: {
+                entityTemplateId: template.get('id')
+            },
+            callback: function(records, operation, success) {
+            	
+            	form.setLoading(false);
+            	
+            	var template = records[0];
+        		var propertiesStore = template.properties();
+        		
+        		newEntity.SetEntityTemplate(template);
+            	
+        		propertiesStore.each(
+        				function(templateProperty)
+        				{
+        					var property = Ext.create('EetdbAdmin.model.EntityProperty', {
+        						templateProperty: templateProperty
+        					});
+        					
+        					Ext.each(existingData['properties'],
+        							function(existingProperty)
+        							{
+        								if (existingProperty.templateProperty["id"] == templateProperty.get("id"))
+        								{
+        									property.set("value", existingProperty["value"]);
+        								}
+        							});
+       					
+        					newPropsStore.add(property);
+        					
+        				});
+        		
+        		eItem.loadRecord(newEntity);
+            	
+            }
+        });
+		
+		
+	}
+
 
 });
