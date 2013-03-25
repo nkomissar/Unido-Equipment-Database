@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.unido.eetdb.common.model.Entity;
-import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.Topic;
 import org.unido.eetdb.service.DataAccessService;
 
@@ -54,6 +53,14 @@ public class EntityController
         dataAccessService.deleteEntity(entity);
         
         return "OK";
+    }
+    
+    @RequestMapping(method = RequestMethod.PUT, value = "/entity")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public @ResponseBody
+    Entity updateEntity(@RequestBody Entity entity)
+    {
+        return dataAccessService.updateEntity(entity);
     }
     
     @RequestMapping(method = RequestMethod.GET, value = "/topic/{id}")

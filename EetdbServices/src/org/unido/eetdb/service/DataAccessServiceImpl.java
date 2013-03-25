@@ -50,8 +50,13 @@ public class DataAccessServiceImpl implements DataAccessService
     @Override
     public Entity updateEntity(Entity entity)
     {
-        // TODO Auto-generated method stub
-        return null;
+        Helper.ensureParent(entity);
+
+        entity = (Entity) sessionFactory.getCurrentSession().merge(entity);
+
+        sessionFactory.getCurrentSession().flush();
+
+        return entity;
     }
 
     @Override
