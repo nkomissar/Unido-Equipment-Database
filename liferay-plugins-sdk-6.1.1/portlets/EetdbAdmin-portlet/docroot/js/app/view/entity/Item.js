@@ -174,6 +174,9 @@ Ext.define('EetdbAdmin.view.entity.Item', {
         	    },{
         			xtype: 'hidden',
         			name: 'id'
+        		},{
+        			xtype: 'hidden',
+        			name: 'version'
         		}],
         		buttons: [{
         			text: 'Save',
@@ -239,6 +242,7 @@ Ext.define('EetdbAdmin.view.entity.Item', {
     	var nm = form.down('[isFormField][name="name"]');
     	var version = form.down('[isFormField][name="version"]');
     	var fieldSets = form.query('entitypropertyfieldset');
+    	var entityTemplateCombo = form.down('[isFormField][name="entityTemplate"]');
 
     	if(typeof id != 'undefined')
     	{
@@ -253,6 +257,12 @@ Ext.define('EetdbAdmin.view.entity.Item', {
     	if(typeof version != 'undefined')
     	{
     		entity['version'] = version.getValue();
+    	}
+    	
+    	if(typeof entityTemplateCombo != 'undefined')
+    	{
+    		var id = entityTemplateCombo.getValue();
+    		entity['entityTemplate'] = entityTemplateCombo.findRecord(entityTemplateCombo.valueField || entityTemplateCombo.displayField, id).data;
     	}
     	
     	Ext.each(fieldSets, function(fieldSet)

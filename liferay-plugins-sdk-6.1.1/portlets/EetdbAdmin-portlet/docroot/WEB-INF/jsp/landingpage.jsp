@@ -104,10 +104,13 @@
 	    	
 	    	for(var assName in assData)
 	    	{
-	    		
-	    		var assStore = me[assName]();
-	    		assStore.clearFilter(true); //don't know why there is filter defined
-	    		assStore.loadData(assData[assName]);
+	    	
+	    		if (Ext.isArray(assData[assName]))
+	    		{
+		    		var assStore = me[assName]();
+		    		assStore.clearFilter(true); //don't know why there is filter defined
+		    		assStore.loadData(assData[assName]);
+	    		}
 	    		
 	    	}
 	    	
