@@ -40,9 +40,13 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                                     layout: 'fit'
                                 }]
                         }, {
-                            title: 'Add Entity'
+                            title: 'Add Entity',
+                            	id: 'addEntityTab',
+                                action: 'addentity'
                         }, {
-                            title: 'Remove Entity'
+                            title: 'Remove Entity',
+                            id: 'removeEntityTab',
+                            action: 'removeentity'
                         }]
                 }, {
                     expanded: false,
@@ -73,7 +77,6 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
             tabs.on('select', 
             	function(selModel, node, idx) 
             	{
-            		
             	
 	            	if (!node.data.leaf)
 	            	{
@@ -97,6 +100,12 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
     	            		me.fireEvent('removetemplateselected');
     	            		return false;
     	            	}
+
+    	            	if (node.get('id') == 'removeEntityTab')
+    	            	{
+    	            		me.fireEvent('removeentityselected');
+    	            		return false;
+    	            	}
     	            	
     	            	return true;
                 	
@@ -110,7 +119,8 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                  * @event removetemplateselected
                  * Fires when 'Remove Template' tab selected.
                  */
-                'removetemplateselected'
+                'removetemplateselected',
+                'removeentityselected'
         		);
         
         this.callParent(arguments);
@@ -135,4 +145,14 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
         addNode.enabled = activate;
         removeNode.enadled = activate;
 	}
+	
+	,selectEntitySearch: function()
+	{
+    	var tabs = this.down('grouptabpanel treepanel');
+        var store = tabs.getStore();
+        var searchNode = store.getNodeById('searchEntityTab');
+                    
+        tabs.getSelectionModel().select(searchNode);
+	}
+	
 });

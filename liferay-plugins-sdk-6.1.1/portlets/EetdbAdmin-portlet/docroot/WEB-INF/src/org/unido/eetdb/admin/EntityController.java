@@ -2,6 +2,7 @@ package org.unido.eetdb.admin;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -11,6 +12,7 @@ import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 
+import org.apache.http.client.methods.HttpUriRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
@@ -18,6 +20,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +30,7 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.servlet.View;
 import org.unido.eetdb.admin.util.ConfigWrapper;
+import org.unido.eetdb.admin.util.HttpEntityEnclosingDeleteRequest;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntityTemplate;
@@ -196,6 +200,82 @@ public class EntityController
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
 		data.put("entity", entity);
+
+		return new ModelAndView(jsonView, data);
+
+	}
+	
+	@ActionMapping(params = "action=doEntityDestroy")
+	public void destroyEntity(ActionRequest request,
+			ActionResponse response) {
+
+		ObjectMapper mapper = new ObjectMapper();
+		AnnotationIntrospector primary = new JaxbAnnotationIntrospector(TypeFactory.defaultInstance());
+		AnnotationIntrospector secondary = new JacksonAnnotationIntrospector();
+		AnnotationIntrospector pair = AnnotationIntrospector.pair(primary, secondary);
+		mapper.getDeserializationConfig().with(pair);
+		mapper.getSerializationConfig().with(pair);
+
+		InputStream strm = null;
+		try {
+			strm = request.getPortletInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		Entity readValue = null;
+		try {
+			readValue = mapper.readValue(strm, Entity.class);
+		} catch (JsonParseException e) {
+			e.printStackTrace();
+		} catch (JsonMappingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		if (ConfigWrapper.useFiddlerProxy(request))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost");
+			props.put("http.proxyPort", "8888");
+			 
+		}
+
+		RestTemplate tmpl = new RestTemplate();
+
+		tmpl.setRequestFactory(new HttpComponentsClientHttpRequestFactory() {
+			@Override
+			protected HttpUriRequest createHttpUriRequest(
+					HttpMethod httpMethod, URI uri) {
+				if (HttpMethod.DELETE == httpMethod) {
+					return new HttpEntityEnclosingDeleteRequest(uri);
+				}
+				return super.createHttpUriRequest(httpMethod, uri);
+			}
+		});
+
+		String url = ConfigWrapper.getServUrl(request) + "/entity";
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+		HttpEntity<Entity> hEntity = new HttpEntity<Entity>(
+				readValue, headers);
+		//ResponseEntity<String> responseWrapper = 
+		tmpl.exchange(url,HttpMethod.DELETE, hEntity, String.class);
+		// EntityTemplate resp = responseWrapper.getBody();
+
+		response.setRenderParameter("action", "reportDestroyEntity");
+
+	}
+	
+	@RenderMapping(params = "action=reportDestroyEntity")
+	public ModelAndView reportDestroy(RenderRequest request) {
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("entity", null);
 
 		return new ModelAndView(jsonView, data);
 

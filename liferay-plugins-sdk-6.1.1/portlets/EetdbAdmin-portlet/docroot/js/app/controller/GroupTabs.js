@@ -18,7 +18,14 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
 	        	beforeactivate: this.removeTemplate
 	        }
 	        ,'*': {
-	        	removetemplateselected: this.removeTemplate
+	        	removetemplateselected: this.removeTemplate,
+	        	removeentityselected: this.removeEntity
+	        }
+            ,'mygrouptabs *[action=addentity]': {
+                beforeactivate: this.addEntity
+            }
+	        ,'mygrouptabs *[action=removeentity]': {
+	        	beforeactivate: this.removeEntity
 	        }
         });
     	
@@ -66,4 +73,25 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
     	this.getMyView().activateTemplateControls(activate);
     	
     }
+    
+    ,addEntity: function(groupPanel, newTab, oldTab) 
+    {
+    	
+    	this.application.fireEvent('addEntity');
+    	
+    	return false;
+    	
+    }
+    
+    ,removeEntity: function(groupPanel, newTab, oldTab) 
+    {
+    	
+    	this.application.fireEvent('removeEntity');
+    	
+    	this.getMyView().selectEntitySearch();
+    	
+    	return false;
+    	
+    }
+
 });

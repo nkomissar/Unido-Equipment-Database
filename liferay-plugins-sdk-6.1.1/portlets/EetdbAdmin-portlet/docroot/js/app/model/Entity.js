@@ -62,6 +62,13 @@ Ext.define('EetdbAdmin.model.Entity', {
 		 }
 			 
 		 me.properties().add(fieldName['properties']);
+
+		 if (typeof fieldName['entityTemplate'] == 'undefined')
+		 {
+			 return;
+		 }
+
+		 me['EntityTemplate'] = fieldName['entityTemplate'];
 		 
 	}
     

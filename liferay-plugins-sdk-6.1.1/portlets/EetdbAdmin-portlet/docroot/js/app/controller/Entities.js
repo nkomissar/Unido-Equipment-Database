@@ -31,6 +31,13 @@ Ext.define('EetdbAdmin.controller.Entities', {
                 select: this.applyTemplate
             }
         });
+        
+    	this.application.on(
+    			{
+    				addEntity: this.addEntity,
+    				removeEntity: this.removeEntity,
+    				scope: this
+    			});
     },
     
     onLaunch: function() {
@@ -189,53 +196,70 @@ Ext.define('EetdbAdmin.controller.Entities', {
     	var itemView = this.getEntityItem();
     	var store = this.getEntityStore();
     	var values = itemView.getFieldValues();
+    	var templateStore = this.getEntityTemplateStore();
 
     	var searchDataview = this.getEntityData();
         var recordInSearch = searchDataview.getSelectionModel().getSelection()[0];
-    	
-    	if (store.count() == 0){
-    		store.add(Ext.create('EetdbAdmin.model.Entity'));
-    	}
-    	
-    	var record = store.getAt(0);
-    	
-    	record.set(values);
 
-    	itemForm.setLoading({
+        itemForm.setLoading({
             msg: 'Saving entity...'
         });
-    	
-    	store.sync({
-    		success: function(){
-    			
-    			var newrec = store.getAt(0);
-    			
-    			recordInSearch.set(newrec.data);
-    			recordInSearch.commit();
-    			
-    			itemView.loadRecord(newrec);
-    			
-    	    	itemForm.setLoading(false);
-    	    	
-    		}
-    		,failure: function (){
-    	    	itemForm.setLoading(false);
-    		},
-    		scope: this
-    	});
+        
+        templateStore.load(
+        {
+	        params: {
+	        	action: 'doEntityTemplateLoad',
+	            entityTemplateId: values.entityTemplate['id']
+	        },
+	        callback: function(records, operation, success) {
+	    	
+	        	values.entityTemplate = records[0];
+	        	
+		    	if (store.count() == 0){
+		    		store.add(Ext.create('EetdbAdmin.model.Entity'));
+		    	}
+		    	
+		    	var record = store.getAt(0);
+		    	
+		    	record.set(values);
+		    	
+		    	store.sync({
+		    		success: function(){
+		    			
+		    			var newrec = store.getAt(0);
+		    			
+		    			recordInSearch.set(newrec.data);
+		    			recordInSearch.commit();
+		    			
+		    			itemView.loadRecord(newrec);
+		    			
+		    	    	itemForm.setLoading(false);
+		    	    	
+		    		}
+		    		,failure: function (){
+		    	    	itemForm.setLoading(false);
+		    		},
+		    		scope: this
+		    	});
+	        }
+        });
+
     }
     
 	,applyTemplate: function (combo, records, eOpts)
 	{
 		
 		var me = this;
-		var form = this.getEntityForm();
+		var form = me.getEntityForm();
 
 	    var eItem = this.getEntityItem();
 		var existingData = eItem.getFieldValues();
 		var template = records[0];
 		var templateStore = this.getEntityTemplateStore();
-		var newEntity = Ext.create('EetdbAdmin.model.Entity');
+		var newEntity = Ext.create('EetdbAdmin.model.Entity', 
+									{
+										name: existingData["name"]
+									});
 		var newPropsStore = newEntity.properties();
 		
 		form.setLoading("Loading template...");
@@ -250,7 +274,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
             	var template = records[0];
         		var propertiesStore = template.properties();
         		
-        		newEntity.SetEntityTemplate(template);
+        		newEntity['EntityTemplate'] = template;
             	
         		propertiesStore.each(
         				function(templateProperty)
@@ -262,7 +286,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
         					Ext.each(existingData['properties'],
         							function(existingProperty)
         							{
-        								if (existingProperty.templateProperty["id"] == templateProperty.get("id"))
+        								if (existingProperty.templateProperty["code"] == templateProperty.get("code"))
         								{
         									property.set("value", existingProperty["value"]);
         								}

@@ -221,11 +221,14 @@ public class TemplateController {
 			e.printStackTrace();
 		}
 
-		/*
-		 * Properties props = System.getProperties();
-		 * props.put("http.proxyHost", "localhost"); props.put("http.proxyPort",
-		 * "8888");
-		 */
+		if (ConfigWrapper.useFiddlerProxy(request))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost");
+			props.put("http.proxyPort", "8888");
+			 
+		}
 
 		RestTemplate tmpl = new RestTemplate();
 
