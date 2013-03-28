@@ -2,7 +2,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     extend: 'Ext.app.Controller',
 
     stores: ['EntitySearchResult', 'Entity', 'EntityTemplate'],
-    models: ['Entity', 'EntityProperty', 'EntityTemplate'],
+    models: ['Entity', 'EntityProperty', 'EntityTemplate', 'EntitySearchResult'],
     views: ['entity.List', 'entity.Item'],
     
     refs: [
@@ -52,21 +52,21 @@ Ext.define('EetdbAdmin.controller.Entities', {
     loadEntity: function(selModel, selected) 
     {
         var store = this.getEntityStore(),
-        entity = selected[0],
+        searchEntity = selected[0],
         itemForm = this.getEntityForm();
     
 	    var eItem = this.getEntityItem();
 	    
 	    eItem.show();
 	    
-	    if (typeof entity === 'undefined')
+	    if (typeof searchEntity === 'undefined')
 	    {
 	    	this.application.fireEvent('entityUnselected');
 	    	return;
 	    }
 	    
-	    if (!entity.phantom
-	    		&& !entity.dirty) 
+	    if (!searchEntity.phantom
+	    		&& !searchEntity.dirty) 
 	    {
 	    	
 	    	
@@ -77,7 +77,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
 	    	store.load({
 	            params: {
 	            	action: 'doEntityLoad',
-	                entityId: entity.get('id')
+	                entityId: searchEntity.get('entityId')
 	            },
 	            callback: function(records, operation, success) {
 	            	
@@ -89,6 +89,13 @@ Ext.define('EetdbAdmin.controller.Entities', {
 	    	
 	    	return;
 	    }
+	    
+	    var entity = Ext.create('EetdbAdmin.model.Entity', 
+	    		{ 
+	    			id: searchEntity.get('entityId'),
+	    			name: searchEntity.get('entityName'),
+	    			description: searchEntity.get('entityDescription')
+	    		});
 	    
         eItem.loadRecord(entity);
         store.loadRecords([entity]);
@@ -118,7 +125,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     	var searchDataview = this.getEntityData();
         var searchStore = this.getEntitySearchResultStore();
         
-        searchStore.insert(0, Ext.create('EetdbAdmin.model.Entity', { name: 'New Entity'} ));
+        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntitySearchResult', { entityName: 'New Entity'} ));
         
         searchDataview.getSelectionModel().select(0);
 
@@ -136,7 +143,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
 
         if (typeof recordInSearch === 'undefined'
         	|| typeof record === 'undefined'
-        	|| recordInSearch.get('id') != record.get('id')) 
+        	|| recordInSearch.get('entityId') != record.get('id')) 
         {
         	return;
         }
@@ -228,7 +235,13 @@ Ext.define('EetdbAdmin.controller.Entities', {
 		    			
 		    			var newrec = store.getAt(0);
 		    			
-		    			recordInSearch.set(newrec.data);
+		    			var dataInSearch = {
+		    					entityId: newrec.get('id'),
+		    					entityName: newrec.get('name'),
+		    					entityDescription: 'dummy'
+		    			};
+		    			
+		    			recordInSearch.set(dataInSearch);
 		    			recordInSearch.commit();
 		    			
 		    			itemView.loadRecord(newrec);

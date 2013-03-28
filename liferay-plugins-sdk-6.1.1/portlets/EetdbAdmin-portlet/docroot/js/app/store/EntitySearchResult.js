@@ -2,7 +2,7 @@
 Ext.define('EetdbAdmin.store.EntitySearchResult', {
     extend: 'Ext.data.Store',
 
-    model: 'EetdbAdmin.model.Entity',
+    model: 'EetdbAdmin.model.EntitySearchResult',
     
     proxy: {
     	type: 'ajax',

@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -34,8 +33,7 @@ import org.unido.eetdb.admin.util.ConfigWrapper;
 import org.unido.eetdb.admin.util.HttpEntityEnclosingDeleteRequest;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityProperty;
-import org.unido.eetdb.common.model.EntityTemplate;
-import org.unido.eetdb.common.model.EntityTemplateProperty;
+import org.unido.eetdb.common.model.EntitySearchResult;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.AnnotationIntrospector;
@@ -72,9 +70,9 @@ public class EntityController
 		
 		RestTemplate tmpl = new RestTemplate();
 		
-		Entity[] entities = tmpl.getForObject(
+		EntitySearchResult[] entities = tmpl.getForObject(
 					ConfigWrapper.getServUrl(renderRequest) + "/search-for-entities/{i}", 
-					Entity[].class, query);
+					EntitySearchResult[].class, query);
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);

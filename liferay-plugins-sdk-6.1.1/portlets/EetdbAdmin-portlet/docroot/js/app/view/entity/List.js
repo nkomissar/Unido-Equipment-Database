@@ -48,17 +48,6 @@ Ext.define("EetdbAdmin.component.SearchField", {
 	}
 });
 
-/*
-Ext.override(Ext.form.TriggerField, { 
-    initComponent: function(){
-        Ext.form.TriggerField.superclass.initComponent.call(this);
-        this.addEvents('triggerClick');
-    },
-    onTrigger2Click: function(){
-        this.fireEvent('triggerClick', this);
-    }
-});*/
-
 
 Ext.define('EetdbAdmin.view.entity.List', {
     extend: 'Ext.panel.Panel',
@@ -67,7 +56,7 @@ Ext.define('EetdbAdmin.view.entity.List', {
     requires: ['Ext.toolbar.Toolbar'],
 
     title: 'Entities',
-    autoScroll: true,
+    autoScroll: false,
     border: false,
 
     initComponent: function() {
@@ -83,11 +72,8 @@ Ext.define('EetdbAdmin.view.entity.List', {
             	cls: 'entity-list',
             	itemSelector: '.entity-list-item',
             	overItemCls: 'entity-list-item-hover',
-            	tpl: '<tpl for="."><div class="entity-list-item">{name}</div></tpl>'
-            	/*,listeners: {
-            		selectionchange: this.onSelectionChange,
-            		scope: this
-            	}*/
+            	tpl: '<tpl for="."><div class="entity-list-item">{entityName}</div></tpl>'
+
             }]
 
             ,dockedItems: [{
@@ -96,14 +82,7 @@ Ext.define('EetdbAdmin.view.entity.List', {
 					'->',
 					{
 					    xtype: 'searchfield',
-					    emptyText: 'enter search term',
-					    /*,
-					    listeners: 
-					    	{
-					    		onTrigger1Click: this.clearSearchQuery,
-					    		onTrigger2Click: this.doSearch,
-					    		scope: this
-					    	}*/
+					    emptyText: 'enter search term'
 					}
 					]
             }]
