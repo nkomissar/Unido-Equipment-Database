@@ -1,11 +1,11 @@
 
-Ext.define('EetdbAdmin.view.entity.List', {
+Ext.define('EetdbAdmin.view.topic.List', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.entitylist',
+    alias: 'widget.topiclist',
 
     requires: ['Ext.toolbar.Toolbar'],
 
-    title: 'Entities',
+    title: 'Topics',
     autoScroll: false,
     border: false,
 
@@ -19,10 +19,10 @@ Ext.define('EetdbAdmin.view.entity.List', {
             	layout: 'fit',
             	trackOver: true,
             	store: this.store,
-            	cls: 'entity-list',
-            	itemSelector: '.entity-list-item',
-            	overItemCls: 'entity-list-item-hover',
-            	tpl: '<tpl for="."><div class="entity-list-item">{entityName}</div></tpl>'
+            	cls: 'topic-list',
+            	itemSelector: '.topic-list-item',
+            	overItemCls: 'topic-list-item-hover',
+            	tpl: '<tpl for="."><div class="topic-list-item">{name}</div></tpl>'
 
             }]
 
