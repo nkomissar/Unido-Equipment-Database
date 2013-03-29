@@ -125,7 +125,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     	var searchDataview = this.getEntityData();
         var searchStore = this.getEntitySearchResultStore();
         
-        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntitySearchResult', { entityName: 'New Entity'} ));
+        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntitySearchResult', { entityId: 0, entityName: 'New Entity'} ));
         
         searchDataview.getSelectionModel().select(0);
 
@@ -220,15 +220,21 @@ Ext.define('EetdbAdmin.controller.Entities', {
 	        },
 	        callback: function(records, operation, success) {
 	    	
-	        	values.entityTemplate = records[0];
+	        	values.entityTemplate = records[0].data;
 	        	
 		    	if (store.count() == 0){
 		    		store.add(Ext.create('EetdbAdmin.model.Entity'));
 		    	}
 		    	
+		    	store.loadRawData( { entity: [values] });
+		    	
 		    	var record = store.getAt(0);
 		    	
-		    	record.set(values);
+		    	record.dirty = true;
+		    	//always re-read ID from server response
+		    	record.phantom = true;
+		    	
+		    	//record.set(values);
 		    	
 		    	store.sync({
 		    		success: function(){

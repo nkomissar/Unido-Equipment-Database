@@ -5,8 +5,8 @@ entityTemplateControllerURL.setParameter('action', 'doEntityTemplateList');
 Ext.define('EetdbAdmin.model.EntityTemplate', {
     extend: 'Ext.data.Model',
     
-    requires:['EetdbAdmin.model.EntityTemplateProperty'/*,
-              'EetdbAdmin.lib.overrides.Model'*/],          
+    requires:['EetdbAdmin.model.EntityTemplateProperty'],  
+    
     proxy: {
         type: 'memory'
     },
@@ -27,7 +27,7 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
     	instanceName: 'properties'
     }
    
-	,set: function(fieldName, newValue)
+	/*,set: function(fieldName, newValue)
 	{
 
 		var me = this, 
@@ -50,6 +50,6 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
 			 
 		 me.properties().add(fieldName['properties']);
 		 
-	}
+	}*/
 
 });
