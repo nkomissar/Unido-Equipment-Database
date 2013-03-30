@@ -3,9 +3,12 @@ package org.unido.eetdb.admin;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -30,6 +33,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.servlet.View;
 import org.unido.eetdb.admin.util.ConfigWrapper;
 import org.unido.eetdb.admin.util.HttpEntityEnclosingDeleteRequest;
+import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.Topic;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -93,9 +97,40 @@ public class TopicController
 		}
 		RestTemplate tmpl = new RestTemplate();
 
-		Topic topic = tmpl.getForObject(
+		/*Topic topic = tmpl.getForObject(
 				ConfigWrapper.getServUrl(renderRequest) + "/topic/{id};skip_childs=0",
-				Topic.class, topicId);
+				Topic.class, topicId);*/
+	
+		Set<Entity> entities = new HashSet<Entity>();
+		for (int j=0,i = 0; i < 5; i++){
+			
+			j ++;
+			Entity entity = null;
+			try 
+			{
+			
+				entity = tmpl.getForObject(
+					ConfigWrapper.getServUrl(renderRequest) + "/entity/{id};skip_childs=0",
+					Entity.class, j);
+		
+				entities.add(entity);
+				
+			}
+			catch(Exception ex) 
+			{
+				i--;
+			}
+		}
+		
+	
+		Topic topic = new Topic();
+		topic.setId(55);
+		topic.setName("My Topic");
+		topic.setVersion(1);
+		topic.setDescription("This is very good description");
+		topic.setEntitiesOfTopic( entities);
+		
+	
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);

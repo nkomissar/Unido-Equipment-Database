@@ -68,13 +68,13 @@ Ext.define('EetdbAdmin.controller.Topics', {
 	    	
 	    	
 	    	itemForm.setLoading({
-	            msg: 'Loading entity...'
+	            msg: 'Loading topic...'
 	        });
 	
 	    	store.load({
 	            params: {
 	            	action: 'doTopicLoad',
-	                topicId: searchEntity.get('topicId')
+	                topicId: searchTopic.get('id')
 	            },
 	            callback: function(records, operation, success) {
 	            	
@@ -133,7 +133,7 @@ Ext.define('EetdbAdmin.controller.Topics', {
 
         if (typeof recordInSearch === 'undefined'
         	|| typeof record === 'undefined'
-        	|| recordInSearch.get('topicId') != record.get('id')) 
+        	|| recordInSearch.get('id') != record.get('id')) 
         {
         	return;
         }
