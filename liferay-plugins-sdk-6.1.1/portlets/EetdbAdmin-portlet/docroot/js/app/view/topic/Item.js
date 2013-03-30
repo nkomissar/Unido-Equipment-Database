@@ -30,7 +30,58 @@ Ext.define('EetdbAdmin.view.topic.Item', {
         		},{
         			xtype: 'hidden',
         			name: 'version'
-        		}],
+        		},{
+        			xtype:'tabpanel',
+                    plain:true,
+                    activeTab: 0,
+                    //height:235,
+                    defaults:{
+                        bodyPadding: 10
+                    },
+                    items:[{
+                        title:'Relations',
+                        defaultType: 'textfield',
+
+                        items: [{
+                        	xtype: 'dataview',
+                        	layout: 'fit',
+                        	trackOver: true,
+                        	//store: this.store,
+                        	cls: 'topic-list',
+                        	itemSelector: '.topic-list-item',
+                        	overItemCls: 'topic-list-item-hover',
+                        	tpl: '<tpl for="."><div class="topic-list-item">{name}</div></tpl>'
+                        },
+                        {
+                        	xtype: 'fieldset',
+                        	title: 'Linked Entities',
+                        	items:[{
+                                   	xtype: 'dataview',
+                                   	layout: 'fit',
+                                   	trackOver: true,
+                                   	store: 
+                                   	{
+                                   		model: 'EetdbAdmin.model.Entity'
+                                   	},
+                                   	cls: 'entity-list',
+                                   	itemSelector: '.entity-list-item',
+                                   	overItemCls: 'entity-list-item-hover',
+                                   	tpl: '<tpl for="."><div class="entity-list-item">{name}</div></tpl>'
+                                   },
+                                   {
+                                	   xtype: 'container',
+                                	   items:[{
+											   xtype: 'button',
+											   text: 'Add'
+											},{
+											   xtype: 'button',
+											   text: 'Remove'
+											}]
+                                   }]
+                        }]
+                    }]
+        		}
+        		],
         		buttons: [{
         			text: 'Save',
         			action: 'create'
@@ -45,9 +96,13 @@ Ext.define('EetdbAdmin.view.topic.Item', {
 	,loadRecord: function(topic) {
 
 		var form = this.down('form');
+		var entitiesDataview = form.down('dataview[cls="entity-list"]');
+		var entitiesStore = topic.entitiesOfTopic();
 		
 		form.loadRecord(topic);
 
+		entitiesDataview.bindStore(entitiesStore);
+		
 	}
 	
 	,getFieldValues: function() {
