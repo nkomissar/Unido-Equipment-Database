@@ -71,9 +71,13 @@ public class TopicController
 		
 		RestTemplate tmpl = new RestTemplate();
 		
-		Topic[] topics = tmpl.getForObject(
+		Topic[] topics = new Topic[1];/* = tmpl.getForObject(
 					ConfigWrapper.getServUrl(renderRequest) + "/search-for-topics/{i}", 
-					Topic[].class, query);
+					Topic[].class, query);*/
+		
+		topics[0] = new Topic();
+		topics[0].setId(1);
+		topics[0].setName("Cement");
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);

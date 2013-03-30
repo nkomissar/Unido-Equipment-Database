@@ -3,7 +3,7 @@ Ext.define('EetdbAdmin.view.topic.Item', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.topicitem',
 
-    requires: ['Ext.toolbar.Toolbar'],
+    requires: ['Ext.toolbar.Toolbar', 'Ext.toolbar.Spacer'],
 
     cls: 'preview',
     autoScroll: true,
@@ -72,13 +72,19 @@ Ext.define('EetdbAdmin.view.topic.Item', {
                                 	   xtype: 'container',
                                 	   items:[{
 											   xtype: 'button',
-											   text: 'Add'
+											   text: 'Add',
+											   action: 'addchildentity'
+											},{
+												xtype : 'tbspacer',
+												width : 5
 											},{
 											   xtype: 'button',
-											   text: 'Remove'
+											   text: 'Remove',
+											   action: 'removechildentity'
 											}]
                                    }]
                         }]
+                    	
                     }]
         		}
         		],

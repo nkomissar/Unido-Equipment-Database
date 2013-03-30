@@ -3,14 +3,20 @@ Ext.define('EetdbAdmin.controller.Topics', {
 
     stores: ['TopicSearchResult', 'Topic'],
     models: ['Topic'],
-    views: ['topic.List', 'topic.Item'],
+    views: ['topic.List', 'topic.Item', 'entity.ListWindow'],
     
     refs: [
         {ref: 'topicList', selector: 'topiclist'},
         {ref: 'topicData', selector: 'topiclist dataview'},
         {ref: 'searchQuery', selector: 'topiclist toolbar searchfield'},
         {ref: 'topicItem', selector: 'topicitem'},
-        {ref: 'topicForm', selector: 'topicitem form'}
+        {ref: 'topicForm', selector: 'topicitem form'},
+        {
+            ref: 'entityListWindow', 
+            selector: 'entitylistwindow', 
+            autoCreate: true,
+            xtype: 'entitylistwindow'
+        }
     ],
     
     // At this point things haven't rendered yet since init gets called on controllers before the launch function
@@ -26,6 +32,13 @@ Ext.define('EetdbAdmin.controller.Topics', {
             }
             ,'topicitem button[action=create]': {
                 click: this.submitTopic
+            }
+            ,'topicitem button[action=addchildentity]': {
+                click: this.showAddChildEntity
+            }
+            //should go to  subcontroller
+            ,'entitylistwindow toolbar searchfield': {
+            	triggerclick: this.doEntitySearch
             }
         });
         
@@ -247,63 +260,8 @@ Ext.define('EetdbAdmin.controller.Topics', {
 
     }
     
-	/*,applyTemplate: function (combo, records, eOpts)
-	{
-		
-		var me = this;
-		var form = me.getEntityForm();
-
-	    var eItem = this.getEntityItem();
-		var existingData = eItem.getFieldValues();
-		var template = records[0];
-		var templateStore = this.getEntityTemplateStore();
-		var newEntity = Ext.create('EetdbAdmin.model.Entity', 
-									{
-										name: existingData["name"]
-									});
-		var newPropsStore = newEntity.properties();
-		
-		form.setLoading("Loading template...");
-		templateStore.load({
-            params: {
-                entityTemplateId: template.get('id')
-            },
-            callback: function(records, operation, success) {
-            	
-            	form.setLoading(false);
-            	
-            	var template = records[0];
-        		var propertiesStore = template.properties();
-        		
-        		newEntity['EntityTemplate'] = template;
-            	
-        		propertiesStore.each(
-        				function(templateProperty)
-        				{
-        					var property = Ext.create('EetdbAdmin.model.EntityProperty', {
-        						templateProperty: templateProperty
-        					});
-        					
-        					Ext.each(existingData['properties'],
-        							function(existingProperty)
-        							{
-        								if (existingProperty.templateProperty["code"] == templateProperty.get("code"))
-        								{
-        									property.set("value", existingProperty["value"]);
-        								}
-        							});
-       					
-        					newPropsStore.add(property);
-        					
-        				});
-        		
-        		eItem.loadRecord(newEntity);
-            	
-            }
-        });
-		
-		
-	}*/
-
+    ,showAddChildEntity: function() {
+    	this.getEntityListWindow().show();
+    }
 
 });
