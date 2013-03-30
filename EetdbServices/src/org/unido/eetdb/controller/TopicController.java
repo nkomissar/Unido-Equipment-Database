@@ -61,7 +61,7 @@ public class TopicController
         return "OK";
     }
     
-    @RequestMapping(method = RequestMethod.PUT, value = "/entity")
+    @RequestMapping(method = RequestMethod.PUT, value = "/topic")
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public @ResponseBody
     Topic updateTopic(@RequestBody Topic topic)
