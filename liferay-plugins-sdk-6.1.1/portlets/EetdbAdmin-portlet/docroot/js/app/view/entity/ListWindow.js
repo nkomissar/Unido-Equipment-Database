@@ -7,7 +7,8 @@ Ext.define('EetdbAdmin.view.entity.ListWindow', {
     
     //defaultFocus: '#feed',
 
-    width: 500,
+    width: 400,
+    height: 400,
     title: 'Select Entities',
     //iconCls: 'feed-add',
     layout: 'fit',
@@ -16,9 +17,13 @@ Ext.define('EetdbAdmin.view.entity.ListWindow', {
 
     initComponent: function() {
         Ext.apply(this, {
-            buttons: [{
-                text: 'Add feed',
-                action: 'create'
+        	
+        	closeAction: 'hide',
+            
+        	buttons: [{
+                text: 'OK',
+                action: 'add',
+                disabled: true
             }, {
                 text: 'Cancel',
                 scope: this,
@@ -27,8 +32,27 @@ Ext.define('EetdbAdmin.view.entity.ListWindow', {
 
             items: [{
                 xtype: 'entitylist',
-                bodyPadding: '12 10 10',
+                //bodyPadding: '12 10 10 10',
                 border: false,
+                entityListInstance: 'modalEntitySearch',
+                listeners: {
+                	selectionchange: {
+                		fn: function(selModel, selected, eOpts){
+                			
+                			var btnOk = this.down('button[action=add]');
+                			
+                			if (selected.length > 0)
+                			{
+                				btnOk.enable();
+                			}
+                			else
+                			{
+                				btnOk.disable();
+                			}
+                		}
+            			,scope: this
+                	}
+                }
             }]
         });
 

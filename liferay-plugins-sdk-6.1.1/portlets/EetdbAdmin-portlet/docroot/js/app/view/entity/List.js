@@ -16,14 +16,24 @@ Ext.define('EetdbAdmin.view.entity.List', {
         	
             items: [{
             	xtype: 'dataview',
+            	overflowY: 'auto',
             	layout: 'fit',
             	trackOver: true,
             	store: this.store,
             	cls: 'entity-list',
             	itemSelector: '.entity-list-item',
             	overItemCls: 'entity-list-item-hover',
-            	tpl: '<tpl for="."><div class="entity-list-item">{entityName}</div></tpl>'
-
+            	tpl: '<tpl for="."><div class="entity-list-item">{entityName}</div></tpl>',
+            	listeners: {
+            		selectionchange: {
+            			fn: function(selModel, selected, eOpts){
+            				var me = this;
+            				
+            				me.fireEvent('selectionchange', selModel, selected);
+            			}
+            			,scope: this
+            		}
+            	}
             }]
 
             ,dockedItems: [{

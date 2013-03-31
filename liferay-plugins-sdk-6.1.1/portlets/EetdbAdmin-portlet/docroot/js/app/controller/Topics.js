@@ -11,11 +11,16 @@ Ext.define('EetdbAdmin.controller.Topics', {
         {ref: 'searchQuery', selector: 'topiclist toolbar searchfield'},
         {ref: 'topicItem', selector: 'topicitem'},
         {ref: 'topicForm', selector: 'topicitem form'},
+        {ref: 'linkedEntities', selector: 'topicitem form dataview[name=linkedEntities]'},
+        {ref: 'entitySearchData', selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] dataview'},
+        {ref: 'entitySearchQuery', selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield'},
         {
             ref: 'entityListWindow', 
-            selector: 'entitylistwindow', 
+            selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic]', 
             autoCreate: true,
-            xtype: 'entitylistwindow'
+            xtype: 'entitylistwindow',
+            entityListWindowInstance: 'entitySearchForTopic'
+            	
         }
     ],
     
@@ -36,9 +41,15 @@ Ext.define('EetdbAdmin.controller.Topics', {
             ,'topicitem button[action=addchildentity]': {
                 click: this.showAddChildEntity
             }
-            //should go to  subcontroller
-            ,'entitylistwindow toolbar searchfield': {
+            ,'topicitem button[action=removechildentity]': {
+                click: this.unlinkSelectedEntities
+            }
+            //should go to subcontroller
+            ,'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield': {
             	triggerclick: this.doEntitySearch
+            }
+            ,'entitylistwindow[entityListWindowInstance=entitySearchForTopic] button[action=add]': {
+            	click: this.linkSelectedEntities
             }
         });
         
@@ -56,7 +67,15 @@ Ext.define('EetdbAdmin.controller.Topics', {
             store = this.getTopicSearchResultStore();
         
         dataview.bindStore(store);
-        //dataview.getSelectionModel().select(store.getAt(0));
+		
+		var entitySearchStore = Ext.create(this.application.getModuleClassName('EntitySearchResult', 'store'));
+		var entitySearchView = this.getEntityListWindow();
+		var entitySearchDataView = entitySearchView.down('dataview');
+ 
+		entitySearchView.entityListWindowInstance = 'entitySearchForTopic';
+		
+		entitySearchDataView.bindStore(entitySearchStore);
+		
     },
 
     loadTopic: function(selModel, selected) 
@@ -205,7 +224,7 @@ Ext.define('EetdbAdmin.controller.Topics', {
     	var itemForm = this.getTopicForm();
     	var itemView = this.getTopicItem();
     	var store = this.getTopicStore();
-    	//var values = itemView.getFieldValues();
+    	var values = itemView.getFieldValues();
     	//var templateStore = this.getEntityTemplateStore();
 
     	var searchDataview = this.getTopicData();
@@ -264,4 +283,61 @@ Ext.define('EetdbAdmin.controller.Topics', {
     	this.getEntityListWindow().show();
     }
 
+	,doEntitySearch: function()
+    {
+    	
+    	var queryBox = this.getSearchQuery();
+		var entitySearchDataView = this.getEntitySearchData();
+    	var store = entitySearchDataView.store;
+    	
+    	store.load(
+    			{
+    				params: 
+    				{
+    					query: queryBox.getValue()
+    				}
+    			});
+    	
+    }
+
+    ,linkSelectedEntities: function(){
+		
+    	var entitySearchView = this.getEntityListWindow();
+		var entitySearchDataView = entitySearchView.down('dataview');
+		
+		var linkedEntitiesDataView = this.getLinkedEntities();
+		
+		var selectedItems = entitySearchDataView.getSelectionModel().getSelection();
+		
+		linkedEntitiesDataView.store.clearFilter(true);
+		
+		Ext.each(selectedItems, function(item){
+			
+			linkedEntitiesDataView.store
+				.loadRawData(
+							{
+								id: item.get('entityId'), 
+								name: item.get('entityName')
+							}, 
+							true
+							);
+		
+		});
+		
+	
+		entitySearchView.hide();
+
+    }
+    
+    ,unlinkSelectedEntities: function(){
+    
+		var linkedEntitiesDataView = this.getLinkedEntities();
+		
+		var selectedItems = linkedEntitiesDataView.getSelectionModel().getSelection();
+
+		linkedEntitiesDataView.store
+				.remove(selectedItems);
+		
+
+    }
 });
