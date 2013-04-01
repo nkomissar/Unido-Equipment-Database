@@ -57,7 +57,8 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
 	                        title: 'Search',
 	                        items: [{
 	                                xtype: 'topiclist',
-	                                layout: 'fit'
+	                                layout: 'fit',
+                                    topicListInstance: 'mainTopicSearch'
 	                            }]
 	                    }, {
 	                        title: 'Add Topic',
