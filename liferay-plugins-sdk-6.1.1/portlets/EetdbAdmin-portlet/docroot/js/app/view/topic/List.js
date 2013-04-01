@@ -32,7 +32,8 @@ Ext.define('EetdbAdmin.view.topic.List', {
 					'->',
 					{
 					    xtype: 'searchfield',
-					    emptyText: 'enter search term'
+					    emptyText: 'enter search term',
+					    value: 'cement'
 					}
 					]
             }]
