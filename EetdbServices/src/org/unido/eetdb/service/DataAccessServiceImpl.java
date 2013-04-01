@@ -69,16 +69,6 @@ public class DataAccessServiceImpl implements DataAccessService
     }
 
     @Override
-    public Topic getTopic(Long topicId)
-    {
-        Topic retVal = (Topic) sessionFactory.getCurrentSession().load(Topic.class, topicId);
-
-        Helper.ensureChilds(retVal, false);
-
-        return retVal;
-    }
-
-    @Override
     public EntityTemplate getEntityTemplate(Long templateId, boolean skipChilds)
     {
         EntityTemplate template = (EntityTemplate) sessionFactory.getCurrentSession().load(
@@ -112,6 +102,16 @@ public class DataAccessServiceImpl implements DataAccessService
                 .createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(Topic.class).list());
     }
     
+    @Override
+    public Topic getTopic(Long topicId)
+    {
+        Topic retVal = (Topic) sessionFactory.getCurrentSession().load(Topic.class, topicId);
+
+        Helper.ensureChilds(retVal, false);
+
+        return retVal;
+    }
+
     @Override
     public Topic createTopic(Topic topic)
     {
@@ -231,7 +231,7 @@ public class DataAccessServiceImpl implements DataAccessService
             {
                 for (Entity child : topic.getEntitiesOfTopic())
                 {
-                    ensureChilds(child, false);
+                    ensureChilds(child, true);
                 }
 
                 for (Topic childTopic : topic.getChildTopics())
