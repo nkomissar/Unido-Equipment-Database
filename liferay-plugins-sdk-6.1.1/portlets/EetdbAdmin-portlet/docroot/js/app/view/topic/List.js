@@ -19,10 +19,21 @@ Ext.define('EetdbAdmin.view.topic.List', {
             	layout: 'fit',
             	trackOver: true,
             	store: this.store,
+            	overflowY: 'auto',
             	cls: 'topic-list',
             	itemSelector: '.topic-list-item',
             	overItemCls: 'topic-list-item-hover',
-            	tpl: '<tpl for="."><div class="topic-list-item">{name}</div></tpl>'
+            	tpl: '<tpl for="."><div class="topic-list-item">{name}</div></tpl>',
+            	listeners: {
+            		selectionchange: {
+            			fn: function(selModel, selected, eOpts){
+            				var me = this;
+            				
+            				me.fireEvent('selectionchange', selModel, selected);
+            			}
+            			,scope: this
+            		}
+            	}
 
             }]
 

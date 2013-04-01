@@ -3,23 +3,34 @@ Ext.define('EetdbAdmin.controller.Topics', {
 
     stores: ['TopicSearchResult', 'Topic'],
     models: ['Topic'],
-    views: ['topic.List', 'topic.Item', 'entity.ListWindow'],
+    views: ['topic.List', 'topic.Item', 'entity.ListWindow', 'topic.ListWindow'],
     
     refs: [
-        {ref: 'topicList', selector: 'topiclist'},
-        {ref: 'topicData', selector: 'topiclist dataview'},
-        {ref: 'searchQuery', selector: 'topiclist toolbar searchfield'},
-        {ref: 'topicItem', selector: 'topicitem'},
-        {ref: 'topicForm', selector: 'topicitem form'},
-        {ref: 'linkedEntities', selector: 'topicitem form dataview[name=linkedEntities]'},
-        {ref: 'entitySearchData', selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] dataview'},
-        {ref: 'entitySearchQuery', selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield'},
+        {ref: 'topicList', 			selector: 'topiclist[topicListInstance=mainTopicSearch]'},
+        {ref: 'topicData', 			selector: 'topiclist[topicListInstance=mainTopicSearch] dataview'},
+        {ref: 'searchQuery', 		selector: 'topiclist[topicListInstance=mainTopicSearch] toolbar searchfield'},
+        {ref: 'topicItem', 			selector: 'topicitem'},
+        {ref: 'topicForm', 			selector: 'topicitem form'},
+        {ref: 'linkedEntities', 	selector: 'topicitem form dataview[name=linkedEntities]'},
+        {ref: 'entitySearchData', 	selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] dataview'},
+        {ref: 'entitySearchQuery', 	selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield'},
+        {ref: 'linkedTopics', 		selector: 'topicitem form dataview[name=linkedTopics]'},
+        {ref: 'topicSearchData', 	selector: 'topiclistwindow[topicListInstance=topicSearchForTopic] dataview'},
+        {ref: 'topicSearchQuery', 	selector: 'topiclistwindow[topicListInstance=topicSearchForTopic] toolbar searchfield'},
         {
             ref: 'entityListWindow', 
             selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic]', 
             autoCreate: true,
             xtype: 'entitylistwindow',
             entityListWindowInstance: 'entitySearchForTopic'
+            	
+        },
+        {
+            ref: 'topicListWindow', 
+            selector: 'topiclistwindow[topicListInstance=topicSearchForTopic]', 
+            autoCreate: true,
+            xtype: 'topiclistwindow',
+            topicListInstance: 'topicSearchForTopic'
             	
         }
     ],
@@ -29,10 +40,10 @@ Ext.define('EetdbAdmin.controller.Topics', {
     init: function() {
     	
         this.control({
-            'topiclist dataview': {
+            'topiclist[topicListInstance=mainTopicSearch] dataview': {
                 selectionchange: this.loadTopic
             },
-            'topiclist toolbar searchfield': {
+            'topiclist[topicListInstance=mainTopicSearch] toolbar searchfield': {
             	triggerclick: this.doSearch
             }
             ,'topicitem button[action=create]': {
@@ -44,12 +55,24 @@ Ext.define('EetdbAdmin.controller.Topics', {
             ,'topicitem button[action=removechildentity]': {
                 click: this.unlinkSelectedEntities
             }
+            ,'topicitem button[action=addchildtopic]': {
+                click: this.showAddChildTopic
+            }
+            ,'topicitem button[action=removechildtopic]': {
+                click: this.unlinkSelectedTopics
+            }            
             //should go to subcontroller
             ,'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield': {
             	triggerclick: this.doEntitySearch
             }
             ,'entitylistwindow[entityListWindowInstance=entitySearchForTopic] button[action=add]': {
             	click: this.linkSelectedEntities
+            }
+            ,'topiclistwindow[topicListWindowInstance=topicSearchForTopic] toolbar searchfield': {
+            	triggerclick: this.doTopicSearch
+            }
+            ,'topiclistwindow[topicListWindowInstance=topicSearchForTopic] button[action=add]': {
+            	click: this.linkSelectedTopics
             }
         });
         
@@ -75,6 +98,14 @@ Ext.define('EetdbAdmin.controller.Topics', {
 		entitySearchView.entityListWindowInstance = 'entitySearchForTopic';
 		
 		entitySearchDataView.bindStore(entitySearchStore);
+
+		var topicSearchStore = Ext.create(this.application.getModuleClassName('TopicSearchResult', 'store'));
+		var topicSearchView = this.getTopicListWindow();
+		var topicSearchDataView = topicSearchView.down('dataview');
+ 
+		topicSearchView.topicListWindowInstance = 'topicSearchForTopic';
+		
+		topicSearchDataView.bindStore(topicSearchStore);
 		
     },
 
@@ -233,18 +264,6 @@ Ext.define('EetdbAdmin.controller.Topics', {
         itemForm.setLoading({
             msg: 'Saving topic...'
         });
-        
-        /*
-        templateStore.load(
-        {
-	        params: {
-	        	action: 'doEntityTemplateLoad',
-	            entityTemplateId: values.entityTemplate['id']
-	        },
-	        callback: function(records, operation, success) {
-	    	
-	        	values.entityTemplate = records[0].data;
-	        	*/
     	
     	store.loadRawData( { topic: [values] });
     	
@@ -274,8 +293,6 @@ Ext.define('EetdbAdmin.controller.Topics', {
     		},
     		scope: this
     	});
-	        /*}
-        });*/
 
     }
     
@@ -336,6 +353,62 @@ Ext.define('EetdbAdmin.controller.Topics', {
 		var selectedItems = linkedEntitiesDataView.getSelectionModel().getSelection();
 
 		linkedEntitiesDataView.store
+				.remove(selectedItems);
+		
+
+    }
+
+    ,showAddChildTopic: function() {
+    	this.getTopicListWindow().show();
+    }
+
+	,doTopicSearch: function()
+    {
+    	
+    	var queryBox = this.getTopicSearchQuery();
+		var topicSearchDataView = this.getTopicSearchData();
+    	var store = topicSearchDataView.store;
+    	
+    	store.load(
+    			{
+    				params: 
+    				{
+    					query: queryBox.getValue()
+    				}
+    			});
+    	
+    }
+
+    ,linkSelectedTopics: function(){
+		
+    	var topicSearchView = this.getTopicListWindow();
+		var topicSearchDataView = topicSearchView.down('dataview');
+		
+		var linkedTopicsDataView = this.getLinkedTopics();
+		
+		var selectedItems = topicSearchDataView.getSelectionModel().getSelection();
+		
+		linkedTopicsDataView.store.clearFilter(true);
+		
+		Ext.each(selectedItems, function(item){
+			
+			linkedTopicsDataView.store
+				.loadRawData( item.data, true);
+		
+		});
+		
+	
+		topicSearchView.hide();
+
+    }
+    
+    ,unlinkSelectedTopics: function(){
+    
+		var linkedTopicsDataView = this.getLinkedTopics();
+		
+		var selectedItems = linkedTopicsDataView.getSelectionModel().getSelection();
+
+		linkedTopicsDataView.store
 				.remove(selectedItems);
 		
 
