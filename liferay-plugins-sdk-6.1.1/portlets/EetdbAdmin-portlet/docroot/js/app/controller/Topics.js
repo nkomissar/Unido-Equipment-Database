@@ -286,7 +286,7 @@ Ext.define('EetdbAdmin.controller.Topics', {
 	,doEntitySearch: function()
     {
     	
-    	var queryBox = this.getSearchQuery();
+    	var queryBox = this.getEntitySearchQuery();
 		var entitySearchDataView = this.getEntitySearchData();
     	var store = entitySearchDataView.store;
     	

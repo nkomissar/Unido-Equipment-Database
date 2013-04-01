@@ -70,13 +70,15 @@ public class EntityController
 		
 		RestTemplate tmpl = new RestTemplate();
 		
-		EntitySearchResult[] entities = new EntitySearchResult[1];/* = tmpl.getForObject(
+		EntitySearchResult[] entities = tmpl.getForObject(
 					ConfigWrapper.getServUrl(renderRequest) + "/search-for-entities/{i}", 
-					EntitySearchResult[].class, query);*/
-		
+					EntitySearchResult[].class, query);
+		/*
+		EntitySearchResult[] entities = new EntitySearchResult[1]
 		entities[0] = new EntitySearchResult();
 		entities[0].setEntityId("55");
 		entities[0].setEntityName("Mock name");
+		*/
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);

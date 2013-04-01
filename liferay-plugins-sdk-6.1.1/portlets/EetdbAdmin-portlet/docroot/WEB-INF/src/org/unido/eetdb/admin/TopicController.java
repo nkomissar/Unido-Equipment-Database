@@ -71,13 +71,14 @@ public class TopicController
 		
 		RestTemplate tmpl = new RestTemplate();
 		
-		Topic[] topics = new Topic[1];/* = tmpl.getForObject(
+		Topic[] topics = tmpl.getForObject(
 					ConfigWrapper.getServUrl(renderRequest) + "/search-for-topics/{i}", 
-					Topic[].class, query);*/
+					Topic[].class, query);
 		
+		/*Topic[] topics = new Topic[1];
 		topics[0] = new Topic();
 		topics[0].setId(1);
-		topics[0].setName("Cement");
+		topics[0].setName("Cement");*/
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
@@ -101,11 +102,11 @@ public class TopicController
 		}
 		RestTemplate tmpl = new RestTemplate();
 
-		/*Topic topic = tmpl.getForObject(
+		Topic topic = tmpl.getForObject(
 				ConfigWrapper.getServUrl(renderRequest) + "/topic/{id};skip_childs=0",
-				Topic.class, topicId);*/
+				Topic.class, topicId);
 	
-		Set<Entity> entities = new HashSet<Entity>();
+		/*Set<Entity> entities = new HashSet<Entity>();
 		for (int j=0,i = 0; i < 5; i++){
 			
 			j ++;
@@ -132,7 +133,7 @@ public class TopicController
 		topic.setName("My Topic");
 		topic.setVersion(1);
 		topic.setDescription("This is very good description");
-		topic.setEntitiesOfTopic( entities);
+		topic.setEntitiesOfTopic( entities);*/
 		
 	
 
