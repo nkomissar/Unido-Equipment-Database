@@ -268,6 +268,8 @@ public class DataAccessServiceImpl implements DataAccessService
                 }
             }
 
+            entity.getProperties().size();
+
             ensureChilds(entity.getEntityTemplate(), doAbort);
         }
     }
