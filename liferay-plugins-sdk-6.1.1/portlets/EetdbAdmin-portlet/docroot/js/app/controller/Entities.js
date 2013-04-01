@@ -6,9 +6,9 @@ Ext.define('EetdbAdmin.controller.Entities', {
     views: ['entity.List', 'entity.Item'],
     
     refs: [
-        {ref: 'entityList', selector: 'entitylist'},
-        {ref: 'entityData', selector: 'entitylist dataview'},
-        {ref: 'searchQuery', selector: 'entitylist toolbar searchfield'},
+        {ref: 'entityList', selector: 'entitylist[entityListInstance=mainEntitySearch]'},
+        {ref: 'entityData', selector: 'entitylist[entityListInstance=mainEntitySearch] dataview'},
+        {ref: 'searchQuery', selector: 'entitylist[entityListInstance=mainEntitySearch] toolbar searchfield'},
         {ref: 'entityItem', selector: 'entityitem'},
         {ref: 'entityForm', selector: 'entityitem form'}
     ],
@@ -18,10 +18,10 @@ Ext.define('EetdbAdmin.controller.Entities', {
     init: function() {
     	
         this.control({
-            'entitylist dataview': {
+            'entitylist[entityListInstance=mainEntitySearch] dataview': {
                 selectionchange: this.loadEntity
             },
-            'entitylist toolbar searchfield': {
+            'entitylist[entityListInstance=mainEntitySearch] toolbar searchfield': {
             	triggerclick: this.doSearch
             }
             ,'entityitem button[action=create]': {
@@ -32,7 +32,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
             }
         });
         
-    	this.application.on(
+    	this.application.on( 
     			{
     				addEntity: this.addEntity,
     				removeEntity: this.removeEntity,
@@ -54,7 +54,6 @@ Ext.define('EetdbAdmin.controller.Entities', {
         var store = this.getEntityStore(),
         searchEntity = selected[0],
         itemForm = this.getEntityForm();
-    
 	    var eItem = this.getEntityItem();
 	    
 	    eItem.show();

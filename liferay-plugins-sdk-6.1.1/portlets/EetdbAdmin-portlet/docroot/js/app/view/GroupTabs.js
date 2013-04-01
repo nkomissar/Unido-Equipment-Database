@@ -37,7 +37,8 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                             title: 'Search',
                             items: [{
                                     xtype: 'entitylist',
-                                    layout: 'fit'
+                                    layout: 'fit',
+                                    entityListInstance: 'mainEntitySearch'
                                 }]
                         }, {
                             title: 'Add Entity',

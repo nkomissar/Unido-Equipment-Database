@@ -3,14 +3,25 @@ Ext.define('EetdbAdmin.controller.Topics', {
 
     stores: ['TopicSearchResult', 'Topic'],
     models: ['Topic'],
-    views: ['topic.List', 'topic.Item'],
+    views: ['topic.List', 'topic.Item', 'entity.ListWindow'],
     
     refs: [
         {ref: 'topicList', selector: 'topiclist'},
         {ref: 'topicData', selector: 'topiclist dataview'},
         {ref: 'searchQuery', selector: 'topiclist toolbar searchfield'},
         {ref: 'topicItem', selector: 'topicitem'},
-        {ref: 'topicForm', selector: 'topicitem form'}
+        {ref: 'topicForm', selector: 'topicitem form'},
+        {ref: 'linkedEntities', selector: 'topicitem form dataview[name=linkedEntities]'},
+        {ref: 'entitySearchData', selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] dataview'},
+        {ref: 'entitySearchQuery', selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield'},
+        {
+            ref: 'entityListWindow', 
+            selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic]', 
+            autoCreate: true,
+            xtype: 'entitylistwindow',
+            entityListWindowInstance: 'entitySearchForTopic'
+            	
+        }
     ],
     
     // At this point things haven't rendered yet since init gets called on controllers before the launch function
@@ -26,6 +37,19 @@ Ext.define('EetdbAdmin.controller.Topics', {
             }
             ,'topicitem button[action=create]': {
                 click: this.submitTopic
+            }
+            ,'topicitem button[action=addchildentity]': {
+                click: this.showAddChildEntity
+            }
+            ,'topicitem button[action=removechildentity]': {
+                click: this.unlinkSelectedEntities
+            }
+            //should go to subcontroller
+            ,'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield': {
+            	triggerclick: this.doEntitySearch
+            }
+            ,'entitylistwindow[entityListWindowInstance=entitySearchForTopic] button[action=add]': {
+            	click: this.linkSelectedEntities
             }
         });
         
@@ -43,7 +67,15 @@ Ext.define('EetdbAdmin.controller.Topics', {
             store = this.getTopicSearchResultStore();
         
         dataview.bindStore(store);
-        //dataview.getSelectionModel().select(store.getAt(0));
+		
+		var entitySearchStore = Ext.create(this.application.getModuleClassName('EntitySearchResult', 'store'));
+		var entitySearchView = this.getEntityListWindow();
+		var entitySearchDataView = entitySearchView.down('dataview');
+ 
+		entitySearchView.entityListWindowInstance = 'entitySearchForTopic';
+		
+		entitySearchDataView.bindStore(entitySearchStore);
+		
     },
 
     loadTopic: function(selModel, selected) 
@@ -192,7 +224,7 @@ Ext.define('EetdbAdmin.controller.Topics', {
     	var itemForm = this.getTopicForm();
     	var itemView = this.getTopicItem();
     	var store = this.getTopicStore();
-    	//var values = itemView.getFieldValues();
+    	var values = itemView.getFieldValues();
     	//var templateStore = this.getEntityTemplateStore();
 
     	var searchDataview = this.getTopicData();
@@ -247,63 +279,65 @@ Ext.define('EetdbAdmin.controller.Topics', {
 
     }
     
-	/*,applyTemplate: function (combo, records, eOpts)
-	{
-		
-		var me = this;
-		var form = me.getEntityForm();
+    ,showAddChildEntity: function() {
+    	this.getEntityListWindow().show();
+    }
 
-	    var eItem = this.getEntityItem();
-		var existingData = eItem.getFieldValues();
-		var template = records[0];
-		var templateStore = this.getEntityTemplateStore();
-		var newEntity = Ext.create('EetdbAdmin.model.Entity', 
-									{
-										name: existingData["name"]
-									});
-		var newPropsStore = newEntity.properties();
-		
-		form.setLoading("Loading template...");
-		templateStore.load({
-            params: {
-                entityTemplateId: template.get('id')
-            },
-            callback: function(records, operation, success) {
-            	
-            	form.setLoading(false);
-            	
-            	var template = records[0];
-        		var propertiesStore = template.properties();
-        		
-        		newEntity['EntityTemplate'] = template;
-            	
-        		propertiesStore.each(
-        				function(templateProperty)
-        				{
-        					var property = Ext.create('EetdbAdmin.model.EntityProperty', {
-        						templateProperty: templateProperty
-        					});
-        					
-        					Ext.each(existingData['properties'],
-        							function(existingProperty)
-        							{
-        								if (existingProperty.templateProperty["code"] == templateProperty.get("code"))
-        								{
-        									property.set("value", existingProperty["value"]);
-        								}
-        							});
-       					
-        					newPropsStore.add(property);
-        					
-        				});
-        		
-        		eItem.loadRecord(newEntity);
-            	
-            }
-        });
-		
-		
-	}*/
+	,doEntitySearch: function()
+    {
+    	
+    	var queryBox = this.getSearchQuery();
+		var entitySearchDataView = this.getEntitySearchData();
+    	var store = entitySearchDataView.store;
+    	
+    	store.load(
+    			{
+    				params: 
+    				{
+    					query: queryBox.getValue()
+    				}
+    			});
+    	
+    }
 
+    ,linkSelectedEntities: function(){
+		
+    	var entitySearchView = this.getEntityListWindow();
+		var entitySearchDataView = entitySearchView.down('dataview');
+		
+		var linkedEntitiesDataView = this.getLinkedEntities();
+		
+		var selectedItems = entitySearchDataView.getSelectionModel().getSelection();
+		
+		linkedEntitiesDataView.store.clearFilter(true);
+		
+		Ext.each(selectedItems, function(item){
+			
+			linkedEntitiesDataView.store
+				.loadRawData(
+							{
+								id: item.get('entityId'), 
+								name: item.get('entityName')
+							}, 
+							true
+							);
+		
+		});
+		
+	
+		entitySearchView.hide();
 
+    }
+    
+    ,unlinkSelectedEntities: function(){
+    
+		var linkedEntitiesDataView = this.getLinkedEntities();
+		
+		var selectedItems = linkedEntitiesDataView.getSelectionModel().getSelection();
+
+		linkedEntitiesDataView.store
+				.remove(selectedItems);
+		
+
+    }
 });
