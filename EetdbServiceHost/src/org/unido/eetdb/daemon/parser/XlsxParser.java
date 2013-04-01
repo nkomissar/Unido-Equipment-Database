@@ -13,7 +13,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.unido.eetdb.common.model.Entity;
+import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntityTemplate;
+import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.daemon.db.DbHelper;
 
 public class XlsxParser implements Parser
@@ -51,13 +53,35 @@ public class XlsxParser implements Parser
                         EntityTemplate template = dbHelper
                                 .getEntityTemplate(row.getCell(headers.get("CODE"))
                                         .getStringCellValue());
+
+                        if (template != null)
+                        {
+                            Entity entity = new Entity();
+
+                            entity.setName(row.getCell(headers.get("TITLE")).getStringCellValue());
+                            entity.setEntityTemplate(template);
+
+                            for (EntityTemplateProperty templateProperty : template.getProperties())
+                            {
+                                EntityProperty property = new EntityProperty();
+
+                                property.setTemplateProperty(templateProperty);
+                                property.setValue(row.getCell(
+                                        headers.get(templateProperty.getCode()))
+                                        .getStringCellValue());
+
+                                entity.getProperties().add(property);
+                            }
+
+                            retVal.add(entity);
+                        }
                     }
                 }
             }
         }
         catch (Exception ex)
         {
-
+            throw ex;
         }
         finally
         {

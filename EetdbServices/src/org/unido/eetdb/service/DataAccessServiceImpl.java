@@ -127,6 +127,8 @@ public class DataAccessServiceImpl implements DataAccessService
 
         sessionFactory.getCurrentSession().flush();
 
+        Helper.ensureChilds(topic, false);
+
         return topic;
     }
 
