@@ -9,6 +9,12 @@
 			<name>view-template</name>
 			<value>/view.jsp</value>
 		</init-param>
+		
+		<init-param>
+			<name>config-jsp</name>
+			<value>/WEB-INF/jsp/configuration.jsp</value>
+		</init-param>
+		
 		<expiration-cache>0</expiration-cache>
 		<supports>
 			<mime-type>text/html</mime-type>
@@ -18,6 +24,16 @@
 			<short-title>Eetdb</short-title>
 			<keywords>Eetdb</keywords>
 		</portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>eetDbServicesUrl</name>
+				<value>http://localhost:8080/EetdbServices</value>
+			</preference>
+			<preference>
+				<name>useFiddlerProxy</name>
+				<value>false</value>
+			</preference>
+		</portlet-preferences>
 		<security-role-ref>
 			<role-name>administrator</role-name>
 		</security-role-ref>
