@@ -8,6 +8,7 @@ public class Entity extends GenericObject
     private String              name;
     private Set<EntityProperty> properties    = new HashSet<EntityProperty>();
     private Set<Entity>         childEntities = new HashSet<Entity>();
+    private Set<Topic>          parentTopics = new HashSet<Topic>();
     private EntityTemplate      entityTemplate;
 
     public String getName()
@@ -44,5 +45,14 @@ public class Entity extends GenericObject
     public void setEntityTemplate(EntityTemplate entityTemplate)
     {
         this.entityTemplate = entityTemplate;
+    }
+
+    public Set<Topic> getParentTopics()
+    {
+        return parentTopics;
+    }
+    public void setParentTopics(Set<Topic> parentTopics)
+    {
+        this.parentTopics = parentTopics;
     }
 }

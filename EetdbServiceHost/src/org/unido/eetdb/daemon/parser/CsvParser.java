@@ -2,15 +2,13 @@ package org.unido.eetdb.daemon.parser;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.unido.eetdb.common.model.Entity;
-import org.unido.eetdb.common.model.EntityProperty;
-import org.unido.eetdb.common.model.EntityTemplate;
-import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.common.util.CsvReader;
 import org.unido.eetdb.daemon.db.DbHelper;
 
@@ -54,27 +52,35 @@ public class CsvParser implements Parser
                     }
                 }
 
-                while (fileReader.readRecord())
+                final CsvReader fileReaderClousure = fileReader;
+
+                while (fileReaderClousure.readRecord())
                 {
-                    EntityTemplate template = dbHelper.getEntityTemplate(fileReader.get("CODE"));
+                    Entity entity = Parser.entityFiller.fillEntity(
+                            new DataAccessor()
+                            {
+                                @Override
+                                public String readValue(String valueCode)
+                                {
+                                    String retVal = null;
 
-                    if (template != null)
+                                    try
+                                    {
+                                        retVal = fileReaderClousure.get(valueCode);
+                                    }
+                                    catch (IOException e)
+                                    {
+                                        logger.error(String.format("Failed to get column data: %s",
+                                                valueCode));
+                                    }
+
+                                    return retVal;
+                                }
+                            }
+                            , dbHelper);
+
+                    if (entity != null)
                     {
-                        Entity entity = new Entity();
-
-                        entity.setName(fileReader.get("TITLE"));
-                        entity.setEntityTemplate(template);
-
-                        for (EntityTemplateProperty templateProperty : template.getProperties())
-                        {
-                            EntityProperty property = new EntityProperty();
-
-                            property.setTemplateProperty(templateProperty);
-                            property.setValue(fileReader.get(templateProperty.getCode()));
-
-                            entity.getProperties().add(property);
-                        }
-
                         retVal.add(entity);
                     }
                 }

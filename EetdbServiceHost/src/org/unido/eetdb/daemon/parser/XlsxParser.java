@@ -13,9 +13,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.unido.eetdb.common.model.Entity;
-import org.unido.eetdb.common.model.EntityProperty;
-import org.unido.eetdb.common.model.EntityTemplate;
-import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.daemon.db.DbHelper;
 
 public class XlsxParser implements Parser
@@ -33,7 +30,7 @@ public class XlsxParser implements Parser
         try
         {
             wb = WorkbookFactory.create(file);
-            Map<String, Integer> headers = new HashMap<String, Integer>();
+            final Map<String, Integer> headers = new HashMap<String, Integer>();
 
             for (int i = 0; i < wb.getNumberOfSheets(); i++)
             {
@@ -50,29 +47,35 @@ public class XlsxParser implements Parser
                     }
                     else
                     {
-                        EntityTemplate template = dbHelper
-                                .getEntityTemplate(row.getCell(headers.get("CODE"))
-                                        .getStringCellValue());
+                        final Row rowClouser = row;
 
-                        if (template != null)
+                        Entity entity = Parser.entityFiller.fillEntity(
+                                new DataAccessor()
+                                {
+                                    @Override
+                                    public String readValue(String valueCode)
+                                    {
+                                        String retVal = null;
+
+                                        try
+                                        {
+                                            retVal = rowClouser.getCell(headers.get(valueCode))
+                                                    .getStringCellValue();
+                                        }
+                                        catch (Exception e)
+                                        {
+                                            logger.error(String.format(
+                                                    "Failed to get column data: %s",
+                                                    valueCode));
+                                        }
+
+                                        return retVal;
+                                    }
+                                }
+                                , dbHelper);
+
+                        if (entity != null)
                         {
-                            Entity entity = new Entity();
-
-                            entity.setName(row.getCell(headers.get("TITLE")).getStringCellValue());
-                            entity.setEntityTemplate(template);
-
-                            for (EntityTemplateProperty templateProperty : template.getProperties())
-                            {
-                                EntityProperty property = new EntityProperty();
-
-                                property.setTemplateProperty(templateProperty);
-                                property.setValue(row.getCell(
-                                        headers.get(templateProperty.getCode()))
-                                        .getStringCellValue());
-
-                                entity.getProperties().add(property);
-                            }
-
                             retVal.add(entity);
                         }
                     }

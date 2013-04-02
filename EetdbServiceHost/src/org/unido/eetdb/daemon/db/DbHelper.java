@@ -18,12 +18,14 @@ import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
+import org.unido.eetdb.common.model.Topic;
 
 public class DbHelper
 {
     private static final Logger                      logger                     = Logger.getLogger(DbHelper.class);
 
     private final static Map<String, EntityTemplate> templates                  = new HashMap<String, EntityTemplate>();
+    private final static Map<String, Topic>          topics                     = new HashMap<String, Topic>();
 
     private static final String                      GET_PROPERTIES_SQL         =
                                                                                         "select "
@@ -47,6 +49,8 @@ public class DbHelper
                                                                                                 "where "
                                                                                                 +
                                                                                                 "template.TEMPLATE_CODE=?";
+
+    private static final String                      GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM unido_topic WHERE topic_code=? ";
 
     private static final String                      INSERT_ENTITY_SQL          = "INSERT INTO "
                                                                                         +
@@ -175,6 +179,79 @@ public class DbHelper
         }
     }
 
+    public Topic getTopic(String topicCode)
+    {
+        Topic retVal = null;
+
+        if (topics.containsKey(topicCode))
+        {
+            retVal = topics.get(topicCode);
+        }
+        else
+        {
+            retVal = loadTopic(topicCode);
+
+            if (retVal != null)
+            {
+                synchronized (topics)
+                {
+                    if (!topics.containsKey(topicCode))
+                    {
+                        topics.put(topicCode, retVal);
+                    }
+                }
+            }
+        }
+
+        return retVal;
+    }
+
+    private Topic loadTopic(String topicCode)
+    {
+        Topic topic = null;
+
+        if (topicCode != null)
+        {
+            logger.info(String.format("Loading topic: %s", topicCode));
+
+            Connection connection = null;
+            PreparedStatement statement = null;
+
+            try
+            {
+                connection = dataSource.getConnection();
+                statement = connection.prepareStatement(GET_TOPIC_BY_CODE_SQL);
+
+                statement.setString(1, topicCode.toUpperCase());
+
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.first())
+                {
+                    topic = new Topic();
+
+                    topic.setCode(topicCode);
+                    topic.setId(resultSet.getLong("topic_id"));
+                }
+            }
+            catch (Throwable t)
+            {
+                logger.error("Failed to get topic.", t);
+            }
+            finally
+            {
+                closeStatement(statement);
+                closeConnection(connection);
+            }
+        }
+        else
+        {
+            logger.error("Null topic code.");
+        }
+
+        return topic;
+    }
+
     public EntityTemplate getEntityTemplate(String templateCode)
     {
         EntityTemplate retVal = null;
@@ -193,7 +270,7 @@ public class DbHelper
                 {
                     if (!templates.containsKey(templateCode))
                     {
-                        templates.put(retVal.getCode(), retVal);
+                        templates.put(templateCode, retVal);
                     }
                 }
             }
@@ -204,13 +281,14 @@ public class DbHelper
 
     private EntityTemplate loadEntityTemplate(String templateCode)
     {
+        EntityTemplate template = null;
+
         if (templateCode != null)
         {
             logger.info(String.format("Loading entity template: %s", templateCode));
 
             Connection connection = null;
             PreparedStatement statement = null;
-            EntityTemplate template = null;
 
             try
             {
@@ -243,24 +321,20 @@ public class DbHelper
             }
             catch (Throwable t)
             {
-                logger.error("Failed to get list of databuses.", t);
-
-                return null;
+                logger.error("Failed to get entity template.", t);
             }
             finally
             {
                 closeStatement(statement);
                 closeConnection(connection);
             }
-
-            return template;
         }
         else
         {
             logger.error("Null template code.");
-
-            return null;
         }
+
+        return template;
     }
 
     private void closeStatement(Statement statement)
