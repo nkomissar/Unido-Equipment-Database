@@ -58,6 +58,8 @@ public class DataAccessServiceImpl implements DataAccessService
         entity = (Entity) sessionFactory.getCurrentSession().merge(entity);
 
         sessionFactory.getCurrentSession().flush();
+        
+        Helper.ensureChilds(entity, false);
 
         return entity;
     }
