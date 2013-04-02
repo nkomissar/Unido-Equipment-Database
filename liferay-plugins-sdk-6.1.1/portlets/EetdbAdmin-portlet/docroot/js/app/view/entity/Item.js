@@ -174,6 +174,68 @@ Ext.define('EetdbAdmin.view.entity.Item', {
         		},{
         			xtype: 'hidden',
         			name: 'version'
+        		},{
+        			xtype:'tabpanel',
+                    plain:true,
+                    activeTab: 0,
+                    anchor: '100% -95',
+                    items:[{
+                        title:'Properties',
+	                	bodyPadding: 10,
+	                	overflowY: 'scroll',
+	                	itemId: 'propertiesTab'
+	                },{
+                        title:'Linked Entities',
+	                	layout: 'anchor',
+	                	bodyPadding: 10,
+	                	items:[{
+							xtype: 'dataview',
+							trackOver: true,
+							overflowY: 'scroll',
+							anchor: '100% -30',
+							store: 
+							{
+								model: 'EetdbAdmin.model.Entity'
+							},
+							cls: 'entity-list',
+							itemSelector: '.entity-list-item',
+							overItemCls: 'entity-list-item-hover',
+							tpl: '<tpl for="."><div class="entity-list-item">{name}</div></tpl>',
+							name: 'linkedEntities',
+							listeners: {
+								selectionchange: function(selModel, selected){
+									 
+									var btnRemove = this.ownerCt.down('button[action=removechildentity]');
+									
+									if (selected.length > 0)
+									{
+										btnRemove.enable();
+									}
+									else
+									{
+										btnRemove.disable();
+									}
+									
+								}
+							}
+	                	},{
+							xtype: 'container',
+							anchor: '100%',
+							items:[{
+									xtype: 'button',
+									text: 'Add',
+									action: 'addchildentity',
+									margin: '5 5 0 5'
+								},{
+									xtype: 'button',
+									text: 'Remove',
+									action: 'removechildentity',
+									margin: '5 5 0 5',
+									disabled: true
+								}]
+	                	}]
+                    	
+                    }]
         		}],
         		buttons: [{
         			text: 'Save',
@@ -188,12 +250,18 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 
 	,addProperty: function(frm, property) {
 		
-		var fieldSet = frm.add(Ext.widget('entitypropertyfieldset', {
+		debugger;
+		
+		var tab = frm.down('panel[itemId=propertiesTab]');
+		
+		var fieldSet = Ext.widget('entitypropertyfieldset', {
             columnWidth: 0.5,
             collapsed: false,
             defaults: { anchor: '100%' },
             layout: 'anchor'
-        }));
+        });
+		
+		tab.addChildEls(fieldSet);
 		
 		fieldSet.loadRecord(property);
 		
