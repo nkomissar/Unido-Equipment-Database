@@ -54,30 +54,30 @@ public class CsvParser implements Parser
 
                 final CsvReader fileReaderClousure = fileReader;
 
+                DataAccessor dataAccessor = new DataAccessor()
+                {
+                    @Override
+                    public String readValue(String valueCode)
+                    {
+                        String retVal = null;
+
+                        try
+                        {
+                            retVal = fileReaderClousure.get(valueCode);
+                        }
+                        catch (IOException e)
+                        {
+                            logger.error(String.format("Failed to get column data: %s",
+                                    valueCode));
+                        }
+
+                        return retVal;
+                    }
+                };
+
                 while (fileReaderClousure.readRecord())
                 {
-                    Entity entity = Parser.entityFiller.fillEntity(
-                            new DataAccessor()
-                            {
-                                @Override
-                                public String readValue(String valueCode)
-                                {
-                                    String retVal = null;
-
-                                    try
-                                    {
-                                        retVal = fileReaderClousure.get(valueCode);
-                                    }
-                                    catch (IOException e)
-                                    {
-                                        logger.error(String.format("Failed to get column data: %s",
-                                                valueCode));
-                                    }
-
-                                    return retVal;
-                                }
-                            }
-                            , dbHelper);
+                    Entity entity = Parser.entityFiller.fillEntity(dataAccessor, dbHelper);
 
                     if (entity != null)
                     {

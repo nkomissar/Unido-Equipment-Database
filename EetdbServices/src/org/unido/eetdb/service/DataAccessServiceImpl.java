@@ -100,8 +100,15 @@ public class DataAccessServiceImpl implements DataAccessService
     @Override
     public Set<Topic> getRootTopics()
     {
-        return new HashSet<Topic>(sessionFactory.getCurrentSession()
+        HashSet<Topic> retVal = new HashSet<Topic>(sessionFactory.getCurrentSession()
                 .createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(Topic.class).list());
+        
+        for(Topic topic : retVal)
+        {
+            Helper.ensureChilds(topic, true);
+        }
+        
+        return retVal;
     }
     
     @Override
