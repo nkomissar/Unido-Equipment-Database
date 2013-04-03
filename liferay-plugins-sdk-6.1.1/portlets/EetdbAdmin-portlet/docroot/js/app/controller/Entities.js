@@ -10,7 +10,19 @@ Ext.define('EetdbAdmin.controller.Entities', {
         {ref: 'entityData', selector: 'entitylist[entityListInstance=mainEntitySearch] dataview'},
         {ref: 'searchQuery', selector: 'entitylist[entityListInstance=mainEntitySearch] toolbar searchfield'},
         {ref: 'entityItem', selector: 'entityitem'},
-        {ref: 'entityForm', selector: 'entityitem form'}
+        {ref: 'entityForm', selector: 'entityitem form'},
+        {ref: 'linkedEntities', 	selector: 'entityitem form dataview[name=linkedEntities]'},
+        {ref: 'entitySearchData', 	selector: 'entitylistwindow[entityListWindowInstance=entitySearchForEntity] dataview'},
+        {ref: 'entitySearchQuery', 	selector: 'entitylistwindow[entityListWindowInstance=entitySearchForEntity] toolbar searchfield'},
+        {
+            ref: 'entityListWindow', 
+            selector: 'entitylistwindow[entityListWindowInstance=entitySearchForEntity]', 
+            autoCreate: true,
+            xtype: 'entitylistwindow',
+            entityListWindowInstance: 'entitySearchForEntity'
+            	
+        }
+        
     ],
     
     // At this point things haven't rendered yet since init gets called on controllers before the launch function
@@ -30,6 +42,19 @@ Ext.define('EetdbAdmin.controller.Entities', {
             ,'entityitem form combobox': {
                 select: this.applyTemplate
             }
+            ,'entityitem button[action=addchildentity]': {
+                click: this.showAddChildEntity
+            }
+            ,'entityitem button[action=removechildentity]': {
+                click: this.unlinkSelectedEntities
+            }
+            //should go to subcontroller
+            ,'entitylistwindow[entityListWindowInstance=entitySearchForEntity] toolbar searchfield': {
+            	triggerclick: this.doChildEntitySearch
+            }
+            ,'entitylistwindow[entityListWindowInstance=entitySearchForEntity] button[action=add]': {
+            	click: this.linkSelectedEntities
+            }
         });
         
     	this.application.on( 
@@ -47,6 +72,15 @@ Ext.define('EetdbAdmin.controller.Entities', {
         
         dataview.bindStore(store);
         //dataview.getSelectionModel().select(store.getAt(0));
+        
+		var entitySearchStore = Ext.create(this.application.getModuleClassName('EntitySearchResult', 'store'));
+		var entitySearchView = this.getEntityListWindow();
+		var entitySearchDataView = entitySearchView.down('dataview');
+ 
+		entitySearchView.entityListWindowInstance = 'entitySearchForEntity';
+		
+		entitySearchDataView.bindStore(entitySearchStore);
+        
     },
 
     loadEntity: function(selModel, selected) 
@@ -322,5 +356,67 @@ Ext.define('EetdbAdmin.controller.Entities', {
 		
 	}
 
+    ,showAddChildEntity: function() {
+    	this.getEntityListWindow().show();
+    }
 
+	,doChildEntitySearch: function()
+    {
+    	
+    	var queryBox = this.getEntitySearchQuery();
+		var entitySearchDataView = this.getEntitySearchData();
+    	var store = entitySearchDataView.store;
+    	
+    	store.load(
+    			{
+    				params: 
+    				{
+    					query: queryBox.getValue()
+    				}
+    			});
+    	
+    }
+
+    ,linkSelectedEntities: function(){
+		
+    	var entitySearchView = this.getEntityListWindow();
+		var entitySearchDataView = entitySearchView.down('dataview');
+		
+		var linkedEntitiesDataView = this.getLinkedEntities();
+		
+		var selectedItems = entitySearchDataView.getSelectionModel().getSelection();
+		
+		linkedEntitiesDataView.store.clearFilter(true);
+		
+		Ext.each(selectedItems, function(item){
+			
+			linkedEntitiesDataView.store
+				.loadRawData(
+							{
+								id: item.get('entityId'), 
+								name: item.get('entityName')
+							}, 
+							true
+							);
+		
+		});
+		
+	
+		entitySearchView.hide();
+
+    }
+    
+    ,unlinkSelectedEntities: function(){
+    
+		var linkedEntitiesDataView = this.getLinkedEntities();
+		
+		var selectedItems = linkedEntitiesDataView.getSelectionModel().getSelection();
+
+		linkedEntitiesDataView.store
+				.remove(selectedItems);
+		
+
+    }
+
+    
 });

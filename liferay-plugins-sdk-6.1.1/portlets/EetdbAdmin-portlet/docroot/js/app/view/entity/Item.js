@@ -151,6 +151,8 @@ Ext.define('EetdbAdmin.view.entity.Item', {
    	
         Ext.apply(this,{
         	
+        	layout: 'fit',
+        	
         	items: [{
         		xtype: 'form',
         		bodyPadding: 10,
@@ -178,7 +180,7 @@ Ext.define('EetdbAdmin.view.entity.Item', {
         			xtype:'tabpanel',
                     plain:true,
                     activeTab: 0,
-                    anchor: '100% -95',
+                    anchor: '100% -55',
                     items:[{
                         title:'Properties',
 	                	bodyPadding: 10,
@@ -250,8 +252,6 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 
 	,addProperty: function(frm, property) {
 		
-		debugger;
-		
 		var tab = frm.down('panel[itemId=propertiesTab]');
 		
 		var fieldSet = Ext.widget('entitypropertyfieldset', {
@@ -261,7 +261,7 @@ Ext.define('EetdbAdmin.view.entity.Item', {
             layout: 'anchor'
         });
 		
-		tab.addChildEls(fieldSet);
+		tab.add(fieldSet);
 		
 		fieldSet.loadRecord(property);
 		
@@ -295,6 +295,12 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 				
 				}
 		);
+		
+		var entitiesDataview = form.down('dataview[name="linkedEntities"]');
+		var entitiesStore = entity.childEntities();
+		
+		entitiesDataview.bindStore(entitiesStore);
+		
 	}
 	
 	,getFieldValues: function() {
@@ -308,6 +314,8 @@ Ext.define('EetdbAdmin.view.entity.Item', {
     	var version = form.down('[isFormField][name="version"]');
     	var fieldSets = form.query('entitypropertyfieldset');
     	var entityTemplateCombo = form.down('[isFormField][name="entityTemplate"]');
+		var entitiesDataview = form.down('dataview[name="linkedEntities"]');
+    	
 
     	if(typeof id != 'undefined')
     	{
@@ -342,6 +350,18 @@ Ext.define('EetdbAdmin.view.entity.Item', {
     		}
     	});
 		
+    	if(typeof entitiesDataview != 'undefined')
+    	{
+    		entitiesDataview.getStore().each(function(item){
+    			
+    			if (entity.hasOwnProperty('childEntities')){
+    				entity['childEntities'].push(item.data);
+        		} else {
+        			entity['childEntities'] = [item.data];
+        		}
+    			
+    		});
+    	}    	
 		return entity;
 	}
 	
