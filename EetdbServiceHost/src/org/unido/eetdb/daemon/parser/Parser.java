@@ -7,6 +7,7 @@ import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
+import org.unido.eetdb.common.model.Topic;
 import org.unido.eetdb.daemon.db.DbHelper;
 
 public interface Parser
@@ -35,6 +36,26 @@ public interface Parser
                     property.setValue(dataAccessor.readValue(templateProperty.getCode()));
 
                     entity.getProperties().add(property);
+                }
+
+                boolean tiedToTopic = true;
+                String topicCode = null;
+                int categoryIndex = 1;
+
+                while (tiedToTopic)
+                {
+                    topicCode = dataAccessor.readValue("CATEGORY" + categoryIndex++);
+
+                    Topic topic = dbHelper.getTopic(topicCode);
+
+                    if (topic != null)
+                    {
+                        entity.getParentTopics().add(topic);
+                    }
+                    else
+                    {
+                        tiedToTopic = false;
+                    }
                 }
             }
 

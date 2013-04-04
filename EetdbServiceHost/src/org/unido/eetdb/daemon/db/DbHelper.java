@@ -50,7 +50,7 @@ public class DbHelper
                                                                                                 +
                                                                                                 "template.TEMPLATE_CODE=?";
 
-    private static final String                      GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM unido_topic WHERE topic_code=? ";
+    private static final String                      GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM unido_topic WHERE topic_name=? ";
 
     private static final String                      INSERT_ENTITY_SQL          = "INSERT INTO "
                                                                                         +
