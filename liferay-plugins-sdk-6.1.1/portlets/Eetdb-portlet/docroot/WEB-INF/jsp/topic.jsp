@@ -13,6 +13,7 @@
 <%@ page import="org.unido.eetdb.common.model.Topic"%>
 <%@ page import="org.unido.eetdb.common.model.Entity"%>
 <%@ page import="java.util.ArrayList"%>
+<%@ page import="java.lang.Math"%>
 
 <portlet:defineObjects />
 
@@ -74,9 +75,9 @@
 
 
 
-		<liferay-ui:search-container delta="2" emptyResultsMessage="no recs">
-			<liferay-ui:search-container-results results="${entitiesOfTopic}"
-				total="${entitiesOfTopic.size()}" />
+		<liferay-ui:search-container delta="2" emptyResultsMessage="нет записей">
+			<liferay-ui:search-container-results results="${resultsPage}"
+				total="${resultsTotal}" />
 
 			<liferay-ui:search-container-row
 				className="org.unido.eetdb.common.model.Entity" keyProperty="id"
