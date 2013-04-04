@@ -1,25 +1,29 @@
 package org.unido.eetdb;
 
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Set;
 
 import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.unido.eetdb.common.model.Entity;
+import org.unido.eetdb.common.model.Topic;
 import org.unido.eetdb.util.ConfigWrapper;
-import org.unido.eetdb.common.model.Topic;;
+
+import com.liferay.portal.kernel.dao.search.SearchContainer;
 
 @Controller
 @RequestMapping("view")
 public class TopicsController {
 
-	@RenderMapping
-	public String setModelAndView(ModelMap model, RenderRequest request) {
+	@RenderMapping(params = "action=showTopic")
+	public String setModelAndView(@RequestParam long topicId, ModelMap model, RenderRequest request, RenderResponse response) {
 		
 		if (ConfigWrapper.useFiddlerProxy(request))
 		{
@@ -31,34 +35,16 @@ public class TopicsController {
 		}
 		RestTemplate tmpl = new RestTemplate();
 		
-		Topic[] topics = null;// = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/topics?skip_childs=0", Topic[].class);
+		Topic topic = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/topic/{0}?skip_childs=0", Topic.class, topicId);
 		
-		Set<Topic> tt = new HashSet<Topic>();
-		for (int j=0,i = 0; i < 5; i++){
-			
-			j ++;
-			Topic topic = null;
-			try 
-			{
-			
-				topic = tmpl.getForObject(
-					ConfigWrapper.getServUrl(request) + "/topic/{id};skip_childs=0",
-					Topic.class, j);
+		SearchContainer<Entity> childEntities = new SearchContainer<Entity>(request, response.createRenderURL(), null, "no records" );
 		
-				tt.add(topic);
-				
-			}
-			catch(Exception ex) 
-			{
-				i--;
-			}
-		}
-		
-		topics = tt.toArray(new Topic[0]);
+		childEntities.setResults(new ArrayList<Entity>(topic.getEntitiesOfTopic()));
 
-		model.addAttribute("listOfTopics", topics);
+		model.addAttribute("topic", topic);	
+		model.addAttribute("childEntities", childEntities);
+		model.addAttribute("entitiesOfTopic", new ArrayList<Entity>(topic.getEntitiesOfTopic()));
 		
-		//return view name for "topics.jsp"
-		return "topics";
+		return "topic";
 	}
 }
