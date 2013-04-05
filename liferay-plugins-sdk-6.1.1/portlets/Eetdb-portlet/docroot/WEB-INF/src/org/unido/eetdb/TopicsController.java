@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -25,10 +26,13 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 @Controller
 @RequestMapping("view")
 public class TopicsController {
+	
+	
 
 	@RenderMapping(params = "action=showTopic")
 	public String setModelAndView(@RequestParam long topicId, ModelMap model, RenderRequest request, RenderResponse response) {
 		
+	
 		if (ConfigWrapper.useFiddlerProxy(request))
 		{
 			
@@ -74,21 +78,7 @@ public class TopicsController {
 		}
 		topic.setEntitiesOfTopic(entities);
 		
-		ArrayList<Entity> resultsList = new ArrayList<Entity>(topic.getEntitiesOfTopic());
-		
-		SearchContainer<Entity> childEntities = new SearchContainer<Entity>(request, response.createRenderURL(), null, "no records" );
-		childEntities.setDelta(2);
-		
-		childEntities.setResults(resultsList);
-		childEntities.setTotal(resultsList.size());
-
-		List<Entity> resultsPage = resultsList.subList(childEntities.getStart(), java.lang.Math.min(childEntities.getEnd(), resultsList.size()));
-		
 		model.addAttribute("topic", topic);	
-		model.addAttribute("childEntities", childEntities);
-		model.addAttribute("entitiesOfTopic", new ArrayList<Entity>(topic.getEntitiesOfTopic()));
-		model.addAttribute("resultsPage", resultsPage);
-		model.addAttribute("resultsTotal", resultsList.size());
 		
 		return "topic";
 	}
