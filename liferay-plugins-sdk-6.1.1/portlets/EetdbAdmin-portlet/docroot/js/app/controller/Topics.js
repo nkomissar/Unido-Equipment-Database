@@ -280,7 +280,7 @@ Ext.define('EetdbAdmin.controller.Topics', {
     			
     			var newrec = store.getAt(0);
     			
-    			recordInSearch.set(newrec);
+    			recordInSearch.set(newrec.data);
     			recordInSearch.commit();
     			
     			itemView.loadRecord(newrec);
@@ -288,8 +288,18 @@ Ext.define('EetdbAdmin.controller.Topics', {
     	    	itemForm.setLoading(false);
     	    	
     		}
-    		,failure: function (){
-    	    	itemForm.setLoading(false);
+    		,failure: function (batch, options){
+    	    	
+    			itemForm.setLoading(false);
+    			
+    			var operation = batch.operations[0];
+    	    	
+                Ext.MessageBox.show({
+                    title: 'EXCEPTION',
+                    msg: operation.getError(),
+                    icon: Ext.MessageBox.ERROR,
+                    buttons: Ext.Msg.OK
+                });
     		},
     		scope: this
     	});
