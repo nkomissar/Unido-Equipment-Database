@@ -7,7 +7,6 @@ public class Topic extends GenericObject
 {
     private String      name;
     private String      description;
-    private String      code;
     private Set<Entity> entitiesOfTopic = new HashSet<Entity>();
     private Set<Topic>  childTopics = new HashSet<Topic>();
     
@@ -27,15 +26,6 @@ public class Topic extends GenericObject
     public void setDescription(String description)
     {
         this.description = description;
-    }
-    
-    public String getCode()
-    {
-        return code;
-    }
-    public void setCode(String code)
-    {
-        this.code = code;
     }
     
     public Set<Entity> getEntitiesOfTopic()

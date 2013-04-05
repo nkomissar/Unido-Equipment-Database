@@ -8,6 +8,7 @@ public class EntityTemplateProperty extends GenericObject
     private String         code;
     private boolean        displayInGrid;
     private boolean        mandatory;
+    private boolean        searchable;
     private String         unitOfMeasure;
     private EntityTemplate parentTemplate;
     private ValueType      valueType;
@@ -74,5 +75,14 @@ public class EntityTemplateProperty extends GenericObject
     public void setValueType(ValueType valueType)
     {
         this.valueType = valueType;
+    }
+
+    public boolean isSearchable()
+    {
+        return searchable;
+    }
+    public void setSearchable(boolean searchable)
+    {
+        this.searchable = searchable;
     }
 }

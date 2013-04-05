@@ -16,6 +16,7 @@
     	<property name="code" column="PROPERTY_CODE"/>
 		<property name="displayInGrid" type="numeric_boolean" column="DISPLAY_IN_GRID" />
 		<property name="mandatory" type="numeric_boolean" column="MANDATORY" />
+		<property name="searchable" type="numeric_boolean" column="SEARCHABLE" />
 		<property name="unitOfMeasure" column="UNIT_OF_MEASURE" />
 		<property name="lastUpdatedBy" column="UPDATED_BY" />
 
