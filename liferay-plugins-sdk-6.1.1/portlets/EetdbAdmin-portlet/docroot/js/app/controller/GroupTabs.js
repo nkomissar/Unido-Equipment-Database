@@ -19,7 +19,8 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
 	        }
 	        ,'*': {
 	        	removetemplateselected: this.removeTemplate,
-	        	removeentityselected: this.removeEntity
+	        	removeentityselected: this.removeEntity,
+	        	removetopicselected: this.removeTopic,
 	        }
             ,'mygrouptabs *[action=addentity]': {
                 beforeactivate: this.addEntity

@@ -114,7 +114,7 @@
 			PortalPreferences portalPrefs = PortletPreferencesFactoryUtil.getPortalPreferences(request);
 			String orderByCol = ParamUtil.getString(request, "orderByCol");
 			String orderByType = ParamUtil.getString(request, "orderByType");
-			System.out.println("Col  "+ orderByCol);
+			//System.out.println("Col  "+ orderByCol);
 			
 			
 			if (Validator.isNotNull(orderByCol) && Validator.isNotNull(orderByType)) 
@@ -166,9 +166,14 @@
 				className="org.unido.eetdb.common.model.Entity" 
 				keyProperty="id"
 				modelVar="entity">
+				
+				<portlet:renderURL var="showEnityURL">
+      				<portlet:param name="action" value="showEntity" />
+      				<portlet:param name="entityId" value="<%= String.valueOf(entity.getId()) %>" />
+    			</portlet:renderURL>
 
-				<liferay-ui:search-container-column-text name="Id" property="id" orderable="<%= true %>" orderableProperty="id"/>
-				<liferay-ui:search-container-column-text name="Название" property="name" orderable="<%= true %>" orderableProperty="name"/>
+				<liferay-ui:search-container-column-text name="Id" property="id" orderable="<%= true %>" orderableProperty="id" href="<%= showEnityURL %>"/>
+				<liferay-ui:search-container-column-text name="Название" property="name" orderable="<%= true %>" orderableProperty="name" href="<%= showEnityURL %>"/>
 				<liferay-ui:search-container-column-text name="Тип" value="${entity.entityTemplate.name}" />
 
 			</liferay-ui:search-container-row>
