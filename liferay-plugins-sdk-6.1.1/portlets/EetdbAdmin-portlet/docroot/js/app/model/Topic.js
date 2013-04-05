@@ -11,7 +11,6 @@ Ext.define('EetdbAdmin.model.Topic', {
          {name: 'id',  type: 'long'}
         ,{name: 'name', type: 'string'}
         ,{name: 'description', type: 'string'}
-        ,{name: 'code', type: 'string'}
         ,{name: 'version', type: 'long'}
     ]
     
