@@ -27,64 +27,44 @@ public class DbHelper
     private final static Map<String, EntityTemplate> templates                  = new HashMap<String, EntityTemplate>();
     private final static Map<String, Topic>          topics                     = new HashMap<String, Topic>();
 
-    private static final String                      GET_PROPERTIES_SQL         =
-                                                                                        "select "
-                                                                                                +
-                                                                                                "template.ENTITY_TEMPLATE_ID as template_id, "
-                                                                                                +
-                                                                                                "TEMPLATE_PROPERTY_ID as template_property_id, "
-                                                                                                +
-                                                                                                "PROPERTY_CODE as template_property_code "
-                                                                                                +
-                                                                                                "from "
-                                                                                                +
-                                                                                                "UNIDO_ENTITY_TEMPLATE_PROPERTY properties "
-                                                                                                +
-                                                                                                "join "
-                                                                                                +
-                                                                                                "UNIDO_ENTITY_TEMPLATE template "
-                                                                                                +
-                                                                                                "on properties.ENTITY_TEMPLATE_ID=template.ENTITY_TEMPLATE_ID "
-                                                                                                +
-                                                                                                "where "
-                                                                                                +
-                                                                                                "template.TEMPLATE_CODE=?";
+    private static final String                      GET_PROPERTIES_SQL         = "select "
+                                                                                        + "template.ENTITY_TEMPLATE_ID as template_id, "
+                                                                                        + "TEMPLATE_PROPERTY_ID as template_property_id, "
+                                                                                        + "PROPERTY_CODE as template_property_code "
+                                                                                        + "from "
+                                                                                        + "UNIDO_ENTITY_TEMPLATE_PROPERTY properties "
+                                                                                        + "join "
+                                                                                        + "UNIDO_ENTITY_TEMPLATE template "
+                                                                                        + "on properties.ENTITY_TEMPLATE_ID=template.ENTITY_TEMPLATE_ID "
+                                                                                        + "where "
+                                                                                        + "UPPER(template.TEMPLATE_CODE)=?";
 
-    private static final String                      GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM unido_topic WHERE topic_name=? ";
+    private static final String                      GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM unido_topic WHERE UPPER(topic_name)=? ";
+
+    private static final String                      INSERT_REFERENCE_SQL       = "INSERT INTO "
+                                                                                        + "UNIDO_ENTITY_REFERENCE("
+                                                                                        + "entity_id, "
+                                                                                        + "topic_id) "
+                                                                                        + "VALUES(?, ?)";
 
     private static final String                      INSERT_ENTITY_SQL          = "INSERT INTO "
-                                                                                        +
-                                                                                        "unido_entity("
-                                                                                        +
-                                                                                        "entity_id, "
-                                                                                        +
-                                                                                        "entity_template_id, "
-                                                                                        +
-                                                                                        "entity_name, "
-                                                                                        +
-                                                                                        "version, "
-                                                                                        +
-                                                                                        "status, "
-                                                                                        +
-                                                                                        "updated_by) "
-                                                                                        +
-                                                                                        "VALUES(?, ?, ?, ?, ?, ?)";
+                                                                                        + "unido_entity("
+                                                                                        + "entity_id, "
+                                                                                        + "entity_template_id, "
+                                                                                        + "entity_name, "
+                                                                                        + "version, "
+                                                                                        + "status, "
+                                                                                        + "updated_by) "
+                                                                                        + "VALUES(?, ?, ?, ?, ?, ?)";
 
     private static final String                      INSERT_ENTITY_PROPERTY_SQL = "INSERT INTO "
-                                                                                        +
-                                                                                        "unido_entity_property("
-                                                                                        +
-                                                                                        "entity_id, "
-                                                                                        +
-                                                                                        "template_property_id, "
-                                                                                        +
-                                                                                        "value, "
-                                                                                        +
-                                                                                        "version, "
-                                                                                        +
-                                                                                        "updated_by) "
-                                                                                        +
-                                                                                        "VALUES(?, ?, ?, ?, ?)";
+                                                                                        + "unido_entity_property("
+                                                                                        + "entity_id, "
+                                                                                        + "template_property_id, "
+                                                                                        + "value, "
+                                                                                        + "version, "
+                                                                                        + "updated_by) "
+                                                                                        + "VALUES(?, ?, ?, ?, ?)";
 
     private static final String                      GET_ID                     = "{? = call SEQ_NEXTVAL}";
 
@@ -97,6 +77,7 @@ public class DbHelper
         Connection connection = null;
         PreparedStatement entityStatement = null;
         PreparedStatement entityPropertyStatement = null;
+        PreparedStatement referenceStatement = null;
         CallableStatement idGenerator = null;
 
         try
@@ -112,6 +93,7 @@ public class DbHelper
 
                 entityStatement = connection.prepareCall(INSERT_ENTITY_SQL);
                 entityPropertyStatement = connection.prepareCall(INSERT_ENTITY_PROPERTY_SQL);
+                referenceStatement = connection.prepareStatement(INSERT_REFERENCE_SQL);
                 idGenerator = connection.prepareCall(GET_ID);
 
                 idGenerator.registerOutParameter(1, Types.INTEGER);
@@ -142,10 +124,19 @@ public class DbHelper
 
                         entityPropertyStatement.addBatch();
                     }
+
+                    for (Topic topic : entity.getParentTopics())
+                    {
+                        referenceStatement.setLong(1, entityId);
+                        referenceStatement.setLong(2, topic.getId());
+
+                        referenceStatement.addBatch();
+                    }
                 }
 
                 entityStatement.executeBatch();
                 entityPropertyStatement.executeBatch();
+                referenceStatement.executeBatch();
 
                 connection.commit();
 
@@ -230,7 +221,6 @@ public class DbHelper
                 {
                     topic = new Topic();
 
-                    topic.setCode(topicCode);
                     topic.setId(resultSet.getLong("topic_id"));
                 }
             }

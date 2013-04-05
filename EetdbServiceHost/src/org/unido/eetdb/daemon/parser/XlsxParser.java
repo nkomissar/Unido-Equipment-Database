@@ -35,6 +35,7 @@ public class XlsxParser implements Parser
             for (int i = 0; i < wb.getNumberOfSheets(); i++)
             {
                 Sheet sheet = wb.getSheetAt(i);
+                RowDataAccessor dataAccessor = new RowDataAccessor();
 
                 for (Row row : sheet)
                 {
@@ -44,35 +45,14 @@ public class XlsxParser implements Parser
                         {
                             headers.put(cell.getStringCellValue(), cell.getColumnIndex());
                         }
+
+                        dataAccessor.setHeaders(headers);
                     }
                     else
                     {
-                        final Row rowClouser = row;
+                        dataAccessor.setDataRow(row);
 
-                        Entity entity = Parser.entityFiller.fillEntity(
-                                new DataAccessor()
-                                {
-                                    @Override
-                                    public String readValue(String valueCode)
-                                    {
-                                        String retVal = null;
-
-                                        try
-                                        {
-                                            retVal = rowClouser.getCell(headers.get(valueCode))
-                                                    .getStringCellValue();
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            logger.error(String.format(
-                                                    "Failed to get column data: %s",
-                                                    valueCode));
-                                        }
-
-                                        return retVal;
-                                    }
-                                }
-                                , dbHelper);
+                        Entity entity = Parser.entityFiller.fillEntity(dataAccessor, dbHelper);
 
                         if (entity != null)
                         {
@@ -103,4 +83,36 @@ public class XlsxParser implements Parser
         this.dbHelper = dbHelper;
     }
 
+    private class RowDataAccessor implements DataAccessor
+    {
+        private Row                  dataRow;
+        private Map<String, Integer> headers;
+
+        @Override
+        public String readValue(String valueCode)
+        {
+            String retVal = null;
+
+            try
+            {
+                retVal = dataRow.getCell(headers.get(valueCode)).getStringCellValue();
+            }
+            catch (Exception e)
+            {
+                logger.error(String.format("Failed to get column data: %s", valueCode));
+            }
+
+            return retVal;
+        }
+
+        public void setDataRow(Row dataRow)
+        {
+            this.dataRow = dataRow;
+        }
+
+        public void setHeaders(Map<String, Integer> headers)
+        {
+            this.headers = headers;
+        }
+    }
 }
