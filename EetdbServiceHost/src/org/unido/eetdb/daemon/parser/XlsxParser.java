@@ -1,6 +1,7 @@
 package org.unido.eetdb.daemon.parser;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,7 +18,7 @@ import org.unido.eetdb.daemon.db.DbHelper;
 
 public class XlsxParser implements Parser
 {
-    private static final Logger logger = Logger.getLogger(CsvParser.class);
+    private static final Logger logger = Logger.getLogger(XlsxParser.class);
 
     private DbHelper            dbHelper;
 
@@ -26,11 +27,12 @@ public class XlsxParser implements Parser
     {
         List<Entity> retVal = new ArrayList<Entity>();
         Workbook wb = null;
+        FileInputStream fileIn = new FileInputStream(file);
 
         try
         {
-            wb = WorkbookFactory.create(file);
-            final Map<String, Integer> headers = new HashMap<String, Integer>();
+            wb = WorkbookFactory.create(fileIn);
+            Map<String, Integer> headers = new HashMap<String, Integer>();
 
             for (int i = 0; i < wb.getNumberOfSheets(); i++)
             {
@@ -68,6 +70,7 @@ public class XlsxParser implements Parser
         }
         finally
         {
+            fileIn.close();
         }
 
         return retVal;
@@ -95,7 +98,20 @@ public class XlsxParser implements Parser
 
             try
             {
-                retVal = dataRow.getCell(headers.get(valueCode)).getStringCellValue();
+                if (headers.containsKey(valueCode))
+                {
+                    Cell cell = dataRow.getCell(headers.get(valueCode));
+
+                    switch (cell.getCellType())
+                    {
+                        case Cell.CELL_TYPE_STRING:
+                            retVal = cell.getStringCellValue();
+                            break;
+                        case Cell.CELL_TYPE_NUMERIC:
+                            retVal = String.valueOf(cell.getNumericCellValue());
+                            break;
+                    }
+                }
             }
             catch (Exception e)
             {

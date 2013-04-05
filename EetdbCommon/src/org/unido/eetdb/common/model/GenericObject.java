@@ -1,7 +1,6 @@
 package org.unido.eetdb.common.model;
 
-
-public abstract class GenericObject implements Comparable
+public abstract class GenericObject implements Comparable<GenericObject>
 {
     private long   id;
     private String lastUpdatedBy;
@@ -36,30 +35,29 @@ public abstract class GenericObject implements Comparable
     {
         this.version = version;
     }
-    
-    public int compareTo(Object obj) {
-        if (obj == null) {
-            return -1;
-        }
 
-        GenericObject user = (GenericObject)obj;
-        long anotherId = user.getId();
+    public int compareTo(GenericObject obj)
+    {
+        if (obj == null) { return -1; }
+
+        long anotherId = obj.getId();
         long thisId = getId();
 
         return thisId < anotherId ? -1 : thisId == anotherId ? 0 : 1;
     }
 
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
+    public boolean equals(Object obj)
+    {
+        if (obj == null) { return false; }
 
         GenericObject user = null;
 
-        try {
-            user = (GenericObject)obj;
+        try
+        {
+            user = (GenericObject) obj;
         }
-        catch (ClassCastException cce) {
+        catch (ClassCastException cce)
+        {
             return false;
         }
 
@@ -69,8 +67,9 @@ public abstract class GenericObject implements Comparable
         return thisId == anotherId;
     }
 
-    public int hashCode() {
-    	long value = getId();
+    public int hashCode()
+    {
+        long value = getId();
         return (int) (value ^ (value >>> 32));
     }
 }

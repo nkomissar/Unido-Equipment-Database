@@ -6,7 +6,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Types;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +38,7 @@ public class DbHelper
                                                                                         + "where "
                                                                                         + "UPPER(template.TEMPLATE_CODE)=?";
 
-    private static final String                      GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM unido_topic WHERE UPPER(topic_name)=? ";
+    private static final String                      GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM UNIDO_TOPIC WHERE UPPER(topic_name)=? ";
 
     private static final String                      INSERT_REFERENCE_SQL       = "INSERT INTO "
                                                                                         + "UNIDO_ENTITY_REFERENCE("
@@ -48,7 +47,7 @@ public class DbHelper
                                                                                         + "VALUES(?, ?)";
 
     private static final String                      INSERT_ENTITY_SQL          = "INSERT INTO "
-                                                                                        + "unido_entity("
+                                                                                        + "UNIDO_ENTITY("
                                                                                         + "entity_id, "
                                                                                         + "entity_template_id, "
                                                                                         + "entity_name, "
@@ -58,7 +57,7 @@ public class DbHelper
                                                                                         + "VALUES(?, ?, ?, ?, ?, ?)";
 
     private static final String                      INSERT_ENTITY_PROPERTY_SQL = "INSERT INTO "
-                                                                                        + "unido_entity_property("
+                                                                                        + "UNIDO_ENTITY_PROPERTY("
                                                                                         + "entity_id, "
                                                                                         + "template_property_id, "
                                                                                         + "value, "
@@ -66,7 +65,7 @@ public class DbHelper
                                                                                         + "updated_by) "
                                                                                         + "VALUES(?, ?, ?, ?, ?)";
 
-    private static final String                      GET_ID                     = "{? = call SEQ_NEXTVAL}";
+    private static final String                      GET_ID                     = "select SEQ_NEXTVAL()";
 
     private DataSource                               dataSource;
 
@@ -96,13 +95,13 @@ public class DbHelper
                 referenceStatement = connection.prepareStatement(INSERT_REFERENCE_SQL);
                 idGenerator = connection.prepareCall(GET_ID);
 
-                idGenerator.registerOutParameter(1, Types.INTEGER);
-
                 for (Entity entity : entities)
                 {
-                    idGenerator.executeQuery();
+                    ResultSet rs = idGenerator.executeQuery();
 
-                    entityId = idGenerator.getLong(1);
+                    rs.first();
+
+                    entityId = rs.getLong(1);
 
                     entityStatement.setLong(1, entityId);
                     entityStatement.setLong(2, entity.getEntityTemplate().getId());
