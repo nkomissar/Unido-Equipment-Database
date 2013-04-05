@@ -25,12 +25,12 @@ import com.liferay.portal.kernel.dao.search.SearchContainer;
 
 @Controller
 @RequestMapping("view")
-public class TopicsController {
+public class EntityController {
 	
 	
 
-	@RenderMapping(params = "action=showTopic")
-	public String setModelAndView(@RequestParam long topicId, ModelMap model, RenderRequest request, RenderResponse response) {
+	@RenderMapping(params = "action=showEntity")
+	public String setModelAndView(@RequestParam long entityId, ModelMap model, RenderRequest request, RenderResponse response) {
 		
 	
 		if (ConfigWrapper.useFiddlerProxy(request))
@@ -43,13 +43,13 @@ public class TopicsController {
 		}
 		RestTemplate tmpl = new RestTemplate();
 		
-		Topic topic = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/topic/{0};skip_childs=0", Topic.class, topicId);
+		Entity entity = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/entity/{0};skip_childs=0", Entity.class, entityId);
 		
 		Set<Entity> entities = new HashSet<Entity>();
 		for (int j=0,i = 0; i < 5; i++){
 			
 			j ++;
-			Entity entity = null;
+			Entity subentity = null;
 			try 
 			{
 			
@@ -63,12 +63,12 @@ public class TopicsController {
 					setName("MockTemplateName");
 				}};
 				
-				entity = new Entity();
-				entity.setId(j);
-				entity.setName("name" + j);
-				entity.setEntityTemplate(templ);
+				subentity = new Entity();
+				subentity.setId(j);
+				subentity.setName("name" + j);
+				subentity.setEntityTemplate(templ);
 		
-				entities.add(entity);
+				entities.add(subentity);
 				
 			}
 			catch(Exception ex) 
@@ -76,10 +76,10 @@ public class TopicsController {
 				i--;
 			}
 		}
-		topic.setEntitiesOfTopic(entities);
+		entity.setChildEntities(entities);
 		
-		model.addAttribute("topic", topic);	
+		model.addAttribute("entity", entity);	
 		
-		return "topic";
+		return "entity";
 	}
 }
