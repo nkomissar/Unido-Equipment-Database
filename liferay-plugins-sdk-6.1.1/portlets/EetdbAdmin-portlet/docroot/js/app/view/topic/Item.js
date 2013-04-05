@@ -23,11 +23,6 @@ Ext.define('EetdbAdmin.view.topic.Item', {
         			fieldLabel: 'Name',
         			anchor: '100%'
         		},{
-        			xtype: 'textfield',
-        			name: 'code',
-        			fieldLabel: 'Code',
-        			anchor: '100%'
-        		},{
         			xtype: 'textarea',
         			name: 'description',
         			fieldLabel: 'Description',
@@ -42,7 +37,7 @@ Ext.define('EetdbAdmin.view.topic.Item', {
         			xtype:'tabpanel',
                     plain:true,
                     activeTab: 0,
-                    anchor: '100% -85',
+                    anchor: '100% -95',
                     items:[{
                         title:'Linked Entities',
 	                	layout: 'anchor',
@@ -184,7 +179,6 @@ Ext.define('EetdbAdmin.view.topic.Item', {
     	var id = form.down('[isFormField][name="id"]');
     	var nm = form.down('[isFormField][name="name"]');
     	var version = form.down('[isFormField][name="version"]');
-    	var code = form.down('[isFormField][name="code"]');
     	var description = form.down('[isFormField][name="description"]');
 		var entitiesDataview = form.down('dataview[name="linkedEntities"]');
 		var topicsDataview = form.down('dataview[name="linkedTopics"]');
@@ -204,11 +198,6 @@ Ext.define('EetdbAdmin.view.topic.Item', {
     		topic['version'] = version.getValue();
     	}
 
-    	if(typeof version != 'code')
-    	{
-    		topic['code'] = code.getValue();
-    	}
-    	
     	if(typeof description != 'undefined')
     	{
     		topic['description'] = description.getValue();
