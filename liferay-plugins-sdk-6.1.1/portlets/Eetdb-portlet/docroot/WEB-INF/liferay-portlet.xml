@@ -7,6 +7,7 @@
 		<icon>/icon.png</icon>
 		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
 		<instanceable>false</instanceable>
+		<private-request-attributes>false</private-request-attributes>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<css-class-wrapper>Eetdb-portlet</css-class-wrapper>
