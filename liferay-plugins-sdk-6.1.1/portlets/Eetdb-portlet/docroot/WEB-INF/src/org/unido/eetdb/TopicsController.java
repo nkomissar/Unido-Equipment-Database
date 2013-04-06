@@ -46,7 +46,7 @@ public class TopicsController {
 		Topic topic = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/topic/{0};skip_childs=0", Topic.class, topicId);
 		
 		Set<Entity> entities = new HashSet<Entity>();
-		for (int j=0,i = 0; i < 5; i++){
+		for (int j=0,i = 0; i < 11; i++){
 			
 			j ++;
 			Entity entity = null;
@@ -57,11 +57,10 @@ public class TopicsController {
 					ConfigWrapper.getServUrl(request) + "/entity/{id};skip_childs=0",
 					Entity.class, j);*/
 				
-				EntityTemplate templ = new EntityTemplate(){{
-					setId(1);
-					setCode("code");
-					setName("MockTemplateName");
-				}};
+				EntityTemplate templ = new EntityTemplate();
+				templ.setId((i % 2) + 1);
+				templ.setCode("code"+ ((i % 2) + 1));
+				templ.setName("MockTemplateName" + ((i % 2) + 1));
 				
 				entity = new Entity();
 				entity.setId(j);
