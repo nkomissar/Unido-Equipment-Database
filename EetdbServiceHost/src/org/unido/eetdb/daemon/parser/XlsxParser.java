@@ -100,16 +100,19 @@ public class XlsxParser implements Parser
             {
                 if (headers.containsKey(valueCode))
                 {
-                    Cell cell = dataRow.getCell(headers.get(valueCode));
+                    Cell cell = dataRow.getCell(headers.get(valueCode), Row.RETURN_BLANK_AS_NULL);
 
-                    switch (cell.getCellType())
+                    if (cell != null)
                     {
-                        case Cell.CELL_TYPE_STRING:
-                            retVal = cell.getStringCellValue();
-                            break;
-                        case Cell.CELL_TYPE_NUMERIC:
-                            retVal = String.valueOf(cell.getNumericCellValue());
-                            break;
+                        switch (cell.getCellType())
+                        {
+                            case Cell.CELL_TYPE_STRING:
+                                retVal = cell.getStringCellValue();
+                                break;
+                            case Cell.CELL_TYPE_NUMERIC:
+                                retVal = String.valueOf(cell.getNumericCellValue());
+                                break;
+                        }
                     }
                 }
             }
