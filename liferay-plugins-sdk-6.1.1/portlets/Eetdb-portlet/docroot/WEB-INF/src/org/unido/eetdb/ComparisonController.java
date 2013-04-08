@@ -9,7 +9,6 @@ import java.util.Properties;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
-import javax.portlet.PortletSession;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -27,7 +26,6 @@ import org.unido.eetdb.presentationUtil.ComparisonHelper;
 import org.unido.eetdb.presentationUtil.EntityHelper;
 import org.unido.eetdb.util.ConfigWrapper;
 
-import com.liferay.portal.kernel.dao.search.SearchContainer;
 import com.liferay.portal.util.PortalUtil;
 
 
@@ -79,9 +77,8 @@ import com.liferay.portal.util.PortalUtil;
 			List<Entity> entities = ComparisonHelper.getComparison(request);
 			
 			Map<String, List<String>> results = new HashMap<String, List<String>>();
-			
-			Class<Entry> obg = Entry.class;
-			
+			Map<String, EntityTemplateProperty> uniqueProperties = new HashMap<String, EntityTemplateProperty>();
+						
 			for(Entity entity: entities)
 			{
 				for(EntityProperty entityProperty: entity.getProperties())
@@ -98,6 +95,7 @@ import com.liferay.portal.util.PortalUtil;
 					}
 					
 					results.put(code, new ArrayList<String>());
+					uniqueProperties.put(code, templateProperty);
 					
 				}
 			}
@@ -107,6 +105,7 @@ import com.liferay.portal.util.PortalUtil;
 			{
 				for(Entity entity: entities)
 				{
+					
 					EntityProperty entityProperty = EntityHelper.getPropertyByCode(entity, entry.getKey());
 					List<String> record = entry.getValue();
 					
@@ -115,8 +114,10 @@ import com.liferay.portal.util.PortalUtil;
 				}
 			}
 			
+			
 			model.addAttribute("entities", entities);
 			model.addAttribute("compareResults", new ArrayList<Entry<String, List<String>>>(results.entrySet()));
+			model.addAttribute("uniqueProperties", uniqueProperties);
 
 			
 			return "comparison";

@@ -12,7 +12,7 @@ public class EntityHelper {
 		for(EntityProperty entityProperty: entity.getProperties())
 		{
 			EntityTemplateProperty templatePoperty = entityProperty.getTemplateProperty();
-			if(templatePoperty.getCode() == code)
+			if(code.equalsIgnoreCase(templatePoperty.getCode()))
 			{
 				return entityProperty;
 			}

@@ -1,6 +1,5 @@
 package org.unido.eetdb;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -60,35 +59,38 @@ public class TopicsController {
 
 		Topic topic = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/topic/{0};skip_childs=0", Topic.class, topicId);
 
-		Set<Entity> entities = new HashSet<Entity>();
-		for (int j = 0, i = 0; i < 21; i++) {
-
-			j++;
-			Entity entity = null;
-			try {
-
-				/*
-				 * entity = tmpl.getForObject( ConfigWrapper.getServUrl(request)
-				 * + "/entity/{id};skip_childs=0", Entity.class, j);
-				 */
-
-				EntityTemplate templ = new EntityTemplate();
-				templ.setId((i % 2) + 1);
-				templ.setCode("code" + ((i % 2) + 1));
-				templ.setName("MockTemplateName" + ((i % 2) + 1));
-
-				entity = new Entity();
-				entity.setId(j);
-				entity.setName("name" + j);
-				entity.setEntityTemplate(templ);
-
-				entities.add(entity);
-
-			} catch (Exception ex) {
-				i--;
+		if(false)
+		{
+			Set<Entity> entities = new HashSet<Entity>();
+			for (int j = 0, i = 0; i < 21; i++) {
+	
+				j++;
+				Entity entity = null;
+				try {
+	
+					/*
+					 * entity = tmpl.getForObject( ConfigWrapper.getServUrl(request)
+					 * + "/entity/{id};skip_childs=0", Entity.class, j);
+					 */
+	
+					EntityTemplate templ = new EntityTemplate();
+					templ.setId((i % 2) + 1);
+					templ.setCode("code" + ((i % 2) + 1));
+					templ.setName("MockTemplateName" + ((i % 2) + 1));
+	
+					entity = new Entity();
+					entity.setId(j);
+					entity.setName("name" + j);
+					entity.setEntityTemplate(templ);
+	
+					entities.add(entity);
+	
+				} catch (Exception ex) {
+					i--;
+				}
 			}
+			topic.setEntitiesOfTopic(entities);
 		}
-		topic.setEntitiesOfTopic(entities);
 
 		Map<EntityTemplate, List<Entity>> entitiesByTemplate = TopicHelper
 				.groupEntitiesByTemplate(topic);

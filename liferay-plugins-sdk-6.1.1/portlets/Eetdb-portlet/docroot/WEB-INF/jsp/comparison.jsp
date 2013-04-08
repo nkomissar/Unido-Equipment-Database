@@ -29,15 +29,36 @@
 <%@ page import="javax.portlet.PortletURL"%>
 <%@ page import="javax.portlet.PortletPreferences"%>
 
-<liferay-ui:search-container>
-	<liferay-ui:search-container-results results="${compareResults}" total="${compareResult.size()}"/>
+
+<portlet:defineObjects />
+
+<%
+	PortalUtil.addPortletBreadcrumbEntry(request, "Сравнение",
+			PortalUtil.getCurrentURL(request));
+%>
+<liferay-ui:search-container  emptyResultsMessage="Не выбраны позиции для сравнения!">
+
+
+	<liferay-ui:search-container-results results="${compareResults}" total="${compareResults.size()}" />
 
 	<liferay-ui:search-container-row modelVar="entry" className="Entry">
-		<liferay-ui:search-container-column-text name="Prop" value="${entry.getKey()}"/>
+		<liferay-ui:search-container-column-text value="${uniqueProperties.get(entry.key).getName()}"/>
 		
-		<c:forEach var="entity" items="${entities}" varStatus="status">
-			<liferay-ui:search-container-column-text name="${entity.name}" value="${entry.getValue()[status.getIndex()]}"/>
-		</c:forEach>
+ 		<c:forEach var="entity" items="${entities}" varStatus="status">
+ 		
+			<portlet:renderURL var="showEnityURL">
+     				<portlet:param name="action" value="showEntity" />
+     				<portlet:param name="entityId" value="${entity.id}" />
+   			</portlet:renderURL>
+   			
+ 			<c:set var="nameDecorated"><a href="${showEnityURL}"><c:out value="${entity.name}" /></a></c:set>
+			
+			<liferay-ui:search-container-column-text name="${nameDecorated}" value="${entry.value[status.index]}"/>
+			
+		</c:forEach> 
 		
 	</liferay-ui:search-container-row>
+	
+	<liferay-ui:search-iterator paginate="false"/>
+	
 </liferay-ui:search-container>

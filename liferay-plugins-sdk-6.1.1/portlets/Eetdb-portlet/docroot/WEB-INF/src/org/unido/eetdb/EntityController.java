@@ -1,12 +1,9 @@
 package org.unido.eetdb;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
-import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -18,11 +15,8 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityTemplate;
-import org.unido.eetdb.common.model.Topic;
 import org.unido.eetdb.presentationUtil.ComparisonHelper;
 import org.unido.eetdb.util.ConfigWrapper;
-
-import com.liferay.portal.kernel.dao.search.SearchContainer;
 
 @Controller
 @RequestMapping("view")
@@ -46,38 +40,41 @@ public class EntityController {
 		
 		Entity entity = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/entity/{0};skip_childs=0", Entity.class, entityId);
 		
-		Set<Entity> entities = new HashSet<Entity>();
-		for (int j=0,i = 0; i < 5; i++){
+		if (false)
+		{
+			Set<Entity> entities = new HashSet<Entity>();
+			for (int j=0,i = 0; i < 5; i++){
+				
+				j ++;
+				Entity subentity = null;
+				try 
+				{
+				
+					/*entity = tmpl.getForObject(
+						ConfigWrapper.getServUrl(request) + "/entity/{id};skip_childs=0",
+						Entity.class, j);*/
+					
+					EntityTemplate templ = new EntityTemplate(){{
+						setId(1);
+						setCode("code");
+						setName("MockTemplateName");
+					}};
+					
+					subentity = new Entity();
+					subentity.setId(j);
+					subentity.setName("name" + j);
+					subentity.setEntityTemplate(templ);
 			
-			j ++;
-			Entity subentity = null;
-			try 
-			{
-			
-				/*entity = tmpl.getForObject(
-					ConfigWrapper.getServUrl(request) + "/entity/{id};skip_childs=0",
-					Entity.class, j);*/
-				
-				EntityTemplate templ = new EntityTemplate(){{
-					setId(1);
-					setCode("code");
-					setName("MockTemplateName");
-				}};
-				
-				subentity = new Entity();
-				subentity.setId(j);
-				subentity.setName("name" + j);
-				subentity.setEntityTemplate(templ);
-		
-				entities.add(subentity);
-				
+					entities.add(subentity);
+					
+				}
+				catch(Exception ex) 
+				{
+					i--;
+				}
 			}
-			catch(Exception ex) 
-			{
-				i--;
-			}
+			entity.setChildEntities(entities);
 		}
-		entity.setChildEntities(entities);
 		
 		model.addAttribute("entity", entity);
 		model.addAttribute("isInComparison", ComparisonHelper.isInComparison(entity, request));
