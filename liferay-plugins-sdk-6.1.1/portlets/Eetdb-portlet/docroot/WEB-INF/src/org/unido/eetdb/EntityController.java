@@ -19,6 +19,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.Topic;
+import org.unido.eetdb.presentationUtil.ComparisonHelper;
 import org.unido.eetdb.util.ConfigWrapper;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -78,7 +79,9 @@ public class EntityController {
 		}
 		entity.setChildEntities(entities);
 		
-		model.addAttribute("entity", entity);	
+		model.addAttribute("entity", entity);
+		model.addAttribute("isInComparison", ComparisonHelper.isInComparison(entity, request));
+		model.addAttribute("comparisonCount", ComparisonHelper.getComparison(request).size());
 		
 		return "entity";
 	}

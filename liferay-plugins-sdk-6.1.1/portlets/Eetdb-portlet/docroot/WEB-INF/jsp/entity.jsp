@@ -49,23 +49,19 @@
 </h2>
 
 <p>
-	<c:if test="${isInComparison}">
-		<portlet:actionURL var="compareAdd" copyCurrentRenderParameters="true">
-			<portlet:param name="actionCompare" value="add"/>
-			<portlet:param name="entityId" value="${entity.id}"/>
-		</portlet:actionURL>
-		<aui:a href="${compareAdd}">Убрать из сравнения</aui:a>
-	</c:if>
-	<c:otherwise>
-		<portlet:actionURL var="compareRemove" copyCurrentRenderParameters="true">
-			<portlet:param name="actionCompare" value="add"/>
-			<portlet:param name="entityId" value="${entity.id}"/>
-		</portlet:actionURL>
-		<aui:a href="${compareRemove}">Добавить к сравнению</aui:a>
-	</c:otherwise>
+	<c:choose>
+		<c:when test="${isInComparison}">
+			<portlet:actionURL var="compareAdd" name="removeFromCompare" copyCurrentRenderParameters="true"/>
+			<aui:a href="${compareAdd}">Убрать из сравнения</aui:a>
+		</c:when>
+		<c:otherwise>
+			<portlet:actionURL var="compareRemove" name="addToCompare" copyCurrentRenderParameters="true" />
+			<aui:a href="${compareRemove}">Добавить к сравнению</aui:a>
+		</c:otherwise>
+	</c:choose>
 	<c:if test="${comparisonCount > 0}">
 		<portlet:renderURL var="doCompare">
-			<portlet:param name="actionCompare" value="do"/>
+			<portlet:param name="action" value="doCompare"/>
 		</portlet:renderURL>
 		<aui:a href="${doCompare}">Сравнить</aui:a> 
 		<c:out value="${comparisonCount}"/>

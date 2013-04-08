@@ -27,7 +27,7 @@ public class ComparisonHelper {
 		}
 		else
 		{
-			beingCompared = (List<Entity>)value;
+			beingCompared = toEntityList(value);
 		}
 		
 		if(beingCompared.contains(entity))
@@ -53,7 +53,7 @@ public class ComparisonHelper {
 		}
 		else
 		{
-			beingCompared = (List<Entity>)value;
+			beingCompared = toEntityList(value);
 		}
 		
 		for(Entity entity: beingCompared)
@@ -66,4 +66,49 @@ public class ComparisonHelper {
 		}
 		
 	}
+	
+	public static boolean isInComparison(Entity entity, PortletRequest request)
+	{
+		PortletSession session = request.getPortletSession();
+		
+		Object value = session.getAttribute(COMPARISON_KEY);
+
+		List<Entity> beingCompared;
+
+		if (value == null)
+		{
+			return false;
+		}
+		else
+		{
+			beingCompared = toEntityList(value);
+		}
+		
+		return beingCompared.contains(entity);
+	}
+	
+	public static List<Entity> getComparison( PortletRequest request)
+	{
+		PortletSession session = request.getPortletSession();
+		
+		Object value = session.getAttribute(COMPARISON_KEY);
+
+		if (value == null)
+		{
+			return new ArrayList<Entity>();
+		}
+		else
+		{
+			return toEntityList(value);
+		}
+		
+		
+	}
+	
+	private static List<Entity> toEntityList(Object value)
+	{
+		//how to fix warning ?
+		return (List<Entity>)value;
+	}
+	
 }
