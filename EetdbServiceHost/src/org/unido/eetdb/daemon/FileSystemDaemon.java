@@ -87,9 +87,8 @@ public class FileSystemDaemon extends Service
 
     private static String getUniqueName(File file)
     {
-        return FilenameUtils.getBaseName(file.getName()) + UUID.randomUUID()
-                + FilenameUtils.EXTENSION_SEPARATOR_STR
-                + FilenameUtils.getExtension(file.getName());
+        return FilenameUtils.getBaseName(file.getName()) + UUID.randomUUID() +
+                FilenameUtils.EXTENSION_SEPARATOR_STR + FilenameUtils.getExtension(file.getName());
     }
 
     @Override
@@ -121,7 +120,7 @@ public class FileSystemDaemon extends Service
             {
                 checkFolderToMonitor();
             }
-        }, 0, 5000);
+        }, 0, 60 * 1000);
 
         setStatus(ServiceStatus.Running);
 

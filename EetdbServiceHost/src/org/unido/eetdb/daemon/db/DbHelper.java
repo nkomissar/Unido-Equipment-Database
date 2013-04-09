@@ -25,6 +25,7 @@ public class DbHelper
 
     private final static Map<String, EntityTemplate> templates                  = new HashMap<String, EntityTemplate>();
     private final static Map<String, Topic>          topics                     = new HashMap<String, Topic>();
+    private final static Map<String, List<Entity>>   catalogs                   = new HashMap<String, List<Entity>>();
 
     private static final String                      GET_PROPERTIES_SQL         = "select "
                                                                                         + "template.ENTITY_TEMPLATE_ID as template_id, "
@@ -45,6 +46,11 @@ public class DbHelper
                                                                                         + "entity_id, "
                                                                                         + "topic_id) "
                                                                                         + "VALUES(?, ?)";
+
+    private static final String                      DELETE_ENTITY_SQL          = "DELETE FROM "
+                                                                                        + "UNIDO_ENTITY "
+                                                                                        + "WHERE UPPER(entity_name)=? "
+                                                                                        + "AND status='PENDING'";
 
     private static final String                      INSERT_ENTITY_SQL          = "INSERT INTO "
                                                                                         + "UNIDO_ENTITY("
@@ -77,6 +83,7 @@ public class DbHelper
         PreparedStatement entityStatement = null;
         PreparedStatement entityPropertyStatement = null;
         PreparedStatement referenceStatement = null;
+        PreparedStatement deleteEntityStatement = null;
         CallableStatement idGenerator = null;
 
         try
@@ -93,10 +100,14 @@ public class DbHelper
                 entityStatement = connection.prepareCall(INSERT_ENTITY_SQL);
                 entityPropertyStatement = connection.prepareCall(INSERT_ENTITY_PROPERTY_SQL);
                 referenceStatement = connection.prepareStatement(INSERT_REFERENCE_SQL);
+                deleteEntityStatement = connection.prepareStatement(DELETE_ENTITY_SQL);
                 idGenerator = connection.prepareCall(GET_ID);
 
                 for (Entity entity : entities)
                 {
+                    deleteEntityStatement.setString(1, entity.getName().toUpperCase());
+                    deleteEntityStatement.addBatch();
+
                     ResultSet rs = idGenerator.executeQuery();
 
                     rs.first();
@@ -133,6 +144,7 @@ public class DbHelper
                     }
                 }
 
+                deleteEntityStatement.executeBatch();
                 entityStatement.executeBatch();
                 entityPropertyStatement.executeBatch();
                 referenceStatement.executeBatch();
@@ -161,6 +173,8 @@ public class DbHelper
         }
         finally
         {
+            closeStatement(referenceStatement);
+            closeStatement(deleteEntityStatement);
             closeStatement(entityStatement);
             closeStatement(entityPropertyStatement);
             closeStatement(idGenerator);

@@ -30,12 +30,18 @@ public interface Parser
 
                 for (EntityTemplateProperty templateProperty : template.getProperties())
                 {
-                    EntityProperty property = new EntityProperty();
+                    String propertyValue = dataAccessor.readValue(templateProperty.getCode());
 
-                    property.setTemplateProperty(templateProperty);
-                    property.setValue(dataAccessor.readValue(templateProperty.getCode()));
+                    if (propertyValue != null)
+                    {
 
-                    entity.getProperties().add(property);
+                        EntityProperty property = new EntityProperty();
+
+                        property.setTemplateProperty(templateProperty);
+                        property.setValue(propertyValue);
+
+                        entity.getProperties().add(property);
+                    }
                 }
 
                 boolean tiedToTopic = true;
