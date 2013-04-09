@@ -19,14 +19,19 @@
 <%@ page import="com.liferay.portal.kernel.util.OrderByComparator"%>
 <%@ page import="org.unido.eetdb.common.model.Topic"%>
 <%@ page import="org.unido.eetdb.common.model.Entity"%>
+<%@ page import="org.unido.eetdb.common.model.EntityTemplate"%>
 <%@ page import="org.unido.eetdb.util.CustomComparatorUtil"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Collections"%>
+<%@ page import="java.util.Iterator"%>
+<%@ page import="java.util.Map"%>
+<%@ page import="java.util.HashMap"%>
 <%@ page import="java.lang.Math"%>
 
 <%@ page import="javax.portlet.PortletURL"%>
 <%@ page import="javax.portlet.PortletPreferences"%>
+<%@ page import="javax.servlet.jsp.jstl.core.LoopTagStatus  " %>
 
 
 
@@ -80,111 +85,57 @@
 	</liferay-ui:panel>
 </liferay-ui:panel-container>
 
-
-
-<liferay-ui:panel-container>
-	<liferay-ui:panel id="childEntities" title="Применяемое оборудование"
-		collapsible="true" extended="true">
-
-		<%
-			String entityDelta = "";
-
-			//Getting "cur" value from request.
-			//This value is used to display corresponding page.
-			//e.g. page 2 of 10
-			String entityCur = ParamUtil.getString(renderRequest, "entityCurParam");
-
-			// Getting "delta" value from request.
-			// We get this parameter from request only when we change "items per page (delta)" for any search container
-			// Search container set the changed delta parameter as "delta + {curParam value defined in search container tag}"
-			// Substracting 18 as default delta value is 20, but we have only 5 records for testing
-			String entityDeltaFromReq = ParamUtil.get(request,
-					"deltaentityCurParam",
-					String.valueOf(SearchContainer.DEFAULT_DELTA - 18));
-
-			entityDelta = ParamUtil.get(request, "entityDeltaParam", entityDeltaFromReq);
-
-			PortletURL entitiesIteratorUrl = renderResponse.createRenderURL();
-			
-			entitiesIteratorUrl.setParameter("action", "showTopic");
-			entitiesIteratorUrl.setParameter("topicId", Long.toString(tp.getId()));
-			
-			//sorting
-			
-			PortalPreferences portalPrefs = PortletPreferencesFactoryUtil.getPortalPreferences(request);
-			String orderByCol = ParamUtil.getString(request, "orderByCol");
-			String orderByType = ParamUtil.getString(request, "orderByType");
-			//System.out.println("Col  "+ orderByCol);
-			
-			
-			if (Validator.isNotNull(orderByCol) && Validator.isNotNull(orderByType)) 
-			{
-				portalPrefs.setValue("NAME_SPACE", "order-by-col", orderByCol);
-				portalPrefs.setValue("NAME_SPACE", "order-by-type", orderByType);
-			} 
-			else 
-			{
-			
-				orderByCol = portalPrefs.getValue("NAME_SPACE", "order-by-col", "Date");
-				orderByType = portalPrefs.getValue("NAME_SPACE", "order-by-type", "asc");
-			
-			}			
-		%>
-
-		<liferay-ui:search-container 
-			id="entitySC"
-			deltaConfigurable="<%=true%>" 
-			deltaParam="entityDeltaParam"
-			curParam="entityCurParam" 
-			iteratorURL="<%=entitiesIteratorUrl%>"
-			delta="<%=Integer.parseInt(entityDelta)%>"
-			orderByCol="<%= orderByCol %>" 
-			orderByType="<%= orderByType %>"
-			emptyResultsMessage="нет записей">
-
-			<liferay-ui:search-container-results>
-				<%
-					List<Entity> topicEntities = new ArrayList<Entity>(tp.getEntitiesOfTopic());
-					
-					OrderByComparator orderByComparator =       
-				           CustomComparatorUtil.getEntityOrderByComparator(orderByCol, orderByType);        
-
-				    Collections.sort(topicEntities, orderByComparator);
-
-					results = ListUtil.subList(topicEntities,
-							searchContainer.getStart(),
-							searchContainer.getEnd());
-					
-					total = topicEntities.size();
-
-					pageContext.setAttribute("results", results);
-					pageContext.setAttribute("total", total);
-				%>
-			</liferay-ui:search-container-results>
-
-			<liferay-ui:search-container-row
-				className="org.unido.eetdb.common.model.Entity" 
-				keyProperty="id"
-				modelVar="entity">
+<aui:layout>
+	<c:forEach var="oddOrEvenTemplates" begin="0" end="1" step="1">
+		<aui:column>
+			<c:forEach var="entry" items="${searchContainers.entrySet()}"
+				varStatus="distinctTemplateIndex">
 				
-				<portlet:renderURL var="showEnityURL">
-      				<portlet:param name="action" value="showEntity" />
-      				<portlet:param name="entityId" value="<%= String.valueOf(entity.getId()) %>" />
-    			</portlet:renderURL>
+				<c:set var="template" value="${entry.key}"/>
+				<c:set var="searchContainer" value="${entry.value}"/>
+						
+				<c:if test="${distinctTemplateIndex.getIndex() % 2 == oddOrEvenTemplates}">
 
-				<liferay-ui:search-container-column-text name="Id" property="id" orderable="<%= true %>" orderableProperty="id" href="<%= showEnityURL %>"/>
-				<liferay-ui:search-container-column-text name="Название" property="name" orderable="<%= true %>" orderableProperty="name" href="<%= showEnityURL %>"/>
-				<liferay-ui:search-container-column-text name="Тип" value="${entity.entityTemplate.name}" />
+					<liferay-ui:panel-container>
+						<liferay-ui:panel id="childEntities" title="${'Применяемое оборудование : '}${template.name}"
+							collapsible="true" extended="true">
 
-			</liferay-ui:search-container-row>
+							<liferay-ui:search-container
+								searchContainer="${searchContainer}"
+								orderByCol="${searchContainer.orderByCol}"
+								orderByColParam="${searchContainer.orderByColParam}"
+ 								orderByType="${searchContainer.orderByType}"
+								orderByTypeParam="${searchContainer.orderByTypeParam}"> 
+					
+								<liferay-ui:search-container-results results="${searchContainer.results}" total="${searchContainer.total}" />
+					
+								<liferay-ui:search-container-row
+									className="org.unido.eetdb.common.model.Entity" 
+									keyProperty="id"
+									modelVar="entity">
+									
+									<portlet:renderURL var="showEnityURL">
+					      				<portlet:param name="action" value="showEntity" />
+					      				<portlet:param name="entityId" value="${entity.id}" />
+					    			</portlet:renderURL>
+					
+									<liferay-ui:search-container-column-text name="Id" property="id" orderable="true" orderableProperty="id" href="${showEnityURL}"/>
+									<liferay-ui:search-container-column-text name="Название" property="name" orderable="true" orderableProperty="name" href="${showEnityURL}"/>
+									<liferay-ui:search-container-column-text name="Тип" value="${entity.entityTemplate.name}" />
+					
+								</liferay-ui:search-container-row>
+					
+								<liferay-ui:search-iterator />
+					
+							</liferay-ui:search-container>
+					
+					
+						</liferay-ui:panel>
+					</liferay-ui:panel-container>
 
-
-			<liferay-ui:search-iterator />
-
-		</liferay-ui:search-container>
-
-
-	</liferay-ui:panel>
-</liferay-ui:panel-container>
-
+				</c:if>
+			</c:forEach>
+		</aui:column>
+	</c:forEach>
+</aui:layout>
 

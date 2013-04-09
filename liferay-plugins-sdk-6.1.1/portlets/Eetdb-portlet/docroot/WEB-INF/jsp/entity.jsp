@@ -37,7 +37,6 @@
 
 	PortalUtil.addPortletBreadcrumbEntry(request, entity.getName(),
 			PortalUtil.getCurrentURL(request));
-
 %>
 
 
@@ -45,4 +44,104 @@
 	<c:out value="${entity.name}" />
 </h1>
 
+<h2>
+	<c:out value="${entity.entityTemplate.name}" />
+</h2>
 
+<p>
+	<c:choose>
+		<c:when test="${isInComparison}">
+			<portlet:actionURL var="compareAdd" name="removeFromCompare" copyCurrentRenderParameters="true"/>
+			<aui:a href="${compareAdd}">Убрать из сравнения</aui:a>
+		</c:when>
+		<c:otherwise>
+			<portlet:actionURL var="compareRemove" name="addToCompare" copyCurrentRenderParameters="true" />
+			<aui:a href="${compareRemove}">Добавить к сравнению</aui:a>
+		</c:otherwise>
+	</c:choose>
+	<c:if test="${comparisonCount > 0}">
+		<portlet:renderURL var="doCompare">
+			<portlet:param name="action" value="doCompare"/>
+		</portlet:renderURL>
+		<aui:a href="${doCompare}">Сравнить</aui:a> 
+		<c:out value="${comparisonCount}"/>
+	</c:if>
+</p>
+
+<liferay-ui:panel-container>
+	<liferay-ui:panel id="displayInGrid" title="Основные характеристики"
+		collapsible="true" extended="true">
+
+		<c:forEach var="prop" items="${entity.properties}" varStatus="index">
+			<c:if test="${prop.templateProperty.displayInGrid}">
+			
+
+				<aui:layout>
+					<aui:column>
+						<c:out value="${prop.templateProperty.name}" />
+					</aui:column>
+					<aui:column>
+						<c:out value="${prop.value}" />
+					</aui:column>
+				</aui:layout>
+				
+			</c:if>
+		</c:forEach>
+
+
+	</liferay-ui:panel>
+</liferay-ui:panel-container>
+
+<liferay-ui:panel-container>
+	<liferay-ui:panel id="notDisplayInGrid" title="Дополнительные характеристики"
+		collapsible="true" extended="true">
+
+		<c:forEach var="prop" items="${entity.properties}" varStatus="index">
+			<c:if test="${!prop.templateProperty.displayInGrid}">
+			
+
+				<aui:layout>
+					<aui:column>
+						<c:out value="${prop.templateProperty.name}" />
+					</aui:column>
+					<aui:column>
+						<c:out value="${prop.value}" />
+					</aui:column>
+				</aui:layout>
+				
+			</c:if>
+		</c:forEach>
+
+
+	</liferay-ui:panel>
+</liferay-ui:panel-container>
+
+<liferay-ui:panel-container>
+	<liferay-ui:panel id="linkedEntities" title="Связанное оборудование" collapsible="true"
+		extended="true">
+
+		<aui:layout>
+			<c:forEach var="oddOrEven" begin="0" end="1" step="1">
+				<aui:column>
+					<c:forEach var="subentity" items="${entity.childEntities}" varStatus="index">
+						<c:if test="${index.getIndex() % 2 == oddOrEven}">
+							<h1>
+								
+								<portlet:renderURL var="entityDetailsUrl">
+									<portlet:param name="action" value="showEntity" />
+									<portlet:param name="entityId" value="${subentity.id}" />
+								</portlet:renderURL>
+								
+								<aui:a href="${entityDetailsUrl}">
+									<c:out value="${subentity.name}" />
+								</aui:a>
+								
+							</h1>
+						</c:if>
+					</c:forEach>
+				</aui:column>
+			</c:forEach>
+		</aui:layout>
+
+	</liferay-ui:panel>
+</liferay-ui:panel-container>
