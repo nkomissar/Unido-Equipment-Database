@@ -1,5 +1,7 @@
 package org.unido.eetdb.controller;
 
+import java.util.Set;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
@@ -58,5 +60,13 @@ public class EntityController
     Entity updateEntity(@RequestBody Entity entity)
     {
         return dataAccessService.updateEntity(entity);
+    }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/entities-by-code/{code}")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    public @ResponseBody
+    Set<Entity> getEntitiesByTemplateCode(@PathVariable String code)
+    {
+        return dataAccessService.getEntitiesByTemplateCode(code);
     }
 }

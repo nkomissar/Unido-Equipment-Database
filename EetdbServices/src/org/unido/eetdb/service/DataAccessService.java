@@ -15,6 +15,7 @@ public interface DataAccessService
     public Entity createEntity(Entity entity);
     public Entity updateEntity(Entity entity);
     public void deleteEntity(Entity entity);
+    public Set<Entity> getEntitiesByTemplateCode(String code);
 
     public Topic getTopic(Long topicId);
     public Topic createTopic(Topic topic);

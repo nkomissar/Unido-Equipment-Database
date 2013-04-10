@@ -40,6 +40,22 @@ public class DataAccessServiceImpl implements DataAccessService
         return retVal;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Set<Entity> getEntitiesByTemplateCode(String code)
+    {
+        HashSet<Entity> retVal = new HashSet<Entity>(sessionFactory.getCurrentSession()
+                .createQuery("from Entity as entity where entity.entityTemplate.code = ?")
+                .setString(0, code).list());
+
+        for (Entity entity : retVal)
+        {
+            Helper.ensureChilds(entity, true);
+        }
+
+        return retVal;
+    }
+
     @Override
     public Entity createEntity(Entity entity)
     {
@@ -58,7 +74,7 @@ public class DataAccessServiceImpl implements DataAccessService
         entity = (Entity) sessionFactory.getCurrentSession().merge(entity);
 
         sessionFactory.getCurrentSession().flush();
-        
+
         Helper.ensureChilds(entity, false);
 
         return entity;
@@ -102,15 +118,15 @@ public class DataAccessServiceImpl implements DataAccessService
     {
         HashSet<Topic> retVal = new HashSet<Topic>(sessionFactory.getCurrentSession()
                 .createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(Topic.class).list());
-        
-        for(Topic topic : retVal)
+
+        for (Topic topic : retVal)
         {
             Helper.ensureChilds(topic, true);
         }
-        
+
         return retVal;
     }
-    
+
     @Override
     public Topic getTopic(Long topicId)
     {
@@ -270,6 +286,7 @@ public class DataAccessServiceImpl implements DataAccessService
             if (doAbort)
             {
                 entity.setChildEntities(null);
+                entity.setProperties(null);
             }
             else
             {
@@ -277,9 +294,9 @@ public class DataAccessServiceImpl implements DataAccessService
                 {
                     ensureChilds(child, false);
                 }
-            }
 
-            entity.getProperties().size();
+                entity.getProperties().size();
+            }
 
             ensureChilds(entity.getEntityTemplate(), doAbort);
         }
