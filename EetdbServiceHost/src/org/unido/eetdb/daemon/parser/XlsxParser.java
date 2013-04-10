@@ -54,7 +54,7 @@ public class XlsxParser implements Parser
                     {
                         dataAccessor.setDataRow(row);
 
-                        Entity entity = Parser.entityFiller.fillEntity(dataAccessor, dbHelper);
+                        Entity entity = Parser.EntityFiller.fillEntity(dataAccessor, dbHelper);
 
                         if (entity != null)
                         {

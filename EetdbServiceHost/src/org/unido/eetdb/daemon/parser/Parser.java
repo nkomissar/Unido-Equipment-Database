@@ -2,7 +2,9 @@ package org.unido.eetdb.daemon.parser;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.log4j.Logger;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntityTemplate;
@@ -14,12 +16,15 @@ public interface Parser
 {
     public List<Entity> parse(File file) throws Exception;
 
-    public static class entityFiller
+    public static class EntityFiller
     {
+        private static final Logger logger = Logger.getLogger(EntityFiller.class);
+
         public static Entity fillEntity(DataAccessor dataAccessor, DbHelper dbHelper)
         {
             Entity entity = null;
-            EntityTemplate template = dbHelper.getEntityTemplate(dataAccessor.readValue("CODE"));
+            String templateCode = dataAccessor.readValue("CODE");
+            EntityTemplate template = dbHelper.getEntityTemplate(templateCode);
 
             if (template != null)
             {
@@ -34,13 +39,40 @@ public interface Parser
 
                     if (propertyValue != null)
                     {
-
                         EntityProperty property = new EntityProperty();
 
-                        property.setTemplateProperty(templateProperty);
-                        property.setValue(propertyValue);
+                        if (templateProperty.getValueType().getType().equalsIgnoreCase("REFERENCE"))
+                        {
+                            Map<String, Long> catalog = dbHelper.getCatalog(templateProperty
+                                    .getCode());
+
+                            if (catalog != null)
+                            {
+                                String[] values = propertyValue.split(",");
+
+                                for (String value : values)
+                                {
+                                    Long id = catalog.get(value.trim().toUpperCase());
+                                }
+                            }
+                            else
+                            {
+                                logger.info(String.format("No catalog for reference property: %s",
+                                        templateProperty.getCode()));
+                            }
+                        }
+                        else
+                        {
+                            property.setTemplateProperty(templateProperty);
+                            property.setValue(propertyValue);
+                        }
 
                         entity.getProperties().add(property);
+                    }
+                    else
+                    {
+                        logger.info(String.format("No data for property: %s",
+                                templateProperty.getCode()));
                     }
                 }
 
@@ -63,6 +95,10 @@ public interface Parser
                         tiedToTopic = false;
                     }
                 }
+            }
+            else
+            {
+                logger.error(String.format("Unknown template: %s", templateCode));
             }
 
             return entity;

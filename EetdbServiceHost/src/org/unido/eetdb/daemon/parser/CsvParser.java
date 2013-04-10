@@ -67,8 +67,7 @@ public class CsvParser implements Parser
                         }
                         catch (IOException e)
                         {
-                            logger.error(String.format("Failed to get column data: %s",
-                                    valueCode));
+                            logger.error(String.format("Failed to get column data: %s", valueCode));
                         }
 
                         return retVal;
@@ -77,7 +76,7 @@ public class CsvParser implements Parser
 
                 while (fileReaderClousure.readRecord())
                 {
-                    Entity entity = Parser.entityFiller.fillEntity(dataAccessor, dbHelper);
+                    Entity entity = Parser.EntityFiller.fillEntity(dataAccessor, dbHelper);
 
                     if (entity != null)
                     {
