@@ -18,62 +18,81 @@ import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.common.model.Topic;
+import org.unido.eetdb.common.model.ValueType;
+
+enum ObjectType
+{
+    EntityTemplate, Catalog, Topic
+}
 
 public class DbHelper
 {
-    private static final Logger                      logger                     = Logger.getLogger(DbHelper.class);
+    private static final Logger              logger                     = Logger.getLogger(DbHelper.class);
 
-    private final static Map<String, EntityTemplate> templates                  = new HashMap<String, EntityTemplate>();
-    private final static Map<String, Topic>          topics                     = new HashMap<String, Topic>();
-    private final static Map<String, List<Entity>>   catalogs                   = new HashMap<String, List<Entity>>();
+    private final static Map<String, Object> objectCache                = new HashMap<String, Object>();
 
-    private static final String                      GET_PROPERTIES_SQL         = "select "
-                                                                                        + "template.ENTITY_TEMPLATE_ID as template_id, "
-                                                                                        + "TEMPLATE_PROPERTY_ID as template_property_id, "
-                                                                                        + "PROPERTY_CODE as template_property_code "
-                                                                                        + "from "
-                                                                                        + "UNIDO_ENTITY_TEMPLATE_PROPERTY properties "
-                                                                                        + "join "
-                                                                                        + "UNIDO_ENTITY_TEMPLATE template "
-                                                                                        + "on properties.ENTITY_TEMPLATE_ID=template.ENTITY_TEMPLATE_ID "
-                                                                                        + "where "
-                                                                                        + "UPPER(template.TEMPLATE_CODE)=?";
+    private static final String              GET_PROPERTIES_SQL         = "select "
+                                                                                + "template.ENTITY_TEMPLATE_ID as template_id, "
+                                                                                + "TEMPLATE_PROPERTY_ID as template_property_id, "
+                                                                                + "UPPER(PROPERTY_CODE) as template_property_code "
+                                                                                + "UPPER(TYPE) as value_type "
+                                                                                + "from "
+                                                                                + "UNIDO_ENTITY_TEMPLATE_PROPERTY properties "
+                                                                                + "join "
+                                                                                + "UNIDO_ENTITY_TEMPLATE template "
+                                                                                + "on properties.ENTITY_TEMPLATE_ID=template.ENTITY_TEMPLATE_ID "
+                                                                                + "join "
+                                                                                + "UNIDO_VALUE_TYPE value_type"
+                                                                                + "on properties.VALUE_TYPE_ID=value_type.VALUE_TYPE_ID "
+                                                                                + "where "
+                                                                                + "UPPER(template.TEMPLATE_CODE)=?";
 
-    private static final String                      GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM UNIDO_TOPIC WHERE UPPER(topic_name)=? ";
+    private static final String              GET_CATALOG_SQL            = "select "
+                                                                                + "ENTITY_ID as entity_id, "
+                                                                                + "UPPER(ENTITY_NAME) as entity_name "
+                                                                                + "from "
+                                                                                + "UNIDO_ENTITY entity "
+                                                                                + "join "
+                                                                                + "UNIDO_ENTITY_TEMPLATE template "
+                                                                                + "on entity.ENTITY_TEMPLATE_ID=template.ENTITY_TEMPLATE_ID "
+                                                                                + "where "
+                                                                                + "UPPER(template.TEMPLATE_CODE)=?";
 
-    private static final String                      INSERT_REFERENCE_SQL       = "INSERT INTO "
-                                                                                        + "UNIDO_ENTITY_REFERENCE("
-                                                                                        + "entity_id, "
-                                                                                        + "topic_id) "
-                                                                                        + "VALUES(?, ?)";
+    private static final String              GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM UNIDO_TOPIC WHERE UPPER(topic_name)=? ";
 
-    private static final String                      DELETE_ENTITY_SQL          = "DELETE FROM "
-                                                                                        + "UNIDO_ENTITY "
-                                                                                        + "WHERE UPPER(entity_name)=? "
-                                                                                        + "AND status='PENDING'";
+    private static final String              INSERT_REFERENCE_SQL       = "INSERT INTO "
+                                                                                + "UNIDO_ENTITY_REFERENCE("
+                                                                                + "entity_id, "
+                                                                                + "topic_id) "
+                                                                                + "VALUES(?, ?)";
 
-    private static final String                      INSERT_ENTITY_SQL          = "INSERT INTO "
-                                                                                        + "UNIDO_ENTITY("
-                                                                                        + "entity_id, "
-                                                                                        + "entity_template_id, "
-                                                                                        + "entity_name, "
-                                                                                        + "version, "
-                                                                                        + "status, "
-                                                                                        + "updated_by) "
-                                                                                        + "VALUES(?, ?, ?, ?, ?, ?)";
+    private static final String              DELETE_ENTITY_SQL          = "DELETE FROM "
+                                                                                + "UNIDO_ENTITY "
+                                                                                + "WHERE UPPER(entity_name)=? "
+                                                                                + "AND status='PENDING'";
 
-    private static final String                      INSERT_ENTITY_PROPERTY_SQL = "INSERT INTO "
-                                                                                        + "UNIDO_ENTITY_PROPERTY("
-                                                                                        + "entity_id, "
-                                                                                        + "template_property_id, "
-                                                                                        + "value, "
-                                                                                        + "version, "
-                                                                                        + "updated_by) "
-                                                                                        + "VALUES(?, ?, ?, ?, ?)";
+    private static final String              INSERT_ENTITY_SQL          = "INSERT INTO "
+                                                                                + "UNIDO_ENTITY("
+                                                                                + "entity_id, "
+                                                                                + "entity_template_id, "
+                                                                                + "entity_name, "
+                                                                                + "version, "
+                                                                                + "status, "
+                                                                                + "updated_by) "
+                                                                                + "VALUES(?, ?, ?, ?, ?, ?)";
 
-    private static final String                      GET_ID                     = "select SEQ_NEXTVAL()";
+    private static final String              INSERT_ENTITY_PROPERTY_SQL = "INSERT INTO "
+                                                                                + "UNIDO_ENTITY_PROPERTY("
+                                                                                + "entity_id, "
+                                                                                + "template_property_id, "
+                                                                                + "value, "
+                                                                                + "version, "
+                                                                                + "updated_by) "
+                                                                                + "VALUES(?, ?, ?, ?, ?)";
 
-    private DataSource                               dataSource;
+    private static final String              GET_ID                     = "select SEQ_NEXTVAL()";
+
+    private DataSource                       dataSource;
 
     public boolean persistEntities(List<Entity> entities)
     {
@@ -183,33 +202,6 @@ public class DbHelper
         }
     }
 
-    public Topic getTopic(String topicCode)
-    {
-        Topic retVal = null;
-
-        if (topics.containsKey(topicCode))
-        {
-            retVal = topics.get(topicCode);
-        }
-        else
-        {
-            retVal = loadTopic(topicCode);
-
-            if (retVal != null)
-            {
-                synchronized (topics)
-                {
-                    if (!topics.containsKey(topicCode))
-                    {
-                        topics.put(topicCode, retVal);
-                    }
-                }
-            }
-        }
-
-        return retVal;
-    }
-
     private Topic loadTopic(String topicCode)
     {
         Topic topic = null;
@@ -255,33 +247,6 @@ public class DbHelper
         return topic;
     }
 
-    public EntityTemplate getEntityTemplate(String templateCode)
-    {
-        EntityTemplate retVal = null;
-
-        if (templates.containsKey(templateCode))
-        {
-            retVal = templates.get(templateCode);
-        }
-        else
-        {
-            retVal = loadEntityTemplate(templateCode);
-
-            if (retVal != null)
-            {
-                synchronized (templates)
-                {
-                    if (!templates.containsKey(templateCode))
-                    {
-                        templates.put(templateCode, retVal);
-                    }
-                }
-            }
-        }
-
-        return retVal;
-    }
-
     private EntityTemplate loadEntityTemplate(String templateCode)
     {
         EntityTemplate template = null;
@@ -312,10 +277,14 @@ public class DbHelper
                     do
                     {
                         EntityTemplateProperty property = new EntityTemplateProperty();
+                        ValueType valueType = new ValueType();
 
                         property.setId(resultSet.getLong("template_property_id"));
-                        property.setCode(resultSet.getString("template_property_code")
-                                .toUpperCase());
+                        property.setCode(resultSet.getString("template_property_code"));
+
+                        valueType.setType(resultSet.getString("value_type"));
+
+                        property.setValueType(valueType);
 
                         template.getProperties().add(property);
                     }
@@ -340,7 +309,57 @@ public class DbHelper
         return template;
     }
 
-    private void closeStatement(Statement statement)
+    private Map<String, Long> loadCatalog(String catalogCode)
+    {
+        Map<String, Long> catalog = null;
+
+        if (catalogCode != null)
+        {
+            logger.info(String.format("Loading catalog: %s", catalogCode));
+
+            Connection connection = null;
+            PreparedStatement statement = null;
+
+            try
+            {
+                connection = dataSource.getConnection();
+                statement = connection.prepareStatement(GET_CATALOG_SQL);
+
+                statement.setString(1, catalogCode.toUpperCase());
+
+                ResultSet resultSet = statement.executeQuery();
+
+                if (resultSet.first())
+                {
+                    catalog = new HashMap<String, Long>();
+
+                    do
+                    {
+                        catalog.put(resultSet.getString("entity_name"),
+                                resultSet.getLong("entity_id"));
+                    }
+                    while (resultSet.next());
+                }
+            }
+            catch (Throwable t)
+            {
+                logger.error("Failed to get catalog.", t);
+            }
+            finally
+            {
+                closeStatement(statement);
+                closeConnection(connection);
+            }
+        }
+        else
+        {
+            logger.error("Null catalog code.");
+        }
+
+        return catalog;
+    }
+
+    private static void closeStatement(Statement statement)
     {
         if (statement != null)
         {
@@ -355,7 +374,7 @@ public class DbHelper
         }
     }
 
-    private void closeConnection(Connection connection)
+    private static void closeConnection(Connection connection)
     {
         if (connection != null)
         {
@@ -368,6 +387,60 @@ public class DbHelper
                 logger.error("Failed to close connection.", e);
             }
         }
+    }
+
+    public EntityTemplate getEntityTemplate(String templateCode)
+    {
+        return (EntityTemplate) getCachedObject(templateCode, ObjectType.EntityTemplate);
+    }
+
+    public Topic getTopic(String topicCode)
+    {
+        return (Topic) getCachedObject(topicCode, ObjectType.Topic);
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Long> getCatalog(String catalogCode)
+    {
+        return (Map<String, Long>) getCachedObject(catalogCode, ObjectType.Catalog);
+    }
+
+    private Object getCachedObject(String code, ObjectType type)
+    {
+        Object retVal = null;
+
+        if (objectCache.containsKey(code))
+        {
+            retVal = objectCache.get(code);
+        }
+        else
+        {
+            switch (type)
+            {
+                case Topic:
+                    retVal = loadTopic(code);
+                    break;
+                case EntityTemplate:
+                    retVal = loadEntityTemplate(code);
+                    break;
+                case Catalog:
+                    retVal = loadCatalog(code);
+                    break;
+            }
+
+            if (retVal != null)
+            {
+                synchronized (objectCache)
+                {
+                    if (!objectCache.containsKey(code))
+                    {
+                        objectCache.put(code, retVal);
+                    }
+                }
+            }
+        }
+
+        return retVal;
     }
 
     public DataSource getDataSource()
