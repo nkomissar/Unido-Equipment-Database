@@ -27,11 +27,12 @@ BEGIN
 		 , e.entity_name
          , (SELECT `value` 
               FROM UNIDO_ENTITY_PROPERTY 
-		     WHERE `ENTITY_ID` = e.ENTITY_ID
-			   AND `TEMPLATE_PROPERTY_ID` = 
-				   (SELECT `TEMPLATE_PROPERTY_ID`
-                      FROM `UNIDO_ENTITY_TEMPLATE_PROPERTY`
-                     WHERE `PROPERTY_CODE` = 'DESCRIPTION')) as description
+		     WHERE ENTITY_ID = e.ENTITY_ID
+			   AND TEMPLATE_PROPERTY_ID = 
+				   (SELECT TEMPLATE_PROPERTY_ID
+                      FROM UNIDO_ENTITY_TEMPLATE_PROPERTY
+                     WHERE PROPERTY_CODE = 'DESCRIPTION'
+                       AND ENTITY_TEMPLATE_ID = e.ENTITY_TEMPLATE_ID)) as description
 		 , MATCH (e.entity_name) AGAINST (v_text IN BOOLEAN MODE) as REL
 	FROM UNIDO_ENTITY e
 	WHERE MATCH (e.entity_name) AGAINST (v_text IN BOOLEAN MODE) > 0

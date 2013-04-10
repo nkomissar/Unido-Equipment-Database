@@ -7,6 +7,7 @@ CREATE procedure `eetdb`.`add_template_property`(
   , p_code 			varchar(30) 
   , p_name 			varchar(100)
   , p_type			varchar(45)
+  , p_catalog		varchar(30)
   , p_units			varchar(30)
   , p_display		tinyint(1)
   , p_search        tinyint(1)
@@ -32,6 +33,7 @@ BEGIN
 		, PROPERTY_NAME
 		, VERSION
 		, VALUE_TYPE_ID
+		, CATALOG_CODE
 		, UNIT_OF_MEASURE
 		, DISPLAY_IN_GRID
 		, SEARCHABLE
@@ -45,6 +47,7 @@ BEGIN
 		, p_name
 		, 0
 		, v_type_id
+		, p_catalog
 		, p_units
 		, p_display
 		, p_search
