@@ -1,5 +1,6 @@
 package org.unido.eetdb.admin;
 
+import java.io.Console;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
@@ -71,7 +72,7 @@ public class EntityController
 		RestTemplate tmpl = new RestTemplate();
 		
 		EntitySearchResult[] entities = tmpl.getForObject(
-					ConfigWrapper.getServUrl(renderRequest) + "/search-for-entities/{i}", 
+					ConfigWrapper.getServUrl(renderRequest) + "/search-for-entities?param={query}", 
 					EntitySearchResult[].class, query);
 		/*
 		EntitySearchResult[] entities = new EntitySearchResult[1]
@@ -147,6 +148,8 @@ public class EntityController
 
 		User user = PortalUtil.getUser(request);
 		readValue.setLastUpdatedBy(user.getFullName());
+		
+		System.out.println("props read: " + readValue.getProperties().size());
 		
 		Iterator<EntityProperty> itr = readValue.getProperties().iterator();
 		

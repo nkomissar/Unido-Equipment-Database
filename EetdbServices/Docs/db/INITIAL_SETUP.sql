@@ -37,6 +37,10 @@ INSERT INTO eetdb.UNIDO_VALUE_TYPE
 (VALUE_TYPE_ID, FORMAT, TYPE, UPDATED_BY, UPDATE_DATE) 
 VALUES (6, 'JPG', 'IMAGE', 'system', sysdate());
 
+INSERT INTO eetdb.UNIDO_VALUE_TYPE
+(VALUE_TYPE_ID, FORMAT, TYPE, UPDATED_BY, UPDATE_DATE) 
+VALUES (7, 'ENTITY_ID', 'REFERENCE', 'system', sysdate());
+
 -- -------------------------------------------------------------------
 -- fill TOPIC
 -- -------------------------------------------------------------------
@@ -95,7 +99,6 @@ call add_child_topic(@last_id, 'Окна и остекление', 'Окна и 
 call add_child_topic(@last_id, 'Изоляция зданий', 'Изоляция зданий');
 call add_child_topic(@last_id, 'Высокоскоростные ворота', 'Высокоскоростные ворота');
 
-
 set @last_id = add_middle_topic(@top_id, 'Системы освещения', 'Системы освещения');
 call add_child_topic(@last_id, 'Лампы', 'Лампы');
 
@@ -133,7 +136,6 @@ set @last_id = add_middle_topic(@top_id, 'Центральное отоплен�
 -- fill TEMPLATES
 -- -------------------------------------------------------------------
 set @last_id = eetdb.add_template('ARTICLE', 'Описание технологии');
-call add_template_property(@last_id, 'TITLE', 'Описание', 'STRING', '', 1, 1, 1);
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'STRING', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
@@ -143,11 +145,11 @@ call add_template_property(@last_id, 'ECONOMY_COMMENT', 'Условия экон
 
 -- TEMPLATE PIPE --
 set @last_id = eetdb.add_template('PIPE', 'Труба');
-call add_template_property(@last_id, 'TITLE', 'Название', 'STRING', '', 1, 1, 1);
+call add_template_property(@last_id, 'PIPE_TYPE', 'Тип трубы', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'STRING', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'VENDOR', 'Производитель', 'STRING', '', 1, 1, 1);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '', 1, 0, 1);
 call add_template_property(@last_id, 'DIAMETER', 'Диаметр', 'NUMBER', 'СМ', 1, 1, 1);
 call add_template_property(@last_id, 'DIAMETER_MIDDLE', 'Внутренний диаметр', 'NUMBER', 'СМ', 1, 1, 0);
@@ -158,20 +160,19 @@ call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге 
 
 -- TEMPLATE BOILER --
 set @last_id = eetdb.add_template('BOILER', 'Нагреватель воды');
-call add_template_property(@last_id, 'TITLE', 'Название', 'STRING', '', 1, 1, 1);
+call add_template_property(@last_id, 'BOILER_TYPE', 'Тип нагревателя', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'STRING', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'VENDOR', 'Производитель', 'STRING', '', 1, 1, 1);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '', 1, 0, 1);
-call add_template_property(@last_id, 'FUEL', 'Топливо', 'STRING', '', 1, 1, 1);
+call add_template_property(@last_id, 'FUEL', 'Топливо', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'POWER', 'Мощность', 'NUMBER', 'кВт', 1, 1, 1);
 call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'STRING', '', 0, 1, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
 
 -- TEMPLATE VENDOR --
 set @last_id = eetdb.add_template('VENDOR', 'Производитель');
-call add_template_property(@last_id, 'TITLE', 'Название', 'STRING', '', 1, 1, 1);
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'STRING', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
@@ -183,13 +184,35 @@ call add_template_property(@last_id, 'DISTRIBUTOR_ADDRESS', 'Адрес дист
 call add_template_property(@last_id, 'DISTRIBUTOR_PHONE', 'Телефон дистрибьютора', 'STRING', '', 0, 1, 0);
 
 -- -------------------------------------------------------------------
+-- fill CATALOGUES
+-- -------------------------------------------------------------------
+-- FUEL --
+set @last_id = eetdb.add_template('FUEL', 'Топливо');
+set @gaz = eetdb.add_entity('FUEL', 'Природный газ');
+set @propan = eetdb.add_entity('FUEL', 'Пропан');
+set @mazut = eetdb.add_entity('FUEL', 'Мазут');
+set @diesel = eetdb.add_entity('FUEL', 'Дизельное топливо');
+
+set @last_id = eetdb.add_template('BOILER_TYPE', 'Тип нагревателя');
+set @boiler_type1 = eetdb.add_entity('BOILER_TYPE', 'Паровой котел');
+set @boiler_type2 = eetdb.add_entity('BOILER_TYPE', 'Отопительный котел');
+set @boiler_type3 = eetdb.add_entity('BOILER_TYPE', 'Конденсационный котел');
+set @boiler_type4 = eetdb.add_entity('BOILER_TYPE', 'Низкотемпературный котел');
+
+set @last_id = eetdb.add_template('BURNER_TYPE', 'Тип горелки');
+set @last_id = eetdb.add_entity('BURNER_TYPE', 'Промышленная горелка');
+set @last_id = eetdb.add_entity('BURNER_TYPE', 'Мазутная горелка');
+set @last_id = eetdb.add_entity('BURNER_TYPE', 'Газовая горелка');
+set @last_id = eetdb.add_entity('BURNER_TYPE', 'Дизельная горелка');
+set @last_id = eetdb.add_entity('BURNER_TYPE', 'Комбинированная горелка');
+
+-- -------------------------------------------------------------------
 -- fill ENTITY
 -- -------------------------------------------------------------------
 -- entity 1
 set @last_id = eetdb.add_entity('ARTICLE', 'Автоматизация режимов горения');
 call link_entity(@last_id, 'Энергосберегающие технологии');
 call link_entity(@last_id, 'Экономия топлива');
-call add_entity_property(@last_id, 'TITLE', 'Автоматизация режимов горения', null);
 call add_entity_property(@last_id, 'PICTURE', 'http://www.links.com/small_02.jpg', null);
 call add_entity_property(@last_id, 'URL', 'http://www.energosovet.ru/', null);
 call add_entity_property(@last_id, 'DESCRIPTION', 'Автоматизация режимов горения (поддержание оптимального соотношения топливо-воздух)', null);
@@ -200,7 +223,6 @@ call add_entity_property(@last_id, 'ECONOMY_COMMENT', '', null);
 set @last_id = eetdb.add_entity('ARTICLE', 'Автономная тепловая установка');
 call link_entity(@last_id, 'Энергосберегающие технологии');
 call link_entity(@last_id, 'Экономия топлива');
-call add_entity_property(@last_id, 'TITLE', 'Автономная тепловая установка', null);
 call add_entity_property(@last_id, 'PICTURE', 'http://www.links.com/small_02.jpg', null);
 call add_entity_property(@last_id, 'URL', 'http://www.ptechnology.ru/', null);
 call add_entity_property(@last_id, 'DESCRIPTION', 'Автономная тепловая установка модульного типа на базе гидродросселя вихревого - генератора тепла', null);
@@ -212,7 +234,6 @@ call add_entity_property(@last_id, 'ECONOMY_COMMENT', '', null);
 set @last_id = eetdb.add_entity('ARTICLE', 'Аэрогель для теплоизоляции');
 call link_entity(@last_id, 'Энергосберегающие технологии');
 call link_entity(@last_id, 'Экономия тепловой энергии');
-call add_entity_property(@last_id, 'TITLE', 'Аэрогель для теплоизоляции', null);
 call add_entity_property(@last_id, 'PICTURE', 'http://www.links.com/small_03.jpg', null);
 call add_entity_property(@last_id, 'URL', 'http://www.links.com/tech_03.html', null);
 call add_entity_property(@last_id, 'DESCRIPTION', 'Также он известен, как «твердый воздух» и «замороженный дым» или «голубой дым».', null);
@@ -220,59 +241,54 @@ call add_entity_property(@last_id, 'TEXT', null, 'Также он известе
 call add_entity_property(@last_id, 'ECONOMY_PERCENT', '6', null);
 call add_entity_property(@last_id, 'ECONOMY_COMMENT', '', null);
 
-set @last_id = eetdb.add_entity('VENDOR', 'Производитель 3');
-call add_entity_property(@last_id, 'TITLE', 'Производитель 3', null);
-call add_entity_property(@last_id, 'PICTURE', 'http://www.links.com/small_03.jpg', null);
-call add_entity_property(@last_id, 'URL', 'http://www.links.com/tech_03.html', null);
-call add_entity_property(@last_id, 'DESCRIPTION', 'Описание производителя 3', null);
-call add_entity_property(@last_id, 'ADDRESS', 'Адрес 3', null);
-call add_entity_property(@last_id, 'PHONE', 'Телефон 3', null);
-call add_entity_property(@last_id, 'DISTRIBUTOR', 'Производитель 3', null);
-call add_entity_property(@last_id, 'DETAILS', 'Производитель 3, дополнительные характеристики.', null);
-call add_entity_property(@last_id, 'DISTRIBUTOR_ADDRESS', 'Адрес 33', null);
-call add_entity_property(@last_id, 'DISTRIBUTOR_PHONE', 'Телефон 33', null);
+set @vendor03 = eetdb.add_entity('VENDOR', 'Производитель 3');
+call add_entity_property(@vendor03, 'PICTURE', 'http://www.links.com/small_03.jpg', null);
+call add_entity_property(@vendor03, 'URL', 'http://www.links.com/tech_03.html', null);
+call add_entity_property(@vendor03, 'DESCRIPTION', 'Описание производителя 3', null);
+call add_entity_property(@vendor03, 'ADDRESS', 'Адрес 3', null);
+call add_entity_property(@vendor03, 'PHONE', 'Телефон 3', null);
+call add_entity_property(@vendor03, 'DISTRIBUTOR', 'Производитель 3', null);
+call add_entity_property(@vendor03, 'DETAILS', 'Производитель 3, дополнительные характеристики.', null);
+call add_entity_property(@vendor03, 'DISTRIBUTOR_ADDRESS', 'Адрес 33', null);
+call add_entity_property(@vendor03, 'DISTRIBUTOR_PHONE', 'Телефон 33', null);
 
-set @last_id = eetdb.add_entity('VENDOR', 'Производитель 5');
-call add_entity_property(@last_id, 'TITLE', 'Производитель 5', null);
-call add_entity_property(@last_id, 'PICTURE', 'http://www.links.com/small_05.jpg', null);
-call add_entity_property(@last_id, 'URL', 'http://www.links.com/tech_05.html', null);
-call add_entity_property(@last_id, 'DESCRIPTION', 'Описание производителя 5', null);
-call add_entity_property(@last_id, 'ADDRESS', 'Адрес 5', null);
-call add_entity_property(@last_id, 'PHONE', 'Телефон 5', null);
-call add_entity_property(@last_id, 'DISTRIBUTOR', 'Производитель 5', null);
-call add_entity_property(@last_id, 'DETAILS', 'Производитель 5, дополнительные характеристики.', null);
-call add_entity_property(@last_id, 'DISTRIBUTOR_ADDRESS', 'Адрес 55', null);
-call add_entity_property(@last_id, 'DISTRIBUTOR_PHONE', 'Телефон 55', null);
+set @vendor05 = eetdb.add_entity('VENDOR', 'Производитель 5');
+call add_entity_property(@vendor05, 'PICTURE', 'http://www.links.com/small_05.jpg', null);
+call add_entity_property(@vendor05, 'URL', 'http://www.links.com/tech_05.html', null);
+call add_entity_property(@vendor05, 'DESCRIPTION', 'Описание производителя 5', null);
+call add_entity_property(@vendor05, 'ADDRESS', 'Адрес 5', null);
+call add_entity_property(@vendor05, 'PHONE', 'Телефон 5', null);
+call add_entity_property(@vendor05, 'DISTRIBUTOR', 'Производитель 5', null);
+call add_entity_property(@vendor05, 'DETAILS', 'Производитель 5, дополнительные характеристики.', null);
+call add_entity_property(@vendor05, 'DISTRIBUTOR_ADDRESS', 'Адрес 55', null);
+call add_entity_property(@vendor05, 'DISTRIBUTOR_PHONE', 'Телефон 55', null);
 
 set @last_id = eetdb.add_entity('BOILER', 'Продукт 33');
 call link_entity(@last_id, 'Жидкотопливные и газовые горелки');
 call link_entity(@last_id, 'Призводство');
 call link_entity(@last_id, 'Промышленный сектор');
-call link_entities(@last_id, 'Производитель 3');
-call add_entity_property(@last_id, 'TITLE', 'Продукт 33', null);
-call add_entity_property(@last_id, 'VENDOR', 'Производитель 3', null);
+call add_entity_property(@last_id, 'BOILER_TYPE', convert(@boiler_type1, char), null);
+call add_entity_property(@last_id, 'VENDOR', convert(@vendor03, char), null);
 call add_entity_property(@last_id, 'PICTURE', 'http://www.links.com/small_33.jpg', null);
 call add_entity_property(@last_id, 'URL', 'http://www.links.com/tech_33.html', null);
 call add_entity_property(@last_id, 'DESCRIPTION', 'Описание модели К33', null);
 call add_entity_property(@last_id, 'PI', 'КПД', '82');
-call add_entity_property(@last_id, 'FUEL', 'Дизель', null);
+call add_entity_property(@last_id, 'FUEL', convert(@diesel, char), null);
 call add_entity_property(@last_id, 'POWER', '2500', null);
 call add_entity_property(@last_id, 'DETAILS', null, 'Характеристики 33');
 call add_entity_property(@last_id, 'VENDOR_CODE', 'NS-567JK', null);
-
 
 set @last_id = eetdb.add_entity('BOILER', 'Продукт 34');
 call link_entity(@last_id, 'Жидкотопливные и газовые горелки');
 call link_entity(@last_id, 'Призводство');
 call link_entity(@last_id, 'Жилищный сектор');
-call link_entities(@last_id, 'Производитель 3');
-call add_entity_property(@last_id, 'TITLE', 'Продукт 34', null);
-call add_entity_property(@last_id, 'VENDOR', 'Производитель 3', null);
+call add_entity_property(@last_id, 'BOILER_TYPE', convert(@boiler_type2, char), null);
+call add_entity_property(@last_id, 'VENDOR', convert(@vendor03, char), null);
 call add_entity_property(@last_id, 'PICTURE', 'http://www.links.com/small_34.jpg', null);
 call add_entity_property(@last_id, 'URL', 'http://www.links.com/tech_34.html', null);
 call add_entity_property(@last_id, 'DESCRIPTION', 'Описание модели К34', null);
 call add_entity_property(@last_id, 'PI', 'КПД', '88');
-call add_entity_property(@last_id, 'FUEL', 'Газ', null);
+call add_entity_property(@last_id, 'FUEL', convert(@gaz, char), null);
 call add_entity_property(@last_id, 'POWER', '1240', null);
 call add_entity_property(@last_id, 'DETAILS', null, 'Характеристики 34');
 call add_entity_property(@last_id, 'VENDOR_CODE', 'TS-234HG', null);
@@ -281,9 +297,7 @@ set @last_id = eetdb.add_entity('PIPE', 'Продукт 35');
 call link_entity(@last_id, 'Предизолированные трубы');
 call link_entity(@last_id, 'Передача тепла');
 call link_entity(@last_id, 'Экономия тепловой энергии');
-call link_entities(@last_id, 'Производитель 5');
-call add_entity_property(@last_id, 'TITLE', 'Продукт 35', null);
-call add_entity_property(@last_id, 'VENDOR', 'Производитель 5', null);
+call add_entity_property(@last_id, 'VENDOR', convert(@vendor05, char), null);
 call add_entity_property(@last_id, 'PICTURE', 'http://www.links.com/small_35.jpg', null);
 call add_entity_property(@last_id, 'URL', 'http://www.links.com/tech_35.html', null);
 call add_entity_property(@last_id, 'DESCRIPTION', 'Описание модели К35', null);
