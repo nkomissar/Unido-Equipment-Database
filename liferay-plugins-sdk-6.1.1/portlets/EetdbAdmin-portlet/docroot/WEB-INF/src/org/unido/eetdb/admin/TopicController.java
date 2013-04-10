@@ -72,7 +72,7 @@ public class TopicController
 		RestTemplate tmpl = new RestTemplate();
 		
 		Topic[] topics = tmpl.getForObject(
-					ConfigWrapper.getServUrl(renderRequest) + "/search-for-topics/{i}", 
+					ConfigWrapper.getServUrl(renderRequest) + "/search-for-topics?param={query}", 
 					Topic[].class, query);
 		
 		/*Topic[] topics = new Topic[1];

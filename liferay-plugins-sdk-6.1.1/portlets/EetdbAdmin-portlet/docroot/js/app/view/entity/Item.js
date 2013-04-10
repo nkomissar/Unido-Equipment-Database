@@ -55,7 +55,7 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			me.add(Ext.widget('textfield', {
 				name: 'value',
 	            columnWidth: 0.5,
-	            fieldLabel: record.TemplateProperty.get('name'),
+	            fieldLabel: this.getLabel(record.TemplateProperty),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
 	            value: record.get('value')
@@ -68,20 +68,20 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			me.add(Ext.widget('textarea', {
 				name: 'value',
 	            columnWidth: 0.5,
-	            fieldLabel: record.TemplateProperty.get('name'),
+	            fieldLabel: this.getLabel(record.TemplateProperty),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
 	            value: record.get('value')
 	        }));
 			
 			break;
-			
+		default:
 		case "STRING":
 			
 			me.add(Ext.widget('textfield', {
 				name: 'value',
 	            columnWidth: 0.5,
-	            fieldLabel: record.TemplateProperty.get('name'),
+	            fieldLabel: this.getLabel(record.TemplateProperty),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
 	            value: record.get('value')
@@ -94,7 +94,7 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			me.add(Ext.widget('textfield', {
 				name: 'value',
 	            columnWidth: 0.5,
-	            fieldLabel: record.TemplateProperty.get('name'),
+	            fieldLabel: this.getLabel(record.TemplateProperty),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
 	            value: record.get('value')
@@ -107,14 +107,26 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			me.add(Ext.widget('checkbox', {
 				name: 'value',
 				columnWidth: 0.5,
-	            fieldLabel: record.TemplateProperty.get('name'),
+	            fieldLabel: this.getLabel(record.TemplateProperty),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
 	            value: record.get('value')
 	        }));
 			
 			break;
-
+			
+		case "REFERENCE":
+			
+			me.add(Ext.widget('textfield', {
+				name: 'value',
+	            columnWidth: 0.5,
+	            fieldLabel: this.getLabel(record.TemplateProperty),
+	            defaults: { anchor: '100%' },
+	            layout: 'anchor',
+	            value: record.get('value')
+	        }));
+			
+			break;
 		}
 
     	
@@ -124,7 +136,8 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
     	
     	var value = me.down('[isFormField][name="value"]');
 
-    	if(typeof value != 'undefined')
+    	if(typeof value != 'undefined'
+    		&& value != null)
     	{
     		me.record.set('value', value.getValue());
     	}
@@ -134,6 +147,19 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
     	
     	return retValue;
 
+    }
+
+    , getLabel: function(templateProperty)
+    {
+    	var retvalue = templateProperty.get('name');
+    	var uom = templateProperty.get('unitOfMeasure');
+    	
+    	if (uom)
+    	{
+    		retvalue = retvalue + ", " + uom;
+    	}
+    	
+    	return retvalue;
     }
 });    	
 
@@ -286,12 +312,40 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 			
 		});
 		
-		
-		Ext.each(entity['properties']().data.items, 
-				function(property)
+		debugger;
+	
+		Ext.each(entity.GetEntityTemplate().properties().data.items, 
+				function(templProperty)
 				{
-			
-					me.addProperty(form, property);
+					var entityProp = null;
+					debugger;
+					
+					Ext.each(entity['properties']().data.items,
+							function(prop)
+							{
+								debugger;
+								
+								if (prop.GetTemplateProperty().get('id') == templProperty.get('id'))
+								{
+									entityProp = prop;
+									return false;
+								}
+							}
+					);
+					
+					if (typeof entityProp == 'undefined'
+							|| entityProp == null)
+					{
+						entityProp = Ext.create( 'EetdbAdmin.model.EntityProperty',
+								{
+									id : 0,
+									code : templProperty.get('code'),
+									templateProperty : templProperty
+								}
+						);
+					}
+					
+					me.addProperty(form, entityProp);
 				
 				}
 		);
