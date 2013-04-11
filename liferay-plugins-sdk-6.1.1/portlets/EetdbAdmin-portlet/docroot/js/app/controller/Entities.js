@@ -433,6 +433,26 @@ Ext.define('EetdbAdmin.controller.Entities', {
 
     ,fetchRefField: function( boxselect, record)
     {
-    	debugger;
+    	var store = Ext.create('EetdbAdmin.store.Entity', {
+    		autoLoad: false
+    	});
+    	
+    	store.load({
+			params: 
+			{
+				templateCode: record.GetTemplateProperty().get('code')
+			},
+			callback: function(records, operation, success) 
+			{
+				var value = record.get('value');
+				
+				//remove squares
+				value = value.substring(1, value.lenght - 2);
+				
+				boxselect.bindStore(store);
+				boxselect.setValue(value);
+			}
+		});
+    	
     }
 });

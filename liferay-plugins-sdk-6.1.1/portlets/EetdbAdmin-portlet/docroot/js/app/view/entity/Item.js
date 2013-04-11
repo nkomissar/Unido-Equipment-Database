@@ -123,14 +123,17 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			
 			var boxselect = me.add(Ext.widget('boxselect', {
 				name: 'value',
+		        displayField: 'name',
+		        valueField: 'id',
+		        delimiter: ',',
 	            fieldLabel: this.getLabel(record.TemplateProperty),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
 	            emptyText: 'Pick a value',
-	            //value: record.get('value')
+	            queryMode: 'local'
 	        }));
 			
-			//me.fireEvent('reffieldcreated', boxselect, record);
+			me.fireEvent('reffieldcreated', boxselect, record);
 			
 			break;
 		}
@@ -318,18 +321,14 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 			
 		});
 		
-		debugger;
-	
 		Ext.each(entity.GetEntityTemplate().properties().data.items, 
 				function(templProperty)
 				{
 					var entityProp = null;
-					debugger;
 					
 					Ext.each(entity['properties']().data.items,
 							function(prop)
 							{
-								debugger;
 								
 								if (prop.GetTemplateProperty().get('id') == templProperty.get('id'))
 								{

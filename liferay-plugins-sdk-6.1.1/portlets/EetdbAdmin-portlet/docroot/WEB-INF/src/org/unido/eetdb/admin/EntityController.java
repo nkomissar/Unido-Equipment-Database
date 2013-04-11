@@ -88,6 +88,39 @@ public class EntityController
 		return new ModelAndView(jsonView, data);
 
 	}
+	
+	@RenderMapping(params = "action=doEntityLoadByTemplateCode")
+	public ModelAndView loadEntityByTemplateCode(@RequestParam String templateCode, RenderRequest renderRequest) 
+	{
+
+		if (ConfigWrapper.useFiddlerProxy(renderRequest))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost"); 
+			props.put("http.proxyPort", "8888");
+			 
+		}
+		
+		RestTemplate tmpl = new RestTemplate();
+		
+		Entity[] entities = tmpl.getForObject(
+					ConfigWrapper.getServUrl(renderRequest) + "/entities-by-code/{code}", 
+					Entity[].class, templateCode);
+		/*
+		EntitySearchResult[] entities = new EntitySearchResult[1]
+		entities[0] = new EntitySearchResult();
+		entities[0].setEntityId("55");
+		entities[0].setEntityName("Mock name");
+		*/
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("entity", entities);
+
+		return new ModelAndView(jsonView, data);
+
+	}
 
 	@RenderMapping(params = "action=doEntityLoad")
 	public ModelAndView loadEntity(@RequestParam long entityId,
