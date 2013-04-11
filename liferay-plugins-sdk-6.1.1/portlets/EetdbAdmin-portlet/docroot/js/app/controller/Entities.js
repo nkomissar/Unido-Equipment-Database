@@ -447,7 +447,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
 				var value = record.get('value');
 				
 				//remove squares
-				value = value.substring(1, value.lenght - 2);
+				//value = value.substring(1, value.lenght - 2);
 				
 				boxselect.bindStore(store);
 				boxselect.setValue(value);
