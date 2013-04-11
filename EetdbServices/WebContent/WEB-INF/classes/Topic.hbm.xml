@@ -21,7 +21,7 @@
 			<many-to-many column="ENTITY_ID" class="Entity" />
 		</set>
 
-		<set name="childTopics" table="UNIDO_TOPIC_LINK">
+		<set name="childTopics" table="UNIDO_TOPIC_LINK" cascade="none">
 			<key column="PARENT_TOPIC_ID" />
 			<many-to-many column="LINKED_TOPIC_ID" class="Topic" />
 		</set>

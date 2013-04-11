@@ -53,6 +53,8 @@ public interface Parser
                                 for (String value : values)
                                 {
                                     Long id = catalog.get(value.trim().toUpperCase());
+
+                                    // TODO: compose value
                                 }
                             }
                             else
