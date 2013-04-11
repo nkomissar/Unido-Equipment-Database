@@ -39,7 +39,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
             ,'entityitem button[action=create]': {
                 click: this.submitEntity
             }
-            ,'entityitem form combobox': {
+            ,'entityitem form combobox[name=entityTemplate]': {
                 select: this.applyTemplate
             }
             ,'entityitem button[action=addchildentity]': {
@@ -47,6 +47,9 @@ Ext.define('EetdbAdmin.controller.Entities', {
             }
             ,'entityitem button[action=removechildentity]': {
                 click: this.unlinkSelectedEntities
+            }
+            ,'entityitem fieldset': {
+            	reffieldcreated: this.fetchRefField
             }
             //should go to subcontroller
             ,'entitylistwindow[entityListWindowInstance=entitySearchForEntity] toolbar searchfield': {
@@ -428,5 +431,8 @@ Ext.define('EetdbAdmin.controller.Entities', {
 
     }
 
-    
+    ,fetchRefField: function( boxselect, record)
+    {
+    	debugger;
+    }
 });

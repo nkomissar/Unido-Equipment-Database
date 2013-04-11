@@ -1,4 +1,8 @@
 
+Ext.require([
+    'Ext.ux.form.field.BoxSelect'
+    ]);
+
 Ext.define('Ext.form.EntityPropertyFieldSet', {
     extend: 'Ext.form.FieldSet',
     
@@ -117,14 +121,16 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			
 		case "REFERENCE":
 			
-			me.add(Ext.widget('textfield', {
+			var boxselect = me.add(Ext.widget('boxselect', {
 				name: 'value',
-	            columnWidth: 0.5,
 	            fieldLabel: this.getLabel(record.TemplateProperty),
 	            defaults: { anchor: '100%' },
 	            layout: 'anchor',
-	            value: record.get('value')
+	            emptyText: 'Pick a value',
+	            //value: record.get('value')
 	        }));
+			
+			//me.fireEvent('reffieldcreated', boxselect, record);
 			
 			break;
 		}
