@@ -312,18 +312,14 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 			
 		});
 		
-		debugger;
-	
 		Ext.each(entity.GetEntityTemplate().properties().data.items, 
 				function(templProperty)
 				{
 					var entityProp = null;
-					debugger;
 					
 					Ext.each(entity['properties']().data.items,
 							function(prop)
 							{
-								debugger;
 								
 								if (prop.GetTemplateProperty().get('id') == templProperty.get('id'))
 								{

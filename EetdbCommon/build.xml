@@ -33,7 +33,7 @@
 	
 	<target name="compile">
 		<mkdir dir="${classes-dir}" />
-		<javac srcdir="${src-dir}" destdir="${classes-dir}" source="1.6" target="1.6" includeAntRuntime="false">
+		<javac srcdir="${src-dir}" destdir="${classes-dir}" source="1.6" target="1.6" includeAntRuntime="false" debug="true">
 			<classpath>
 				<pathelement path="${classpath}" />
 				<fileset dir="${lib-dir}">

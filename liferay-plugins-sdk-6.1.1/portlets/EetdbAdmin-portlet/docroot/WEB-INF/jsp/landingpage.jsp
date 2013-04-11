@@ -104,17 +104,27 @@
 	    	
 	    	Ext.apply(me[me.persistenceProperty], assData);
 	    	
-	    	for(var assName in assData)
+	    	Ext.each(sourceRecord.associations.items, function(association)
 	    	{
-	    	
-	    		if (Ext.isArray(assData[assName]))
-	    		{
+	        	assName = association.name;
+	        	
+	            if (association.type == 'hasMany')  
+	            {
+	            
 		    		var assStore = me[assName]();
 		    		assStore.clearFilter(true); //don't know why there is filter defined
 		    		assStore.loadData(assData[assName]);
-	    		}
-	    		
-	    	}
+		    		
+		    		return true;
+		    		
+	            }
+
+	            if (association.type == 'belongsTo' || association.type == 'hasOne')  
+	            {
+	            	me[association.instanceName].copyFrom(sourceRecord[association.instanceName]);
+	            }
+	            
+	    	});
 	    	
 	    }
 	    
