@@ -46,30 +46,5 @@ public abstract class GenericObject implements Comparable<GenericObject>
         return thisId < anotherId ? -1 : thisId == anotherId ? 0 : 1;
     }
 
-    public boolean equals(Object obj)
-    {
-        if (obj == null) { return false; }
-
-        GenericObject user = null;
-
-        try
-        {
-            user = (GenericObject) obj;
-        }
-        catch (ClassCastException cce)
-        {
-            return false;
-        }
-
-        long anotherId = user.getId();
-        long thisId = getId();
-
-        return thisId == anotherId;
-    }
-
-    public int hashCode()
-    {
-        long value = getId();
-        return (int) (value ^ (value >>> 32));
-    }
+   
 }
