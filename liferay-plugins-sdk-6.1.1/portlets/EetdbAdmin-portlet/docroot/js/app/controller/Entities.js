@@ -254,6 +254,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
 	        callback: function(records, operation, success) {
 	    	
 	        	values.entityTemplate = records[0].data;
+	        	Ext.apply(values.entityTemplate, records[0].getAssociatedData());
 	        	
 		    	if (store.count() == 0){
 		    		store.add(Ext.create('EetdbAdmin.model.Entity'));
