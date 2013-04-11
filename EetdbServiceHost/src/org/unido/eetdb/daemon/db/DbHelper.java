@@ -34,7 +34,7 @@ public class DbHelper
     private static final String              GET_PROPERTIES_SQL         = "select "
                                                                                 + "template.ENTITY_TEMPLATE_ID as template_id, "
                                                                                 + "TEMPLATE_PROPERTY_ID as template_property_id, "
-                                                                                + "UPPER(PROPERTY_CODE) as template_property_code "
+                                                                                + "UPPER(PROPERTY_CODE) as template_property_code, "
                                                                                 + "UPPER(TYPE) as value_type "
                                                                                 + "from "
                                                                                 + "UNIDO_ENTITY_TEMPLATE_PROPERTY properties "
@@ -42,7 +42,7 @@ public class DbHelper
                                                                                 + "UNIDO_ENTITY_TEMPLATE template "
                                                                                 + "on properties.ENTITY_TEMPLATE_ID=template.ENTITY_TEMPLATE_ID "
                                                                                 + "join "
-                                                                                + "UNIDO_VALUE_TYPE value_type"
+                                                                                + "UNIDO_VALUE_TYPE value_type "
                                                                                 + "on properties.VALUE_TYPE_ID=value_type.VALUE_TYPE_ID "
                                                                                 + "where "
                                                                                 + "UPPER(template.TEMPLATE_CODE)=?";

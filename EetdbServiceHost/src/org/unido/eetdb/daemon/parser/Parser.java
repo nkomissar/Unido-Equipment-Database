@@ -1,6 +1,7 @@
 package org.unido.eetdb.daemon.parser;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -49,12 +50,30 @@ public interface Parser
                             if (catalog != null)
                             {
                                 String[] values = propertyValue.split(",");
+                                List<Long> refValues = new ArrayList<Long>();
 
                                 for (String value : values)
                                 {
                                     Long id = catalog.get(value.trim().toUpperCase());
 
-                                    // TODO: compose value
+                                    if (id != null)
+                                    {
+                                        refValues.add(id);
+                                    }
+                                    else
+                                    {
+                                        logger.info(String.format(
+                                                "No catalog value for reference property: %s",
+                                                value));
+                                    }
+                                }
+
+                                if (refValues.size() > 0)
+                                {
+                                    property.setTemplateProperty(templateProperty);
+                                    property.setValue(refValues.toString());
+
+                                    entity.getProperties().add(property);
                                 }
                             }
                             else
@@ -67,9 +86,9 @@ public interface Parser
                         {
                             property.setTemplateProperty(templateProperty);
                             property.setValue(propertyValue);
-                        }
 
-                        entity.getProperties().add(property);
+                            entity.getProperties().add(property);
+                        }
                     }
                     else
                     {
