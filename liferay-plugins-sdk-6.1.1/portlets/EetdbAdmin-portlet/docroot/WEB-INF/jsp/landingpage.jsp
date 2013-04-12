@@ -59,29 +59,41 @@
 	Ext.data.writer.Json.override({
 	    getRecordData: function(record) {
 	    	
-	        var /*me = this, i, association, childStore, */data = {};
+	        var me = this, /*i, association,*/ childStore, data = {};
 	
 	        data = this.callParent(arguments);
 	
-	        /* Iterate over all the hasMany associations */
-	        /*for (i = 0; i < record.associations.length; i++) 
-	        {
-	
-	        	association = record.associations.get(i);
-	        	
-	            if (association.type == 'hasMany')  {
-	            
-	            	data[association.name] = [];
-	                childStore = eval('record.'+association.name+'()');
-	
-	                //Iterate over all the children in the current association
-	                childStore.each(function(childRecord) {
-						data[association.name].push(childRecord.getData());
-	                }, me);
-	            }
-	        }*/
+	        Ext.each(record.associations.items, 
+	        	function(association)
+	        	{
+		        	
+		            if (association.type == 'hasMany')  
+		            {
+		            
+		            	data[association.name] = [];
+		                childStore = record[association.name]();
+		
+		                //Iterate over all the children in the current association
+		                childStore.each(
+		                	function(childRecord) 
+		                	{
+								data[association.name].push(this.getRecordData(childRecord));
+		                	}, 
+		                	me);
+		                
+		                return true;
+		            }
+		            
+		            if (association.type == 'hasOne'
+		    			|| association.type == 'belongsTo')  
+		    		{
+		    			data[association.name] = me.getRecordData(record[association.getterName]());
+		    		}
+		            
+	        	}
+	        );
 	        
-	        Ext.apply(data,record.getAssociatedData());
+	        //Ext.apply(data,record.getAssociatedData());
 	                
 	        return data;
 	        
@@ -104,17 +116,25 @@
 	    	
 	    	Ext.apply(me[me.persistenceProperty], assData);
 	    	
-	    	for(var assName in assData)
-	    	{
-	    	
-	    		if (Ext.isArray(assData[assName]))
-	    		{
-		    		var assStore = me[assName]();
-		    		assStore.clearFilter(true); //don't know why there is filter defined
-		    		assStore.loadData(assData[assName]);
-	    		}
-	    		
-	    	}
+	    	Ext.each(sourceRecord.associations.items, 
+	    		function(association)
+		    	{
+		    		if (association.type == 'hasMany')  
+		    		{
+		    			var assName = association.name;
+						var assStore = me[assName]();
+		    			assStore.clearFilter(true); //don't know why there is filter defined
+		    			assStore.loadData(assData[assName]);
+		    			return true;
+		    		}
+		    		
+		    		if (association.type == 'hasOne'
+		    			|| association.type == 'belongsTo')  
+		    		{
+		    			me[association.instanceName].copyFrom(sourceRecord[association.getterName]());
+		    		}
+		    	}
+	    	);
 	    	
 	    }
 	    

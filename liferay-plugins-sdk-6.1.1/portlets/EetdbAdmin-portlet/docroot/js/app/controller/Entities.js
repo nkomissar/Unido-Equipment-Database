@@ -449,6 +449,11 @@ Ext.define('EetdbAdmin.controller.Entities', {
 				//remove squares
 				//value = value.substring(1, value.lenght - 2);
 				
+		        /*if (Ext.isString(value)) {
+		            value = value.split(boxselect.delimiter);
+		        }
+		        value = Ext.Array.from(value, true);*/
+				
 				boxselect.bindStore(store);
 				boxselect.setValue(value);
 			}

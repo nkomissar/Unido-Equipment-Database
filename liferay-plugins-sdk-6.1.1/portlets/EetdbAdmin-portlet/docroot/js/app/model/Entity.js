@@ -9,6 +9,16 @@ Ext.define('EetdbAdmin.model.Entity', {
     
     fields: [
          {name: 'id',  type: 'long'}
+        ,{ //for comboboxes values
+        	name: 'stringId',  
+        	type: 'string',
+        	persist: false,
+        	convert: function(value, record) 
+        	{
+        		var id = record.get('id');
+        		return id + "";
+        	}
+        }
         ,{name: 'name', type: 'string'}
         ,{name: 'version', type: 'long'}
     ]

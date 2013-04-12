@@ -30,7 +30,7 @@
 }
 
 /* Preview classes */
-.articlepreview .x-toolbar {
+/*.articlepreview .x-toolbar {
 	border-top-width: 1px !important;
 }
 
@@ -44,7 +44,7 @@
 	line-height: 18px;
 	margin: 8px 0;
 }
-
+*/
 .preview .x-panel-body ul {
 	margin-left: 0px;
 	margin-right: 0px;
@@ -72,7 +72,7 @@
 	list-style-type: disc !important;
 	margin-left: 18px;
 }*/
-
+/*
 .preview .x-panel-body pre,#preview .x-panel-body code {
 	background: #f1f1f1;
 	display: block;
@@ -100,7 +100,7 @@
 .preview .x-panel-body div.post-body {
 	padding: 10px;
 }
-
+*/
 /*.x-tab-bar-body {
 	border-width: 1px 1px 0 1px !important;
 }*/
