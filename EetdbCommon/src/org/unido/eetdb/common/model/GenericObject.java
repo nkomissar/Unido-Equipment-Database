@@ -45,6 +45,4 @@ public abstract class GenericObject implements Comparable<GenericObject>
 
         return thisId < anotherId ? -1 : thisId == anotherId ? 0 : 1;
     }
-
-   
 }
