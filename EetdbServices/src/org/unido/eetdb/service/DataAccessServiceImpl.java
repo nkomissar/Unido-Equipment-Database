@@ -258,7 +258,7 @@ public class DataAccessServiceImpl implements DataAccessService
             {
                 for (Entity child : topic.getEntitiesOfTopic())
                 {
-                    ensureChilds(child, true);
+                    ensureChilds(child, doAbort);
                 }
 
                 for (Topic childTopic : topic.getChildTopics())
