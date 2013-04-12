@@ -124,7 +124,7 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			var boxselect = me.add(Ext.widget('boxselect', {
 				name: 'value',
 		        displayField: 'name',
-		        valueField: 'id',
+		        valueField: 'stringId',
 		        delimiter: ',',
 	            fieldLabel: this.getLabel(record.TemplateProperty),
 	            defaults: { anchor: '100%' },
