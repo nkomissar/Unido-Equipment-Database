@@ -81,7 +81,25 @@
 						<c:out value="${prop.templateProperty.name}" />
 					</aui:column>
 					<aui:column>
-						<c:out value="${prop.value}" />
+						<c:choose>
+							<c:when test="${prop.templateProperty.valueType.type == 'REFERENCE'}">
+								<c:forTokens items="${prop.value}" delims="," var="strId">
+								
+									<portlet:renderURL var="showEnityURL">
+					      				<portlet:param name="action" value="showEntity" />
+					      				<portlet:param name="entityId" value="${strId}" />
+					    			</portlet:renderURL>
+					    											
+									<aui:a href="${showEnityURL}"><c:out value="${referencedEntities.get(strId).getName()}"/></aui:a>
+									&nbsp;
+									
+								</c:forTokens>
+							</c:when>
+							<c:otherwise>
+								<c:out value="${prop.value}" />
+							</c:otherwise>
+						</c:choose>
+						
 					</aui:column>
 				</aui:layout>
 				

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib 
+    version="2.1" 
+    xmlns="http://java.sun.com/xml/ns/javaee" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+
+    <display-name>Eetdb Functions</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>eetdb</short-name>
+    <uri>/WEB-INF/tld/eetdb.tld</uri>
+
+    <function>
+        <name>asSortedList</name>
+        <function-class>org.unido.eetdb.util.CustomComparatorUtil</function-class>
+        <function-signature>java.util.List asSortedList(java.util.Collection)</function-signature>
+    </function>
+    <function>
+        <name>sortPropertyByCode</name>
+        <function-class>org.unido.eetdb.util.CustomComparatorUtil</function-class>
+        <function-signature>java.util.List sortPropertyByCode(java.util.Collection)</function-signature>
+    </function>
+    <function>
+        <name>getFullName</name>
+        <function-class>org.unido.eetdb.presentationUtil.EntityHelper</function-class>
+        <function-signature>java.lang.String getFullName(org.unido.eetdb.common.model.EntityProperty)</function-signature>
+    </function>
+</taglib>
