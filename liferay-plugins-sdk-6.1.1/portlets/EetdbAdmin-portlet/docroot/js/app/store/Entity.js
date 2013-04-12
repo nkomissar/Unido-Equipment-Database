@@ -31,18 +31,28 @@ Ext.define('EetdbAdmin.store.Entity', {
 		loadUrl.setPortletId(portletId);
 		loadUrl.setWindowState(exclusiveWindowState);
 		
-        loadUrl.setParameter('action', 'doEntityLoad');
         
         if (typeof options !== 'undefined' 
-        	&& typeof options.params !== 'undefined'
-        	&& typeof options.params.entityId !== 'undefined') {
+        	&& typeof options.params !== 'undefined')
+        {
+        	if (typeof options.params.entityId !== 'undefined') 
+        	{
         	
-        	loadUrl.setParameter('entityId', options.params.entityId);
+        		loadUrl.setParameter('action', 'doEntityLoad');
+        		loadUrl.setParameter('entityId', options.params.entityId);
+        	}
+
+        	if(typeof options.params.templateCode !== 'undefined')
+    		{
+	    	    loadUrl.setParameter('action', 'doEntityLoadByTemplateCode');
+		    	loadUrl.setParameter('templateCode', options.params.templateCode);
+    		}
         
-        } else {
+        } 
+        else 
+        {
         	
-        	loadUrl.setParameter('entityId', 1);
-        	
+        	return;
         }
         
         this.proxy.url = loadUrl.toString();
