@@ -44,9 +44,9 @@ VALUES (7, 'ENTITY_ID', 'REFERENCE', 'system', sysdate());
 -- -------------------------------------------------------------------
 -- fill TOPIC
 -- -------------------------------------------------------------------
-set @top_id = add_topic('Оборудование', 'Оборудование');
+set @top_id = add_topic('Энергосберегающие технологии', 'Примеры и описания энергосберегающих технологий');
 
-set @last_id = add_middle_topic(@top_id, 'Энергосберегающие технологии', 'Примеры и описания энергосберегающих технологий');
+set @top_id = add_topic('Оборудование', 'Оборудование');
 
 set @last_id = add_middle_topic(@top_id, 'Производство тепла', 'Оборудование для производства тепла');
 call add_child_topic(@last_id, 'Жидкотопливные и газовые горелки', 'Жидкотопливные и газовые горелки');
@@ -145,12 +145,10 @@ call add_template_property(@last_id, 'ECONOMY_COMMENT', 'Условия экон
 
 -- TEMPLATE PIPE --
 set @last_id = eetdb.add_template('PIPE', 'Труба');
-call add_template_property(@last_id, 'PIPE_TYPE', 'Тип трубы', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'STRING', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
-call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '', 1, 0, 1);
 call add_template_property(@last_id, 'DIAMETER', 'Диаметр', 'NUMBER', 'СМ', 1, 1, 1);
 call add_template_property(@last_id, 'DIAMETER_MIDDLE', 'Внутренний диаметр', 'NUMBER', 'СМ', 1, 1, 0);
 call add_template_property(@last_id, 'DIAMETER_OUT', 'Внешний диаметр', 'NUMBER', 'СМ', 1, 1, 0);
@@ -168,6 +166,35 @@ call add_template_property(@last_id, 'VENDOR', 'Производитель', 'RE
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '', 1, 0, 1);
 call add_template_property(@last_id, 'FUEL', 'Топливо', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'POWER', 'Мощность', 'NUMBER', 'кВт', 1, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'STRING', '', 0, 1, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
+
+-- TEMPLATE BOILERS_BLOCK --
+set @last_id = eetdb.add_template('BOILERS_BLOCK', 'Блочные котельные');
+call add_template_property(@last_id, 'BOILERS_BLOCK_TYPE', 'Тип котельной', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'STRING', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '', 1, 0, 1);
+call add_template_property(@last_id, 'FUEL', 'Топливо', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'POWER', 'Мощность', 'NUMBER', 'кВт', 1, 1, 1);
+call add_template_property(@last_id, 'STEAM_POWER', 'Мощность пара', 'NUMBER', 'кг/ч', 1, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'STRING', '', 0, 1, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
+
+- TEMPLATE BURNER --
+set @last_id = eetdb.add_template('BURNER', 'Нагреватель воды');
+call add_template_property(@last_id, 'BURNER_TYPE', 'Тип нагревателя', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'STRING', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '', 1, 0, 1);
+call add_template_property(@last_id, 'FUEL', 'Топливо', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'POWER', 'Выходная мощность', 'NUMBER', 'кВт', 1, 1, 1);
+call add_template_property(@last_id, 'POWER_MIN', 'Выходная мощность минимальная', 'NUMBER', 'кВт', 1, 1, 1);
+call add_template_property(@last_id, 'POWER_MAX', 'Выходная мощность максимальная', 'NUMBER', 'кВт', 1, 1, 1);
 call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'STRING', '', 0, 1, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
 
@@ -198,6 +225,10 @@ set @boiler_type1 = eetdb.add_entity('BOILER_TYPE', 'Паровой котел')
 set @boiler_type2 = eetdb.add_entity('BOILER_TYPE', 'Отопительный котел');
 set @boiler_type3 = eetdb.add_entity('BOILER_TYPE', 'Конденсационный котел');
 set @boiler_type4 = eetdb.add_entity('BOILER_TYPE', 'Низкотемпературный котел');
+
+set @last_id = eetdb.add_template('BOILERS_BLOCK_TYPE', 'Тип котельной');
+set @last_id = eetdb.add_entity('BOILERS_BLOCK_TYPE', 'Отопительные блочные котлы');
+set @last_id = eetdb.add_entity('BOILERS_BLOCK_TYPE', 'Конденсационные блочные котлы');
 
 set @last_id = eetdb.add_template('BURNER_TYPE', 'Тип горелки');
 set @last_id = eetdb.add_entity('BURNER_TYPE', 'Промышленная горелка');
