@@ -28,8 +28,8 @@
 	var doEntityLoadURL, doEntityTemplateListURL
 		,entityTemplateControllerURL, portletUrl;
 	
-	var portletId = '${portletDisplay.getId()}';
-	var exclusiveWindowState = '<%=LiferayWindowState.EXCLUSIVE.toString()%>';
+	var portletId = '<%= portletDisplay.getId() %>';
+	var exclusiveWindowState = '<%= LiferayWindowState.EXCLUSIVE.toString() %>';
 	
 </script>
 
