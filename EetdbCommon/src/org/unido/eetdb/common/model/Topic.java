@@ -7,7 +7,6 @@ public class Topic extends GenericObject
 {
     private String      name;
     private String      description;
-    private Set<Entity> entitiesOfTopic = new HashSet<Entity>();
     private Set<Topic>  childTopics = new HashSet<Topic>();
     
     public String getName()
@@ -26,15 +25,6 @@ public class Topic extends GenericObject
     public void setDescription(String description)
     {
         this.description = description;
-    }
-    
-    public Set<Entity> getEntitiesOfTopic()
-    {
-        return entitiesOfTopic;
-    }
-    public void setEntitiesOfTopic(Set<Entity> entitiesOfTopic)
-    {
-        this.entitiesOfTopic = entitiesOfTopic;
     }
     
     public Set<Topic> getChildTopics()

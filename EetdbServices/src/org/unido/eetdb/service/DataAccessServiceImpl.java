@@ -252,19 +252,12 @@ public class DataAccessServiceImpl implements DataAccessService
             if (doAbort)
             {
                 topic.setChildTopics(null);
-                topic.setEntitiesOfTopic(null);
             }
             else
             {
-                for (Entity child : topic.getEntitiesOfTopic())
-                {
-                    ensureChilds(child, doAbort);
-                }
-
                 for (Topic childTopic : topic.getChildTopics())
                 {
                     childTopic.setChildTopics(null);
-                    childTopic.setEntitiesOfTopic(null);
                 }
             }
         }
@@ -287,6 +280,7 @@ public class DataAccessServiceImpl implements DataAccessService
             {
                 entity.setChildEntities(null);
                 entity.setProperties(null);
+                entity.setParentTopics(null);
             }
             else
             {
@@ -296,6 +290,7 @@ public class DataAccessServiceImpl implements DataAccessService
                 }
 
                 entity.getProperties().size();
+                entity.getParentTopics().size();
             }
 
             ensureChilds(entity.getEntityTemplate(), doAbort);

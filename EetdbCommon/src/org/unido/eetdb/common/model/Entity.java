@@ -3,8 +3,6 @@ package org.unido.eetdb.common.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 public class Entity extends GenericObject
 {
     private String              name;
@@ -53,7 +51,6 @@ public class Entity extends GenericObject
         this.entityTemplate = entityTemplate;
     }
 
-    @JsonIgnore
     public Set<Topic> getParentTopics()
     {
         return parentTopics;
