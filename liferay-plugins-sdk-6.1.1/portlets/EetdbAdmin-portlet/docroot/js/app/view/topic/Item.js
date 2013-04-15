@@ -38,7 +38,7 @@ Ext.define('EetdbAdmin.view.topic.Item', {
                     plain:true,
                     activeTab: 0,
                     anchor: '100% -95',
-                    items:[{
+                    items:[/*{
                         title:'Linked Entities',
 	                	layout: 'anchor',
 	                	bodyPadding: 10,
@@ -89,7 +89,7 @@ Ext.define('EetdbAdmin.view.topic.Item', {
 								}]
 	                	}]
                     	
-                    },{
+                    },*/{
                         title:'Linked Topics',
 	                	layout: 'anchor',
 	                	bodyPadding: 10,
@@ -157,14 +157,14 @@ Ext.define('EetdbAdmin.view.topic.Item', {
 	,loadRecord: function(topic) {
 
 		var form = this.down('form');
-		var entitiesDataview = form.down('dataview[name="linkedEntities"]');
-		var entitiesStore = topic.entitiesOfTopic();
+		//var entitiesDataview = form.down('dataview[name="linkedEntities"]');
+		//var entitiesStore = topic.entitiesOfTopic();
 		var topicsDataview = form.down('dataview[name="linkedTopics"]');
 		var topicsStore = topic.childTopics();
 		
 		form.loadRecord(topic);
 
-		entitiesDataview.bindStore(entitiesStore);
+		//entitiesDataview.bindStore(entitiesStore);
 		
 		topicsDataview.bindStore(topicsStore);
 		
@@ -203,7 +203,7 @@ Ext.define('EetdbAdmin.view.topic.Item', {
     		topic['description'] = description.getValue();
     	}
     	
-    	if(typeof entitiesDataview != 'undefined')
+    	/*if(typeof entitiesDataview != 'undefined')
     	{
     		entitiesDataview.getStore().each(function(item){
     			
@@ -214,7 +214,7 @@ Ext.define('EetdbAdmin.view.topic.Item', {
         		}
     			
     		});
-    	}
+    	}*/
 
     	if(typeof topicsDataview != 'undefined')
     	{

@@ -1,7 +1,7 @@
 Ext.define('EetdbAdmin.model.Entity', {
     extend: 'Ext.data.Model',
     
-    requires:['EetdbAdmin.model.EntityProperty', 'EetdbAdmin.model.EntityTemplate'], 
+    requires:['EetdbAdmin.model.EntityProperty', 'EetdbAdmin.model.EntityTemplate', 'EetdbAdmin.model.Topic'], 
               
     proxy: {
         type: 'memory'
@@ -47,40 +47,13 @@ Ext.define('EetdbAdmin.model.Entity', {
 	    	autoLoad: true,
 	    	associationKey: 'childEntities',
 	    	instanceName: 'childEntities'
+	    },{
+	    	model: 'EetdbAdmin.model.Topic', 
+	    	name: 'parentTopics', 
+	    	autoLoad: true,
+	    	associationKey: 'parentTopics',
+	    	instanceName: 'parentTopics'
 	    }
 	]
-    
-	/*,set: function(fieldName, newValue)
-	{
-
-		var me = this, 
-         	single = (typeof fieldName == 'string');
-		 
-		 this.callParent(arguments);
-
-		 if (single)
-		 {
-			 return;
-		 }
-
-		 me.dirty = true;
-		 me.properties().removeAll();
-		 
-		 if (typeof fieldName['properties'] == 'undefined')
-		 {
-			 return;
-		 }
-			 
-		 me.properties().add(fieldName['properties']);
-
-		 if (typeof fieldName['entityTemplate'] == 'undefined')
-		 {
-			 return;
-		 }
-
-		 me['EntityTemplate'] = fieldName['entityTemplate'];
-		 
-	}*/
-    
     
 });
