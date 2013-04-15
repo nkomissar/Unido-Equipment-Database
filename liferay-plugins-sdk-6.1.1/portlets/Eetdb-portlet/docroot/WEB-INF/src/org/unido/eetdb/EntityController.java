@@ -1,6 +1,11 @@
 package org.unido.eetdb;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -14,8 +19,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.unido.eetdb.common.model.Entity;
+import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntityTemplate;
+import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.presentationUtil.ComparisonHelper;
+import org.unido.eetdb.presentationUtil.EntityHelper;
 import org.unido.eetdb.util.ConfigWrapper;
 
 @Controller
@@ -76,9 +84,14 @@ public class EntityController {
 			entity.setChildEntities(entities);
 		}
 		
+		
+		Set<String> refCodes = new HashSet<String>();
+		Map<String, Entity> referencedEntities = new HashMap<String, Entity>();
+		
 		model.addAttribute("entity", entity);
 		model.addAttribute("isInComparison", ComparisonHelper.isInComparison(entity, request));
 		model.addAttribute("comparisonCount", ComparisonHelper.getComparison(request).size());
+		model.addAttribute("referencedEntities", EntityHelper.fetchReferencedEntities(request, referencedEntities, refCodes, entity));
 		
 		return "entity";
 	}

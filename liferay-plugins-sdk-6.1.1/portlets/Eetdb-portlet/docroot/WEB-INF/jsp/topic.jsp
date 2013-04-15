@@ -6,6 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui"%>
+<%@ taglib uri="/WEB-INF/tld/eetdb.tld" prefix="eetdb"%>
 
 <%@ page import="com.liferay.portal.service.persistence.PortletUtil"%>
 <%@ page import="com.liferay.portal.util.PortalUtil"%>
@@ -19,11 +20,13 @@
 <%@ page import="com.liferay.portal.kernel.util.OrderByComparator"%>
 <%@ page import="org.unido.eetdb.common.model.Topic"%>
 <%@ page import="org.unido.eetdb.common.model.Entity"%>
+<%@ page import="org.unido.eetdb.common.model.EntityProperty"%>
 <%@ page import="org.unido.eetdb.common.model.EntityTemplate"%>
 <%@ page import="org.unido.eetdb.util.CustomComparatorUtil"%>
 <%@ page import="java.util.ArrayList"%>
 <%@ page import="java.util.List"%>
 <%@ page import="java.util.Collections"%>
+<%@ page import="java.util.Collection"%>
 <%@ page import="java.util.Iterator"%>
 <%@ page import="java.util.Map"%>
 <%@ page import="java.util.HashMap"%>
@@ -122,6 +125,35 @@
 									<liferay-ui:search-container-column-text name="Id" property="id" orderable="true" orderableProperty="id" href="${showEnityURL}"/>
 									<liferay-ui:search-container-column-text name="Название" property="name" orderable="true" orderableProperty="name" href="${showEnityURL}"/>
 									<liferay-ui:search-container-column-text name="Тип" value="${entity.entityTemplate.name}" />
+									
+									<c:forEach items="${eetdb:sortPropertyByCode(entity.properties)}" var="property">
+									
+										<c:if test="${property.templateProperty.displayInGrid}">
+											
+											
+											
+											<liferay-ui:search-container-column-text name="${eetdb:getFullName(property)}">
+												<c:choose>
+													<c:when test="${property.templateProperty.valueType.type == 'REFERENCE'}">
+														<c:forTokens items="${property.value}" delims="," var="strId">
+														
+															<portlet:renderURL var="showEnityURL">
+												     				<portlet:param name="action" value="showEntity" />
+												     				<portlet:param name="entityId" value="${strId}" />
+												   			</portlet:renderURL>
+												   											
+															<aui:a href="${showEnityURL}"><c:out value="${referencedEntities.get(strId).getName()}"/></aui:a>
+															&nbsp;
+															
+														</c:forTokens>
+													</c:when>
+													<c:otherwise>
+														<c:out value="${property.value}" />
+													</c:otherwise>
+												</c:choose>
+											</liferay-ui:search-container-column-text>										
+										</c:if>
+									</c:forEach>
 					
 								</liferay-ui:search-container-row>
 					

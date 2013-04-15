@@ -22,6 +22,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.Topic;
+import org.unido.eetdb.presentationUtil.EntityHelper;
 import org.unido.eetdb.presentationUtil.TopicHelper;
 import org.unido.eetdb.util.ConfigWrapper;
 import org.unido.eetdb.util.CustomComparatorUtil;
@@ -94,6 +95,15 @@ public class TopicsController {
 
 		Map<EntityTemplate, List<Entity>> entitiesByTemplate = TopicHelper
 				.groupEntitiesByTemplate(topic);
+		
+		Set<String> refCodes = new HashSet<String>();
+		Map<String, Entity> referencedEntities = new HashMap<String, Entity>();
+		
+		for(Entity entity: topic.getEntitiesOfTopic())
+		{
+			EntityHelper
+				.fetchReferencedEntities(request, referencedEntities, refCodes, entity);
+		}
 
 		try {
 
@@ -107,7 +117,8 @@ public class TopicsController {
 		}
 
 		model.addAttribute("topic", topic);
-
+		model.addAttribute("referencedEntities", referencedEntities);
+		
 		return "topic";
 	}
 
