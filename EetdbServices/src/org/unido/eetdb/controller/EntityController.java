@@ -69,4 +69,12 @@ public class EntityController
     {
         return dataAccessService.getEntitiesByTemplateCode(code);
     }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/entities-by-topic/{topicId}")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    public @ResponseBody
+    Set<Entity> getEntitiesByTopic(@PathVariable Long topicId)
+    {
+        return null;//dataAccessService.getEntitiesByTemplateCode(topicId);
+    }
 }

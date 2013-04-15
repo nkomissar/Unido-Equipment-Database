@@ -286,7 +286,12 @@ public class DataAccessServiceImpl implements DataAccessService
             {
                 for (Entity child : entity.getChildEntities())
                 {
-                    ensureChilds(child, false);
+                    ensureChilds(child, doAbort);
+                }
+                
+                for (Topic topic : entity.getParentTopics())
+                {
+                    ensureChilds(topic, doAbort);
                 }
 
                 entity.getProperties().size();
