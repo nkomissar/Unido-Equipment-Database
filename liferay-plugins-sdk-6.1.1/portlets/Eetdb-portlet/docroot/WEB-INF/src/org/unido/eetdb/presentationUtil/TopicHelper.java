@@ -23,7 +23,7 @@ public class TopicHelper {
 		
 		Map<EntityTemplate, List<Entity>> entitiesByTemplate = new HashMap<EntityTemplate, List<Entity>>();
 		
-		for(Entity entity : topic.getEntitiesOfTopic())
+		/*for(Entity entity : topic.getEntitiesOfTopic())
 		{
 
 			EntityTemplate template = entity.getEntityTemplate();
@@ -35,7 +35,7 @@ public class TopicHelper {
 			List<Entity> sameTemplateEntities = entitiesByTemplate.get(template);
 			sameTemplateEntities.add(entity);
 			
-		} 
+		} */
 		
 		return entitiesByTemplate;
 	}

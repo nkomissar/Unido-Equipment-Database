@@ -272,6 +272,57 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 								}]
 	                	}]
                     	
+                    },{
+                        title:'Parent Topics',
+	                	layout: 'anchor',
+	                	bodyPadding: 10,
+	                	items:[{
+							xtype: 'dataview',
+							trackOver: true,
+							overflowY: 'scroll',
+							anchor: '100% -30',
+							store: 
+							{
+								model: 'EetdbAdmin.model.Topic'
+							},
+							cls: 'topic-list',
+							itemSelector: '.topic-list-item',
+							overItemCls: 'topic-list-item-hover',
+							tpl: '<tpl for="."><div class="topic-list-item">{name}</div></tpl>',
+							name: 'parentTopics',
+							listeners: {
+								selectionchange: function(selModel, selected){
+									 
+									var btnRemove = this.ownerCt.down('button[action=removeparenttopic]');
+									
+									if (selected.length > 0)
+									{
+										btnRemove.enable();
+									}
+									else
+									{
+										btnRemove.disable();
+									}
+									
+								}
+							}
+	                	},{
+							xtype: 'container',
+							anchor: '100%',
+							items:[{
+									xtype: 'button',
+									text: 'Add',
+									action: 'addparenttopic',
+									margin: '5 5 0 5'
+								},{
+									xtype: 'button',
+									text: 'Remove',
+									action: 'removeparenttopic',
+									margin: '5 5 0 5',
+									disabled: true
+								}]
+	                	}]
+                    	
                     }]
         		}],
         		buttons: [{
@@ -360,6 +411,10 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 		
 		entitiesDataview.bindStore(entitiesStore);
 		
+		var topicsDataview = form.down('dataview[name="parentTopics"]');
+		var topicsStore = entity.parentTopics();
+		
+		topicsDataview.bindStore(topicsStore);		
 	}
 	
 	,getFieldValues: function() {
@@ -374,7 +429,7 @@ Ext.define('EetdbAdmin.view.entity.Item', {
     	var fieldSets = form.query('entitypropertyfieldset');
     	var entityTemplateCombo = form.down('[isFormField][name="entityTemplate"]');
 		var entitiesDataview = form.down('dataview[name="linkedEntities"]');
-    	
+		var topicsDataview = form.down('dataview[name="parentTopics"]');    	
 
     	if(typeof id != 'undefined')
     	{
@@ -420,7 +475,21 @@ Ext.define('EetdbAdmin.view.entity.Item', {
         		}
     			
     		});
-    	}    	
+    	}
+    	
+    	if(typeof topicsDataview != 'undefined')
+    	{
+    		topicsDataview.getStore().each(function(item){
+    			
+    			if (entity.hasOwnProperty('parentTopics')){
+    				entity['parentTopics'].push(item.data);
+        		} else {
+        			entity['parentTopics'] = [item.data];
+        		}
+    			
+    		});
+    	}
+    	
 		return entity;
 	}
 	

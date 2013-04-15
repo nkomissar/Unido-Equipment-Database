@@ -90,7 +90,7 @@ public class TopicsController {
 					i--;
 				}
 			}
-			topic.setEntitiesOfTopic(entities);
+			//topic.setEntitiesOfTopic(entities);
 		}
 
 		Map<EntityTemplate, List<Entity>> entitiesByTemplate = TopicHelper
@@ -99,11 +99,11 @@ public class TopicsController {
 		Set<String> refCodes = new HashSet<String>();
 		Map<String, Entity> referencedEntities = new HashMap<String, Entity>();
 		
-		for(Entity entity: topic.getEntitiesOfTopic())
+		/*for(Entity entity: topic.getEntitiesOfTopic())
 		{
 			EntityHelper
 				.fetchReferencedEntities(request, referencedEntities, refCodes, entity);
-		}
+		}*/
 
 		try {
 
@@ -252,7 +252,7 @@ public class TopicsController {
 					searchContainer.getStart(), searchContainer.getEnd()));
 
 			searchContainer.setTotal(topicEntities.size());
-
+			
 			searchContainers.put(template, searchContainer);
 
 		}

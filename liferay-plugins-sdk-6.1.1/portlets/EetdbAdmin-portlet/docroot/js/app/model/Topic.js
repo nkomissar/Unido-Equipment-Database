@@ -1,7 +1,7 @@
 Ext.define('EetdbAdmin.model.Topic', {
     extend: 'Ext.data.Model',
     
-    requires:['EetdbAdmin.model.Entity'], 
+    ///requires:['EetdbAdmin.model.Entity'], 
               
     proxy: {
         type: 'memory'
@@ -21,13 +21,13 @@ Ext.define('EetdbAdmin.model.Topic', {
 	    	autoLoad: true,
 	    	associationKey: 'childTopics',
 	    	instanceName: 'childTopics'
-	    },{
+	    }/*,{
 	    	model: 'EetdbAdmin.model.Entity', 
 	    	name: 'entitiesOfTopic', 
 	    	autoLoad: true,
 	    	associationKey: 'entitiesOfTopic',
 	    	instanceName: 'entitiesOfTopic'
-	    }
+	    }*/
 	]
     
 });

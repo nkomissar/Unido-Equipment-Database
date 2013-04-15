@@ -3,7 +3,7 @@ Ext.define('EetdbAdmin.controller.Topics', {
 
     stores: ['TopicSearchResult', 'Topic'],
     models: ['Topic'],
-    views: ['topic.List', 'topic.Item', 'entity.ListWindow', 'topic.ListWindow'],
+    views: ['topic.List', 'topic.Item', /*'entity.ListWindow',*/ 'topic.ListWindow'],
     
     refs: [
         {ref: 'topicList', 			selector: 'topiclist[topicListInstance=mainTopicSearch]'},
@@ -11,21 +11,21 @@ Ext.define('EetdbAdmin.controller.Topics', {
         {ref: 'searchQuery', 		selector: 'topiclist[topicListInstance=mainTopicSearch] toolbar searchfield'},
         {ref: 'topicItem', 			selector: 'topicitem'},
         {ref: 'topicForm', 			selector: 'topicitem form'},
-        {ref: 'linkedEntities', 	selector: 'topicitem form dataview[name=linkedEntities]'},
-        {ref: 'entitySearchData', 	selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] dataview'},
-        {ref: 'entitySearchQuery', 	selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield'},
+        //{ref: 'linkedEntities', 	selector: 'topicitem form dataview[name=linkedEntities]'},
+        //{ref: 'entitySearchData', 	selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] dataview'},
+        //{ref: 'entitySearchQuery', 	selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield'},
         {ref: 'linkedTopics', 		selector: 'topicitem form dataview[name=linkedTopics]'},
         {ref: 'topicSearchData', 	selector: 'topiclistwindow[topicListInstance=topicSearchForTopic] dataview'},
         {ref: 'topicSearchQuery', 	selector: 'topiclistwindow[topicListInstance=topicSearchForTopic] toolbar searchfield'},
-        {
+        /*{
             ref: 'entityListWindow', 
             selector: 'entitylistwindow[entityListWindowInstance=entitySearchForTopic]', 
             autoCreate: true,
             xtype: 'entitylistwindow',
             entityListWindowInstance: 'entitySearchForTopic'
             	
-        },
-        {
+        }
+        ,*/{
             ref: 'topicListWindow', 
             selector: 'topiclistwindow[topicListInstance=topicSearchForTopic]', 
             autoCreate: true,
@@ -49,12 +49,12 @@ Ext.define('EetdbAdmin.controller.Topics', {
             ,'topicitem button[action=create]': {
                 click: this.submitTopic
             }
-            ,'topicitem button[action=addchildentity]': {
+            /*,'topicitem button[action=addchildentity]': {
                 click: this.showAddChildEntity
             }
             ,'topicitem button[action=removechildentity]': {
                 click: this.unlinkSelectedEntities
-            }
+            }*/
             ,'topicitem button[action=addchildtopic]': {
                 click: this.showAddChildTopic
             }
@@ -62,12 +62,12 @@ Ext.define('EetdbAdmin.controller.Topics', {
                 click: this.unlinkSelectedTopics
             }            
             //should go to subcontroller
-            ,'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield': {
+            /*,'entitylistwindow[entityListWindowInstance=entitySearchForTopic] toolbar searchfield': {
             	triggerclick: this.doEntitySearch
             }
             ,'entitylistwindow[entityListWindowInstance=entitySearchForTopic] button[action=add]': {
             	click: this.linkSelectedEntities
-            }
+            }*/
             ,'topiclistwindow[topicListWindowInstance=topicSearchForTopic] toolbar searchfield': {
             	triggerclick: this.doTopicSearch
             }
@@ -91,6 +91,7 @@ Ext.define('EetdbAdmin.controller.Topics', {
         
         dataview.bindStore(store);
 		
+        /*
 		var entitySearchStore = Ext.create(this.application.getModuleClassName('EntitySearchResult', 'store'));
 		var entitySearchView = this.getEntityListWindow();
 		var entitySearchDataView = entitySearchView.down('dataview');
@@ -98,6 +99,7 @@ Ext.define('EetdbAdmin.controller.Topics', {
 		entitySearchView.entityListWindowInstance = 'entitySearchForTopic';
 		
 		entitySearchDataView.bindStore(entitySearchStore);
+		*/
 
 		var topicSearchStore = Ext.create(this.application.getModuleClassName('TopicSearchResult', 'store'));
 		var topicSearchView = this.getTopicListWindow();
@@ -306,6 +308,7 @@ Ext.define('EetdbAdmin.controller.Topics', {
 
     }
     
+    /*
     ,showAddChildEntity: function() {
     	this.getEntityListWindow().show();
     }
@@ -367,7 +370,8 @@ Ext.define('EetdbAdmin.controller.Topics', {
 		
 
     }
-
+	*/
+    
     ,showAddChildTopic: function() {
     	this.getTopicListWindow().show();
     }
