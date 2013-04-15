@@ -21,6 +21,24 @@ public interface Parser
     {
         private static final Logger logger = Logger.getLogger(EntityFiller.class);
 
+        private static String buildCommaSeparatedValues(List<Long> values)
+        {
+            StringBuffer retVal = new StringBuffer();
+            String strSeparator = ",";
+
+            if (values.size() > 0)
+            {
+                retVal.append(values.get(0));
+
+                for (int i = 1; i < values.size(); i++)
+                {
+                    retVal.append(strSeparator).append(values.get(i));
+                }
+            }
+
+            return retVal.toString();
+        }
+
         public static Entity fillEntity(DataAccessor dataAccessor, DbHelper dbHelper)
         {
             Entity entity = null;
@@ -62,7 +80,7 @@ public interface Parser
                                     }
                                     else
                                     {
-                                        logger.info(String.format(
+                                        logger.error(String.format(
                                                 "No catalog value for reference property: %s",
                                                 value));
                                     }
@@ -71,14 +89,14 @@ public interface Parser
                                 if (refValues.size() > 0)
                                 {
                                     property.setTemplateProperty(templateProperty);
-                                    property.setValue(refValues.toString());
+                                    property.setValue(buildCommaSeparatedValues(refValues));
 
                                     entity.getProperties().add(property);
                                 }
                             }
                             else
                             {
-                                logger.info(String.format("No catalog for reference property: %s",
+                                logger.error(String.format("No catalog for reference property: %s",
                                         templateProperty.getCode()));
                             }
                         }
@@ -105,11 +123,19 @@ public interface Parser
                 {
                     topicCode = dataAccessor.readValue("CATEGORY" + categoryIndex++);
 
-                    Topic topic = dbHelper.getTopic(topicCode);
-
-                    if (topic != null)
+                    if (topicCode != null)
                     {
-                        entity.getParentTopics().add(topic);
+
+                        Topic topic = dbHelper.getTopic(topicCode);
+
+                        if (topic != null)
+                        {
+                            entity.getParentTopics().add(topic);
+                        }
+                        else
+                        {
+                            logger.error(String.format("Unknown topic: %s", topicCode));
+                        }
                     }
                     else
                     {
