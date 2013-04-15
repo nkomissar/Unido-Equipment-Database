@@ -5,7 +5,7 @@ drop procedure if exists `eetdb`.`add_entity_property`$$
 CREATE procedure `eetdb`.`add_entity_property`(
 	p_entity_id 	integer
   , p_code			varchar(30) 
-  , p_value			varchar(255)
+  , p_value			varchar(1024)
   , p_blob			TEXT
 ) 
 BEGIN
