@@ -2,8 +2,10 @@ package org.unido.eetdb;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Map.Entry;
 import java.util.Properties;
 
@@ -99,7 +101,9 @@ import com.liferay.portal.util.PortalUtil;
 					
 				}
 			}
-			
+
+			Set<String> refCodes = new HashSet<String>();
+			Map<String, Entity> referencedEntities = new HashMap<String, Entity>();
 		
 			for(Entry<String, List<String>> entry: results.entrySet())
 			{
@@ -109,7 +113,29 @@ import com.liferay.portal.util.PortalUtil;
 					EntityProperty entityProperty = EntityHelper.getPropertyByCode(entity, entry.getKey());
 					List<String> record = entry.getValue();
 					
-					record.add(entityProperty == null ? "-" : entityProperty.getValue());
+					if (entityProperty == null)
+					{
+						record.add("-");
+						continue;
+					}
+					
+					if (!entityProperty.getTemplateProperty().getValueType().getType().equalsIgnoreCase("REFERENCE"))
+					{
+						record.add(entityProperty.getValue());
+						continue;
+					}
+
+					EntityHelper
+						.fetchReferencedEntities(request, referencedEntities, refCodes, entity);
+
+					StringBuilder refNames = new StringBuilder();
+					for(String strId: entityProperty.getValue().split(","))
+					{
+						refNames.append(referencedEntities.get(strId).getName());
+						refNames.append(", ");
+					}
+			
+					record.add(refNames.substring(0, refNames.length() - 2));
 					
 				}
 			}
@@ -118,7 +144,7 @@ import com.liferay.portal.util.PortalUtil;
 			model.addAttribute("entities", entities);
 			model.addAttribute("compareResults", new ArrayList<Entry<String, List<String>>>(results.entrySet()));
 			model.addAttribute("uniqueProperties", uniqueProperties);
-
+			model.addAttribute("referencedEntities", referencedEntities);
 			
 			return "comparison";
 		}

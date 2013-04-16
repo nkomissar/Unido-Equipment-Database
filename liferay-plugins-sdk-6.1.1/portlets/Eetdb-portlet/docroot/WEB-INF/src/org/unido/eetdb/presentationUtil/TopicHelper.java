@@ -18,12 +18,12 @@ public class TopicHelper {
 		return template.getCode();
 	}
 	
-	public static Map<EntityTemplate, List<Entity>> groupEntitiesByTemplate(Topic topic)
+	public static Map<EntityTemplate, List<Entity>> groupEntitiesByTemplate(List<Entity> entitites)
 	{
 		
 		Map<EntityTemplate, List<Entity>> entitiesByTemplate = new HashMap<EntityTemplate, List<Entity>>();
 		
-		/*for(Entity entity : topic.getEntitiesOfTopic())
+		for(Entity entity : entitites)
 		{
 
 			EntityTemplate template = entity.getEntityTemplate();
@@ -35,7 +35,7 @@ public class TopicHelper {
 			List<Entity> sameTemplateEntities = entitiesByTemplate.get(template);
 			sameTemplateEntities.add(entity);
 			
-		} */
+		} 
 		
 		return entitiesByTemplate;
 	}
