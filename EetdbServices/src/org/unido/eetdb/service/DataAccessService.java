@@ -16,6 +16,7 @@ public interface DataAccessService
     public Entity updateEntity(Entity entity);
     public void deleteEntity(Entity entity);
     public Set<Entity> getEntitiesByTemplateCode(String code);
+    public Set<Entity> getEntitiesByTopic(Long topicId);
 
     public Topic getTopic(Long topicId);
     public Topic createTopic(Topic topic);
@@ -24,6 +25,7 @@ public interface DataAccessService
     public Set<Topic> getRootTopics();
 
     public EntityTemplate getEntityTemplate(Long templateId, boolean skipChilds);
+    public EntityTemplate getTemplateByEntity(Long entityId);
     public Set<EntityTemplate> getEntityTemplates();
     public EntityTemplate createEntityTemplate(EntityTemplate template);
     public EntityTemplate updateEntityTemplate(EntityTemplate template);

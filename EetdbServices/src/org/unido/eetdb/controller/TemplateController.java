@@ -43,6 +43,14 @@ public class TemplateController
         return dataAccessService.getEntityTemplate(id, skip_childs == 1 ? true : false);
     }
     
+    @RequestMapping(method = RequestMethod.GET, value = "/template-by-entity/{id}")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    public @ResponseBody
+    EntityTemplate getTemplateByEntity(@PathVariable Long id)
+    {
+        return dataAccessService.getTemplateByEntity(id);
+    }
+    
     @RequestMapping(method = RequestMethod.POST, value = "/template")
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public @ResponseBody

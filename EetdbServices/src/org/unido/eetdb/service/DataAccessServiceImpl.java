@@ -55,6 +55,31 @@ public class DataAccessServiceImpl implements DataAccessService
 
         return retVal;
     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public Set<Entity> getEntitiesByTopic(Long topicId)
+    {
+        HashSet<Entity> retVal = new HashSet<Entity>(sessionFactory.getCurrentSession()
+                .createQuery("select entity from Entity entity " +
+                		"inner join fetch entity.properties props " +
+                        "inner join fetch entity.entityTemplate " +
+                        "inner join fetch props.templateProperty tprop " +
+                        "inner join fetch tprop.valueType " +
+                        "join entity.parentTopics topic " +
+                		"where topic.id = ?")
+                .setLong(0, topicId)
+                .list());
+
+        for (Entity entity : retVal)
+        {
+            entity.setParentTopics(null);
+            entity.setChildEntities(null);
+            entity.getEntityTemplate().setProperties(null);
+        }
+
+        return retVal;
+    }
 
     @Override
     public Entity createEntity(Entity entity)
@@ -95,6 +120,12 @@ public class DataAccessServiceImpl implements DataAccessService
         Helper.ensureChilds(template, skipChilds);
 
         return template;
+    }
+    
+    @Override
+    public EntityTemplate getTemplateByEntity(Long entityId)
+    {
+        return getEntityTemplate(getEntity(entityId, true).getEntityTemplate().getId(), false);
     }
 
     @SuppressWarnings("unchecked")
@@ -286,12 +317,12 @@ public class DataAccessServiceImpl implements DataAccessService
             {
                 for (Entity child : entity.getChildEntities())
                 {
-                    ensureChilds(child, doAbort);
+                    ensureChilds(child, true);
                 }
                 
                 for (Topic topic : entity.getParentTopics())
                 {
-                    ensureChilds(topic, doAbort);
+                    ensureChilds(topic, true);
                 }
 
                 entity.getProperties().size();

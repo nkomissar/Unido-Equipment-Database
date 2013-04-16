@@ -75,6 +75,6 @@ public class EntityController
     public @ResponseBody
     Set<Entity> getEntitiesByTopic(@PathVariable Long topicId)
     {
-        return null;//dataAccessService.getEntitiesByTemplateCode(topicId);
+        return dataAccessService.getEntitiesByTopic(topicId);
     }
 }
