@@ -122,12 +122,6 @@ public class DataAccessServiceImpl implements DataAccessService
         return template;
     }
     
-    @Override
-    public EntityTemplate getTemplateByEntity(Long entityId)
-    {
-        return getEntityTemplate(getEntity(entityId, true).getEntityTemplate().getId(), false);
-    }
-
     @SuppressWarnings("unchecked")
     @Override
     public Set<EntityTemplate> getEntityTemplates()
