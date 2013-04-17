@@ -130,19 +130,17 @@
 									
 										<c:if test="${property.templateProperty.displayInGrid}">
 											
-											
-											
 											<liferay-ui:search-container-column-text name="${eetdb:getFullName(property)}">
 												<c:choose>
 													<c:when test="${property.templateProperty.valueType.type == 'REFERENCE'}">
 														<c:forTokens items="${property.value}" delims="," var="strId">
 														
-															<portlet:renderURL var="showEnityURL">
+															<portlet:renderURL var="showRefEnityURL">
 												     				<portlet:param name="action" value="showEntity" />
 												     				<portlet:param name="entityId" value="${strId}" />
 												   			</portlet:renderURL>
 												   											
-															<aui:a href="${showEnityURL}"><c:out value="${referencedEntities.get(strId).getName()}"/></aui:a>
+															<aui:a href="${showRefEnityURL}"><c:out value="${referencedEntities.get(strId).getName()}"/></aui:a>
 															&nbsp;
 															
 														</c:forTokens>

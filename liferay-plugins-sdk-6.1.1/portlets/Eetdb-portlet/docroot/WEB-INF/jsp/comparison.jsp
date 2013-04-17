@@ -53,7 +53,26 @@
    			
  			<c:set var="nameDecorated"><a href="${showEnityURL}"><c:out value="${entity.name}" /></a></c:set>
 			
-			<liferay-ui:search-container-column-text name="${nameDecorated}" value="${entry.value[status.index]}"/>
+			<liferay-ui:search-container-column-text name="${nameDecorated}">
+				<c:choose>
+					<c:when test="${property.templateProperty.valueType.type == 'REFERENCE'}">
+						<c:forTokens items="${property.value}" delims="," var="strId">
+						
+							<portlet:renderURL var="showRefEnityURL">
+				     				<portlet:param name="action" value="showEntity" />
+				     				<portlet:param name="entityId" value="${strId}" />
+				   			</portlet:renderURL>
+				   											
+							<aui:a href="${showRefEnityURL}"><c:out value="${referencedEntities.get(strId).getName()}"/></aui:a>
+							&nbsp;
+							
+						</c:forTokens>
+					</c:when>
+					<c:otherwise>
+						<c:out value="${entry.value[status.index]}" />
+					</c:otherwise>
+				</c:choose>
+			</liferay-ui:search-container-column-text>
 			
 		</c:forEach> 
 		

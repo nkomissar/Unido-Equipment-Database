@@ -18,10 +18,12 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     },{
     	fieldLabel: 'Display in grid',
     	xtype: 'checkbox',
+    	fieldCls: 'eetdb-admin-checkbox',
     	name: 'displayingrid'
     },{
     	fieldLabel: 'Mandatory',
     	xtype: 'checkbox',
+    	fieldCls: 'eetdb-admin-checkbox',
     	name: 'mandatory'
     },{
     	fieldLabel: 'Unit of measure',

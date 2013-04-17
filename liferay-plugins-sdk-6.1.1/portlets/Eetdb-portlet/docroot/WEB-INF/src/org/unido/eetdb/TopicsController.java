@@ -1,5 +1,7 @@
 package org.unido.eetdb;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -92,18 +94,20 @@ public class TopicsController {
 			}
 			//topic.setEntitiesOfTopic(entities);
 		}
+		
+		Entity[] entities = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/entities-by-topic/{topicId}", Entity[].class, topicId);
 
 		Map<EntityTemplate, List<Entity>> entitiesByTemplate = TopicHelper
-				.groupEntitiesByTemplate(topic);
+				.groupEntitiesByTemplate(Arrays.asList(entities));
 		
 		Set<String> refCodes = new HashSet<String>();
 		Map<String, Entity> referencedEntities = new HashMap<String, Entity>();
 		
-		/*for(Entity entity: topic.getEntitiesOfTopic())
+		for(Entity entity: entities)
 		{
 			EntityHelper
 				.fetchReferencedEntities(request, referencedEntities, refCodes, entity);
-		}*/
+		}
 
 		try {
 
@@ -159,7 +163,7 @@ public class TopicsController {
 			// records for testing
 			String deltaFromReq = ParamUtil.get(renderRequest, "delta" + key
 					+ "CurParam",
-					String.valueOf(SearchContainer.DEFAULT_DELTA - 18));
+					String.valueOf(SearchContainer.DEFAULT_DELTA - 10));
 
 			scDelta.put(key, ParamUtil.get(renderRequest, key + "DeltaParam",
 					deltaFromReq));
