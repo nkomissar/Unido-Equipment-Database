@@ -17,6 +17,7 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                         }, {
                             title: 'Search',
                             id: 'searchTemplateTab',
+                            layout: 'fit',
                             items: [{
                                     xtype: 'entitytemplatelist'
                                 }]
@@ -35,9 +36,9 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                             title: 'Entities'
                         }, {
                             title: 'Search',
+                            layout: 'fit',
                             items: [{
                                     xtype: 'entitylist',
-                                    layout: 'fit',
                                     entityListInstance: 'mainEntitySearch'
                                 }]
                         }, {
@@ -55,9 +56,9 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                             title: 'Topics'
 	                    }, {
 	                        title: 'Search',
+                            layout: 'fit',
 	                        items: [{
 	                                xtype: 'topiclist',
-	                                layout: 'fit',
                                     topicListInstance: 'mainTopicSearch'
 	                            }]
 	                    }, {

@@ -6,17 +6,14 @@ Ext.define('EetdbAdmin.view.topic.List', {
     requires: ['Ext.toolbar.Toolbar'],
 
     title: 'Topics',
-    autoScroll: false,
     border: false,
+    layout: 'fit',
 
     initComponent: function() {
         Ext.apply(this, {
-        	
-        	layout: 'fit',
-        	
-            items: [{
+
+        	items: [{
             	xtype: 'dataview',
-            	layout: 'fit',
             	trackOver: true,
             	store: this.store,
             	overflowY: 'auto',
