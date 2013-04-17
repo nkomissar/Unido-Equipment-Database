@@ -16,6 +16,7 @@ import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.common.model.Topic;
+import org.unido.eetdb.common.model.ValueBlob;
 import org.unido.eetdb.common.model.ValueType;
 
 @Repository
@@ -55,21 +56,21 @@ public class DataAccessServiceImpl implements DataAccessService
 
         return retVal;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public Set<Entity> getEntitiesByTopic(Long topicId)
     {
-        HashSet<Entity> retVal = new HashSet<Entity>(sessionFactory.getCurrentSession()
-                .createQuery("select entity from Entity entity " +
-                		"inner join fetch entity.properties props " +
-                        "inner join fetch entity.entityTemplate " +
-                        "inner join fetch props.templateProperty tprop " +
-                        "inner join fetch tprop.valueType " +
-                        "join entity.parentTopics topic " +
-                		"where topic.id = ?")
-                .setLong(0, topicId)
-                .list());
+        HashSet<Entity> retVal = new HashSet<Entity>(sessionFactory
+                .getCurrentSession()
+                .createQuery(
+                        "select entity from Entity entity "
+                                + "inner join fetch entity.properties props "
+                                + "inner join fetch entity.entityTemplate "
+                                + "inner join fetch props.templateProperty tprop "
+                                + "inner join fetch tprop.valueType "
+                                + "join entity.parentTopics topic " + "where topic.id = ?")
+                .setLong(0, topicId).list());
 
         for (Entity entity : retVal)
         {
@@ -121,7 +122,7 @@ public class DataAccessServiceImpl implements DataAccessService
 
         return template;
     }
-    
+
     @SuppressWarnings("unchecked")
     @Override
     public Set<EntityTemplate> getEntityTemplates()
@@ -254,6 +255,12 @@ public class DataAccessServiceImpl implements DataAccessService
         return retVal;
     }
 
+    @Override
+    public ValueBlob getValueBlob(Long blobId)
+    {
+        return (ValueBlob) sessionFactory.getCurrentSession().load(ValueBlob.class, blobId);
+    }
+
     private static class Helper
     {
         public static void ensureParent(EntityTemplate template)
@@ -313,7 +320,7 @@ public class DataAccessServiceImpl implements DataAccessService
                 {
                     ensureChilds(child, true);
                 }
-                
+
                 for (Topic topic : entity.getParentTopics())
                 {
                     ensureChilds(topic, true);

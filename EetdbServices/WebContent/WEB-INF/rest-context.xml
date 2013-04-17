@@ -26,6 +26,7 @@
 				<value>ValueType.hbm.xml</value>
 				<value>Topic.hbm.xml</value>
 				<value>EntitySearchResult.hbm.xml</value>
+				<value>ValueBlob.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

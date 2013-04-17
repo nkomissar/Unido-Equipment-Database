@@ -23,22 +23,6 @@
   color: #555;
   font-size: 11px; }
 
-/* Preview classes */
-/*.articlepreview .x-toolbar {
-	border-top-width: 1px !important;
-}
-
-.preview .x-panel-body {
-	background: #fff;
-	color: #222;
-	font: normal 12px tahoma, verdana, arial, sans-serif;
-}
-
-.preview .x-panel-body p {
-	line-height: 18px;
-	margin: 8px 0;
-}
-*/
 .preview .x-panel-body ul {
   margin-left: 0px;
   margin-right: 0px;
@@ -56,44 +40,7 @@
   background-repeat: no-repeat;
   border: none; }
 
-/*
-.preview .x-panel-body ul li {
-	display: list-item;
-	list-style-image: none !important;
-	list-style-position: outside !important;
-	list-style-type: disc !important;
-	margin-left: 18px;
-}*/
-/*
-.preview .x-panel-body pre,#preview .x-panel-body code {
-	background: #f1f1f1;
-	display: block;
-}
-
-.preview .x-panel-body h4.post-author {
-	font-weight: normal;
-	color: #555;
-	font-size: 11px;
-}
-
-.preview .x-panel-body span.post-date {
-	font-weight: normal;
-	color: #555;
-	float: right;
-	font-size: 11px;
-}
-
-.preview .x-panel-body div.post-data {
-	background: #f1f2f4;
-	padding: 5px;
-	border-bottom: 1px solid #dadadb;
-}
-
-.preview .x-panel-body div.post-body {
-	padding: 10px;
-}
-*/
-/*.x-tab-bar-body {
-	border-width: 1px 1px 0 1px !important;
-}*/
+input[type="button"][class~="eetdb-admin-checkbox"],
+input[type="button"][class~="eetdb-admin-checkbox"]:hover {
+  background-image: url(/resources/themes/images/default/form/checkbox.gif); }
 

@@ -7,6 +7,7 @@ import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.Topic;
+import org.unido.eetdb.common.model.ValueBlob;
 import org.unido.eetdb.common.model.ValueType;
 
 public interface DataAccessService
@@ -34,4 +35,6 @@ public interface DataAccessService
     
     public List<Topic> searchForTopics(String param);
     public List<EntitySearchResult> searchForEntities(String param);
+    
+    public ValueBlob getValueBlob(Long blobId);
 }
