@@ -6,18 +6,16 @@ Ext.define('EetdbAdmin.view.entity.List', {
     requires: ['Ext.toolbar.Toolbar'],
 
     title: 'Entities',
-    autoScroll: false,
     border: false,
+    layout: 'fit',
 
     initComponent: function() {
         Ext.apply(this, {
         	
-        	layout: 'fit',
-        	
             items: [{
             	xtype: 'dataview',
             	overflowY: 'auto',
-            	layout: 'fit',
+            	autoHeight:true,            	
             	trackOver: true,
             	store: this.store,
             	cls: 'entity-list',

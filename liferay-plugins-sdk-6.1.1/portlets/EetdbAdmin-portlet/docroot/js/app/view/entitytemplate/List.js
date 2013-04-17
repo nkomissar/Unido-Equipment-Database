@@ -2,11 +2,9 @@ Ext.define('EetdbAdmin.view.entitytemplate.List', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.entitytemplatelist',
 
-    requires: ['Ext.toolbar.Toolbar'],
-
     title: 'Templates',
-    autoScroll: true,
     border: false,
+    layout: 'fit',
 
     initComponent: function() {
         Ext.apply(this, {
@@ -14,6 +12,8 @@ Ext.define('EetdbAdmin.view.entitytemplate.List', {
             items: [{
                 	xtype: 'dataview',
                 	trackOver: true,
+                	overflowY: 'auto',
+                	autoHeight:true,
                 	store: this.store,
                 	cls: 'entitytemplate-list',
                 	itemSelector: '.entitytemplate-list-item',
