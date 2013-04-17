@@ -23,3 +23,5 @@ set @last_id = eetdb.add_entity('BURNER_TYPE', 'Мазутная горелка'
 set @last_id = eetdb.add_entity('BURNER_TYPE', 'Газовая горелка');
 set @last_id = eetdb.add_entity('BURNER_TYPE', 'Дизельная горелка');
 set @last_id = eetdb.add_entity('BURNER_TYPE', 'Комбинированная горелка');
+
+commit;
