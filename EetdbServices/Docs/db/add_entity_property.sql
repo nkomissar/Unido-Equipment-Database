@@ -8,7 +8,7 @@ CREATE procedure `eetdb`.`add_entity_property`(
   , p_value			varchar(1024)
   , p_blob			TEXT
   , p_type			varchar(100)
-  , p_name			varchar(100)
+  , p_name			varchar(100) 
 ) 
 BEGIN
 	declare v_id INTEGER;
