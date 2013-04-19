@@ -12,13 +12,15 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.unido.eetdb.common.model.ValueBlob;
 import org.unido.eetdb.service.DataAccessService;
 
-import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
@@ -68,5 +70,15 @@ public class BlobController
         }
         
         return null;
+    }
+    
+    @RequestMapping(method = RequestMethod.POST, value = "/blob")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public @ResponseBody
+    String saveValueBlob(@RequestBody ValueBlob valueBlob, @RequestParam("blob") MultipartFile blobData) throws IOException
+    {
+        dataAccessService.saveValueBlob(valueBlob, blobData.getBytes());
+
+        return "OK";
     }
 }

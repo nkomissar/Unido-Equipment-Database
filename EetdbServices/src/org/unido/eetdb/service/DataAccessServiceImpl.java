@@ -1,9 +1,11 @@
 package org.unido.eetdb.service;
 
+import java.sql.Blob;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Hibernate;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -259,6 +261,17 @@ public class DataAccessServiceImpl implements DataAccessService
     public ValueBlob getValueBlob(Long blobId)
     {
         return (ValueBlob) sessionFactory.getCurrentSession().load(ValueBlob.class, blobId);
+    }
+    
+    public void saveValueBlob(ValueBlob valueBlob, byte[] blobData)
+    {
+        Blob blob = Hibernate.getLobCreator(sessionFactory.getCurrentSession()).createBlob(blobData);
+            
+        valueBlob.setContent(blob);
+        
+        sessionFactory.getCurrentSession().merge(valueBlob);
+
+        sessionFactory.getCurrentSession().flush();
     }
 
     private static class Helper
