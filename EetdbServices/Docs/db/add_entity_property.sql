@@ -8,7 +8,7 @@ CREATE procedure `eetdb`.`add_entity_property`(
   , p_value			varchar(1024)
   , p_blob			TEXT
   , p_type			varchar(100)
-  , p_name			varchar(100) 
+  , p_name			varchar(100)
 ) 
 BEGIN
 	declare v_id INTEGER;
@@ -17,6 +17,7 @@ BEGIN
 	declare v_type_id INTEGER;
 	declare v_found_id INTEGER;
 	declare v_blob_id INTEGER;
+	declare v_count INTEGER;
 
 	select ENTITY_TEMPLATE_ID
 	  into v_template_id
@@ -50,13 +51,13 @@ BEGIN
 		  , sysdate());
 	end if;
 
-	select entity_property_id
-      into v_found_id
+	select count(entity_property_id), ifnull(entity_property_id, 0)
+      into v_count, v_found_id
 	  from eetdb.UNIDO_ENTITY_PROPERTY
      where ENTITY_ID = p_entity_id
        and TEMPLATE_PROPERTY_ID = v_template_property_id;
 
-	if v_found_id IS NULL then
+	if v_count = 0 then
 		select IFNULL(max(ENTITY_PROPERTY_ID),0)+1
 		  into v_id
 		  from eetdb.UNIDO_ENTITY_PROPERTY;

@@ -10,23 +10,24 @@ BEGIN
 	declare v_id INTEGER;
 	declare v_template_id INTEGER;
 	declare v_found_id INTEGER;
-
-	select IFNULL(max(ENTITY_ID),0)+1
-	  into v_id
-      from eetdb.UNIDO_ENTITY;
+	declare v_count INTEGER;
 
 	select ENTITY_TEMPLATE_ID
 	  into v_template_id
 	  from eetdb.UNIDO_ENTITY_TEMPLATE
 	 where UPPER(TEMPLATE_CODE) = UPPER(p_template);
 
-	select IFNULL(entity_id, 0)
-	  into v_found_id
+	select count(entity_id), IFNULL(entity_id, 0)
+	  into v_count, v_found_id
 	  from eetdb.UNIDO_ENTITY
 	 where ENTITY_TEMPLATE_ID = v_template_id
 	   and UPPER(ENTITY_NAME) = UPPER(p_name);
 
-	if v_found_id = 0 then
+	if v_count = 0 then
+		select IFNULL(max(ENTITY_ID),0)+1
+		  into v_id
+		  from eetdb.UNIDO_ENTITY;
+
 		INSERT INTO eetdb.UNIDO_ENTITY (
 			  ENTITY_ID
 			, ENTITY_TEMPLATE_ID
