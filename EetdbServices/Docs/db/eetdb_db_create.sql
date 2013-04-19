@@ -14,7 +14,7 @@ DROP TABLE IF EXISTS `eetdb`.`UNIDO_VALUE_TYPE` ;
 DROP TABLE IF EXISTS `eetdb`.`UUNIDO_ENTITY_TEMPLATENIDO_ENTITY` ;
 DROP TABLE IF EXISTS `eetdb`.`UNIDO_ENTITY_TEMPLATE_PROPERTY` ;
 DROP TABLE IF EXISTS `eetdb`.`UNIDO_ENTITY_TEMPLATE` ;
-
+DROP TABLE IF EXISTS `eetdb`.`UNIDO_BLOB`;
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_TOPIC`
 -- -----------------------------------------------------
@@ -109,9 +109,22 @@ CREATE  TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_TEMPLATE_PROPERTY` (
 ENGINE = MYISAM;
 
 -- -----------------------------------------------------
+-- Table `eetdb`.`UNIDO_BLOB`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_BLOB` (
+  `BLOB_ID`   	       INT           NOT NULL AUTO_INCREMENT,
+  `DATA_TYPE`          VARCHAR(100)  NOT NULL ,
+  `FILE_NAME`          VARCHAR(100)      NULL ,
+  `CONTENT`		       MEDIUMBLOB    NOT NULL ,
+  `VERSION`            INT           NOT NULL DEFAULT '0',
+  `UPDATED_BY`         NVARCHAR(100) NOT NULL ,
+  `UPDATE_DATE`        TIMESTAMP     NOT NULL ,
+  PRIMARY KEY (`BLOB_ID`))
+ENGINE = MYISAM;
+-- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_ENTITY`
 -- -----------------------------------------------------
-CREATE  TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY` (
+CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY` (
   `ENTITY_ID`          INT            NOT NULL ,
   `ENTITY_TEMPLATE_ID` INT            NOT NULL ,
   `ENTITY_NAME`        NVARCHAR(300)  NULL ,
@@ -138,7 +151,6 @@ CREATE  TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_PROPERTY` (
   `ENTITY_ID`            INT           NOT NULL ,
   `TEMPLATE_PROPERTY_ID` INT           NOT NULL ,
   `VALUE`                NVARCHAR(511) NULL ,
-  `VALUE_BLOB`           BLOB          NULL ,
   `VERSION`              INT           NOT NULL DEFAULT '0',
   `UPDATED_BY`           NVARCHAR(100) NOT NULL ,
   `UPDATE_DATE`          TIMESTAMP     NOT NULL ,

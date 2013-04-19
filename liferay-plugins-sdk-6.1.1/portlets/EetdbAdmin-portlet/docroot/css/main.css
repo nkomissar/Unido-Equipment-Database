@@ -50,7 +50,34 @@
 	border: none;
 }
 
-input[type="button"][class~="eetdb-admin-checkbox"],
-input[type="button"][class~="eetdb-admin-checkbox"]:hover {
-	background-image: url(/resources/themes/images/default/form/checkbox.gif);
+input.x-form-checkbox[type="button"]
+{
+	vertical-align: -1px;
+	width: 13px;
+	height: 13px;
+	background-image: url("../resources/themes/images/default/form/checkbox.gif");
+	overflow: hidden;
+	padding: 0;
+	border: 0;
+	-webkit-border-radius: 0;
+	-o-border-radius: 0;
+	-ms-border-radius: 0;
+	-khtml-border-radius: 0;
+	border-radius: 0;
 }
+
+input.x-form-checkbox[type="button"]:hover
+{
+	background-position: 0 0;
+	background-image: url("../resources/themes/images/default/form/checkbox.gif");
+}
+
+.x-form-cb-checked input.x-form-checkbox[type="button"]:hover
+{
+
+	background-position: 0 -13px; 
+	background-image: url("../resources/themes/images/default/form/checkbox.gif");
+}
+
+
+
