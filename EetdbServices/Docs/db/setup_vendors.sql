@@ -218,7 +218,7 @@ call add_entity_property(@last_id, 'DETAILS', null, '', 'TEXT', null);
 call add_entity_property(@last_id, 'ADDRESS', 'ул. Пархоменко, 2, г. Карловка, Полтавская обл., 39500, Украина', null, null, null);
 call add_entity_property(@last_id, 'PHONE', '+380 (5346) 2-34-68', null, null, null);
 
-set @last_id = eetdb.add_entity('VENDOR', '');
+set @last_id = eetdb.add_entity('VENDOR', 'KÖMMERLING');
 call add_entity_property(@last_id, 'PICTURE', 'http://db.ukeep.org//data/manufacturer/s_logo_91.jpg', null, null, null);
 call add_entity_property(@last_id, 'URL', 'http://www.koemmerling.com/ecomaXL/index.php?site=KOE_EN_home', null, null, null);
 call add_entity_property(@last_id, 'DESCRIPTION', 'KÖMMERLING - это премиум-марка среди производителей профильных систем. Предлагая широкий выбор профильных систем, и, используя самые современные материалы и технологии, KÖMMERLING предлагает своим партнерам уже готовые продуманные решения для изготовления оконных и дверных конструкций на самом высоком уровне.', null, null, null);
@@ -238,45 +238,56 @@ call add_entity_property(@last_id, 'DETAILS', null, 'Разработкой и �
 call add_entity_property(@last_id, 'ADDRESS', '420095, Республика Татарстан, г.Казань, ул. Шамиля Усманова д.31а', null, null, null);
 call add_entity_property(@last_id, 'PHONE', '+7 (843) 544 0 544', null, null, null);
 
-set @last_id = eetdb.add_entity('VENDOR', '');
-call add_entity_property(@last_id, 'PICTURE', '', null, null, null);
-call add_entity_property(@last_id, 'URL', '', null, null, null);
-call add_entity_property(@last_id, 'DESCRIPTION', '', null, null, null);
-call add_entity_property(@last_id, 'DETAILS', null, '', 'TEXT', null);
-call add_entity_property(@last_id, 'ADDRESS', '', null, null, null);
+set @last_id = eetdb.add_entity('VENDOR', 'LEDLIFE');
+call add_entity_property(@last_id, 'PICTURE', 'http://www.ledlife.com.ua/assets/images/logo-main-me.png', null, null, null);
+call add_entity_property(@last_id, 'URL', 'http://www.ledlife.com.ua/', null, null, null);
+call add_entity_property(@last_id, 'DESCRIPTION', 'Ledlife - украинская компания, которая производит, проектирует и устанавливает системы светодиодного освещения.', null, null, null);
+call add_entity_property(@last_id, 'DETAILS', null, 'Ассортимент нашей компании представлен широким спектром светодиодной продукции как бытового, офисного и промышленного применения, так и светильниками для наружного освещения, архитектурной подсветки и светильниками специального назначения.
+Современное высокотехнологичное оборудование компании позволяет изготавливать светодиодные изделия нестандартных размеров и различных конфигураций по заказу клиентов. А собственная светотехническая лаборатория дает возможность проводить измерения фотометрических показателей выпускаемых изделий.
+В своих изделиях мы используем светодиоды известных производителей, а также качественные комплектующие, которые проходят несколько этапов тестирования. Все это сочетается с конкурентоспособными ценами.
+Качество наших светильников и ламп подтверждается официальной гарантией 3 года, кроме того имеется расширенная 5-летняя гарантия, что превышает срок окупаемости любого из наших проектов. Вся наша продукция сертифицирована.
+Наши клиенты – крупные торговые и офисные центры, промышленные предприятия, а также ведущие предприятия агропромышленного комплекса Украины.', 'TEXT', null);
+call add_entity_property(@last_id, 'ADDRESS', '61002, г.Харьков, ул. Клочковская, 111А, офис 2-8, Украина', null, null, null);
+call add_entity_property(@last_id, 'PHONE', '+38-057-701-24-28', null, null, null);
+
+set @last_id = eetdb.add_entity('VENDOR', 'Logstor');
+call add_entity_property(@last_id, 'PICTURE', 'http://www.logstor.com/assets/img/skin/logstor_logo.jpg', null, null, null);
+call add_entity_property(@last_id, 'URL', 'http://www.logstor.com/', null, null, null);
+call add_entity_property(@last_id, 'DESCRIPTION', 'Компания LOGSTOR - международная компания, уделяющая особое внимание вопросам эффективности передачи энергии потребителям. Компания имеет многолетний опыт и технологии в области теплоизоляции как средства повышения энергоэффективности.', null, null, null);
+call add_entity_property(@last_id, 'DETAILS', null, 'Системы централизованного тепло- и холодоснабжения (особенно на базе комбинированного производства тепла и электричества) приобретают все большую популярность как наиболее энегоэффективный, безопасный, проверенный и экологически чистый способ отопления или охлаждения зданий.', 'TEXT', null);
+call add_entity_property(@last_id, 'ADDRESS', 'Danmarksvej 11 DK-9670 Løgstør Denmark', null, null, null);
+call add_entity_property(@last_id, 'PHONE', '+45 99 66 10 00', null, null, null);
+
+set @last_id = eetdb.add_entity('VENDOR', 'MIDEA');
+call add_entity_property(@last_id, 'PICTURE', 'http://www.midea.com./zh/images/website/logo.gif', null, null, null);
+call add_entity_property(@last_id, 'URL', 'http://www.midea.ru/', null, null, null);
+call add_entity_property(@last_id, 'DESCRIPTION', 'MIDEA представляет собой громадный конгломерат компаний по бытовой технике, строительству коммерческой и жилой недвижимости, транспортных и логистических компаний. MIDEA является одним из крупнейших производителей и экспортеров бытовой техники в Китае.', null, null, null);
+call add_entity_property(@last_id, 'DETAILS', null, 'Компания Midea Holding Co. специализируется на выпуске кондиционеров различного класса. За 40 лет компания стала мировым лидером и ведущим специалистом в области климатики. Кондиционеры Midea продаются во всем мире и пользуются популярностью среди потребителей более чем 120 стран. Марке Midea доверяют за сочетание высокого качества техники, которое поддерживается из года в год, и постоянных инноваций. Внедрением инноваций и контролем качества занимается специально созданный исследовательский центр.', 'TEXT', null);
+call add_entity_property(@last_id, 'ADDRESS', 'Midea Group ShunDe, FoShan, GuangDong China', null, null, null);
 call add_entity_property(@last_id, 'PHONE', '', null, null, null);
 
-set @last_id = eetdb.add_entity('VENDOR', '');
-call add_entity_property(@last_id, 'PICTURE', '', null, null, null);
-call add_entity_property(@last_id, 'URL', '', null, null, null);
-call add_entity_property(@last_id, 'DESCRIPTION', '', null, null, null);
-call add_entity_property(@last_id, 'DETAILS', null, '', 'TEXT', null);
-call add_entity_property(@last_id, 'ADDRESS', '', null, null, null);
-call add_entity_property(@last_id, 'PHONE', '', null, null, null);
+set @last_id = eetdb.add_entity('VENDOR', 'Mitsubishi Electric');
+call add_entity_property(@last_id, 'PICTURE', 'http://www.mitsubishielectric.ru/images/logo.jpg', null, null, null);
+call add_entity_property(@last_id, 'URL', 'http://www.mitsubishielectric.com/', null, null, null);
+call add_entity_property(@last_id, 'DESCRIPTION', 'Основные направления деятельности компании: энергетика и электрические системы, системы индустриальной автоматики, информационные и коммуникационные системы, оборудование для жилых домов, электронные устройства.', null, null, null);
+call add_entity_property(@last_id, 'DETAILS', null, 'Программа Eco Changes отражает приверженность Mitsubishi Electric идее рационального природопользования и стремление компании сделать будущее экологически чистым благодаря новейшим технологиям и производственному ноу-хау. Используя различные технологические решения в создании продукции для использования в быту, промышленности и социальной сфере, компания нацелена на создание устойчивого, экологически чистого общества. Дополняя слоган компании Changes for the better («Перемены к лучшему»), отражающий постоянное стремление компании совершенствовать свою продукцию и услуги, слоган «Eco Changes — for a greener tomorrow» («Eco Changes — за зеленое завтра») представляет намерение Mitsubishi Electric в сотрудничестве со своими клиентами улучшать экологическую ситуацию во всем мире.', 'TEXT', null);
+call add_entity_property(@last_id, 'ADDRESS', 'Tokyo Building 2-7-3, Marunouchi, Chiyoda-ku, Tokyo 100-8310, Japan', null, null, null);
+call add_entity_property(@last_id, 'PHONE', '+81 (3) 3218-2111', null, null, null);
+call add_entity_property(@last_id, 'DISTRIBUTOR', 'Представительство ЗАО «Мицубиси Электрик Юроп  Б. В.»', null, null, null);
+call add_entity_property(@last_id, 'DISTRIBUTOR_URL', 'http://www.mitsubishielectric.ru', null, null, null);
+call add_entity_property(@last_id, 'DISTRIBUTOR_ADDRESS', 'Космодамианская наб., д. 52, стр. 3', null, null, null);
+call add_entity_property(@last_id, 'DISTRIBUTOR_PHONE', 'Космодамианская наб., д. 52, стр. 3', null, null, null);
 
-set @last_id = eetdb.add_entity('VENDOR', '');
-call add_entity_property(@last_id, 'PICTURE', '', null, null, null);
-call add_entity_property(@last_id, 'URL', '', null, null, null);
-call add_entity_property(@last_id, 'DESCRIPTION', '', null, null, null);
-call add_entity_property(@last_id, 'DETAILS', null, '', 'TEXT', null);
-call add_entity_property(@last_id, 'ADDRESS', '', null, null, null);
-call add_entity_property(@last_id, 'PHONE', '', null, null, null);
 
-set @last_id = eetdb.add_entity('VENDOR', '');
-call add_entity_property(@last_id, 'PICTURE', '', null, null, null);
-call add_entity_property(@last_id, 'URL', '', null, null, null);
-call add_entity_property(@last_id, 'DESCRIPTION', '', null, null, null);
-call add_entity_property(@last_id, 'DETAILS', null, '', 'TEXT', null);
-call add_entity_property(@last_id, 'ADDRESS', '', null, null, null);
-call add_entity_property(@last_id, 'PHONE', '', null, null, null);
+set @last_id = eetdb.add_entity('VENDOR', 'NEW HOLLAND');
+call add_entity_property(@last_id, 'PICTURE', 'http://agriculture.newholland.com/PublishingImages/cnhimg/shared/logo.png', null, null, null);
+call add_entity_property(@last_id, 'URL', 'http://agriculture.newholland.com/us/en/Pages/Homepage.aspx', null, null, null);
+call add_entity_property(@last_id, 'DESCRIPTION', 'Компания New Holland – один из мировых лидеров в производстве сельскохозяйственной техники и оборудования. New Holland является производителем широкого спектра сельскохозяйственных машин. В линейке моделей этой компании присутствуют тракторы, зернуборочные комбайны, пресс-подборщики, косилки, комбайны для уборки винограда и т.п.', null, null, null);
+call add_entity_property(@last_id, 'DETAILS', null, 'В своем нынешнем состоянии New Holland представляет собой объединение 4-х сельскохозяйственных брендов Ford, Fiat Trattori, Claeys и непосредственно New Holland. На сегодня New Holland является одним из главных новаторов в производстве сельхозтехники. В частности, с 2001 по 2010 год различная продукция компании получила более 30 премий за технические и инженерные инновации. Кроме того, на Парижской Сельскохозяйственной выставке в 2009 году компания представила прототип трактора на водордном топливе New Holland NH2.', 'TEXT', null);
+call add_entity_property(@last_id, 'ADDRESS', 'New Holland Agriculture, 120 Brubaker Avenue, New Holland, PA 17557', null, null, null);
+call add_entity_property(@last_id, 'PHONE', '866-639-4563', null, null, null);
 
-set @last_id = eetdb.add_entity('VENDOR', '');
-call add_entity_property(@last_id, 'PICTURE', '', null, null, null);
-call add_entity_property(@last_id, 'URL', '', null, null, null);
-call add_entity_property(@last_id, 'DESCRIPTION', '', null, null, null);
-call add_entity_property(@last_id, 'DETAILS', null, '', 'TEXT', null);
-call add_entity_property(@last_id, 'ADDRESS', '', null, null, null);
-call add_entity_property(@last_id, 'PHONE', '', null, null, null);
+
 
 set @last_id = eetdb.add_entity('VENDOR', 'Riello S.p.A.');
 call add_entity_property(@last_id, 'PICTURE', 'http://www.riellogroup.com/engines/images/logo.png', null, null, null);
