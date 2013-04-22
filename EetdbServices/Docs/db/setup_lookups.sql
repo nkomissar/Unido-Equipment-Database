@@ -24,4 +24,8 @@ set @last_id = eetdb.add_entity('BURNER_TYPE', 'Газовая горелка');
 set @last_id = eetdb.add_entity('BURNER_TYPE', 'Дизельная горелка');
 set @last_id = eetdb.add_entity('BURNER_TYPE', 'Комбинированная горелка');
 
+set @last_id = eetdb.add_template('TRANSFORMER_TYPE', 'Тип трансформатора');
+set @last_id = eetdb.add_entity('TRANSFORMER_TYPE', 'Сухой');
+set @last_id = eetdb.add_entity('TRANSFORMER_TYPE', 'Масляный');
+
 commit;

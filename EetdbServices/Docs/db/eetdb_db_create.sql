@@ -15,6 +15,8 @@ DROP TABLE IF EXISTS `eetdb`.`UUNIDO_ENTITY_TEMPLATENIDO_ENTITY` ;
 DROP TABLE IF EXISTS `eetdb`.`UNIDO_ENTITY_TEMPLATE_PROPERTY` ;
 DROP TABLE IF EXISTS `eetdb`.`UNIDO_ENTITY_TEMPLATE` ;
 DROP TABLE IF EXISTS `eetdb`.`UNIDO_BLOB`;
+DROP TABLE IF EXISTS `eetdb`.`UNIDO_TOPIC_SEARCH`;
+DROP TABLE IF EXISTS `eetdb`.`UNIDO_ENTITY_SEARCH`;
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_TOPIC`
 -- -----------------------------------------------------
@@ -25,9 +27,8 @@ CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_TOPIC` (
   `VERSION`           INT           NOT NULL DEFAULT '0',
   `UPDATED_BY`        NVARCHAR(100) NOT NULL ,
   `UPDATE_DATE`       TIMESTAMP     NOT NULL ,
-  PRIMARY KEY (`TOPIC_ID`),
-  FULLTEXT KEY `idx_ft_name_desc` (`TOPIC_NAME`,`DESCRIPTION`))
-ENGINE = MYISAM;
+  PRIMARY KEY (`TOPIC_ID`))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_TOPIC_LINK`
@@ -48,7 +49,7 @@ CREATE  TABLE IF NOT EXISTS `eetdb`.`UNIDO_TOPIC_LINK` (
     REFERENCES `eetdb`.`UNIDO_TOPIC` (`TOPIC_ID` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
-ENGINE = MYISAM;
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_VALUE_TYPE`
@@ -61,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_VALUE_TYPE` (
   `UPDATED_BY`      NVARCHAR(100) NOT NULL ,
   `UPDATE_DATE`     TIMESTAMP     NOT NULL ,
   PRIMARY KEY (`VALUE_TYPE_ID`) )
-ENGINE = MYISAM;
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_ENTITY_TEMPLATE`
@@ -73,9 +74,8 @@ CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_TEMPLATE` (
   `VERSION`            INT            NOT NULL DEFAULT '0',
   `UPDATED_BY`         NVARCHAR(100) NOT NULL ,
   `UPDATE_DATE`        TIMESTAMP     NOT NULL ,
-  PRIMARY KEY (`ENTITY_TEMPLATE_ID`) ,
-  FULLTEXT KEY `idx_ft_name` (`TEMPLATE_NAME`))
-ENGINE = MYISAM;
+  PRIMARY KEY (`ENTITY_TEMPLATE_ID`))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_ENTITY_TEMPLATE_PROPERTY`
@@ -106,7 +106,7 @@ CREATE  TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_TEMPLATE_PROPERTY` (
     REFERENCES `eetdb`.`UNIDO_VALUE_TYPE` (`VALUE_TYPE_ID` )
     ON DELETE RESTRICT
     ON UPDATE NO ACTION)
-ENGINE = MYISAM;
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_BLOB`
@@ -120,7 +120,7 @@ CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_BLOB` (
   `UPDATED_BY`         NVARCHAR(100) NOT NULL ,
   `UPDATE_DATE`        TIMESTAMP     NOT NULL ,
   PRIMARY KEY (`BLOB_ID`))
-ENGINE = MYISAM;
+ENGINE = InnoDB;
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_ENTITY`
 -- -----------------------------------------------------
@@ -139,9 +139,8 @@ CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY` (
     REFERENCES `eetdb`.`UNIDO_ENTITY_TEMPLATE` (`ENTITY_TEMPLATE_ID` )
     ON DELETE RESTRICT
     ON UPDATE NO ACTION,
-  UNIQUE INDEX `uk_UNIDO_ENTITY_NAME` (`ENTITY_NAME` ASC) ,
-  FULLTEXT KEY `idx_ft_name` (`ENTITY_NAME`))
-ENGINE = MYISAM;
+  UNIQUE INDEX `uk_UNIDO_ENTITY_NAME` (`ENTITY_NAME` ASC))
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_ENTITY_PROPERTY`
@@ -150,7 +149,7 @@ CREATE  TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_PROPERTY` (
   `ENTITY_PROPERTY_ID`   INT           NOT NULL AUTO_INCREMENT,
   `ENTITY_ID`            INT           NOT NULL ,
   `TEMPLATE_PROPERTY_ID` INT           NOT NULL ,
-  `VALUE`                NVARCHAR(511) NULL ,
+  `VALUE`                NVARCHAR(512) NULL ,
   `VERSION`              INT           NOT NULL DEFAULT '0',
   `UPDATED_BY`           NVARCHAR(100) NOT NULL ,
   `UPDATE_DATE`          TIMESTAMP     NOT NULL ,
@@ -166,9 +165,8 @@ CREATE  TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_PROPERTY` (
     FOREIGN KEY (`TEMPLATE_PROPERTY_ID` )
     REFERENCES `eetdb`.`UNIDO_ENTITY_TEMPLATE_PROPERTY` (`TEMPLATE_PROPERTY_ID` )
     ON DELETE CASCADE
-    ON UPDATE NO ACTION,
-  FULLTEXT KEY `idx_ft_value` (`VALUE`))
-ENGINE = MYISAM;
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_ENTITY_REFERENCE`
@@ -189,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_REFERENCE` (
     REFERENCES `eetdb`.`UNIDO_TOPIC` (`TOPIC_ID` )
     ON DELETE RESTRICT
     ON UPDATE NO ACTION)
-ENGINE = MYISAM;
+ENGINE = InnoDB;
 
 -- -----------------------------------------------------
 -- Table `eetdb`.`UNIDO_ENTITY_LINK`
@@ -210,6 +208,28 @@ CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_LINK` (
     REFERENCES `eetdb`.`UNIDO_ENTITY` (`ENTITY_ID` )
     ON DELETE CASCADE
     ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `eetdb`.`UNIDO_TOPIC_SEARCH`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_TOPIC_SEARCH` (
+  `TOPIC_ID`          INT           NOT NULL ,
+  `TOPIC_NAME`        NVARCHAR(100) NOT NULL ,
+  `DESCRIPTION`       NVARCHAR(300)     NULL ,
+  PRIMARY KEY (`TOPIC_ID`),
+  FULLTEXT KEY `idx_ft_name_desc` (`TOPIC_NAME`,`DESCRIPTION`))
+ENGINE = MYISAM;
+
+-- -----------------------------------------------------
+-- Table `eetdb`.`UNIDO_ENTITY_SEARCH`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_SEARCH` (
+  `ENTITY_ID`         INT           NOT NULL ,
+  `ENTITY_NAME`       NVARCHAR(300) NOT NULL ,
+  `DESCRIPTION`       NVARCHAR(512)     NULL ,
+  PRIMARY KEY (`ENTITY_ID`),
+  FULLTEXT KEY `idx_ft_name_desc` (`ENTITY_NAME`,`DESCRIPTION`))
 ENGINE = MYISAM;
 
 -- -----------------------------------------------------
