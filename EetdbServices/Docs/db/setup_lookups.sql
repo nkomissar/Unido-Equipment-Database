@@ -80,10 +80,28 @@ set @last_id = eetdb.add_entity('DESICCANT_DRYER_TYPE', 'Влагоудаляю�
 set @last_id = eetdb.add_entity('DESICCANT_DRYER_TYPE', 'Рефрижераторный осушитель');
 set @last_id = eetdb.add_entity('DESICCANT_DRYER_TYPE', 'Комбинированный осушитель');
 
-set @last_id = eetdb.add_template('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
+set @last_id = eetdb.add_template('ENGINE_IE_CLASS', 'Класс IE');
+set @last_id = eetdb.add_entity('ENGINE_IE_CLASS', 'IE');
+set @last_id = eetdb.add_entity('ENGINE_IE_CLASS', 'IE');
+
+set @last_id = eetdb.add_template('PUMP_TYPE', 'Тип насоса');
+set @last_id = eetdb.add_entity('PUMP_TYPE', 'Насос с частотным преобразователем');
+
+set @last_id = eetdb.add_template('FAN_TYPE', 'Тип вентилятора');
+set @last_id = eetdb.add_entity('FAN_TYPE', 'Центробежный вентилятор с частотным преобразователем');
+
+
+set @last_id = eetdb.add_template('HVAC_TYPE', 'Тип вентилляции');
+set @last_id = eetdb.add_entity('HVAC_TYPE', 'Приточная и вытяжная вентиляция');
+
+set @last_id = eetdb.add_template('GLAZING_TYPE', 'Тип остекления');
+set @last_id = eetdb.add_entity('GLAZING_TYPE', '5-камерные');
+set @last_id = eetdb.add_entity('GLAZING_TYPE', '6-камерные');
+
+set @last_id = eetdb.add_template('INSULATION_TYPE', 'Тип изоляции');
+set @last_id = eetdb.add_entity('INSULATION_TYPE', 'Минеральная вата');
+set @last_id = eetdb.add_entity('INSULATION_TYPE', 'Стекловолокно');
+set @last_id = eetdb.add_entity('INSULATION_TYPE', 'Синтетический материал');
 
 set @last_id = eetdb.add_template('', '');
 set @last_id = eetdb.add_entity('', '');

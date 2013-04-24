@@ -239,43 +239,121 @@ call add_template_property(@last_id, 'VENDOR', 'Производитель', 'RE
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'Нм3/ч', 1, 0, 1);
 call add_template_property(@last_id, 'PRESSURE', 'Давление', 'NUMBER', 'бар', 1, 0, 1);
 
---  --
-set @last_id = eetdb.add_template('', '');
-call add_template_property(@last_id, '_TYPE', 'Тип', 'REFERENCE', '', 1, 1, 1);
+-- ENGINE --
+set @last_id = eetdb.add_template('ENGINE', 'Двигатель');
+call add_template_property(@last_id, 'ENGINE_IE_CLASS', 'Класс двигателя', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
 call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
-call add_template_property(@last_id, 'CAPACITY', 'Объем', 'NUMBER', 'Нм3', 1, 0, 1);
-call add_template_property(@last_id, 'PRESSURE', 'Давление', 'NUMBER', 'бар', 1, 0, 1);
-call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
---  --
-set @last_id = eetdb.add_template('', '');
-call add_template_property(@last_id, '_TYPE', 'Тип', 'REFERENCE', '', 1, 1, 1);
-call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
-call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
-call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
-call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
-call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
-call add_template_property(@last_id, 'CAPACITY', 'Объем', 'NUMBER', 'Нм3', 1, 0, 1);
-call add_template_property(@last_id, 'PRESSURE', 'Давление', 'NUMBER', 'бар', 1, 0, 1);
-call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
---  --
-set @last_id = eetdb.add_template('', '');
-call add_template_property(@last_id, '_TYPE', 'Тип', 'REFERENCE', '', 1, 1, 1);
-call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
-call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
-call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
-call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
-call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
-call add_template_property(@last_id, 'CAPACITY', 'Объем', 'NUMBER', 'Нм3', 1, 0, 1);
-call add_template_property(@last_id, 'PRESSURE', 'Давление', 'NUMBER', 'бар', 1, 0, 1);
+call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВт', 1, 0, 1);
+call add_template_property(@last_id, 'VOLTAGE', 'Напряжение', 'NUMBER', 'V', 1, 0, 1);
+call add_template_property(@last_id, 'POLES', 'Количество полюсов', 'NUMBER', '', 1, 0, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
 
+-- DRIVE --
+set @last_id = eetdb.add_template('DRIVE', 'Частотный преобразователь электроприводов');
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВт', 1, 0, 1);
+call add_template_property(@last_id, 'VOLTAGE', 'Напряжение', 'NUMBER', 'V', 1, 0, 1);
+
+-- PUMP --
+set @last_id = eetdb.add_template('PUMP', 'Насос');
+call add_template_property(@last_id, 'PUMP_TYPE', 'Тип насоса', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'м3/ч', 1, 0, 1);
+call add_template_property(@last_id, 'PRESSURE', 'Максимальное давление', 'NUMBER', 'бар', 1, 0, 1);
+call add_template_property(@last_id, 'HEAD', 'Напор', 'NUMBER', 'м', 1, 0, 1);
+
+-- FAN --
+set @laChillerst_id = eetdb.add_template('FAN', 'Вентилятор');
+call add_template_property(@last_id, 'FAN_TYPE', 'Тип вентилятора', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'м3/ч', 1, 0, 1);
+
+-- CHILLER --
+set @last_id = eetdb.add_template('CHILLER', 'Чиллер для холодильных камер');
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВт', 1, 0, 1);
+call add_template_property(@last_id, 'TEMPERATURE', 'Температура охлаждения', 'NUMBER', '°C', 1, 0, 1);
+call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
+
+-- HVAC --
+set @last_id = eetdb.add_template('HVAC', 'Системы отопления, вентиляции и кондиционирования воздуха');
+call add_template_property(@last_id, 'HVAC_TYPE', 'Тип ', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'м3/ч', 1, 0, 1);
+
+-- GLAZING --
+set @last_id = eetdb.add_template('GLAZING', 'Окна и остекление');
+call add_template_property(@last_id, 'GLAZING_TYPE', 'Тип остекления', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'FACTOR', 'Коэффициент теплопередачи', 'NUMBER', 'Вт/[м2/K]', 1, 0, 1);
+
+-- INSULATION --
+set @last_id = eetdb.add_template('INSULATION', 'Изоляция зданий');
+call add_template_property(@last_id, 'INSULATION_TYPE', 'Тип изоляции', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'WIDTH', 'Толщина', 'NUMBER', 'мм', 1, 0, 1);
+
+-- GATE --
+set @last_id = eetdb.add_template('GATE', 'Высокоскоростные ворота');
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'AREA', 'Площадь', 'NUMBER', 'м2', 1, 0, 1);
+
+--  --
+set @last_id = eetdb.add_template('', '');
+call add_template_property(@last_id, '_TYPE', 'Тип ', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'м3/ч', 1, 0, 1);
+call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
 
 -- TEMPLATE VENDOR --
 set @last_id = eetdb.add_template('VENDOR', 'Производитель');
