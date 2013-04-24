@@ -16,9 +16,10 @@ BEGIN
 	declare v_id INTEGER;
 	declare v_type_id INTEGER;
 	declare v_found_id INTEGER;
+	declare v_count INTEGER;
 
-	select IFNULL(TEMPLATE_PROPERTY_ID,0)
-	  into v_found_id
+	select count(TEMPLATE_PROPERTY_ID), IFNULL(TEMPLATE_PROPERTY_ID,0)
+	  into v_count, v_found_id
 	  from eetdb.UNIDO_ENTITY_TEMPLATE_PROPERTY
      where ENTITY_TEMPLATE_ID = p_template_id
 	   and PROPERTY_CODE = p_code;
@@ -28,7 +29,7 @@ BEGIN
 	  from eetdb.UNIDO_VALUE_TYPE
      where `TYPE` = p_type; 
 
-	if v_found_id = 0 then
+	if v_count = 0 then
 		select IFNULL(max(TEMPLATE_PROPERTY_ID),0)+1
 		  into v_id
 		  from eetdb.UNIDO_ENTITY_TEMPLATE_PROPERTY;

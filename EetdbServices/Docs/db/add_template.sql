@@ -1,6 +1,6 @@
 delimiter $$
 
-drop function if exists add_template$$
+drop function if exists `eetdb`.`add_template`$$
 
 CREATE function `eetdb`.`add_template`(
 	p_code varchar(30), 
@@ -9,13 +9,14 @@ RETURNS INTEGER
 BEGIN
 	declare v_id INTEGER;
 	declare v_found_id INTEGER;
+	declare v_count INTEGER;
 
-	select ifnull(ENTITY_TEMPLATE_ID,0)
-	  into v_found_id
+	select count(ENTITY_TEMPLATE_ID), ifnull(ENTITY_TEMPLATE_ID,0)
+	  into v_count, v_found_id
 	  from eetdb.UNIDO_ENTITY_TEMPLATE
 	 where upper(TEMPLATE_CODE) = upper(p_code);
 
-	if v_found_id = 0 then
+	if v_count = 0 then
 		select IFNULL(max(ENTITY_TEMPLATE_ID),0)+1
 		  into v_id
 		  from eetdb.UNIDO_ENTITY_TEMPLATE;
