@@ -343,17 +343,44 @@ call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге 
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'AREA', 'Площадь', 'NUMBER', 'м2', 1, 0, 1);
 
---  --
-set @last_id = eetdb.add_template('', '');
-call add_template_property(@last_id, '_TYPE', 'Тип ', 'REFERENCE', '', 1, 1, 1);
+-- LIGHTING --
+set @last_id = eetdb.add_template('LIGHTING', 'Светильники');
+call add_template_property(@last_id, 'LIGHTING_TYPE', 'Тип светильника', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
 call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
-call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'м3/ч', 1, 0, 1);
-call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
+
+-- MONITORING --
+set @last_id = eetdb.add_template('MONITORING', 'Система мониторинга');
+call add_template_property(@last_id, 'MONITORING_TYPE', 'Тип системы мониторинга', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+
+-- SEED_DRYER --
+set @last_id = eetdb.add_template('SEED_DRYER', 'Зерносушилка');
+call add_template_property(@last_id, 'SEED_DRYER_TYPE', 'Тип зерносушилки', 'REFERENCE', '', 1, 1, 1);
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
+
+-- CASE --
+set @last_id = eetdb.add_template('CASE', '');
+call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
+call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
+call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
+call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
+call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 
 -- TEMPLATE VENDOR --
 set @last_id = eetdb.add_template('VENDOR', 'Производитель');

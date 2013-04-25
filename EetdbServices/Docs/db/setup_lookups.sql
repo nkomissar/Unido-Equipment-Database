@@ -103,30 +103,12 @@ set @last_id = eetdb.add_entity('INSULATION_TYPE', 'Минеральная ва�
 set @last_id = eetdb.add_entity('INSULATION_TYPE', 'Стекловолокно');
 set @last_id = eetdb.add_entity('INSULATION_TYPE', 'Синтетический материал');
 
-set @last_id = eetdb.add_template('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
+set @last_id = eetdb.add_template('LIGHTING_TYPE', 'Тип светильника');
+set @last_id = eetdb.add_entity('LIGHTING_TYPE', 'Флуоресцентные светильники');
+set @last_id = eetdb.add_entity('LIGHTING_TYPE', 'Светодиодные светильники');
+set @last_id = eetdb.add_entity('LIGHTING_TYPE', 'Светильники с разрядными лампами с высокой интенсивностью');
 
-set @last_id = eetdb.add_template('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-
-set @last_id = eetdb.add_template('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-
-set @last_id = eetdb.add_template('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-
-set @last_id = eetdb.add_template('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-set @last_id = eetdb.add_entity('', '');
-
+set @last_id = eetdb.add_template('MONITORING_TYPE', 'Тип системы мониторинга');
+set @last_id = eetdb.add_entity('MONITORING_TYPE', 'Система мониторинга и хранения данных потребления энергии');
 
 commit;
