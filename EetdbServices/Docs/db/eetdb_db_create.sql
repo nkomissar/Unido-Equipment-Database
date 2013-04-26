@@ -218,7 +218,7 @@ CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_TOPIC_SEARCH` (
   `TOPIC_NAME`        NVARCHAR(100) NOT NULL ,
   `DESCRIPTION`       NVARCHAR(300)     NULL ,
   PRIMARY KEY (`TOPIC_ID`),
-  FULLTEXT KEY `idx_ft_name_desc` (`TOPIC_NAME`,`DESCRIPTION`))
+  FULLTEXT KEY `idx_ft_topic_name_desc` (`TOPIC_NAME`,`DESCRIPTION`))
 ENGINE = MYISAM;
 
 -- -----------------------------------------------------
@@ -228,8 +228,10 @@ CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_ENTITY_SEARCH` (
   `ENTITY_ID`         INT           NOT NULL ,
   `ENTITY_NAME`       NVARCHAR(300) NOT NULL ,
   `DESCRIPTION`       NVARCHAR(512)     NULL ,
+  `VENDOR_CODE`       NVARCHAR(512)     NULL ,
   PRIMARY KEY (`ENTITY_ID`),
-  FULLTEXT KEY `idx_ft_name_desc` (`ENTITY_NAME`,`DESCRIPTION`))
+  FULLTEXT KEY `idx_ft_entity_name_desc` (`ENTITY_NAME`,`DESCRIPTION`),
+  FULLTEXT KEY `idx_ft_entity_code` (`VENDOR_CODE`))
 ENGINE = MYISAM;
 
 -- -----------------------------------------------------
