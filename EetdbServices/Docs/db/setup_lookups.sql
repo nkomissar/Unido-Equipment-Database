@@ -111,4 +111,9 @@ set @last_id = eetdb.add_entity('LIGHTING_TYPE', 'Светильники с ра
 set @last_id = eetdb.add_template('MONITORING_TYPE', 'Тип системы мониторинга');
 set @last_id = eetdb.add_entity('MONITORING_TYPE', 'Система мониторинга и хранения данных потребления энергии');
 
+set @last_id = eetdb.add_template('AGRO_GPS_TYPE', 'Тип техники');
+set @last_id = eetdb.add_entity('AGRO_GPS_TYPE', 'Трактор');
+set @last_id = eetdb.add_entity('AGRO_GPS_TYPE', 'Комбайн');
+set @last_id = eetdb.add_entity('AGRO_GPS_TYPE', 'Самоходный опрыскиватель');
+
 commit;

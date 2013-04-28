@@ -402,8 +402,8 @@ call add_entity_property(@last_id, 'PHONE', '+33 (0) 1 41 29 70 00', null, null,
 set @last_id = eetdb.add_entity('VENDOR', 'Siemens');
 call add_entity_property(@last_id, 'PICTURE', 'http://db.ukeep.org//data/manufacturer/s_logo_63.jpg', null, null, null);
 call add_entity_property(@last_id, 'URL', 'http://w3.siemens.ru', null, null, null);
-call add_entity_property(@last_id, 'DESCRIPTION', '«Сименс» является не только производителем и поставщиком современного оборудования для российских предприятий, но и партнером, который предлагает эффективные системные решения для модернизации инфраструктуры и осуществляет комплексную поддержку заказчика при решении разнообразных производственных и технических задач. «Сименс» в России работает по всем традиционным направлениям своей деятельности, предлагая продукты, услуги и комплексные решения для промышленности, энергетики, здравоохранения и защиты окружающей среды.', null, null, null);
-call add_entity_property(@last_id, 'DETAILS', null, '', 'TEXT', null);
+call add_entity_property(@last_id, 'DESCRIPTION', '«Сименс» в России работает по всем традиционным направлениям своей деятельности, предлагая продукты, услуги и комплексные решения для промышленности, энергетики, здравоохранения и защиты окружающей среды.', null, null, null);
+call add_entity_property(@last_id, 'DETAILS', null, '«Сименс» является не только производителем и поставщиком современного оборудования для российских предприятий, но и партнером, который предлагает эффективные системные решения для модернизации инфраструктуры и осуществляет комплексную поддержку заказчика при решении разнообразных производственных и технических задач.', 'TEXT', null);
 call add_entity_property(@last_id, 'ADDRESS', 'Siemens AG, Wittelsbacherplatz 2, 80333 Munich, Germany', null, null, null);
 call add_entity_property(@last_id, 'PHONE', '+49 (69) 797 6660', null, null, null);
 
@@ -455,8 +455,8 @@ call add_entity_property(@last_id, 'PHONE', '+ 49 6452 70-0', null, null, null);
 set @last_id = eetdb.add_entity('VENDOR', 'Weishaupt');
 call add_entity_property(@last_id, 'PICTURE', 'http://www.weishaupt.de/++resource++weishaupt.policy-images/weishaupt.png', null, null, null);
 call add_entity_property(@last_id, 'URL', 'http://www.weishaupt.de', null, null, null);
-call add_entity_property(@last_id, 'DESCRIPTION', 'Компания Weishaupt была основана в 1932 году как ремесленное предприятие. Сейчас здесь занято более 2 500 сотрудников. Примерно половина из них работает на главном предприятии в Швенди, остальные в филиалах фирмы в Германии и дочерних компаниях за границей. На предприятии, полезная площадь которого составляет 60 000 кв.м., каждый год производится более 150 000 горелок. Кроме того, разработана обширная программа выпуска водогрейных котлов, шкафов управления и принадлежностей. Программа Weishaupt охватывает газовые, жидкотопливные, комбинированные горелки с одноступенчатым, двухступенчатым, плавно-двухступенчатым и модулируемым регулированием. Это полностью автоматические горелки.', null, null, null);
-call add_entity_property(@last_id, 'DETAILS', null, '', 'TEXT', null);
+call add_entity_property(@last_id, 'DESCRIPTION', '', null, null, null);
+call add_entity_property(@last_id, 'DETAILS', null, 'Компания Weishaupt была основана в 1932 году как ремесленное предприятие. Сейчас здесь занято более 2 500 сотрудников. Примерно половина из них работает на главном предприятии в Швенди, остальные в филиалах фирмы в Германии и дочерних компаниях за границей. На предприятии, полезная площадь которого составляет 60 000 кв.м., каждый год производится более 150 000 горелок. Кроме того, разработана обширная программа выпуска водогрейных котлов, шкафов управления и принадлежностей. Программа Weishaupt охватывает газовые, жидкотопливные, комбинированные горелки с одноступенчатым, двухступенчатым, плавно-двухступенчатым и модулируемым регулированием. Это полностью автоматические горелки.', 'TEXT', null);
 call add_entity_property(@last_id, 'ADDRESS', 'Max Weishaupt GmbH Max-Weishaupt-Strasse 14 88477 Schwendi Germany', null, null, null);
 call add_entity_property(@last_id, 'PHONE', '+49 7353 83-0', null, null, null);
 

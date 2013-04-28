@@ -301,7 +301,7 @@ call add_template_property(@last_id, 'TEMPERATURE', 'Температура ох
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
 
 -- HVAC --
-set @last_id = eetdb.add_template('HVAC', 'Системы отопления, вентиляции и кондиционирования воздуха');
+set @last_id = eetdb.add_template('HVAC', 'Системы вентиляции и кондиционирования');
 call add_template_property(@last_id, 'HVAC_TYPE', 'Тип ', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
@@ -374,7 +374,8 @@ call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге 
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 
 -- CASE --
-set @last_id = eetdb.add_template('CASE', '');
+set @last_id = eetdb.add_template('AGRO_GPS', 'С/Х Техника с GPS');
+call add_template_property(@last_id, 'AGRO_GPS_TYPE', 'Тип техники', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);

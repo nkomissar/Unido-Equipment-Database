@@ -1,6 +1,6 @@
 delimiter $$
 
-drop function if exists add_child_topic$$
+drop procedure if exists `eetdb`.`add_child_topic`$$
 
 CREATE procedure `eetdb`.`add_child_topic`(
 	p_parent_id INTEGER
