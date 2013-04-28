@@ -25,7 +25,7 @@
 	</bean>
 
 	<bean id="jsonConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-		<property name="supportedMediaTypes" value="application/json" />
+		<property name="supportedMediaTypes" value="application/json;" />
 	</bean>
 	
 	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>

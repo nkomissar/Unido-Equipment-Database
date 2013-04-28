@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityProperty;
+import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.common.model.Topic;
@@ -156,16 +157,24 @@ public class DataAccessServiceImpl implements DataAccessService
 
         List<Topic> retVal = query.list();
 
-        Helper.ensureChilds(retVal, true);
+        for (Topic topic : retVal)
+        {
+            Helper.ensureChilds(topic, true);
+        }
 
         return retVal;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
-    public List<Entity> searchForEntities(String param)
+    public List<EntitySearchResult> searchForEntities(String param)
     {
-        // TODO Auto-generated method stub
-        return null;
+        Query query = sessionFactory.getCurrentSession().getNamedQuery("searchForEntities")
+                .setParameter("param", param);
+
+        List<EntitySearchResult> retVal = query.list();
+
+        return retVal;
     }
 
     private static class Helper
@@ -183,14 +192,6 @@ public class DataAccessServiceImpl implements DataAccessService
             for (EntityProperty property : entity.getProperties())
             {
                 property.setParentEntity(entity);
-            }
-        }
-
-        public static void ensureChilds(List<Topic> topics, boolean doAbort)
-        {
-            for (Topic topic : topics)
-            {
-                Helper.ensureChilds(topic, doAbort);
             }
         }
 

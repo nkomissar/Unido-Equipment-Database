@@ -6,7 +6,7 @@
 
 <hibernate-mapping package="org.unido.eetdb.common.model">
 	<class name="Entity" table="UNIDO_ENTITY" lazy="false">
-	   
+
 	    <id name="id" column="ENTITY_ID">
         	<generator class="org.unido.eetdb.service.IdGenerator"/>
     	</id>
@@ -28,9 +28,4 @@
 			<many-to-many column="LINKED_ENTITY_ID" class="Entity" />
 		</set>
 	</class>
-	
-	<sql-query name="searchForEntities">
-		<return class="Entity"/>
-		<![CDATA[CALL search(:param)]]>
-    </sql-query>
 </hibernate-mapping>

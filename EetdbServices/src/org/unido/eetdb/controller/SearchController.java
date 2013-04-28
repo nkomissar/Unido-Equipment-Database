@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.unido.eetdb.common.model.Entity;
+import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.Topic;
 import org.unido.eetdb.service.DataAccessService;
 
@@ -38,7 +39,7 @@ public class SearchController
     @RequestMapping(method = RequestMethod.GET, value = "/search-for-entities/{param}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    List<Entity> searchForEntities(@PathVariable String param)
+    List<EntitySearchResult> searchForEntities(@PathVariable String param)
     {
         return dataAccessService.searchForEntities(param);
     }
