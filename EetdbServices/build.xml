@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="EetdbServices" default="build" basedir=".">
+	<!-- Package information. -->
+	<property name="version" value="0.0.1" />
+
+	<!-- Input paths -->
+	<property name="src-dir" location="src" />
+
+	<!-- Output paths -->
+	<property name="build-dir" location="build" />
+	<property name="classes-dir" value="${build-dir}/classes" />
+	<property name="web-dir" value="WebContent" />
+	<property name="web-lib-dir" value="${web-dir}/WEB-INF/lib" />
+	<property name="out-dir" value="war" />
+	<property name="war-dir" value="${out-dir}/${ant.project.name}" />
+	<property name="war-classes-dir"
+		value="${out-dir}/${ant.project.name}/WEB-INF/classes" />
+	<property name="war" value="${war-dir}.war" />
+
+	<echo message="Using Java version ${ant.java.version}." />
+
+	<target name="build" depends="compile">
+		<mkdir dir="${war-dir}" />
+		<copy todir="${war-dir}">
+			<fileset dir="${web-dir}">
+				<include name="**" />
+			</fileset>
+		</copy>
+		<copy todir="${war-classes-dir}">
+			<fileset dir="${classes-dir}">
+				<include name="**" />
+			</fileset>
+		</copy>
+		<jar basedir="${war-dir}" destfile="${war}" />
+		<delete dir="${war-dir}" />
+	</target>
+
+	<target name="compile">
+		<mkdir dir="${classes-dir}" />
+		<javac srcdir="${src-dir}" destdir="${classes-dir}" target="1.6" source="1.6" includeAntRuntime="false">
+			<classpath>
+				<pathelement path="${classpath}" />
+				<fileset dir="${web-lib-dir}">
+					<include name="*.jar" />
+				</fileset>
+			</classpath>
+		</javac>
+	</target>
+</project>
