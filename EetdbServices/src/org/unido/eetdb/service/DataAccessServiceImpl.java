@@ -1,6 +1,7 @@
 package org.unido.eetdb.service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.hibernate.SessionFactory;
@@ -187,5 +188,12 @@ public class DataAccessServiceImpl implements DataAccessService
 
             ensureChilds(entity.getEntityTemplate(), doAbort);
         }
+    }
+
+    @Override
+    public List<Topic> searchForTopics(String param)
+    {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

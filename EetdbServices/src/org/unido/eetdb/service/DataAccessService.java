@@ -1,5 +1,6 @@
 package org.unido.eetdb.service;
 
+import java.util.List;
 import java.util.Set;
 
 import org.unido.eetdb.common.model.Entity;
@@ -24,4 +25,6 @@ public interface DataAccessService
     public void deleteEntityTemplate(EntityTemplate template);
     
     public Set<ValueType> getValueTypes();
+    
+    public List<Topic> searchForTopics(String param);
 }
