@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -37,7 +38,7 @@ public class DataAccessServiceImpl implements DataAccessService
 
         return retVal;
     }
-    
+
     @Override
     public Entity createEntity(Entity entity)
     {
@@ -69,7 +70,11 @@ public class DataAccessServiceImpl implements DataAccessService
     @Override
     public Topic getTopic(Long topicId)
     {
-        return (Topic) sessionFactory.getCurrentSession().load(Topic.class, topicId);
+        Topic retVal = (Topic) sessionFactory.getCurrentSession().load(Topic.class, topicId);
+
+        Helper.ensureChilds(retVal, false);
+
+        return retVal;
     }
 
     @Override
@@ -89,8 +94,8 @@ public class DataAccessServiceImpl implements DataAccessService
     {
         Set<EntityTemplate> retVal = new HashSet<EntityTemplate>(sessionFactory.getCurrentSession()
                 .createQuery("from EntityTemplate").list());
-        
-        for(EntityTemplate template : retVal)
+
+        for (EntityTemplate template : retVal)
         {
             Helper.ensureChilds(template, true);
         }
@@ -142,6 +147,27 @@ public class DataAccessServiceImpl implements DataAccessService
                 .createQuery("from ValueType").list());
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Topic> searchForTopics(String param)
+    {
+        Query query = sessionFactory.getCurrentSession().getNamedQuery("searchForTopics")
+                .setParameter("param", param);
+
+        List<Topic> retVal = query.list();
+
+        Helper.ensureChilds(retVal, true);
+
+        return retVal;
+    }
+
+    @Override
+    public List<Entity> searchForEntities(String param)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
     private static class Helper
     {
         public static void ensureParent(EntityTemplate template)
@@ -151,12 +177,42 @@ public class DataAccessServiceImpl implements DataAccessService
                 property.setParentTemplate(template);
             }
         }
-        
+
         public static void ensureParent(Entity entity)
         {
             for (EntityProperty property : entity.getProperties())
             {
                 property.setParentEntity(entity);
+            }
+        }
+
+        public static void ensureChilds(List<Topic> topics, boolean doAbort)
+        {
+            for (Topic topic : topics)
+            {
+                Helper.ensureChilds(topic, doAbort);
+            }
+        }
+
+        public static void ensureChilds(Topic topic, boolean doAbort)
+        {
+            if (doAbort)
+            {
+                topic.setChildTopics(null);
+                topic.setEntitiesOfTopic(null);
+            }
+            else
+            {
+                for (Entity child : topic.getEntitiesOfTopic())
+                {
+                    ensureChilds(child, false);
+                }
+
+                for (Topic childTopic : topic.getChildTopics())
+                {
+                    childTopic.setChildTopics(null);
+                    childTopic.setEntitiesOfTopic(null);
+                }
             }
         }
 
@@ -188,19 +244,5 @@ public class DataAccessServiceImpl implements DataAccessService
 
             ensureChilds(entity.getEntityTemplate(), doAbort);
         }
-    }
-
-    @Override
-    public List<Topic> searchForTopics(String param)
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public List<Entity> searchForEntities(String param)
-    {
-        // TODO Auto-generated method stub
-        return null;
     }
 }

@@ -28,4 +28,9 @@
 			<many-to-many column="LINKED_ENTITY_ID" class="Entity" />
 		</set>
 	</class>
+	
+	<sql-query name="searchForEntities">
+		<return class="Entity"/>
+		<![CDATA[CALL search(:param)]]>
+    </sql-query>
 </hibernate-mapping>

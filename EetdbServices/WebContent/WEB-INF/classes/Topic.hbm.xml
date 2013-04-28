@@ -16,14 +16,19 @@
 		<property name="description" />
 		<property name="lastUpdatedBy" column="UPDATED_BY" />	
 
-		<set name="entitiesOfTopic" table="UNIDO_ENTITY_REFERENCE" fetch="join">
+		<set name="entitiesOfTopic" table="UNIDO_ENTITY_REFERENCE">
 			<key column="TOPIC_ID" />
 			<many-to-many column="ENTITY_ID" class="Entity" />
 		</set>
 
-		<set name="childTopics" table="UNIDO_TOPIC_LINK" fetch="join">
+		<set name="childTopics" table="UNIDO_TOPIC_LINK">
 			<key column="PARENT_TOPIC_ID" />
 			<many-to-many column="LINKED_TOPIC_ID" class="Topic" />
 		</set>
 	</class>
+
+	<sql-query name="searchForTopics">
+		<return class="Topic"/>
+		<![CDATA[CALL search_topic(:param)]]>
+    </sql-query>
 </hibernate-mapping>
