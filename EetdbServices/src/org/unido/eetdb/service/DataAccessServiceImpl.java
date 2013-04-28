@@ -196,4 +196,11 @@ public class DataAccessServiceImpl implements DataAccessService
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public List<Entity> searchForEntities(String param)
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

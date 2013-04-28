@@ -34,4 +34,12 @@ public class SearchController
     {
         return dataAccessService.searchForTopics(param);
     }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/search-for-entities/{param}")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    public @ResponseBody
+    List<Entity> searchForEntities(@PathVariable String param)
+    {
+        return dataAccessService.searchForEntities(param);
+    }
 }

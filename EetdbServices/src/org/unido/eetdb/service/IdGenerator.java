@@ -3,8 +3,8 @@ package org.unido.eetdb.service;
 import java.io.Serializable;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 
 import org.apache.log4j.Logger;
 import org.hibernate.HibernateException;
@@ -23,13 +23,13 @@ public class IdGenerator implements IdentifierGenerator
 
         try
         {
-            CallableStatement statement = connection.prepareCall("{? = call SEQ_NEXTVAL}");
+            CallableStatement statement = connection.prepareCall("select SEQ_NEXTVAL}");
 
-            statement.registerOutParameter(1, Types.INTEGER);
+            ResultSet rs = statement.executeQuery();
 
-            statement.executeQuery();
+            rs.first();
 
-            return statement.getLong(1);
+            return rs.getLong(1);
         }
         catch (SQLException ex)
         {

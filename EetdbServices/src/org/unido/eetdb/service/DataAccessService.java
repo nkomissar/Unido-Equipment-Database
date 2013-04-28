@@ -27,4 +27,5 @@ public interface DataAccessService
     public Set<ValueType> getValueTypes();
     
     public List<Topic> searchForTopics(String param);
+    public List<Entity> searchForEntities(String param);
 }
