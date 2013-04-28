@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -60,7 +61,6 @@ public class EntityController
 	public ModelAndView searchEntity(@RequestParam String query, RenderRequest renderRequest) 
 	{
 
-
 		if (ConfigWrapper.useFiddlerProxy(renderRequest))
 		{
 			
@@ -72,14 +72,9 @@ public class EntityController
 		
 		RestTemplate tmpl = new RestTemplate();
 		
-		Entity[] entities = new Entity[5];
-
-		for (int i=0; i<entities.length; i++)
-		{
-			entities[i] = tmpl.getForObject(
-					ConfigWrapper.getServUrl(renderRequest) + "/entity/{i};skip_childs=1", 
-					Entity.class, i+1);
-		}
+		Entity[] entities = tmpl.getForObject(
+					ConfigWrapper.getServUrl(renderRequest) + "/search-for-entities/{i}", 
+					Entity[].class, query);
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
