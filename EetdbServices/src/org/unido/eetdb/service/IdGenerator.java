@@ -23,7 +23,7 @@ public class IdGenerator implements IdentifierGenerator
 
         try
         {
-            CallableStatement statement = connection.prepareCall("select SEQ_NEXTVAL}");
+            CallableStatement statement = connection.prepareCall("select SEQ_NEXTVAL()");
 
             ResultSet rs = statement.executeQuery();
 
