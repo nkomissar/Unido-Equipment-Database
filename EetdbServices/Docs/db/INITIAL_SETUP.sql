@@ -15,11 +15,11 @@ DELETE FROM UNIDO_VALUE_TYPE;
 -- -------------------------------------------------------------------
 INSERT INTO eetdb.UNIDO_VALUE_TYPE
 (VALUE_TYPE_ID, FORMAT, TYPE, UPDATED_BY, UPDATE_DATE) 
-VALUES (1, 'TXT', 'STRING', 'system', sysdate());
+VALUES (1, '', 'STRING', 'system', sysdate());
 
 INSERT INTO eetdb.UNIDO_VALUE_TYPE
 (VALUE_TYPE_ID, FORMAT, TYPE, UPDATED_BY, UPDATE_DATE) 
-VALUES (2, 'HTML', 'TEXT', 'system', sysdate());
+VALUES (2, '', 'TEXT', 'system', sysdate());
 
 INSERT INTO eetdb.UNIDO_VALUE_TYPE
 (VALUE_TYPE_ID, FORMAT, TYPE, UPDATED_BY, UPDATE_DATE) 
