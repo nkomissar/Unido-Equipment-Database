@@ -10,6 +10,7 @@
 		<id name="entityId" column="ENTITY_ID" />
 
 		<property name="entityName" column="ENTITY_NAME"/>
+		<property name="entityDescription" column="DESCRIPTION"/>
 	</class>
 
 	<sql-query name="searchForEntities">

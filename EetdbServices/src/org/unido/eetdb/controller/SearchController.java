@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.Topic;
 import org.unido.eetdb.service.DataAccessService;

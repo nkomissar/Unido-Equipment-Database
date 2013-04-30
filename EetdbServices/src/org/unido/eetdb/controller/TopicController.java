@@ -7,19 +7,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.MatrixVariable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.Topic;
 import org.unido.eetdb.service.DataAccessService;
 
 @Controller
 @Repository
-public class EntityController
+public class TopicController
 {
     private DataAccessService dataAccessService;
 
@@ -29,28 +27,36 @@ public class EntityController
         this.dataAccessService = dataAccessService;
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/entity/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/topic/{id}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    Entity getEntity(@PathVariable Long id, @MatrixVariable(required=true) int skip_childs)
+    Topic getTopic(@PathVariable Long id)
     {
-        return dataAccessService.getEntity(id, skip_childs == 1 ? true : false);
+        return dataAccessService.getTopic(id);
     }
     
-    @RequestMapping(method = RequestMethod.POST, value = "/entity")
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @RequestMapping(method = RequestMethod.GET, value = "/topics")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    Entity createEntity(@RequestBody Entity entity)
+    Set<Topic> getRootTopics()
     {
-        return dataAccessService.createEntity(entity);
+        return dataAccessService.getRootTopics();
     }
     
-    @RequestMapping(method = RequestMethod.DELETE, value = "/entity")
+    @RequestMapping(method = RequestMethod.POST, value = "/topic")
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public @ResponseBody
-    String deleteEntity(@RequestBody Entity entity)
+    Topic createTopic(@RequestBody Topic topic)
     {
-        dataAccessService.deleteEntity(entity);
+        return dataAccessService.createTopic(topic);
+    }
+    
+    @RequestMapping(method = RequestMethod.DELETE, value = "/topic")
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public @ResponseBody
+    String deleteTopic(@RequestBody Topic topic)
+    {
+        dataAccessService.deleteTopic(topic);
         
         return "OK";
     }
@@ -58,8 +64,8 @@ public class EntityController
     @RequestMapping(method = RequestMethod.PUT, value = "/entity")
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public @ResponseBody
-    Entity updateEntity(@RequestBody Entity entity)
+    Topic updateTopic(@RequestBody Topic topic)
     {
-        return dataAccessService.updateEntity(entity);
+        return dataAccessService.updateTopic(topic);
     }
 }

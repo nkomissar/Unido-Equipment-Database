@@ -111,6 +111,31 @@ public class DataAccessServiceImpl implements DataAccessService
         return new HashSet<Topic>(sessionFactory.getCurrentSession()
                 .createSQLQuery("SELECT * FROM V_ROOT_TOPIC").addEntity(Topic.class).list());
     }
+    
+    @Override
+    public Topic createTopic(Topic topic)
+    {
+        sessionFactory.getCurrentSession().save(topic);
+
+        return topic;
+    }
+
+    @Override
+    public Topic updateTopic(Topic topic)
+    {
+        topic = (Topic) sessionFactory.getCurrentSession().merge(topic);
+
+        sessionFactory.getCurrentSession().flush();
+
+        return topic;
+    }
+
+    @Override
+    public void deleteTopic(Topic topic)
+    {
+        sessionFactory.getCurrentSession().delete(topic);
+
+    }
 
     @Override
     public EntityTemplate createEntityTemplate(EntityTemplate template)

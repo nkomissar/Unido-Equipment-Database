@@ -17,6 +17,9 @@ public interface DataAccessService
     public void deleteEntity(Entity entity);
 
     public Topic getTopic(Long topicId);
+    public Topic createTopic(Topic topic);
+    public Topic updateTopic(Topic topic);
+    public void deleteTopic(Topic topic);
     public Set<Topic> getRootTopics();
 
     public EntityTemplate getEntityTemplate(Long templateId, boolean skipChilds);
