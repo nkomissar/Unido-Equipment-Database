@@ -5,25 +5,25 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping package="org.unido.eetdb.common.model">
-	<class name="Topic" table="UNIDO_TOPIC" lazy="false">
-	    <id name="id" column="TOPIC_ID">
-        	<generator class="identity"/>
-    	</id>
+    <class name="Topic" table="UNIDO_TOPIC" lazy="false">
+        <id name="id" column="TOPIC_ID">
+            <generator class="identity" />
+        </id>
 
-    	<version name="version" column="VERSION" />
+        <version name="version" column="VERSION" />
 
-		<property name="name" column="TOPIC_NAME" />
-		<property name="description" />
-		<property name="lastUpdatedBy" column="UPDATED_BY" />	
+        <property name="name" column="TOPIC_NAME" />
+        <property name="description" />
+        <property name="lastUpdatedBy" column="UPDATED_BY" />
 
-		<set name="childTopics" table="UNIDO_TOPIC_LINK">
-			<key column="PARENT_TOPIC_ID" />
-			<many-to-many column="LINKED_TOPIC_ID" class="Topic" />
-		</set>
-	</class>
+        <set name="childTopics" table="UNIDO_TOPIC_LINK">
+            <key column="PARENT_TOPIC_ID" />
+            <many-to-many column="LINKED_TOPIC_ID" class="Topic" />
+        </set>
+    </class>
 
-	<sql-query name="searchForTopics">
-		<return class="Topic"/>
+    <sql-query name="searchForTopics">
+        <return class="Topic" />
 		<![CDATA[CALL search_topic(:param)]]>
     </sql-query>
 </hibernate-mapping>

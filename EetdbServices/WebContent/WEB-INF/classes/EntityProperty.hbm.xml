@@ -5,17 +5,18 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping package="org.unido.eetdb.common.model">
-	<class name="EntityProperty" table="UNIDO_ENTITY_PROPERTY" lazy="false">
-	    <id name="id" column="ENTITY_PROPERTY_ID">
-        	<generator class="identity"/>
-    	</id>
+    <class name="EntityProperty" table="UNIDO_ENTITY_PROPERTY" lazy="false">
+        <id name="id" column="ENTITY_PROPERTY_ID">
+            <generator class="identity" />
+        </id>
 
-    	<version name="version" column="VERSION" />
+        <version name="version" column="VERSION" />
 
-    	<property name="value" column="VALUE" />
-    	<property name="lastUpdatedBy" column="UPDATED_BY" />
-    	
-    	<many-to-one name="templateProperty" fetch="join" column="TEMPLATE_PROPERTY_ID" unique="true" />
-    	<many-to-one name="parentEntity" column="ENTITY_ID" not-null="true" />
-	</class>
+        <property name="value" column="VALUE" />
+        <property name="lastUpdatedBy" column="UPDATED_BY" />
+
+        <many-to-one name="templateProperty" fetch="join" column="TEMPLATE_PROPERTY_ID"
+            unique="true" />
+        <many-to-one name="parentEntity" column="ENTITY_ID" not-null="true" />
+    </class>
 </hibernate-mapping>
