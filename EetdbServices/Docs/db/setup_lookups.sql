@@ -81,15 +81,14 @@ set @last_id = eetdb.add_entity('DESICCANT_DRYER_TYPE', 'Рефрижерато�
 set @last_id = eetdb.add_entity('DESICCANT_DRYER_TYPE', 'Комбинированный осушитель');
 
 set @last_id = eetdb.add_template('ENGINE_IE_CLASS', 'Класс IE');
-set @last_id = eetdb.add_entity('ENGINE_IE_CLASS', 'IE');
-set @last_id = eetdb.add_entity('ENGINE_IE_CLASS', 'IE');
+set @last_id = eetdb.add_entity('ENGINE_IE_CLASS', 'IE2');
+set @last_id = eetdb.add_entity('ENGINE_IE_CLASS', 'IE3');
 
 set @last_id = eetdb.add_template('PUMP_TYPE', 'Тип насоса');
 set @last_id = eetdb.add_entity('PUMP_TYPE', 'Насос с частотным преобразователем');
 
 set @last_id = eetdb.add_template('FAN_TYPE', 'Тип вентилятора');
 set @last_id = eetdb.add_entity('FAN_TYPE', 'Центробежный вентилятор с частотным преобразователем');
-
 
 set @last_id = eetdb.add_template('HVAC_TYPE', 'Тип вентилляции');
 set @last_id = eetdb.add_entity('HVAC_TYPE', 'Приточная и вытяжная вентиляция');
