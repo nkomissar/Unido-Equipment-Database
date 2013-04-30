@@ -1,15 +1,15 @@
 
-Ext.define('EetdbAdmin.store.EntitySearchResult', {
+Ext.define('EetdbAdmin.store.TopicSearchResult', {
     extend: 'Ext.data.Store',
 
-    model: 'EetdbAdmin.model.EntitySearchResult',
+    model: 'EetdbAdmin.model.Topic',
     
     proxy: {
     	type: 'ajax',
     	reader: 
     	{
     		type: 'json',
-    		root: 'entities'
+    		root: 'topics'
     	}
 	}
 
@@ -20,7 +20,7 @@ Ext.define('EetdbAdmin.store.EntitySearchResult', {
 		loadUrl.setPortletId(portletId);
 		loadUrl.setWindowState(exclusiveWindowState);
 		
-	    loadUrl.setParameter('action', 'doEntitySearch');
+	    loadUrl.setParameter('action', 'doTopicSearch');
 	    
 	    if (typeof options !== 'undefined' 
 	    	&& typeof options.params !== 'undefined'

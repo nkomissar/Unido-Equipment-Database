@@ -102,7 +102,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	var searchDataview = this.getEntityTemplateData();
         var searchStore = this.getEntityTemplateSearchResultStore();
         
-        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntityTemplate', { name: 'New Template'} ));
+        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntityTemplate', { id: 0, name: 'New Template'} ));
         
         searchDataview.getSelectionModel().select(0);
 
@@ -190,9 +190,13 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     		store.add(Ext.create('EetdbAdmin.model.EntityTemplate'));
     	}
     	
+    	store.loadRawData( { template: [values] });
+    	
     	var record = store.getAt(0);
     	
-    	record.set(values);
+    	record.dirty = true;
+    	//always re-read ID from server response
+    	record.phantom = true;
 
     	itemForm.setLoading({
             msg: 'Saving template...'

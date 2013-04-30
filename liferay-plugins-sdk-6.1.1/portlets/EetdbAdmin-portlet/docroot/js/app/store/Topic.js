@@ -1,21 +1,20 @@
 
-Ext.define('EetdbAdmin.store.Entity', {
+Ext.define('EetdbAdmin.store.Topic', {
     extend: 'Ext.data.Store',
 
-    requires: ['EetdbAdmin.model.Entity'],
+    requires: ['EetdbAdmin.model.Topic'],
     
-    model: 'EetdbAdmin.model.Entity',
+    model: 'EetdbAdmin.model.Topic',
     
     proxy: {
     	type: 'ajax',
     	actionMethods: {
             create: 'POST', read: 'GET', update: 'POST', destroy: 'POST'
         },
-    	url: entityTemplateControllerURL.toString(),
     	reader: 
     	{
     		type: 'json',
-    		root: 'entity'
+    		root: 'topic'
     	}
         ,writer:
     	{
@@ -31,17 +30,17 @@ Ext.define('EetdbAdmin.store.Entity', {
 		loadUrl.setPortletId(portletId);
 		loadUrl.setWindowState(exclusiveWindowState);
 		
-        loadUrl.setParameter('action', 'doEntityLoad');
+        loadUrl.setParameter('action', 'doTopicLoad');
         
         if (typeof options !== 'undefined' 
         	&& typeof options.params !== 'undefined'
-        	&& typeof options.params.entityId !== 'undefined') {
+        	&& typeof options.params.topicId !== 'undefined') {
         	
-        	loadUrl.setParameter('entityId', options.params.entityId);
+        	loadUrl.setParameter('topicId', options.params.topicId);
         
         } else {
         	
-        	loadUrl.setParameter('entityId', 1);
+        	loadUrl.setParameter('topicId', 1);
         	
         }
         
@@ -58,11 +57,11 @@ Ext.define('EetdbAdmin.store.Entity', {
 		pUrl.setPortletId(portletId);
 		pUrl.setWindowState(exclusiveWindowState);
 		
-		pUrl.setParameter('action', 'doEntityPost');
+		pUrl.setParameter('action', 'doTopicPost');
         
         var postUrl = pUrl.toString();
         
-        pUrl.setParameter('action', 'doEntityDestroy');
+        pUrl.setParameter('action', 'doTopicDestroy');
         
         var destroyUrl = pUrl.toString();
         

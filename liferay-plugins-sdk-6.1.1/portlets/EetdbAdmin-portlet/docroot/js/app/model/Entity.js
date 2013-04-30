@@ -40,7 +40,7 @@ Ext.define('EetdbAdmin.model.Entity', {
 	    }
 	]
     
-	,set: function(fieldName, newValue)
+	/*,set: function(fieldName, newValue)
 	{
 
 		var me = this, 
@@ -70,7 +70,7 @@ Ext.define('EetdbAdmin.model.Entity', {
 
 		 me['EntityTemplate'] = fieldName['entityTemplate'];
 		 
-	}
+	}*/
     
     
 });

@@ -8,6 +8,7 @@ Ext.define('EetdbAdmin.view.Viewport', {
         'EetdbAdmin.view.Viewer', 
         'EetdbAdmin.view.GroupTabs', 
         'EetdbAdmin.view.entity.List', 
+        'EetdbAdmin.view.topic.List', 
         'EetdbAdmin.view.entitytemplate.List', 
         'Ext.layout.container.Fit', 
         'Ext.layout.container.Border',
@@ -38,62 +39,7 @@ Ext.define('EetdbAdmin.view.Viewport', {
                 //animCollapse: true,
                 //margins: '5 0 5 5',
                 width: 500,
-            	layout: 'fit'/*,
-            	 items: [
-            	    {
-            		xtype: 'grouptabpanel',
-                    activeGroup: 0,
-                    items: [{
-                    	mainItem: 0,
-                    	items: [{
-                    		title: 'Templates'
-                    	},{
-                    		title: 'Search',
-                    		items: [{
-                    			xtype: 'entitytemplatelist'
-                    		}]
-                    	},{
-                    		title: 'Add Template',
-                    		action: 'addtemplate',
-                    		listeners: {
-                    			beforeactivate: function(pnl, e, eOpts){
-                    				
-                    				console.log('herrr');
-                    			}
-                    		}
-                    	},{
-                    		title: 'Remove Template',
-                    		disabled: true
-                    	}]
-                    },{
-                    	expanded: false,
-                    	items: [{
-                    		title: 'Entities'
-                    	}, {
-                    		title: 'Search',
-                    		items: [{
-                    			xtype: 'entitylist',
-                    			layout: 'fit'
-                    		}]
-                    	}, {
-                    		title: 'Add Entity'
-                    	}, {
-                    		title: 'Remove Entity'
-                    	}]
-                    },{
-                    	expanded: false,
-                    	items: [{
-                    		title: 'Topics'
-                    	}, {
-                    		title: 'Search'
-                    	}, {
-                    		title: 'Add Topic'
-                    	}, {
-                    		title: 'Remove Topic'
-                    	}]
-                    }]
-            	}]
-*/
+            	layout: 'fit'
                 }, {
                     
                     region: 'center',

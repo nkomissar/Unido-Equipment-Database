@@ -27,6 +27,12 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
 	        ,'mygrouptabs *[action=removeentity]': {
 	        	beforeactivate: this.removeEntity
 	        }
+            ,'mygrouptabs *[action=addtopic]': {
+                beforeactivate: this.addTopic
+            }
+	        ,'mygrouptabs *[action=removetopic]': {
+	        	beforeactivate: this.removeTopic
+	        }
         });
     	
     	this.application.on(
@@ -89,6 +95,26 @@ Ext.define('EetdbAdmin.controller.GroupTabs', {
     	this.application.fireEvent('removeEntity');
     	
     	this.getMyView().selectEntitySearch();
+    	
+    	return false;
+    	
+    }
+
+    ,addTopic: function(groupPanel, newTab, oldTab) 
+    {
+    	
+    	this.application.fireEvent('addTopic');
+    	
+    	return false;
+    	
+    }
+    
+    ,removeTopic: function(groupPanel, newTab, oldTab) 
+    {
+    	
+    	this.application.fireEvent('removeTopic');
+    	
+    	this.getMyView().selectTopicSearch();
     	
     	return false;
     	

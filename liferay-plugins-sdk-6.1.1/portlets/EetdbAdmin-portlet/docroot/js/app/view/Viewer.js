@@ -3,7 +3,8 @@ Ext.define('EetdbAdmin.view.Viewer', {
     alias: 'widget.viewer',
     
     requires: ['EetdbAdmin.view.entitytemplate.Item'
-               	,'EetdbAdmin.view.entity.Item'],
+               	,'EetdbAdmin.view.entity.Item'
+               	,'EetdbAdmin.view.topic.Item'],
     
     activeItem: 0,
     
@@ -20,6 +21,10 @@ Ext.define('EetdbAdmin.view.Viewer', {
               xtype: 'entityitem',
               title: 'Entity'
               ,id: 'entityitem'
+          },{
+              xtype: 'topicitem',
+              title: 'Topic'
+              ,id: 'topicitem'
           }];
         
         

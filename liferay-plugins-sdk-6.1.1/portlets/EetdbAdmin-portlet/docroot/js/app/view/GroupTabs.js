@@ -52,13 +52,21 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                     expanded: false,
                     items: [{
                             title: 'Topics'
-                        }, {
-                            title: 'Search'
-                        }, {
-                            title: 'Add Topic'
-                        }, {
-                            title: 'Remove Topic'
-                        }]
+	                    }, {
+	                        title: 'Search',
+	                        items: [{
+	                                xtype: 'topiclist',
+	                                layout: 'fit'
+	                            }]
+	                    }, {
+	                        title: 'Add Topic',
+	                        	id: 'addTopicTab',
+	                            action: 'addtopic'
+	                    }, {
+	                        title: 'Remove Topic',
+	                        id: 'removeTopicTab',
+	                        action: 'removetopic'
+	                    }]
                 }]
         
         }],
@@ -106,6 +114,12 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
     	            		me.fireEvent('removeentityselected');
     	            		return false;
     	            	}
+
+    	            	if (node.get('id') == 'removeTopicTab')
+    	            	{
+    	            		me.fireEvent('removetopicselected');
+    	            		return false;
+    	            	}
     	            	
     	            	return true;
                 	
@@ -120,7 +134,8 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                  * Fires when 'Remove Template' tab selected.
                  */
                 'removetemplateselected',
-                'removeentityselected'
+                'removeentityselected',
+                'removetopicselected'
         		);
         
         this.callParent(arguments);
@@ -151,6 +166,15 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
     	var tabs = this.down('grouptabpanel treepanel');
         var store = tabs.getStore();
         var searchNode = store.getNodeById('searchEntityTab');
+                    
+        tabs.getSelectionModel().select(searchNode);
+	}
+
+	,selectTopicSearch: function()
+	{
+    	var tabs = this.down('grouptabpanel treepanel');
+        var store = tabs.getStore();
+        var searchNode = store.getNodeById('searchTopicTab');
                     
         tabs.getSelectionModel().select(searchNode);
 	}

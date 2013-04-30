@@ -1,16 +1,16 @@
-Ext.define('EetdbAdmin.controller.Entities', {
+Ext.define('EetdbAdmin.controller.Topics', {
     extend: 'Ext.app.Controller',
 
-    stores: ['EntitySearchResult', 'Entity', 'EntityTemplate'],
-    models: ['Entity', 'EntityProperty', 'EntityTemplate', 'EntitySearchResult'],
-    views: ['entity.List', 'entity.Item'],
+    stores: ['TopicSearchResult', 'Topic'],
+    models: ['Topic'],
+    views: ['topic.List', 'topic.Item'],
     
     refs: [
-        {ref: 'entityList', selector: 'entitylist'},
-        {ref: 'entityData', selector: 'entitylist dataview'},
-        {ref: 'searchQuery', selector: 'entitylist toolbar searchfield'},
-        {ref: 'entityItem', selector: 'entityitem'},
-        {ref: 'entityForm', selector: 'entityitem form'}
+        {ref: 'topicList', selector: 'topiclist'},
+        {ref: 'topicData', selector: 'topiclist dataview'},
+        {ref: 'searchQuery', selector: 'topiclist toolbar searchfield'},
+        {ref: 'topicItem', selector: 'topicitem'},
+        {ref: 'topicForm', selector: 'topicitem form'}
     ],
     
     // At this point things haven't rendered yet since init gets called on controllers before the launch function
@@ -18,55 +18,52 @@ Ext.define('EetdbAdmin.controller.Entities', {
     init: function() {
     	
         this.control({
-            'entitylist dataview': {
-                selectionchange: this.loadEntity
+            'topiclist dataview': {
+                selectionchange: this.loadTopic
             },
-            'entitylist toolbar searchfield': {
+            'topiclist toolbar searchfield': {
             	triggerclick: this.doSearch
             }
-            ,'entityitem button[action=create]': {
-                click: this.submitEntity
-            }
-            ,'entityitem form combobox': {
-                select: this.applyTemplate
+            ,'topicitem button[action=create]': {
+                click: this.submitTopic
             }
         });
         
     	this.application.on(
     			{
-    				addEntity: this.addEntity,
-    				removeEntity: this.removeEntity,
+    				addTopic: this.addTopic,
+    				removeTopic: this.removeTopic,
     				scope: this
     			});
     },
     
     onLaunch: function() {
    	
-        var dataview = this.getEntityData(),
-            store = this.getEntitySearchResultStore();
+        var dataview = this.getTopicData(),
+            store = this.getTopicSearchResultStore();
         
         dataview.bindStore(store);
         //dataview.getSelectionModel().select(store.getAt(0));
     },
 
-    loadEntity: function(selModel, selected) 
+    loadTopic: function(selModel, selected) 
     {
-        var store = this.getEntityStore(),
-        searchEntity = selected[0],
-        itemForm = this.getEntityForm();
+        var store = this.getTopicStore(),
+        searchTopic = selected[0],
+        itemForm = this.getTopicForm();
     
-	    var eItem = this.getEntityItem();
+	    var eItem = this.getTopicItem();
 	    
 	    eItem.show();
 	    
-	    if (typeof searchEntity === 'undefined')
+	    if (typeof searchTopic === 'undefined')
 	    {
-	    	this.application.fireEvent('entityUnselected');
+	    	this.application.fireEvent('topicUnselected');
 	    	return;
 	    }
 	    
-	    if (!searchEntity.phantom
-	    		&& !searchEntity.dirty) 
+	    if (!searchTopic.phantom
+	    		&& !searchTopic.dirty) 
 	    {
 	    	
 	    	
@@ -76,8 +73,8 @@ Ext.define('EetdbAdmin.controller.Entities', {
 	
 	    	store.load({
 	            params: {
-	            	action: 'doEntityLoad',
-	                entityId: searchEntity.get('entityId')
+	            	action: 'doTopicLoad',
+	                topicId: searchEntity.get('topicId')
 	            },
 	            callback: function(records, operation, success) {
 	            	
@@ -90,16 +87,9 @@ Ext.define('EetdbAdmin.controller.Entities', {
 	    	return;
 	    }
 	    
-	    var entity = Ext.create('EetdbAdmin.model.Entity', 
-	    		{ 
-	    			id: searchEntity.get('entityId'),
-	    			name: searchEntity.get('entityName'),
-	    			description: searchEntity.get('entityDescription')
-	    		});
-	    
-        eItem.loadRecord(entity);
-        store.loadRecords([entity]);
-    	this.application.fireEvent('entitySelected');
+        eItem.loadRecord(searchTopic);
+        store.loadRecords([searchTopic]);
+    	this.application.fireEvent('topicSelected');
 
     },
     
@@ -107,7 +97,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     {
     	
     	var queryBox = this.getSearchQuery(),
-    	 store = this.getEntitySearchResultStore();
+    	 store = this.getTopicSearchResultStore();
     	
     	store.load(
     			{
@@ -119,31 +109,31 @@ Ext.define('EetdbAdmin.controller.Entities', {
     	
     },
 
-    addEntity: function()
+    addTopic: function()
     {
     	
-    	var searchDataview = this.getEntityData();
-        var searchStore = this.getEntitySearchResultStore();
+    	var searchDataview = this.getTopicData();
+        var searchStore = this.getTopicSearchResultStore();
         
-        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntitySearchResult', { entityId: 0, entityName: 'New Entity'} ));
+        searchStore.insert(0, Ext.create('EetdbAdmin.model.Topic', { id: 0, name: 'New Topic'} ));
         
         searchDataview.getSelectionModel().select(0);
 
     }
     
-    ,removeEntity: function()
+    ,removeTopic: function()
     {
     	
-    	var searchDataview = this.getEntityData();
-        var searchStore = this.getEntitySearchResultStore();
-    	var store = this.getEntityStore();
+    	var searchDataview = this.getTopicData();
+        var searchStore = this.getTopicSearchResultStore();
+    	var store = this.getTopicStore();
 
         var recordInSearch = searchDataview.getSelectionModel().getSelection()[0];
     	var record = store.getAt(0);
 
         if (typeof recordInSearch === 'undefined'
         	|| typeof record === 'undefined'
-        	|| recordInSearch.get('entityId') != record.get('id')) 
+        	|| recordInSearch.get('topicId') != record.get('id')) 
         {
         	return;
         }
@@ -169,7 +159,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     	}
         
     	searchDataview.setLoading({
-            msg: 'Removing entity...'
+            msg: 'Removing topic...'
         });
     	
     	store.sync({
@@ -197,21 +187,22 @@ Ext.define('EetdbAdmin.controller.Entities', {
     	});
     }
     
-    ,submitEntity: function() {
+    ,submitTopic: function() {
     	
-    	var itemForm = this.getEntityForm();
-    	var itemView = this.getEntityItem();
-    	var store = this.getEntityStore();
-    	var values = itemView.getFieldValues();
-    	var templateStore = this.getEntityTemplateStore();
+    	var itemForm = this.getTopicForm();
+    	var itemView = this.getTopicItem();
+    	var store = this.getTopicStore();
+    	//var values = itemView.getFieldValues();
+    	//var templateStore = this.getEntityTemplateStore();
 
-    	var searchDataview = this.getEntityData();
+    	var searchDataview = this.getTopicData();
         var recordInSearch = searchDataview.getSelectionModel().getSelection()[0];
 
         itemForm.setLoading({
-            msg: 'Saving entity...'
+            msg: 'Saving topic...'
         });
         
+        /*
         templateStore.load(
         {
 	        params: {
@@ -221,51 +212,42 @@ Ext.define('EetdbAdmin.controller.Entities', {
 	        callback: function(records, operation, success) {
 	    	
 	        	values.entityTemplate = records[0].data;
-	        	
-		    	if (store.count() == 0){
-		    		store.add(Ext.create('EetdbAdmin.model.Entity'));
-		    	}
-		    	
-		    	store.loadRawData( { entity: [values] });
-		    	
-		    	var record = store.getAt(0);
-		    	
-		    	record.dirty = true;
-		    	//always re-read ID from server response
-		    	record.phantom = true;
-		    	
-		    	//record.set(values);
-		    	
-		    	store.sync({
-		    		success: function(){
-		    			
-		    			var newrec = store.getAt(0);
-		    			
-		    			var dataInSearch = {
-		    					entityId: newrec.get('id'),
-		    					entityName: newrec.get('name'),
-		    					entityDescription: 'dummy'
-		    			};
-		    			
-		    			recordInSearch.set(dataInSearch);
-		    			recordInSearch.commit();
-		    			
-		    			itemView.loadRecord(newrec);
-		    			
-		    	    	itemForm.setLoading(false);
-		    	    	
-		    		}
-		    		,failure: function (){
-		    	    	itemForm.setLoading(false);
-		    		},
-		    		scope: this
-		    	});
-	        }
-        });
+	        	*/
+    	
+    	store.loadRawData( { topic: [values] });
+    	
+    	var record = store.getAt(0);
+    	
+    	record.dirty = true;
+    	//always re-read ID from server response
+    	record.phantom = true;
+    	
+    	//record.set(values);
+    	
+    	store.sync({
+    		success: function(){
+    			
+    			var newrec = store.getAt(0);
+    			
+    			recordInSearch.set(newrec);
+    			recordInSearch.commit();
+    			
+    			itemView.loadRecord(newrec);
+    			
+    	    	itemForm.setLoading(false);
+    	    	
+    		}
+    		,failure: function (){
+    	    	itemForm.setLoading(false);
+    		},
+    		scope: this
+    	});
+	        /*}
+        });*/
 
     }
     
-	,applyTemplate: function (combo, records, eOpts)
+	/*,applyTemplate: function (combo, records, eOpts)
 	{
 		
 		var me = this;
@@ -321,7 +303,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
         });
 		
 		
-	}
+	}*/
 
 
 });
