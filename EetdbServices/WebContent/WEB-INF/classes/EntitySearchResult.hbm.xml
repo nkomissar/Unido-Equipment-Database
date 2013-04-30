@@ -5,16 +5,16 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping package="org.unido.eetdb.common.model">
-    <class name="EntitySearchResult" mutable="false">
+	<class name="EntitySearchResult" mutable="false">
 
-        <id name="entityId" column="ENTITY_ID" />
+		<id name="entityId" column="ENTITY_ID" />
 
-        <property name="entityName" column="ENTITY_NAME" />
-        <property name="entityDescription" column="DESCRIPTION" />
-    </class>
+		<property name="entityName" column="ENTITY_NAME"/>
+		<property name="entityDescription" column="DESCRIPTION"/>
+	</class>
 
-    <sql-query name="searchForEntities">
-        <return class="EntitySearchResult" />
+	<sql-query name="searchForEntities">
+		<return class="EntitySearchResult"/>
 		<![CDATA[CALL search(:param)]]>
     </sql-query>
 </hibernate-mapping>

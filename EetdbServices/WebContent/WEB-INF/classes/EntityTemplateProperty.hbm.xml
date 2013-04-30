@@ -5,22 +5,22 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping package="org.unido.eetdb.common.model">
-    <class name="EntityTemplateProperty" table="UNIDO_ENTITY_TEMPLATE_PROPERTY" lazy="false">
-        <id name="id" column="TEMPLATE_PROPERTY_ID">
-            <generator class="identity" />
-        </id>
+	<class name="EntityTemplateProperty" table="UNIDO_ENTITY_TEMPLATE_PROPERTY" lazy="false">
+	    <id name="id" column="TEMPLATE_PROPERTY_ID">
+        	<generator class="identity"/>
+    	</id>
 
-        <version name="version" column="VERSION" />
+    	<version name="version" column="VERSION" />
 
-        <property name="name" column="PROPERTY_NAME" />
-        <property name="code" column="PROPERTY_CODE" />
-        <property name="displayInGrid" type="numeric_boolean" column="DISPLAY_IN_GRID" />
-        <property name="mandatory" type="numeric_boolean" column="MANDATORY" />
-        <property name="searchable" type="numeric_boolean" column="SEARCHABLE" />
-        <property name="unitOfMeasure" column="UNIT_OF_MEASURE" />
-        <property name="lastUpdatedBy" column="UPDATED_BY" />
+    	<property name="name" column="PROPERTY_NAME" />
+    	<property name="code" column="PROPERTY_CODE"/>
+		<property name="displayInGrid" type="numeric_boolean" column="DISPLAY_IN_GRID" />
+		<property name="mandatory" type="numeric_boolean" column="MANDATORY" />
+		<property name="searchable" type="numeric_boolean" column="SEARCHABLE" />
+		<property name="unitOfMeasure" column="UNIT_OF_MEASURE" />
+		<property name="lastUpdatedBy" column="UPDATED_BY" />
 
-        <many-to-one name="parentTemplate" column="ENTITY_TEMPLATE_ID" not-null="true" />
-        <many-to-one name="valueType" fetch="join" column="VALUE_TYPE_ID" unique="true" />
-    </class>
+		<many-to-one name="parentTemplate" column="ENTITY_TEMPLATE_ID" not-null="true" />
+		<many-to-one name="valueType" fetch="join" column="VALUE_TYPE_ID" unique="true" />
+	</class>
 </hibernate-mapping>

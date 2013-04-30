@@ -1,49 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="
 		http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-        <property name="url"
-            value="jdbc:mysql://50.56.189.15:3306/eetdb?characterEncoding=UTF-8&amp;noAccessToProcedureBodies=true" />
-        <property name="maxActive" value="-1" />
-        <property name="maxIdle" value="1" />
-        <property name="username" value="eetSite" />
-        <property name="password" value="eetdb" />
-    </bean>
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
+		destroy-method="close">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://50.56.189.15:3306/eetdb?characterEncoding=UTF-8&amp;noAccessToProcedureBodies=true" />
+		<property name="maxActive" value="-1" />
+		<property name="maxIdle" value="1" />
+		<property name="username" value="eetSite" />
+		<property name="password" value="eetdb" />
+	</bean>
 
-    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-        <property name="dataSource" ref="dataSource" />
-        <property name="mappingResources">
-            <list>
-                <value>Entity.hbm.xml</value>
-                <value>EntityProperty.hbm.xml</value>
-                <value>EntityTemplate.hbm.xml</value>
-                <value>EntityTemplateProperty.hbm.xml</value>
-                <value>ValueType.hbm.xml</value>
-                <value>Topic.hbm.xml</value>
-                <value>EntitySearchResult.hbm.xml</value>
-                <value>ValueBlob.hbm.xml</value>
-            </list>
-        </property>
-        <property name="hibernateProperties">
-            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.max_fetch_depth">1</prop>
-                <prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
-                <prop key="hibernate.cache.use_query_cache">true</prop>
-                <prop key="hibernate.cache.use_second_level_cache">true</prop>
-                <prop key="configurationResourceName">ehcache.xml</prop>
-                <prop key="hibernate.connection.charSet">utf8</prop>
-            </props>
-        </property>
-    </bean>
-
-    <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mappingResources">
+			<list>
+				<value>Entity.hbm.xml</value>
+				<value>EntityProperty.hbm.xml</value>
+				<value>EntityTemplate.hbm.xml</value>
+				<value>EntityTemplateProperty.hbm.xml</value>
+				<value>ValueType.hbm.xml</value>
+				<value>Topic.hbm.xml</value>
+				<value>EntitySearchResult.hbm.xml</value>
+				<value>ValueBlob.hbm.xml</value>
+			</list>
+		</property>
+		<property name="hibernateProperties">
+		<props>
+		<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+		<prop key="hibernate.show_sql">true</prop>
+		<prop key="hibernate.format_sql">true</prop>
+		<prop key="hibernate.max_fetch_depth">1</prop>
+		<prop key="hibernate.cache.region.factory_class">org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory</prop>
+		<prop key="hibernate.cache.use_query_cache">true</prop>
+		<prop key="hibernate.cache.use_second_level_cache">true</prop>
+		<prop key="configurationResourceName">ehcache.xml</prop>
+		<prop key="hibernate.connection.charSet">utf8</prop>
+		</props>
+		</property>
+	</bean>
+	
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+	</bean>
 </beans>

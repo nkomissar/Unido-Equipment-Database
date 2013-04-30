@@ -5,34 +5,32 @@
 	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
 
 <hibernate-mapping package="org.unido.eetdb.common.model">
-    <class name="Entity" table="UNIDO_ENTITY" lazy="false">
+	<class name="Entity" table="UNIDO_ENTITY" lazy="false">
 
-        <id name="id" column="ENTITY_ID">
-            <generator class="org.unido.eetdb.service.IdGenerator" />
-        </id>
+	    <id name="id" column="ENTITY_ID">
+        	<generator class="org.unido.eetdb.service.IdGenerator"/>
+    	</id>
 
-        <version name="version" column="VERSION" />
+    	<version name="version" column="VERSION" />
 
-        <property name="name" column="ENTITY_NAME" />
-        <property name="lastUpdatedBy" column="UPDATED_BY" />
+    	<property name="name" column="ENTITY_NAME"/>
+    	<property name="lastUpdatedBy" column="UPDATED_BY"/>
 
-        <many-to-one name="entityTemplate" fetch="join" column="ENTITY_TEMPLATE_ID"
-            unique="true" />
+    	<many-to-one name="entityTemplate" fetch="join" column="ENTITY_TEMPLATE_ID" unique="true" />
 
-        <set name="properties" table="UNIDO_ENTITY_PROPERTY" fetch="join" inverse="true"
-            cascade="all-delete-orphan">
-            <key column="ENTITY_ID" />
-            <one-to-many class="EntityProperty" />
-        </set>
-
-        <set name="childEntities" table="UNIDO_ENTITY_LINK" lazy="true" cascade="none">
-            <key column="PARENT_ENTITY_ID" />
-            <many-to-many column="LINKED_ENTITY_ID" class="Entity" />
-        </set>
-
-        <set name="parentTopics" table="UNIDO_ENTITY_REFERENCE" cascade="none">
-            <key column="ENTITY_ID" />
-            <many-to-many column="TOPIC_ID" class="Topic" />
-        </set>
-    </class>
+    	<set name="properties" table="UNIDO_ENTITY_PROPERTY" fetch="join" inverse="true" cascade="all-delete-orphan">
+			<key column="ENTITY_ID" />
+			<one-to-many class="EntityProperty" />
+		</set>
+		
+		<set name="childEntities" table="UNIDO_ENTITY_LINK" lazy="true" cascade="none">
+			<key column="PARENT_ENTITY_ID" />
+			<many-to-many column="LINKED_ENTITY_ID" class="Entity" />
+		</set>
+		
+		<set name="parentTopics" table="UNIDO_ENTITY_REFERENCE" cascade="none">
+			<key column="ENTITY_ID" />
+			<many-to-many column="TOPIC_ID" class="Topic" />
+		</set>
+	</class>
 </hibernate-mapping>
