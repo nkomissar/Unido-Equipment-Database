@@ -1,0 +1,14 @@
+<properties>
+	<property>
+		<code>FUEL</code>
+		<value>4</value>
+		<min/>
+		<max/>
+	</property>
+	<property>
+		<code>CAPACITY</code>
+		<value/>
+		<min>4</min>
+		<max>6</max>
+	</property>
+</properties>
