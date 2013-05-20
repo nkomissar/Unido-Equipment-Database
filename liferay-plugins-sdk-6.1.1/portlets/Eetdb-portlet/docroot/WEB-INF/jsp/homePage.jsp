@@ -10,8 +10,8 @@
 
 <portlet:defineObjects />
 
-<portlet:renderURL var="doSearchURL">
-	<portlet:param name="action" value="doSearch" />
+<portlet:renderURL var="showSearchURL">
+	<portlet:param name="action" value="showSearch" />
 </portlet:renderURL>
 
 <liferay-ui:panel-container>
@@ -44,5 +44,6 @@
 	</liferay-ui:panel>
 </liferay-ui:panel-container>
 
+<aui:a href="<%= showSearchURL %>">Поиск</aui:a>
 
 
