@@ -21,8 +21,12 @@
         <function-signature>java.util.List sortPropertyByCode(java.util.Collection)</function-signature>
     </function>
     <function>
-        <name>getFullName</name>
+        <name>getPropertyNameDecorated</name>
         <function-class>org.unido.eetdb.presentationUtil.EntityHelper</function-class>
         <function-signature>java.lang.String getFullName(org.unido.eetdb.common.model.EntityProperty)</function-signature>
     </function>
-</taglib>
+    <function>
+        <name>getTemplatePropertyNameDecorated</name>
+        <function-class>org.unido.eetdb.presentationUtil.EntityHelper</function-class>
+        <function-signature>java.lang.String getFullName(org.unido.eetdb.common.model.EntityTemplateProperty)</function-signature>
+    </function></taglib>

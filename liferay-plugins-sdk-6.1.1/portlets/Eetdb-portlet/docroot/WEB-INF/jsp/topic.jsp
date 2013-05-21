@@ -130,7 +130,7 @@
 									
 										<c:if test="${property.templateProperty.displayInGrid}">
 											
-											<liferay-ui:search-container-column-text name="${eetdb:getFullName(property)}">
+											<liferay-ui:search-container-column-text name="${eetdb:getPropertyNameDecorated(property)}">
 												<c:choose>
 													<c:when test="${property.templateProperty.valueType.type == 'REFERENCE'}">
 														<c:forTokens items="${property.value}" delims="," var="strId">

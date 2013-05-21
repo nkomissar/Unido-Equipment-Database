@@ -6,6 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui"%>
+<%@ taglib uri="/WEB-INF/tld/eetdb.tld" prefix="eetdb"%>
 
 <%@ page import="com.liferay.portal.service.persistence.PortletUtil"%>
 <%@ page import="com.liferay.portal.util.PortalUtil"%>
@@ -20,6 +21,9 @@
 			PortalUtil.getCurrentURL(request));
 %>
 
+<liferay-ui:search-toggle displayTerms="" id="dds">
+
+</liferay-ui:search-toggle>
 
 <portlet:renderURL var="doSearchURL">
 	<portlet:param name="action" value="doSearch" />
@@ -32,10 +36,11 @@
 <aui:form action="<%= doSearchURL %>" method="post" name="search">
 
 	<aui:select 
-		name="template" 
+		name="selectedTemplate" 
 		label="Тип оборудования" 
 		id="selectedTemplate" 
-		onChange="<%= \"submitForm(document.\" + renderResponse.getNamespace() + \"search, '\" + showSearchURL + \"');\" %>">
+		onChange="<%= \"submitForm(document.\" + renderResponse.getNamespace() + \"search, '\" + showSearchURL + \"');\" %>"
+		inlineLabel="true">
         
         <c:forEach items="${templates}" var="template">
             <aui:option value="${template.id}" label="${template.name}" selected="${selectedTemplate == template.id}"/>
@@ -44,15 +49,35 @@
 	</aui:select>
 	
 	<c:forEach items="${loadedTemplate.properties}" var="templateProperty">
-		<c:out value="${templateProperty.code}"></c:out>
 		<c:if test="${templateProperty.displayInGrid}">
 			<c:choose>
 				<c:when test="${templateProperty.valueType.type == 'NUMBER' || templateProperty.valueType.type == 'INTEGER'}">
-					<aui:input name="${templateProperty.code + 'min'}" label="${templateProperty.name + ', ' + templateProperty.unitOfMeasure}"/>
-					<aui:input name="${templateProperty.code + 'max'}" />
+					
+					<aui:fieldset label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}" column="true">
+						<aui:input 
+							name="${templateProperty.code}min" 
+							label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}" 
+							inlineField="true" 
+							class="text" 
+							size="5"/>
+							
+						<aui:input 
+							name="${templateProperty.code}max" 
+							label="-&nbsp;&nbsp;" 
+							inlineLabel="true" 
+							inlineField="true"
+							class="text" 
+							size="5"/>
+					</aui:fieldset>
+					
 				</c:when>
 				<c:otherwise>
-					<aui:input name="${templateProperty.code}" label="${templateProperty.name + ', ' + templateProperty.unitOfMeasure}" />
+				
+					<aui:input 
+						name="${templateProperty.code}" 
+						label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}" 
+						inlineLabel="true"/>
+					
 				</c:otherwise>
 			</c:choose>
 		</c:if>

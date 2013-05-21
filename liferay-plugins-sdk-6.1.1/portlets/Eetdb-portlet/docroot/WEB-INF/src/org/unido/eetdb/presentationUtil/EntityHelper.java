@@ -90,13 +90,21 @@ public class EntityHelper {
 
 	public static String getFullName(EntityProperty property)
 	{
+
 		EntityTemplateProperty tProp = property.getTemplateProperty();
-		String uom = tProp.getUnitOfMeasure();
+		
+		return getFullName(tProp);
+		
+	}
+
+	public static String getFullName(EntityTemplateProperty templateProperty)
+	{
+		
+		String uom = templateProperty.getUnitOfMeasure();
 		
 		return uom == null || uom.length() == 0 
-				? tProp.getName()
-				: tProp.getName() + ", " + uom;
-				
+				? templateProperty.getName()
+				: templateProperty.getName() + ", " + uom;
 		
 	}
 }
