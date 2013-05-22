@@ -37,8 +37,8 @@
 		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"
 		p:objectMapper="#{jsonObjectMapper.setAnnotationIntrospector(jaxbAnnotationBinder)}" />
 		
-	<bean id="portletMultipartResolver"
-      class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver"/>
+	<!-- <bean id="portletMultipartResolver"
+      class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver"/>-->
 
 
 </beans>

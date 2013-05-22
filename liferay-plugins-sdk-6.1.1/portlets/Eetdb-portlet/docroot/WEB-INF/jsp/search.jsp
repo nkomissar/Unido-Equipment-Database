@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
-<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui"%>
+<%@ taglib uri="http://liferay.com/tld/aui" prefix="aui" %>
 <%@ taglib uri="/WEB-INF/tld/eetdb.tld" prefix="eetdb"%>
 
 <%@ page import="com.liferay.portal.service.persistence.PortletUtil"%>
@@ -37,23 +37,16 @@
 		id="toggle_id_eetdb_portlet_entity_search" buttonLabel="Поиск">
 
 <aui:fieldset>
-		<aui:column>
 			<aui:input name="firstName" size="20" value="" />
 
 			<aui:input name="screenName" size="20" value="" />
-		</aui:column>
-
-		<aui:column>
 			<aui:input name="middleName" size="20" value="" />
 
 			<aui:input name="emailAddress" size="20" value="" />
-		</aui:column>
 
-		<aui:column>
 			<aui:input name="lastName" size="20" value="" />
 
 
-		</aui:column>
 	</aui:fieldset>
 	
 		<aui:select name="selectedTemplate" label="Тип оборудования"
@@ -71,27 +64,27 @@
 		</aui:select>
 
 		<aui:fieldset>
-			<c:forEach var="oddOrEven" begin="0" end="1" step="1">
-				<aui:column>
 
 					<c:forEach var="templateProperty" items="${searchableProperties}"
 						varStatus="index">
-						<c:if test="${index.getIndex() % 2 == oddOrEven}">
 
 							<c:choose>
 								<c:when
 									test="${templateProperty.valueType.type == 'NUMBER' || templateProperty.valueType.type == 'INTEGER'}">
-
-									<!--<aui:fieldset label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}" column="false">-->
+									
+									<aui:field-wrapper 
+										label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}" >
+										
 									<aui:input name="${templateProperty.code}min"
-										label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}"
-										inlineLabel="right" class="text" size="5" />
+										label=""
+										placeholder="MIN"
+										cssClass="mycss"/>
 
 									<aui:input name="${templateProperty.code}max"
-										label="-&nbsp;&nbsp;" inlineLabel="right" 
-										class="text" size="5" />
-									<!--</aui:fieldset>-->
-
+										label=""
+										placeholder="MAX" 
+										cssClass="mycss"/>
+									</aui:field-wrapper>
 								</c:when>
 								<c:otherwise>
 
@@ -102,10 +95,7 @@
 								</c:otherwise>
 							</c:choose>
 
-						</c:if>
 					</c:forEach>
-				</aui:column>
-			</c:forEach>
 		</aui:fieldset>
 	</liferay-ui:search-toggle>
 
