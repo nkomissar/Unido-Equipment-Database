@@ -1,6 +1,8 @@
 package org.unido.eetdb;
 
+import java.util.HashSet;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.unido.eetdb.common.model.EntityTemplate;
+import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.util.ConfigWrapper;
 
 @Controller
@@ -42,7 +45,19 @@ public class SearchController
 					ConfigWrapper.getServUrl(request) + "/template/{id};skip_childs=0",
 					EntityTemplate.class, selectedTemplate);
 			
-			model.addAttribute("loadedTemplate", loadedTemplate);
+			Set<EntityTemplateProperty> searchTerms = new HashSet<EntityTemplateProperty>();
+			
+			for(EntityTemplateProperty property : loadedTemplate.getProperties())
+			{
+				
+				if (property.isDisplayInGrid())
+				{
+					searchTerms.add(property);
+				}
+				
+			}
+			
+			model.addAttribute("searchableProperties", searchTerms);
 			
 		}
 		
