@@ -36,18 +36,7 @@
 	<liferay-ui:search-toggle displayTerms="<%=displayTerms%>"
 		id="toggle_id_eetdb_portlet_entity_search" buttonLabel="Поиск">
 
-<aui:fieldset>
-			<aui:input name="firstName" size="20" value="" />
 
-			<aui:input name="screenName" size="20" value="" />
-			<aui:input name="middleName" size="20" value="" />
-
-			<aui:input name="emailAddress" size="20" value="" />
-
-			<aui:input name="lastName" size="20" value="" />
-
-
-	</aui:fieldset>
 	
 		<aui:select name="selectedTemplate" label="Тип оборудования"
 			id="selectedTemplate"
@@ -70,27 +59,33 @@
 
 							<c:choose>
 								<c:when
-									test="${templateProperty.valueType.type == 'NUMBER' || templateProperty.valueType.type == 'INTEGER'}">
+									test="${eetdb:isNumeric(templateProperty)}">
+									
+									<c:set var="keyMin" value="${templateProperty.code}min" />
+									<c:set var="keyMax" value="${templateProperty.code}max" />
 									
 									<aui:field-wrapper 
-										label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}" >
+										label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}" cssClass="eetdb-search">
 										
-									<aui:input name="${templateProperty.code}min"
+									<aui:input name="${keyMin}"
 										label=""
 										placeholder="MIN"
-										cssClass="mycss"/>
+										cssClass="eetdb-search-min-max"
+										value="${requestScope[keyMin]}"/>
 
-									<aui:input name="${templateProperty.code}max"
+									<aui:input name="${keyMax}"
 										label=""
 										placeholder="MAX" 
-										cssClass="mycss"/>
+										cssClass="eetdb-search-min-max"
+										value="${requestScope[keyMax]}"/>
+										
 									</aui:field-wrapper>
 								</c:when>
 								<c:otherwise>
 
 									<aui:input name="${templateProperty.code}"
 										label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}"
-										size="40" />
+										value="${requestScope[templateProperty.code]}"/>
 
 								</c:otherwise>
 							</c:choose>

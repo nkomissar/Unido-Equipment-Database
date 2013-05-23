@@ -1,4 +1,11 @@
-.taglib-search-toggle-advanced .aui-fieldset .mycss {
-display: inline-block;
-width: 48%;
+.taglib-search-toggle-advanced .aui-fieldset .eetdb-search-min-max {
+	display: inline-block;
+	width: 49%;
+}
+.aui-field-wrapper-content {
+	margin: 0px !important;
+}
+
+.aui-fieldset .aui-field-content {
+	margin-top: 0px !important;
 }
