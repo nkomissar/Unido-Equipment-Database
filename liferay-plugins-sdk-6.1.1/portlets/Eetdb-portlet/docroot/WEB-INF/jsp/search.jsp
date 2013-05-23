@@ -43,7 +43,7 @@
 			onChange="<%=\"submitForm(document.\"
 								+ renderResponse.getNamespace() +\"search, '\"
 								+ showSearchURL +\"');\"%>"
-			inlineLabel="false">
+			inlineLabel="false" showEmptyOption="true" >
 
 			<c:forEach items="${templates}" var="template">
 				<aui:option value="${template.id}" label="${template.name}"
@@ -94,10 +94,6 @@
 		</aui:fieldset>
 	</liferay-ui:search-toggle>
 
-
-	<aui:button-row>
-		<aui:button type='submit' value="Поиск" />
-	</aui:button-row>
 
 </aui:form>
 

@@ -19,6 +19,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
+import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.presentationUtil.TemplateHelper;
@@ -69,6 +70,7 @@ public class SearchController
 			
 		}
 		
+		
 		model.addAttribute("templates", templates);
 		
 		return "search";
@@ -86,13 +88,19 @@ public class SearchController
 			props.put("http.proxyPort", "8888");
 			 
 		}
+
 		RestTemplate tmpl = new RestTemplate();
+		List<NameValuePair> searchParams = new LinkedList<NameValuePair>();
 		
 		if(selectedTemplate != null)
 		{
+			
 			EntityTemplate loadedTemplate = tmpl.getForObject(
 					ConfigWrapper.getServUrl(request) + "/template/{id};skip_childs=0",
 					EntityTemplate.class, selectedTemplate);
+
+			searchParams.add(new BasicNameValuePair("templateId", String.valueOf(loadedTemplate.getId())));
+			searchParams.add(new BasicNameValuePair("templateCode", loadedTemplate.getCode()));
 			
 			Set<EntityTemplateProperty> searchTerms = new HashSet<EntityTemplateProperty>();
 			
@@ -107,8 +115,6 @@ public class SearchController
 			}
 			
 			model.addAttribute("searchableProperties", searchTerms);
-			
-			List<NameValuePair> searchParams = new LinkedList<NameValuePair>();
 			
 			for(EntityTemplateProperty property: searchTerms)
 			{
@@ -127,11 +133,16 @@ public class SearchController
 				}
 			}
 
-			URLEncodedUtils.format(searchParams, "utf-8");
-
-			
+		}
+		else
+		{
+			searchParams.add(new BasicNameValuePair("keywords", request.getParameter("keywords")));
 		}
 		
+		
+		Entity[] entities = tmpl.getForObject(
+				ConfigWrapper.getServUrl(request) + "/search?" + URLEncodedUtils.format(searchParams, "utf-8"), 
+				Entity[].class);
 		
 		
 		
