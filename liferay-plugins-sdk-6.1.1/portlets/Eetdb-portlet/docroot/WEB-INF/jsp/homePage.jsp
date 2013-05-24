@@ -10,10 +10,6 @@
 
 <portlet:defineObjects />
 
-<portlet:renderURL var="showSearchURL">
-	<portlet:param name="action" value="showSearch" />
-</portlet:renderURL>
-
 <liferay-ui:panel-container>
 	<liferay-ui:panel id="rootTopics" title="Отрасли" collapsible="true"
 		extended="true">
@@ -44,6 +40,21 @@
 	</liferay-ui:panel>
 </liferay-ui:panel-container>
 
-<aui:a href="<%= showSearchURL %>">Поиск</aui:a>
+<portlet:renderURL var="showSearchURL">
+	<portlet:param name="action" value="showSearch" />
+</portlet:renderURL>
+
+<liferay-ui:panel-container>
+	<liferay-ui:panel id="rootTopics" title="Поиск по базе данных" collapsible="true"
+		extended="true">
+
+	<aui:form method="get" name="search">
+	
+		<aui:input name="keywords" placeholder="Enter search terms" label="" />
+	
+	</aui:form>
+
+	</liferay-ui:panel>
+</liferay-ui:panel-container>
 
 
