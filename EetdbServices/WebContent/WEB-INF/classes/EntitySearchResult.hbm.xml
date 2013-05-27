@@ -17,4 +17,9 @@
 		<return class="EntitySearchResult"/>
 		<![CDATA[CALL search(:param)]]>
     </sql-query>
+    
+    <sql-query name="searchForEntitiesWithParams">
+        <return class="Entity"/>
+        <![CDATA[CALL SEARCH_ENTITIES(:templateCode, :params)]]>
+    </sql-query>
 </hibernate-mapping>

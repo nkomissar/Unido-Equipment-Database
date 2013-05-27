@@ -256,6 +256,19 @@ public class DataAccessServiceImpl implements DataAccessService
 
         return retVal;
     }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<Entity> searchForEntities(String templateCode, String params)
+    {
+        Query query = sessionFactory.getCurrentSession().getNamedQuery("searchForEntitiesWithParams")
+                .setParameter("Entity", templateCode)
+                .setParameter("params", params);
+
+        List<Entity> retVal = query.list();
+
+        return retVal;
+    }
 
     @Override
     public ValueBlob getValueBlob(Long blobId)
