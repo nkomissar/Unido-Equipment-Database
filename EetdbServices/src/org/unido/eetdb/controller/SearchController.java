@@ -1,11 +1,13 @@
 package org.unido.eetdb.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.jasper.util.Enumerator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,10 +62,11 @@ public class SearchController
     {
         StringBuilder builder = new StringBuilder();
         Map<String, ParamElement> params = new HashMap<String, ParamElement>();
+        Enumeration<String> iterator = httpRequest.getParameterNames();
 
-        while (httpRequest.getParameterNames().hasMoreElements())
+        while (iterator.hasMoreElements())
         {
-            String paramName = httpRequest.getParameterNames().nextElement();
+            String paramName = iterator.nextElement();
             String propertyCode = paramName.replace("min", "").replace("max", "");
             ParamElement element = null;
             
@@ -80,12 +83,12 @@ public class SearchController
                     params.put(propertyCode, element);
                 }
                 
-                if(paramName.contains("min"));
+                if(paramName.contains("min"))
                 {
                     element.setMin(httpRequest.getParameter(paramName));
                 }
                 
-                if(paramName.contains("max"));
+                if(paramName.contains("max"))
                 {
                     element.setMax(httpRequest.getParameter(paramName));
                 }
