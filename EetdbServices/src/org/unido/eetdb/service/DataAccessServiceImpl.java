@@ -262,7 +262,7 @@ public class DataAccessServiceImpl implements DataAccessService
     public List<Entity> searchForEntities(String templateCode, String params)
     {
         Query query = sessionFactory.getCurrentSession().getNamedQuery("searchForEntitiesWithParams")
-                .setParameter("Entity", templateCode)
+                .setParameter("templateCode", templateCode)
                 .setParameter("params", params);
 
         List<Entity> retVal = query.list();
