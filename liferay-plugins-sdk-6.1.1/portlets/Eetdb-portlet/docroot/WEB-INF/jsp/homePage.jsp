@@ -44,14 +44,33 @@
 	<portlet:param name="action" value="showSearch" />
 </portlet:renderURL>
 
+<portlet:renderURL var="doSearchURL">
+	<portlet:param name="action" value="doSearch" />
+</portlet:renderURL>
+
 <liferay-ui:panel-container>
-	<liferay-ui:panel id="rootTopics" title="Поиск по базе данных" collapsible="true"
+	<liferay-ui:panel id="searchEetdb" title="Поиск по базе данных" collapsible="true"
 		extended="true">
 
-	<aui:form method="get" name="search">
+	<aui:form method="post" name="search">
 	
-		<aui:input name="keywords" placeholder="Enter search terms" label="" />
-	
+	<aui:fieldset>
+ 
+ 			<aui:input name="keywords" 
+						placeholder="Enter search terms" 
+						label=""  
+						cssClass="eetdb-home-search-terms"/>
+
+			<aui:button value="Поиск" 
+						onClick="<%=\"submitForm(document.\"
+									+ renderResponse.getNamespace() +\"search, '\"
+									+ doSearchURL +\"');\"%>" />
+			<aui:button value="Расширенный Поиск"
+						onClick="<%=\"submitForm(document.\"
+									+ renderResponse.getNamespace() +\"search, '\"
+									+ showSearchURL +\"');\"%>" />
+	</aui:fieldset>
+
 	</aui:form>
 
 	</liferay-ui:panel>
