@@ -266,6 +266,13 @@ public class DataAccessServiceImpl implements DataAccessService
                 .setParameter("params", params);
 
         List<Entity> retVal = query.list();
+        
+        for (Entity entity : retVal)
+        {
+            entity.setParentTopics(null);
+            entity.setChildEntities(null);
+            entity.setEntityTemplate(null);
+        }
 
         return retVal;
     }
