@@ -1,5 +1,6 @@
 package org.unido.eetdb.controller;
 
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,10 +61,11 @@ public class SearchController
     {
         StringBuilder builder = new StringBuilder();
         Map<String, ParamElement> params = new HashMap<String, ParamElement>();
+        Enumeration<String> enumeration = httpRequest.getParameterNames(); 
 
-        while (httpRequest.getParameterNames().hasMoreElements())
+        while (enumeration.hasMoreElements())
         {
-            String paramName = httpRequest.getParameterNames().nextElement();
+            String paramName = enumeration.nextElement();
             String propertyCode = paramName.replace("min", "").replace("max", "");
             ParamElement element = null;
             
