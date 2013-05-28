@@ -51,6 +51,7 @@ Ext.define('EetdbAdmin.model.EntityTemplateProperty', {
         ,{name: 'code', type: 'string'}
         ,{name: 'unitOfMeasure', type: 'string'}
         ,{name: 'displayInGrid', type: 'boolean'}
+        ,{name: 'searchable', type: 'boolean'}
         ,{name: 'mandatory', type: 'boolean'}
         ,{name: 'version', type: 'long'}
     ],

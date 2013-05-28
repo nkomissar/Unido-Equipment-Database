@@ -59,7 +59,7 @@ public class SearchController
 			for(EntityTemplateProperty property : loadedTemplate.getProperties())
 			{
 				
-				if (property.isDisplayInGrid())
+				if (property.isSearchable())
 				{
 					searchTerms.add(property);
 				}
@@ -97,9 +97,7 @@ public class SearchController
 		if(selectedTemplate != null)
 		{
 			
-			EntityTemplate loadedTemplate = null;// = tmpl.getForObject(
-			//		ConfigWrapper.getServUrl(request) + "/template/{id};skip_childs=0",
-			//		EntityTemplate.class, selectedTemplate);
+			EntityTemplate loadedTemplate = null;
 			
 			EntityTemplate[] templates = (EntityTemplate[]) model.get("templates");
 			

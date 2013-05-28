@@ -24,6 +24,10 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	xtype: 'checkbox',
     	name: 'mandatory'
     },{
+    	fieldLabel: 'Searchable',
+    	xtype: 'checkbox',
+    	name: 'searchable'
+    },{
     	fieldLabel: 'Unit of measure',
     	xtype: 'textfield',
     	name: 'unitofmeasure'
@@ -65,6 +69,7 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	var code = me.down('[isFormField][name="code"]');
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
+    	var searchable = me.down('[isFormField][name="searchable"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
     	var version = me.down('[isFormField][name="version"]');
     	var vt = me.down('[isFormField][name="valueType"]');
@@ -92,6 +97,11 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	{
     		mandatory.setValue(record.get('mandatory'));
     	}
+    	
+    	if(typeof searchable != 'undefined')
+    	{
+    		searchable.setValue(record.get('searchable'));
+    	}
 
     	if(typeof uom != 'undefined')
     	{
@@ -118,6 +128,7 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	var code = me.down('[isFormField][name="code"]');
     	var inGrid = me.down('[isFormField][name="displayingrid"]');
     	var mandatory = me.down('[isFormField][name="mandatory"]');
+    	var searchable = me.down('[isFormField][name="searchable"]');
     	var uom = me.down('[isFormField][name="unitofmeasure"]');
     	var version = me.down('[isFormField][name="version"]');
     	var vt = me.down('[isFormField][name="valueType"]');
@@ -145,6 +156,11 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	if(typeof mandatory != 'undefined')
     	{
     		prop['mandatory'] = mandatory.getValue();
+    	}
+
+    	if(typeof searchable != 'undefined')
+    	{
+    		prop['searchable'] = searchable.getValue();
     	}
 
     	if(typeof uom != 'undefined')
