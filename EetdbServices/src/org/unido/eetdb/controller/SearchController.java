@@ -7,6 +7,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.jasper.util.Enumerator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -82,12 +83,12 @@ public class SearchController
                     params.put(propertyCode, element);
                 }
                 
-                if(paramName.contains("min"));
+                if(paramName.contains("min"))
                 {
                     element.setMin(httpRequest.getParameter(paramName));
                 }
                 
-                if(paramName.contains("max"));
+                if(paramName.contains("max"))
                 {
                     element.setMax(httpRequest.getParameter(paramName));
                 }

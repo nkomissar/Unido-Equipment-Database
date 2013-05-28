@@ -59,7 +59,7 @@ public class SearchController
 			for(EntityTemplateProperty property : loadedTemplate.getProperties())
 			{
 				
-				if (property.isDisplayInGrid())
+				if (property.isSearchable())
 				{
 					searchTerms.add(property);
 				}
@@ -80,6 +80,8 @@ public class SearchController
 	public String doSearch(Integer selectedTemplate, ModelMap model, RenderRequest request, RenderResponse response) 
 	{
 
+		this.setModelAndView(selectedTemplate, model, request, response);
+		
 		if (ConfigWrapper.useFiddlerProxy(request))
 		{
 			
@@ -95,26 +97,24 @@ public class SearchController
 		if(selectedTemplate != null)
 		{
 			
-			EntityTemplate loadedTemplate = tmpl.getForObject(
-					ConfigWrapper.getServUrl(request) + "/template/{id};skip_childs=0",
-					EntityTemplate.class, selectedTemplate);
+			EntityTemplate loadedTemplate = null;
+			
+			EntityTemplate[] templates = (EntityTemplate[]) model.get("templates");
+			
+			for(EntityTemplate template: templates)
+			{
+				if(template.getId() == selectedTemplate)
+				{
+					loadedTemplate = template;
+					break;
+				}
+			}			
 
 			searchParams.add(new BasicNameValuePair("templateId", String.valueOf(loadedTemplate.getId())));
 			searchParams.add(new BasicNameValuePair("templateCode", loadedTemplate.getCode()));
 			
-			Set<EntityTemplateProperty> searchTerms = new HashSet<EntityTemplateProperty>();
-			
-			for(EntityTemplateProperty property : loadedTemplate.getProperties())
-			{
-				
-				if (property.isDisplayInGrid())
-				{
-					searchTerms.add(property);
-				}
-				
-			}
-			
-			model.addAttribute("searchableProperties", searchTerms);
+			@SuppressWarnings("unchecked")
+			Set<EntityTemplateProperty> searchTerms = (Set<EntityTemplateProperty>) model.get("searchableProperties");
 			
 			for(EntityTemplateProperty property: searchTerms)
 			{
@@ -143,8 +143,6 @@ public class SearchController
 		Entity[] entities = tmpl.getForObject(
 				ConfigWrapper.getServUrl(request) + "/search?" + URLEncodedUtils.format(searchParams, "utf-8"), 
 				Entity[].class);
-		
-		
 		
 		return "search";
 	}

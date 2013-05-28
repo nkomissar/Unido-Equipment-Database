@@ -31,7 +31,7 @@
 	<portlet:param name="action" value="showSearch" />
 </portlet:renderURL>
 
-<aui:form action="<%=doSearchURL%>" method="get" name="search">
+<aui:form action="<%=doSearchURL%>" name="search">
 
 	<liferay-ui:search-toggle displayTerms="<%=displayTerms%>"
 		id="toggle_id_eetdb_portlet_entity_search" buttonLabel="Поиск">

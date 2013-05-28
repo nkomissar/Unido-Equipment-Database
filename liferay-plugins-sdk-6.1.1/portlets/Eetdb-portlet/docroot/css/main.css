@@ -1,3 +1,8 @@
+.eetdb-home-search-terms {
+	display: inline-block;
+	width: 49%;
+}
+
 .taglib-search-toggle-advanced .aui-fieldset .eetdb-search-min-max {
 	display: inline-block;
 	width: 49%;
