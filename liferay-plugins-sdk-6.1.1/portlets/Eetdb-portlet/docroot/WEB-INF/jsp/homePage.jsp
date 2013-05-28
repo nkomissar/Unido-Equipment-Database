@@ -50,7 +50,9 @@
 
 <liferay-ui:panel-container>
 	<liferay-ui:panel id="searchEetdb" title="Поиск по базе данных" collapsible="true"
-		extended="true">
+		extended="true"
+		cssClass="eetdb-home-search"
+		>
 
 	<aui:form method="post" name="search">
 	
@@ -64,7 +66,9 @@
 			<aui:button value="Поиск" 
 						onClick="<%=\"submitForm(document.\"
 									+ renderResponse.getNamespace() +\"search, '\"
-									+ doSearchURL +\"');\"%>" />
+									+ doSearchURL +\"');\"%>" 
+						cssClass="eetdb-home-search-button-basic"/>
+						
 			<aui:button value="Расширенный Поиск"
 						onClick="<%=\"submitForm(document.\"
 									+ renderResponse.getNamespace() +\"search, '\"
