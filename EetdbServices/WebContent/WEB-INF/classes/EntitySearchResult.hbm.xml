@@ -19,7 +19,8 @@
     </sql-query>
     
     <sql-query name="searchForEntitiesWithParams">
-        <return class="Entity"/>
+        <return alias="ue" class="Entity"/>
+        <return-join alias="uep" property="ue.properties"/>
         <![CDATA[CALL SEARCH_ENTITIES(:templateCode, :params)]]>
     </sql-query>
 </hibernate-mapping>
