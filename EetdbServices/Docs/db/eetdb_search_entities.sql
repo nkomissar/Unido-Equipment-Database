@@ -61,11 +61,17 @@ BEGIN
 	end if;
 
 	SET @query = CONCAT('
-				select * 
+				select ue.*
+					 , uep.*
 				  from UNIDO_ENTITY ue
 					 , UNIDO_ENTITY_TEMPLATE uet
+					 , UNIDO_ENTITY_PROPERTY uep
+					 , UNIDO_ENTITY_TEMPLATE_PROPERTY uept
 				 where uet.ENTITY_TEMPLATE_ID = ue.ENTITY_TEMPLATE_ID
-				   and uet.TEMPLATE_CODE = \'', p_template_code, '\' ' , v_where);
+				   and uet.TEMPLATE_CODE = \'', p_template_code, '\'
+				   and uep.ENTITY_ID = ue.ENTITY_ID
+				   and uept.TEMPLATE_PROPERTY_ID = uep.TEMPLATE_PROPERTY_ID
+				   and DISPLAY_IN_GRID = 1 ' , v_where);
 
 	PREPARE stmt FROM @query;
 	EXECUTE stmt;
