@@ -28,3 +28,8 @@
 {
 	margin: 0px 10px;
 }
+
+.eetdb-basic-search-results .results-header
+{
+	display: none;
+}

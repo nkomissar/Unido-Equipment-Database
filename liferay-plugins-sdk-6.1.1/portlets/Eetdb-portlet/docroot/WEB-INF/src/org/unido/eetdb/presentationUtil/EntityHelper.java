@@ -291,23 +291,6 @@ public class EntityHelper {
 
 		return searchContainers;
 	}
-
-	
-	public static void BuildEntitySearchResultGridViewModel(EntitySearchResult[] entities, ModelMap model, PortletURL entitiesIteratorUrl, RenderRequest request)
-	{
-
-		try {
-
-			SearchContainer<EntitySearchResult> searchContainer = EntityHelper.BuildEntitySearchResultGrid(
-					Arrays.asList(entities), request, entitiesIteratorUrl);
-			model.addAttribute("basicSearchContainer", searchContainer);
-
-		} catch (SystemException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 	
 	public static SearchContainer<EntitySearchResult> BuildEntitySearchResultGrid(
 			List<EntitySearchResult> entities,
@@ -420,8 +403,11 @@ public class EntityHelper {
 			Collections.sort(entities, orderByComparator);
 			*/
 			
-			searchContainer.setResults(ListUtil.subList(entities,
-					searchContainer.getStart(), searchContainer.getEnd()));
+			searchContainer.setResults(
+						ListUtil.subList(
+							CustomComparatorUtil.sortEntitySearchResultsById(entities),
+							searchContainer.getStart(), 
+							searchContainer.getEnd()));
 
 			searchContainer.setTotal(entities.size());
 			

@@ -6,6 +6,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.unido.eetdb.common.model.EntityProperty;
+import org.unido.eetdb.common.model.EntitySearchResult;
 
 import com.liferay.portal.kernel.util.OrderByComparator;
 
@@ -51,6 +52,23 @@ public class CustomComparatorUtil {
 					{
 						return p1.getTemplateProperty().getCode()
 								.compareTo(p2.getTemplateProperty().getCode());
+					}
+				});
+
+		return list;
+	}
+	
+	public static List<EntitySearchResult> sortEntitySearchResultsById(Collection<EntitySearchResult> c) {
+
+		List<EntitySearchResult> list = new ArrayList<EntitySearchResult>(c);
+		
+		java.util.Collections.sort(list, 
+				new Comparator<EntitySearchResult>() 
+				{
+					public int compare(EntitySearchResult p1, EntitySearchResult p2) 
+					{
+						return p1.getEntityId()
+								.compareTo(p2.getEntityId());
 					}
 				});
 

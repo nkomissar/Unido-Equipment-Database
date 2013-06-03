@@ -96,7 +96,7 @@ public class Mocks
 				StringBuilder description = new StringBuilder("description" + j);
 				for(int d = 0; d < 100; d++)
 				{
-					description.append("description" + j);
+					description.append(" description" + j);
 				}
 				
 				subentity.setEntityDescription(description.toString());

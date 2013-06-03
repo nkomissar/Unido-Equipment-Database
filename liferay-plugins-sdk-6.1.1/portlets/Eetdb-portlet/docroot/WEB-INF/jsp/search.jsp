@@ -22,6 +22,10 @@
 			PortalUtil.getCurrentURL(request));
 
 	DisplayTerms displayTerms = new DisplayTerms(request);
+	
+	/*String key = "<replace with the id of your <liferay-ui:search-toggle> tag";
+	SessionClicks.put(request, key, "advanced");
+	*/
 %>
 <portlet:renderURL var="doSearchURL">
 	<portlet:param name="action" value="doSearch" />
@@ -103,6 +107,7 @@
 
 <c:set var="searchContainer" value="${basicSearchContainer}"/>
 
+<div class="eetdb-basic-search-results">
 <%@include file="entitySearchResultGrid.jsp" %>					
-
+</div>
 

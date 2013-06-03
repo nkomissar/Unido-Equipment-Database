@@ -62,6 +62,10 @@
 						placeholder="Enter search terms" 
 						label=""  
 						cssClass="eetdb-home-search-terms"/>
+			
+			<aui:input type="hidden" 
+						name="advancedSearch" 
+						id="advancedSearch"/>
 
 			<aui:button value="Поиск" 
 						onClick="<%=\"submitForm(document.\"

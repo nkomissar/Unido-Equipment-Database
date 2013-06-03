@@ -12,7 +12,8 @@
 								orderByCol="${searchContainer.orderByCol}"
 								orderByColParam="${searchContainer.orderByColParam}"
  								orderByType="${searchContainer.orderByType}"
-								orderByTypeParam="${searchContainer.orderByTypeParam}"> 
+								orderByTypeParam="${searchContainer.orderByTypeParam}"
+							> 
 					
 								<liferay-ui:search-container-results results="${searchContainer.results}" total="${searchContainer.total}" />
 					
@@ -25,10 +26,14 @@
 					      				<portlet:param name="action" value="showEntity" />
 					      				<portlet:param name="entityId" value="${entity.entityId}" />
 					    			</portlet:renderURL>
-					
-									<liferay-ui:search-container-column-text name="Id" property="entityId" orderable="true" orderableProperty="entityId" href="${showEnityURL}"/>
-									<liferay-ui:search-container-column-text name="Название" property="entityName" orderable="true" orderableProperty="entityName" href="${showEnityURL}"/>
 									
+									<liferay-ui:search-container-column-text >
+										<aui:a href="${showEnityURL}" title="${entity.entityName}" cssClass="eetdb-search-result-title">
+											<c:out value="${entity.entityName}" />
+										</aui:a>
+										<br/>
+										<c:out value="${entity.entityDescription}"/>
+									</liferay-ui:search-container-column-text>
 					
 								</liferay-ui:search-container-row>
 					

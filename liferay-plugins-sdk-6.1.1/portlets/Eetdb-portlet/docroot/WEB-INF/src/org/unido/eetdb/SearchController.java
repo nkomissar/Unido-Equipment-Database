@@ -1,7 +1,6 @@
 package org.unido.eetdb;
 
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +27,9 @@ import org.unido.eetdb.presentationUtil.EntityHelper;
 import org.unido.eetdb.presentationUtil.TemplateHelper;
 import org.unido.eetdb.util.ConfigWrapper;
 import org.unido.eetdb.util.Mocks;
+
+import com.liferay.portal.kernel.dao.search.SearchContainer;
+import com.liferay.portal.kernel.exception.SystemException;
 
 @Controller
 @RequestMapping("view")
@@ -200,8 +202,19 @@ public class SearchController
 		{
 			entities = Mocks.GetMockEntitySearchResults(15);
 		}
+		
+		entities = Mocks.GetMockEntitySearchResults(15);
+		
+		try {
 
-		EntityHelper.BuildEntitySearchResultGridViewModel(entities, model, entitiesIteratorUrl, request);
+			SearchContainer<EntitySearchResult> searchContainer = EntityHelper.BuildEntitySearchResultGrid(
+					Arrays.asList(entities), request, entitiesIteratorUrl);
+			model.addAttribute("basicSearchContainer", searchContainer);
+
+		} catch (SystemException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 	}
 
