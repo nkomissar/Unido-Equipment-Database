@@ -18,16 +18,16 @@
 					
 								<liferay-ui:search-container-row
 									className="org.unido.eetdb.common.model.EntitySearchResult" 
-									keyProperty="id"
+									keyProperty="entityId"
 									modelVar="entity">
 									
 									<portlet:renderURL var="showEnityURL">
 					      				<portlet:param name="action" value="showEntity" />
-					      				<portlet:param name="entityId" value="${entity.id}" />
+					      				<portlet:param name="entityId" value="${entity.entityId}" />
 					    			</portlet:renderURL>
 					
-									<liferay-ui:search-container-column-text name="Id" property="id" orderable="true" orderableProperty="id" href="${showEnityURL}"/>
-									<liferay-ui:search-container-column-text name="Название" property="name" orderable="true" orderableProperty="name" href="${showEnityURL}"/>
+									<liferay-ui:search-container-column-text name="Id" property="entityId" orderable="true" orderableProperty="entityId" href="${showEnityURL}"/>
+									<liferay-ui:search-container-column-text name="Название" property="entityName" orderable="true" orderableProperty="entityName" href="${showEnityURL}"/>
 									
 					
 								</liferay-ui:search-container-row>

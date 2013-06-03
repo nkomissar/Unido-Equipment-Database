@@ -101,7 +101,7 @@
 
 <%@include file="entityGrid.jsp" %>					
 
-<c:set var="searchContainer" value="${basicSearchContainers.entrySet().iterator().next().value}"/>
+<c:set var="searchContainer" value="${basicSearchContainer}"/>
 
 <%@include file="entitySearchResultGrid.jsp" %>					
 

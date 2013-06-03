@@ -299,7 +299,7 @@ public class EntityHelper {
 		try {
 
 			SearchContainer<EntitySearchResult> searchContainer = EntityHelper.BuildEntitySearchResultGrid(
-					entities, request, entitiesIteratorUrl);
+					Arrays.asList(entities), request, entitiesIteratorUrl);
 			model.addAttribute("basicSearchContainer", searchContainer);
 
 		} catch (SystemException e) {
@@ -390,8 +390,8 @@ public class EntityHelper {
 
 			}
 
-			SearchContainer<Entity> searchContainer = 
-					new SearchContainer<Entity>(
+			SearchContainer<EntitySearchResult> searchContainer = 
+					new SearchContainer<EntitySearchResult>(
 							renderRequest, 
 							null, // displayTerms
 							null, // searchTerms,
@@ -413,11 +413,13 @@ public class EntityHelper {
 			searchContainer.setOrderByTypeParam(key + "OrderByTypeParam");
 			searchContainer.setOrderByType(orderByType);
 
-			OrderByComparator orderByComparator = CustomComparatorUtil
+			/*
+			 OrderByComparator orderByComparator = CustomComparatorUtil
 					.getEntityOrderByComparator(orderByCol, orderByType);
 
 			Collections.sort(entities, orderByComparator);
-
+			*/
+			
 			searchContainer.setResults(ListUtil.subList(entities,
 					searchContainer.getStart(), searchContainer.getEnd()));
 
