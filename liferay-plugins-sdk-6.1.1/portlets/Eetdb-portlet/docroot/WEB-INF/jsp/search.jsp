@@ -97,4 +97,12 @@
 
 </aui:form>
 
+<c:set var="searchContainer" value="${searchContainers.entrySet().iterator().next().value}"/>
+
+<%@include file="entityGrid.jsp" %>					
+
+<c:set var="searchContainer" value="${basicSearchContainers.entrySet().iterator().next().value}"/>
+
+<%@include file="entitySearchResultGrid.jsp" %>					
+
 

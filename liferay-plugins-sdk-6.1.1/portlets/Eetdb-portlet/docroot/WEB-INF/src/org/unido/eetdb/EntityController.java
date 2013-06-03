@@ -48,43 +48,6 @@ public class EntityController {
 		
 		Entity entity = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/entity/{0};skip_childs=0", Entity.class, entityId);
 		
-		if (false)
-		{
-			Set<Entity> entities = new HashSet<Entity>();
-			for (int j=0,i = 0; i < 5; i++){
-				
-				j ++;
-				Entity subentity = null;
-				try 
-				{
-				
-					/*entity = tmpl.getForObject(
-						ConfigWrapper.getServUrl(request) + "/entity/{id};skip_childs=0",
-						Entity.class, j);*/
-					
-					EntityTemplate templ = new EntityTemplate(){{
-						setId(1);
-						setCode("code");
-						setName("MockTemplateName");
-					}};
-					
-					subentity = new Entity();
-					subentity.setId(j);
-					subentity.setName("name" + j);
-					subentity.setEntityTemplate(templ);
-			
-					entities.add(subentity);
-					
-				}
-				catch(Exception ex) 
-				{
-					i--;
-				}
-			}
-			entity.setChildEntities(entities);
-		}
-		
-		
 		Set<String> refCodes = new HashSet<String>();
 		Map<String, Entity> referencedEntities = new HashMap<String, Entity>();
 		

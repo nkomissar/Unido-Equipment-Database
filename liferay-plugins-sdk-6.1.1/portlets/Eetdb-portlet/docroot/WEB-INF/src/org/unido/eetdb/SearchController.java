@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
@@ -20,10 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.unido.eetdb.common.model.Entity;
+import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
+import org.unido.eetdb.presentationUtil.EntityHelper;
 import org.unido.eetdb.presentationUtil.TemplateHelper;
 import org.unido.eetdb.util.ConfigWrapper;
+import org.unido.eetdb.util.Mocks;
 
 @Controller
 @RequestMapping("view")
@@ -90,61 +94,115 @@ public class SearchController
 			props.put("http.proxyPort", "8888");
 			 
 		}
-
-		RestTemplate tmpl = new RestTemplate();
-		List<NameValuePair> searchParams = new LinkedList<NameValuePair>();
-		
+	
 		if(selectedTemplate != null)
 		{
 			
-			EntityTemplate loadedTemplate = null;
-			
-			EntityTemplate[] templates = (EntityTemplate[]) model.get("templates");
-			
-			for(EntityTemplate template: templates)
-			{
-				if(template.getId() == selectedTemplate)
-				{
-					loadedTemplate = template;
-					break;
-				}
-			}			
-
-			searchParams.add(new BasicNameValuePair("templateId", String.valueOf(loadedTemplate.getId())));
-			searchParams.add(new BasicNameValuePair("templateCode", loadedTemplate.getCode()));
-			
-			@SuppressWarnings("unchecked")
-			Set<EntityTemplateProperty> searchTerms = (Set<EntityTemplateProperty>) model.get("searchableProperties");
-			
-			for(EntityTemplateProperty property: searchTerms)
-			{
-				if (TemplateHelper.IsNumeric(property))
-				{
-					String fieldMinName = property.getCode()+"min";
-					String fieldMaxName = property.getCode()+"max";
-					
-					searchParams.add(new BasicNameValuePair(fieldMinName, request.getParameter(fieldMinName)));
-					searchParams.add(new BasicNameValuePair(fieldMaxName, request.getParameter(fieldMaxName)));
-					
-				}
-				else
-				{
-					searchParams.add(new BasicNameValuePair(property.getCode(), request.getParameter(property.getCode())));
-				}
-			}
-
+			doAdvancedSearch(selectedTemplate, model, request, response);
+		
 		}
 		else
 		{
-			searchParams.add(new BasicNameValuePair("keywords", request.getParameter("keywords")));
+
+			doBasicSearch(model, request, response);
+			
 		}
 		
+		return "search";
+	}
+
+	private void doAdvancedSearch(Integer selectedTemplate, ModelMap model, RenderRequest request, RenderResponse response) 
+	{
+		PortletURL entitiesIteratorUrl = response.createRenderURL();
+		entitiesIteratorUrl.setParameter("action", "doSearch");
+
+		List<NameValuePair> searchParams = new LinkedList<NameValuePair>();
+
+		EntityTemplate[] templates = (EntityTemplate[]) model.get("templates");
 		
-		Entity[] entities = tmpl.getForObject(
+		for(EntityTemplate template: templates)
+		{
+			if(template.getId() == selectedTemplate)
+			{
+				
+				searchParams.add(new BasicNameValuePair("templateId", String.valueOf(template.getId())));
+				searchParams.add(new BasicNameValuePair("templateCode", template.getCode()));
+
+				entitiesIteratorUrl.setParameter("selectedTemplate", String.valueOf(template.getId()));
+
+				break;
+			}
+		}			
+
+		
+		@SuppressWarnings("unchecked")
+		Set<EntityTemplateProperty> searchTerms = (Set<EntityTemplateProperty>) model.get("searchableProperties");
+		
+		for(EntityTemplateProperty property: searchTerms)
+		{
+			if (TemplateHelper.IsNumeric(property))
+			{
+				String fieldMinName = property.getCode()+"min";
+				String fieldMaxName = property.getCode()+"max";
+				
+				searchParams.add(new BasicNameValuePair(fieldMinName, request.getParameter(fieldMinName)));
+				searchParams.add(new BasicNameValuePair(fieldMaxName, request.getParameter(fieldMaxName)));
+				
+				entitiesIteratorUrl.setParameter(fieldMinName, request.getParameter(fieldMinName));
+				entitiesIteratorUrl.setParameter(fieldMaxName, request.getParameter(fieldMaxName));
+				
+			}
+			else
+			{
+				
+				searchParams.add(new BasicNameValuePair(property.getCode(), request.getParameter(property.getCode())));
+				
+				entitiesIteratorUrl.setParameter(property.getCode(), request.getParameter(property.getCode()));
+				
+			}
+		}
+
+		Entity[] entities;
+		
+		try
+		{
+			RestTemplate tmpl = new RestTemplate();
+			entities = tmpl.getForObject(
 				ConfigWrapper.getServUrl(request) + "/search?" + URLEncodedUtils.format(searchParams, "utf-8"), 
 				Entity[].class);
+		}
+		catch(Exception ex)
+		{
+			entities = Mocks.GetMockEntities(15, 6);
+		}
+
+		EntityHelper.BuildEntitiesGridViewModel(entities, model, entitiesIteratorUrl, request);
 		
-		return "search";
+	}
+
+	private void doBasicSearch(ModelMap model, RenderRequest request, RenderResponse response) 
+	{
+		PortletURL entitiesIteratorUrl = response.createRenderURL();
+		entitiesIteratorUrl.setParameter("action", "doSearch");
+
+		entitiesIteratorUrl.setParameter("keywords", request.getParameter("keywords"));
+
+		EntitySearchResult[] entities;
+		
+		try
+		{
+			RestTemplate tmpl = new RestTemplate();
+			entities = tmpl.getForObject(
+					ConfigWrapper.getServUrl(request) + "/search-for-entities?param={query}", 
+					EntitySearchResult[].class,  request.getParameter("keywords"));
+		}
+		catch(Exception ex)
+		{
+			entities = Mocks.GetMockEntitySearchResults(15);
+		}
+
+		EntityHelper.BuildEntitySearchResultGridViewModel(entities, model, entitiesIteratorUrl, request);
+		
 	}
 
 }
