@@ -27,6 +27,7 @@
 	SessionClicks.put(request, key, "advanced");
 	*/
 %>
+
 <portlet:renderURL var="doSearchURL">
 	<portlet:param name="action" value="doSearch" />
 </portlet:renderURL>
