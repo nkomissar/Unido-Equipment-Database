@@ -25,7 +25,7 @@ BEGIN
 	declare v_text VARCHAR(200);
 	set v_text = format_search_string(p_text);
 
-	SELECT ue.*
+	SELECT ue.ENTITY_ID, ue.ENTITY_NAME, ues.DESCRIPTION
 		 , MATCH (ues.ENTITY_NAME, ues.DESCRIPTION) AGAINST (v_text IN BOOLEAN MODE) as REL
 		 , MATCH (ues.VENDOR_CODE) AGAINST (v_text IN BOOLEAN MODE) REL_CODE
 	  FROM `UNIDO_ENTITY` ue
