@@ -1,6 +1,7 @@
 
 Ext.require([
-    'Ext.ux.form.field.BoxSelect'
+    'Ext.ux.form.field.BoxSelect',
+    'Ext.ux.form.field.AsyncFileUpload',
     ]);
 
 Ext.define('Ext.form.EntityPropertyFieldSet', {
@@ -136,6 +137,19 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			me.fireEvent('reffieldcreated', boxselect, record);
 			
 			break;
+			
+		case "IMG":
+			debugger;
+			me.add(Ext.widget('asyncfileupload', {
+				name: 'value',
+				columnWidth: 0.5,
+	            fieldLabel: this.getLabel(record.TemplateProperty),
+	            defaults: { anchor: '100%' },
+	            layout: 'anchor',
+	            value: record.get('value')
+	        }));
+			
+			break;			
 		}
 
     	
