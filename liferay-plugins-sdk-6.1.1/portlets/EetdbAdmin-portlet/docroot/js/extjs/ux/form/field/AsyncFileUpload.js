@@ -1,14 +1,20 @@
 Ext.define('Ext.ux.form.field.AsyncFileUpload', {
-    extend:'Ext.form.field.Base',
+    extend:'Ext.panel.Panel',
+    mixins: {
+        labelable: 'Ext.form.Labelable',
+        field: 'Ext.form.field.Field'
+    },
     alias: ['widget.asyncfileupload'],
     requires: [ 'Ext.data.Store']
     
     , initComponent: function()
     {
     	
-    	
-        var fields = [
-                      {name:'id', type:'text', system:true}
+       
+        Ext.define('UploadItem', {
+            extend: 'Ext.data.Model',
+            fields: [
+                     {name:'id', type:'text', system:true}
                      ,{name:'shortName', type:'text', system:true}
                      ,{name:'fileName', type:'text', system:true}
                      ,{name:'filePath', type:'text', system:true}
@@ -27,24 +33,29 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
                      ,{name:'timeLast', type:'int', system:true}
                      ,{name:'timeStart', type:'int', system:true}
                      ,{name:'pctComplete', type:'int', system:true}
-             ];
+            ]
+        });
         
         this.store = Ext.create('Ext.data.Store', 
         {
-            id:0
-           ,fields:fields
-           ,data:[]
-        });        
+           model: 'UploadItem',
+           data:
+        	   [{id: '1', shortName:2, fileName: 3, filePath: 4, fileCls: 5, input: 6, form: 7, state: 8, error: 9, progressId: 10, bytesTotal: 11, bytesUploaded: 12, estSec: 13, filesUploaded: 14, 
+        	   speedAverage: 15, speedLast: 16, timeLast: 17, timeStart: 18, pctComplete: 19}]
+        });
+        
+        
+        
     	debugger;
         Ext.apply(this, {
             items:[{
                      xtype:'dataview'
                     ,itemSelector:'div.ux-up-item'
                     ,store:this.store
-                    ,selectedClass:this.selectedClass
+                    //,selectedClass:this.selectedClass
                     ,singleSelect:true
-                    ,emptyText:this.emptyText
-                    ,tpl: this.tpl || new Ext.XTemplate(
+                   // ,emptyText:this.emptyText
+                    ,tpl: new Ext.XTemplate(
                               '<tpl for=".">'
                             + '<div class="ux-up-item">'
 //                          + '<div class="ux-up-indicator">&#160;</div>'
@@ -56,7 +67,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
                             + '</tpl>'
                             , {scope:this}
                     )
-                    ,listeners:{click:{scope:this, fn:this.onViewClick}}
+                    //,listeners:{click:{scope:this, fn:this.onViewClick}}
 
             }]
     });
