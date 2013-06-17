@@ -7,12 +7,12 @@
 		<icon>/icon.png</icon>
 		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
 		<instanceable>false</instanceable>
-		<header-portlet-css>/resources/css/ext-all.css</header-portlet-css>
+		<!-- header-portlet-css>/resources/css/ext-all.css</header-portlet-css-->
 		<header-portlet-css>/resources/css/ux/GroupTabPanel.css</header-portlet-css>
 		<header-portlet-css>/resources/css/ux/BoxSelect.css</header-portlet-css>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<!-- header-portlet-javascript>http://cdn.sencha.io/ext-4.2.0-gpl/ext.js</header-portlet-javascript-->
-		<header-portlet-javascript>/js/extjs/ext.js</header-portlet-javascript>
+		<!-- header-portlet-javascript>/js/extjs/ext-all.js</header-portlet-javascript-->
 		<header-portlet-javascript>/js/main.js</header-portlet-javascript>
 		<css-class-wrapper>EetdbAdmin-portlet</css-class-wrapper>
 	</portlet>
