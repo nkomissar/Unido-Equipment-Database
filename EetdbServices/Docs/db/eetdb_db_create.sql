@@ -243,6 +243,42 @@ DROP TABLE IF EXISTS `eetdb`.`SEQUENCE`;
 CREATE TABLE `eetdb`.`SEQUENCE` (id INT NOT NULL); 
 INSERT INTO `eetdb`.`SEQUENCE` VALUES (1000); 
 
+-- -----------------------------------------------------
+-- Table `eetdb`.`UNIDO_LOAD_LOG`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `eetdb`.`UNIDO_LOAD_LOG`;
+CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_LOAD_LOG` (
+  `LOAD_LOG_ID`       INT           NOT NULL AUTO_INCREMENT,
+  `FILE_NAME`         NVARCHAR(100) NOT NULL ,
+  `FILE_PATH`         NVARCHAR(300)     NULL ,
+  `FILE_SIZE`         INT               NULL ,
+  `STATUS`            NVARCHAR(30)  NOT NULL ,
+  `VERSION`           INT           NOT NULL DEFAULT '0',
+  `UPDATED_BY`        NVARCHAR(100) NOT NULL ,
+  `UPDATE_DATE`       TIMESTAMP     NOT NULL ,
+  PRIMARY KEY (`LOAD_LOG_ID`))
+ENGINE = InnoDB;
+
+-- -----------------------------------------------------
+-- Table `eetdb`.`UNIDO_LOAD_ERROR`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `eetdb`.`UNIDO_LOAD_ERROR`;
+CREATE TABLE IF NOT EXISTS `eetdb`.`UNIDO_LOAD_ERROR` (
+  `LOAD_ERROR_ID`     INT           NOT NULL AUTO_INCREMENT,
+  `LOAD_LOG_ID`       INT           NOT NULL ,
+  `ROW_NUMBER`        INT           NOT NULL ,
+  `ERROR_MESSAGE`     NVARCHAR(300)     NULL ,
+  `UPDATED_BY`        NVARCHAR(100) NOT NULL ,
+  `UPDATE_DATE`       TIMESTAMP     NOT NULL ,
+  PRIMARY KEY (`LOAD_ERROR_ID`) ,
+  INDEX `fk_UNIDO_LOAD_LOG_ID` (`LOAD_LOG_ID` ASC) ,
+  CONSTRAINT `fk_UNIDO_LOAD_LOG_ID`
+    FOREIGN KEY (`LOAD_LOG_ID` )
+    REFERENCES `eetdb`.`UNIDO_LOAD_LOG` (`LOAD_LOG_ID` )
+    ON DELETE CASCADE
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
 SET SQL_MODE=@OLD_SQL_MODE;
 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
