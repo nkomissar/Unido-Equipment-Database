@@ -21,7 +21,7 @@
 			<c:forEach var="oddOrEven" begin="0" end="1" step="1">
 				<aui:column>
 					<c:forEach var="topic" items="${listOfTopics}" varStatus="index">
-						<c:if test="${index.getIndex() % 2 == oddOrEven}">
+						 <c:if test="${index.index % 2 == oddOrEven}">
 							<h1>
 								
 								<portlet:renderURL var="topicDetailsUrl">
