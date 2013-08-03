@@ -1,0 +1,74 @@
+.ux-up-item {
+	line-height:17px;
+	height:17px;
+	cursor:default;
+/*	border: 1px solid transparent; */
+	margin-bottom:1px;
+	position:relative;
+	background-color:#f0f0f0;
+	background-image:url(../img/white_bg.png);
+	background-repeat:no-repeat
+}
+.ux-up-icon-file {
+	width:16px;
+	height:16px;
+	vertical-align:-3px;
+	margin-right:4px;
+	background-image:url(../../extjs/resources/themes/images/default/tree/leaf.gif);
+	float:left;
+}
+.ux-up-item-selected {
+	
+	border-color:#c0c0c0;
+	background-color:#f0f0f0;
+	
+}
+.ux-up-indicator {
+	background-color:yellow;
+	height:17px;
+	width:40px;
+	position:absolute;
+	opacity:0.4;
+}
+.ux-up-icon-state {
+	width:16px;
+	float:right;
+	margin-right:2px;
+	cursor:pointer;
+	z-index:-1;
+}
+.ux-up-icon-queued {
+	background-image:url(../img/silk/icons/page_white_get.png);
+}
+.ux-up-icon-uploading {
+	background-image:url(../img/icons/icon-uploading.gif) ! important;
+}
+.ux-up-icon-done {
+	background-image:url(../img/silk/icons/accept.png);
+}
+.ux-up-icon-failed {
+	background-image:url(../img/silk/icons/error.png);
+}
+.ux-up-icon-stopped {
+	background-image:url(../img/silk/icons/stop.png);
+}
+.ux-up-text {
+	float:left;
+}
+
+.icon-folder {
+	background-image:url('../../extjs/resources/themes/images/default/tree/folder.gif') ! important;
+	background-repeat:no-repeat; 
+}
+.icon-sort{
+	background-image:url(../img/icons/sort.gif);
+}
+.icon-error-message{
+	background-image:url(../img/silk/icons/error.png);
+}
+
+.truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+}
