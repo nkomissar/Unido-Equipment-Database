@@ -8,27 +8,17 @@ Ext.require([
     'Ext.window.MessageBox',
 	'Ext.ux.form.field.AsyncFileUpload',
 	'Ext.ux.form.field.MyHtmlEditor',
-	'Ext.form.field.HtmlEditor'
+	'Ext.form.field.HtmlEditor',
+	'Ext.util.Observable'
 ]);
 
 Ext.onReady(function() {
 
 //  Class which shows invisible file input field.
-    if (window.location.href.indexOf('debug') !== -1) {
+   /* if (window.location.href.indexOf('debug') !== -1) {
         Ext.getBody().addCls('x-debug');
-    }
+    }*/
 
-
-    var msg = function(title, msg) {
-        Ext.Msg.show({
-            title: title,
-            msg: msg,
-            minWidth: 200,
-            modal: true,
-            icon: Ext.Msg.INFO,
-            buttons: Ext.Msg.OK
-        });
-    };
 
     Ext.create('Ext.form.Panel', {
         renderTo: 'async-form',
@@ -37,25 +27,27 @@ Ext.onReady(function() {
         title: 'Async File Upload Form',
         bodyPadding: '10 10 0',
 
-        defaults: {
+        /*defaults: {
             anchor: '100%',
             allowBlank: false,
             msgTarget: 'side',
             labelWidth: 50
-        },
+        },*/
 
-        items: [{
+        items: [
+			/*{
             xtype: 'asyncfileupload',
 			fieldLabel: 'Suppalabel'
 			},
 			{
 				xtype: 'myeditor',
 				fieldLabel: 'Source'
-			}
-			/*,{
+			}*/
+			
+			{
 			xtype: 'htmleditor',
 			fieldLabel: 'Source'
-			}*/
+			}
 			]
 	});
 });
