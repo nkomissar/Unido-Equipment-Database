@@ -71,6 +71,8 @@ Ext.define('MyApp.view.uploader.Uploadpanel', {
         };
         
         this.fbar = [addCfg, '->', upCfg, removeAllCfg];
+		
+		debugger;
         
         Ext.apply(this, {
             items: [{

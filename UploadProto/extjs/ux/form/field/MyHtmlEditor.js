@@ -590,11 +590,11 @@ Ext.define('Ext.ux.form.field.MyHtmlEditor', {
         me.inputEl = me.iframeEl;
 
         // Start polling for when the iframe document is ready to be manipulated
-        /*me.monitorTask = Ext.TaskManager.start({
+        me.monitorTask = Ext.TaskManager.start({
             run: me.checkDesignMode,
             scope: me,
             interval: 100
-        });*/
+        });
     },
 
     initRenderTpl: function() {
@@ -876,7 +876,7 @@ Ext.define('Ext.ux.form.field.MyHtmlEditor', {
     },
 
     // private
-    initEditor1 : function(){
+    initEditor : function(){
         //Destroying the component during/before initEditor can cause issues.
         try {
             var me = this,
@@ -999,7 +999,7 @@ Ext.define('Ext.ux.form.field.MyHtmlEditor', {
     },
 
     // private
-    onFirstFocus1 : function(){
+    onFirstFocus : function(){
         var me = this,
             selection, range;
         me.activated = true;
@@ -1063,7 +1063,7 @@ Ext.define('Ext.ux.form.field.MyHtmlEditor', {
     },
 
     // private
-    onEditorEvent1: function(e) {
+    onEditorEvent: function(e) {
         this.updateToolbar();
     },
 
@@ -1071,7 +1071,7 @@ Ext.define('Ext.ux.form.field.MyHtmlEditor', {
      * Triggers a toolbar update by reading the markup state of the current selection in the editor.
      * @protected
      */
-    updateToolbar1: function() {
+    updateToolbar: function() {
         var me = this,
             btns, doc, name, fontSelect;
 

@@ -7,3 +7,35 @@
 .icon-cross {
 	background-image:url('images/cross.png') ! important;
 }
+.ux-up-item {
+	line-height:17px;
+	height:17px;
+	cursor:default;
+/*	border: 1px solid transparent; */
+	margin-bottom:1px;
+	position:relative;
+	background-color:#f0f0f0;
+	background-image:url('images/white_bg.png');
+	background-repeat:no-repeat
+}
+.ux-up-text {
+	float:left;
+}
+.truncate {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+}
+.async-file-uploader-wrap {
+border: 1px solid #b5b8c8;
+}
+.ux-up-icon-state {
+	width:16px;
+	float:right;
+	margin-right:2px;
+	cursor:pointer;
+	z-index:-1;
+}
+.ux-up-icon-queued {
+	background-image:url('images/page_white_get.png');
+}

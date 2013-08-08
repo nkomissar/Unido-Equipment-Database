@@ -26,7 +26,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     	
     	var me = this;
     	
-        /*Ext.define('UploadItem', {
+        Ext.define('UploadItem', {
             extend: 'Ext.data.Model',
             fields: [
                      {name:'id', type:'text', system:true}
@@ -48,19 +48,25 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
                      ,{name:'timeLast', type:'int', system:true}
                      ,{name:'timeStart', type:'int', system:true}
                      ,{name:'pctComplete', type:'int', system:true}
+					 ,{name:'inputEl', system:true}
+					 ,{name:'fileSize', system:true}
             ]
         });
         
-        this.store = Ext.create('Ext.data.Store', 
+        this.uploadStore = Ext.create('Ext.data.Store', 
         {
-           model: 'UploadItem',
-           data:
+           model: 'UploadItem'
+           /*
+		   ,data:
         	   [{id: '1', shortName:2, fileName: 3, filePath: 4, fileCls: 5, input: 6, form: 7, state: 8, error: 9, progressId: 10, bytesTotal: 11, bytesUploaded: 12, estSec: 13, filesUploaded: 14, 
+        	   speedAverage: 15, speedLast: 16, timeLast: 17, timeStart: 18, pctComplete: 19},
+			   {id: '2', shortName:22, fileName: 3, filePath: 4, fileCls: 5, input: 6, form: 7, state: 8, error: 9, progressId: 10, bytesTotal: 11, bytesUploaded: 12, estSec: 13, filesUploaded: 14, 
         	   speedAverage: 15, speedLast: 16, timeLast: 17, timeStart: 18, pctComplete: 19}]
+			*/	
         });
         
         
-        
+        /*
     	debugger;
         Ext.apply(this, {
             items:[{
@@ -126,11 +132,16 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			xtype: 'filefield'
 			,id:'addbtn'
 			,itemId:'addbtn'
-			,buttonOnly: true
+			//,buttonOnly: true
 			,hideLabel: true
 			,buttonText: 'Add..'
 			,buttonConfig: {iconCls: 'icon-plus'}
 			,scope:editor
+			,listeners: {
+	                change: editor.onAddFile
+	                //,element: 'el'
+					,scope: editor
+	            }
 		};
 
 			var upCfg = {
@@ -139,6 +150,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				,iconCls:'icon-upload'
 				,text:'Upload'
 				,scope:editor
+			,handler: editor.onAddFile
 				//,disabled:true
 			};
 
@@ -151,16 +163,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				//,disabled:true
 			};
 
-			items = [btn('bold'), addCfg, '->', upCfg, removeAllCfg];
-			
-			//items.push(btn('bold'));
-			
-			        // Everything starts disabled.
-        /*for (i = 0; i < items.length; i++) {
-            if (items[i].itemId !== 'sourceedit') {
-                items[i].disabled = true;
-            }
-        }*/
+			items = [addCfg, '->', upCfg, removeAllCfg];
 		
 	        toolbar = Ext.widget('toolbar', {
 	            id: me.id + '-toolbar',
@@ -168,55 +171,50 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	            cls: Ext.baseCSSPrefix + 'html-editor-tb',
 	            enableOverflow: true,
 	            items: items,
-	            ownerLayout: me.getComponentLayout(),
+	            ownerLayout: me.getComponentLayout()
 
 	            // stop form submits
-	            listeners: {
+	            /*,listeners: {
 	                click: function(e){
 	                    e.preventDefault();
 	                },
 	                element: 'el'
-	            }
+	            }*/
 	        });
 
 	        me.toolbar = toolbar;
 		
-        // uploadItems = Ext.widget('dataview', {
-            // id: me.id + '-dataview',
-            // ownerCt: me,
-            // cls: Ext.baseCSSPrefix + 'uploader-dv',
-			// tpl: this.tpl || new Ext.XTemplate(
-						// '<div id=pbinfo style="display:none;padding-bottom:7px"></div>'
-					// + '<tpl for=".">'
-					// + '<div class="ux-up-item">'
-						// + '<div class="ux-up-icon-file {fileCls}">&#160;</div>'
-					// + '<div class="ux-up-text x-unselectable truncate" >{shortName}</div>'
-					// + '<div id="remove-{[values.inputEl.id]}" class="ux-up-icon-state ux-up-icon-{state}"'
-					// + 'data-qtip="{[this.scope.getQtip(values)]}">&#160;</div>'
-					// + '</div>'
-					// + '</tpl>', {scope:this}
-				// )
-			// ,itemSelector:'div.ux-up-item'
-			// ,emptyText: 'nofiles'
-            // //enableOverflow: true,
-            // //items: items,
-            // ,ownerLayout: me.getComponentLayout(),
+        uploadItems = Ext.widget('dataview', {
+            id: me.id + '-dataview',
+            ownerCt: me,
+            cls: Ext.baseCSSPrefix + 'uploader-dv',
+			height: 100,
+			tpl: this.tpl || new Ext.XTemplate(
+						'<div id=pbinfo style="display:none;padding-bottom:7px"></div>'
+					+ '<tpl for=".">'
+					+ '<div class="ux-up-item">'
+						+ '<div class="ux-up-icon-file {fileCls}">&#160;</div>'
+					+ '<div class="ux-up-text x-unselectable truncate" >{shortName}</div>'
+					+ '<div id="remove-{[values.inputEl.id]}" class="ux-up-icon-state ux-up-icon-{state}"'
+					+ 'data-qtip="{[this.scope.getQtip(values)]}">&#160;</div>'
+					+ '</div>'
+					+ '</tpl>', {scope:this}
+				)
+			,itemSelector:'div.ux-up-item'
+			,emptyText: 'nofiles'
+			,store: editor.uploadStore  
+            //enableOverflow: true,
+            //items: items,
+            ,ownerLayout: me.getComponentLayout(),
 
-            // // stop form submits
-            // /*listeners: {
-                // click: function(e){
-                    // e.preventDefault();
-                // },
-                // element: 'el'
-            // }*/
-        // });
+        });
 
-        //me.uploadItems = uploadItems;        
+        me.uploadItems = uploadItems;        
     },
     
     finishRenderChildren: function () {
         this.callParent();
-        //this.uploadItems.finishRender();
+        this.uploadItems.finishRender();
 		this.toolbar.finishRender();
     },
 
@@ -249,8 +247,8 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     initRenderData: function() {
         var me = this;
         
-        me.beforeSubTpl = '<div id="' + me.id + '-wrapEl" class="' + me.editorWrapCls + '">' 
-        	//+ Ext.DomHelper.markup(me.uploadItems.getRenderTree()) 
+        me.beforeSubTpl = '<div id="' + me.id + '-wrapEl" class="async-file-uploader-wrap">' 
+        	+ Ext.DomHelper.markup(me.uploadItems.getRenderTree())
 			+ Ext.DomHelper.markup(me.toolbar.getRenderTree());
         
         //me.fieldSubTpl = Ext.DomHelper.markup(me.toolbar.getRenderTree());
@@ -278,10 +276,57 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     getToolbar : function(){
         return this.toolbar;
     },
-	
+    getUploadItems : function(){
+        return this.uploadItems;
+    },
+    /*getRefItems: function() {
+        return [ this.toolbar ];
+    },*/	
     relayBtnCmd: function(btn) {
       //  this.relayCmd(btn.getItemId());
-    },
+    }
     
-    
+	,onAddFile: function(addBtn) {
+		debugger;
+        inputEl = addBtn.fileInputEl;
+        inputEl.addCls('x-hidden');
+        input = addBtn.fileInputEl.dom;
+        files = addBtn.fileInputEl.dom.files;
+        
+        Ext.each(files, function(file) {
+			this.uploadStore.add([{
+                    id: Ext.id(),
+                    inputEl: input,
+                    shortName: String(file.name.match(/[^\/\\]+$/)),
+                    fileSize: Ext.util.Format.fileSize(file.size),
+                    fileCls: this.getFileCls(file.name),
+                    state: 'queued'
+                }])
+        }, this);
+        /*if (!this.uploading) {
+            this.getUploadBtn().enable(true);
+            this.getRemoveAllBtn().enable(true);
+        }*/
+        this.truncate();
+    }
+	,
+	truncate:function(){
+		debugger;
+		truncateEl = Ext.select('.truncate');
+		width = this.getWidth();
+		truncateEl.applyStyles({'width':width-50+'px'})
+	}	
+	,getFileCls: function(name) {
+        var atmp = name.split('.');
+        if (1 === atmp.length) {
+            return 'file';
+        } 
+        else {
+            return 'file-' + atmp.pop().toLowerCase();
+        }
+    }
+    ,getQtip:function(values) 
+	{
+		return 'qtip';
+	}
 });

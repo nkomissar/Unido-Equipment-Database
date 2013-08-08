@@ -20,6 +20,7 @@ Ext.define('Ext.ux.layout.component.field.AsyncFileUpload', {
         //ownerContext.textAreaContext = ownerContext.getEl('textareaEl');
         //ownerContext.iframeContext = ownerContext.getEl('iframeEl');
         ownerContext.toolbarContext = ownerContext.context.getCmp(this.owner.getToolbar());
+        ownerContext.uploadItemsContext = ownerContext.context.getCmp(this.owner.getUploadItems());
     },
 
     // It's not a container, can never add/remove dynamically
@@ -32,8 +33,9 @@ Ext.define('Ext.ux.layout.component.field.AsyncFileUpload', {
     
     getLayoutItems: function() {
         var toolbar = this.owner.getToolbar();
+		var uploadItems = this.owner.getUploadItems();
         // The toolbar may not exist if we're destroying
-        return toolbar ? [toolbar] : [];
+        return toolbar ? [toolbar, uploadItems] : [];
     },
     
     getRenderTarget: function() {
@@ -48,7 +50,7 @@ Ext.define('Ext.ux.layout.component.field.AsyncFileUpload', {
 
         // If the Toolbar has not acheieved a height yet, we are not done laying out.
         if (Ext.isNumber(innerHeight)) {
-            //ownerContext.textAreaContext.setHeight(innerHeight);
+            ownerContext.uploadItemsContext.setHeight(innerHeight);
             //ownerContext.iframeContext.setHeight(innerHeight);
         } else {
             me.done = false;
