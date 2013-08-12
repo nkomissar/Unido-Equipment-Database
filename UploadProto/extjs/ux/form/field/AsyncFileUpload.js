@@ -9,6 +9,8 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		[ 
 			'Ext.data.Store'
 			, 'Ext.view.View'
+			, 'Ext.ProgressBar'
+			, 'Ext.resizer.Splitter'
 			, 'Ext.ux.layout.component.field.AsyncFileUpload'
 		],
     
@@ -64,35 +66,6 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
         	   speedAverage: 15, speedLast: 16, timeLast: 17, timeStart: 18, pctComplete: 19}]
 			*/	
         });
-        
-        
-        /*
-    	debugger;
-        Ext.apply(this, {
-            items:[{
-                     xtype:'dataview'
-                    ,itemSelector:'div.ux-up-item'
-                    ,store:this.store
-                    //,selectedClass:this.selectedClass
-                    ,singleSelect:true
-                   // ,emptyText:this.emptyText
-                    ,tpl: new Ext.XTemplate(
-                              '<tpl for=".">'
-                            + '<div class="ux-up-item">'
-//                          + '<div class="ux-up-indicator">&#160;</div>'
-                            + '<div class="ux-up-icon-file {fileCls}">&#160;</div>'
-                            + '<div class="ux-up-text x-unselectable" qtip="{fileName}">{shortName}</div>'
-                            + '<div id="remove-{[values.input.id]}" class="ux-up-icon-state ux-up-icon-{state}"'
-                            + 'qtip="{[this.scope.getQtip(values)]}">&#160;</div>'
-                            + '</div>'
-                            + '</tpl>'
-                            , {scope:this}
-                    )
-                    //,listeners:{click:{scope:this, fn:this.onViewClick}}
-
-            }]
-    	
-    	});*/
 
 		me.callParent(arguments);
 		me.createGrid(me);
@@ -112,27 +85,11 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
         var me = this, uploadItems, items = [],
         baseCSSPrefix = Ext.baseCSSPrefix, undef;
 		
-		function btn(id, toggle, handler){
-            return {
-                itemId : id,
-                cls : baseCSSPrefix + 'btn-icon',
-                iconCls: baseCSSPrefix + 'edit-'+id,
-                enableToggle:toggle !== false,
-                scope: editor,
-                //handler:handler||editor.relayBtnCmd,
-                clickEvent: 'mousedown',
-				text: 'O',
-                //tooltip: tipsEnabled ? editor.buttonTips[id] || undef : undef,
-                //overflowText: editor.buttonTips[id].title || undef,
-                tabIndex: -1
-            };
-        }
-        
 		var addCfg = {
 			xtype: 'filefield'
 			,id:'addbtn'
 			,itemId:'addbtn'
-			//,buttonOnly: true
+			,buttonOnly: true
 			,hideLabel: true
 			,buttonText: 'Add..'
 			,buttonConfig: {iconCls: 'icon-plus'}
@@ -150,7 +107,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				,iconCls:'icon-upload'
 				,text:'Upload'
 				,scope:editor
-			,handler: editor.onAddFile
+				,handler: editor.onUpload
 				//,disabled:true
 			};
 
@@ -161,6 +118,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				,text:'Remove All'
 				,scope:this
 				//,disabled:true
+				,handler: editor.onRemoveAllClick
 			};
 
 			items = [addCfg, '->', upCfg, removeAllCfg];
@@ -184,6 +142,22 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 
 	        me.toolbar = toolbar;
 		
+		var pb = Ext.widget('progressbar', 
+		{
+			id: me.id + '-progressbar',
+			itemId: 'pb',
+			hidden: true,
+			ownerCt: me
+		});
+		me.pb = pb;
+		
+		var splitter =  Ext.widget('splitter', 
+		{
+			id: me.id + '-splitter',
+			ownerCt: me
+		});
+		me.splitter = splitter;
+		
         uploadItems = Ext.widget('dataview', {
             id: me.id + '-dataview',
             ownerCt: me,
@@ -205,8 +179,15 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			,store: editor.uploadStore  
             //enableOverflow: true,
             //items: items,
-            ,ownerLayout: me.getComponentLayout(),
-
+            ,ownerLayout: me.getComponentLayout()
+			, listeners: 
+			{
+				itemclick: editor.onViewClick,
+				resize: editor.truncate,
+				afterrender: editor.onViewRender,
+				scope: editor,
+				
+			}
         });
 
         me.uploadItems = uploadItems;        
@@ -214,7 +195,9 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     
     finishRenderChildren: function () {
         this.callParent();
-        this.uploadItems.finishRender();
+		this.pb.finishRender();
+		this.splitter.finishRender();
+		this.uploadItems.finishRender();
 		this.toolbar.finishRender();
     },
 
@@ -248,6 +231,8 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
         var me = this;
         
         me.beforeSubTpl = '<div id="' + me.id + '-wrapEl" class="async-file-uploader-wrap">' 
+        	+ Ext.DomHelper.markup(me.pb.getRenderTree())
+        	+ Ext.DomHelper.markup(me.splitter.getRenderTree())
         	+ Ext.DomHelper.markup(me.uploadItems.getRenderTree())
 			+ Ext.DomHelper.markup(me.toolbar.getRenderTree());
         
@@ -285,9 +270,147 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     relayBtnCmd: function(btn) {
       //  this.relayCmd(btn.getItemId());
     }
-    
-	,onAddFile: function(addBtn) {
+
+    , onViewRender: function(view) {
+    		//this.uploadpanelView=view; 
 		debugger;
+    	this.pb=this.getComponent('pb');
+				//this.singleUpload=this.getUploadpanel().singleUpload;
+				//this.concurrentUpload=this.getUploadpanel().concurrentUpload;
+      }
+	
+	,onViewClick:function(view, record, html, index,e) {
+		if(!this.singleUpload){
+			var t = e.getTarget('div:any(.ux-up-icon-queued|.ux-up-icon-failed|.ux-up-icon-done|.ux-up-icon-stopped)');
+			if(t) {
+				this.onRemoveFile(view,record,html,index,e);
+			}
+		}
+		if(!this.singleUpload){
+			var t = e.getTarget('div.ux-up-icon-uploading');
+			if(t) {
+				this.stopUpload(record);
+			}
+		}
+		this.truncate();
+	}
+
+	,onUpload:function() {	
+		/*selModel = this.getFiletree().getSelectionModel();
+		record=selModel.getLastSelected();
+		if(record){
+			if(record.isLeaf()){
+				this.path=record.parentNode.get('id');
+			}else{
+				this.path=record.get('id');
+			}
+		}else{
+			this.path=this.getUploadpanel().rootPath;
+			record=this.getFiletree().getRootNode() ;
+				this.getFiletree().view.select(record,false,true); 
+		}		
+
+		if(!record.isLeaf() || record.isRoot()){
+			this.record=record
+		}else{
+			this.record=record.parentNode;
+		}
+
+		this.truncate();*/
+		
+		var records = this.uploadStore.queryBy(function(r){return 'done' !== r.get('state')});
+		if(!records.getCount()) {
+			return;
+		}else{
+			this.beforeallstart()
+		}
+		
+		//this.singleUpload=this.getUploadpanel().singleUpload;
+		//this.concurrentUpload=this.getUploadpanel().concurrentUpload;
+		
+		if(this.singleUpload){
+			this.uploadSingle();
+		}else if(this.concurrentUpload){
+			records.each(function(r){this.uploadFile(r)}, this);
+		}else{
+			records.each(function(r){r.set('state', 'queued')}, this);
+			this.uploadFile(records.items[0]);
+		}
+		
+		if(true === this.uploadItems.enableProgress) {
+			this.startProgress();
+		}
+	}
+		
+	,uploadFile:function(record,params) {
+		var form = this.createForm(record);
+		var inputEl = record.get('inputEl');
+		form.appendChild(inputEl.id);
+
+		var o = this.getOptions(record, params);
+		o.form = form;
+
+		record.set('state', 'uploading');
+		record.set('pctComplete', 0);
+		this.truncate();
+		Ext.Ajax.request(o);
+		Ext.Function.defer(this.getIframe, 100, this, [record]);
+	} 
+
+	,uploadSingle:function() {
+		var records = this.uploadStore.queryBy(function(r){return 'done' !== r.get('state');});
+		if(!records.getCount()){
+			return;
+		}
+
+		var form = this.createForm();
+		records.each(function(record) {
+			if(!this.multiple){
+				var inputEl = record.get('inputEl');
+				form.appendChild(inputEl.id);
+			}
+				record.set('state', 'uploading');
+				this.truncate();
+		}, this);
+		
+		if(this.multiple){
+			var inputEl = records.items[0].get('inputEl');
+			form.appendChild(inputEl.id);
+		}
+
+		var o = this.getOptions();
+
+		o.form = form;
+		this.form = form;
+		Ext.Ajax.request(o);
+	} 
+	
+	,getOptions:function(record, params) {
+		if(record){
+			progressId=record.get('progressId')
+		}else{
+			progressId=this.progressId
+		}
+		var path = "myUpload";//this.path;	
+		var o = {
+			 url:this.getUploadpanel().uploadUrl+'?PID='+progressId+'&path='+path
+			,method:'post'
+			,isUpload:true
+			,scope:this
+			,callback:this.uploadCallback
+			,record:record
+			,params:this.getParams(record, params)
+		};
+		return o;
+	} 
+	
+	,getParams:function(record, params) {
+		var p = {path:this.path};
+		Ext.apply(p, params || {});
+		return p;
+	}	
+	
+	,onAddFile: function(addBtn) {
         inputEl = addBtn.fileInputEl;
         inputEl.addCls('x-hidden');
         input = addBtn.fileInputEl.dom;
@@ -307,13 +430,17 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
             this.getUploadBtn().enable(true);
             this.getRemoveAllBtn().enable(true);
         }*/
+		
+		if (addBtn.rendered) {
+            //addBtn.fileInputEl.remove();
+            addBtn.createFileInput();
+            addBtn.inputEl.dom.value = '';
+        }
         this.truncate();
     }
-	,
-	truncate:function(){
-		debugger;
+	,truncate:function(){
 		truncateEl = Ext.select('.truncate');
-		width = this.getWidth();
+		width = this.uploadItems.getWidth();
 		truncateEl.applyStyles({'width':width-50+'px'})
 	}	
 	,getFileCls: function(name) {
@@ -329,4 +456,43 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	{
 		return 'qtip';
 	}
+	
+	,onViewClick:function(view, record, html, index,e) {
+		if(!this.singleUpload){
+			var t = e.getTarget('div:any(.ux-up-icon-queued|.ux-up-icon-failed|.ux-up-icon-done|.ux-up-icon-stopped)');
+			if(t) {
+				this.onRemoveFile(view,record,html,index,e);
+			}
+		}
+		if(!this.singleUpload){
+			var t = e.getTarget('div.ux-up-icon-uploading');
+			if(t) {
+				this.stopUpload(record);
+			}
+		}
+		this.truncate();
+	}
+	
+	,onRemoveFile:function(view,record,html,index,e) {
+		this.uploadStore.remove(record);
+		var count = this.uploadStore.getCount();
+		//this.getUploadBtn().setDisabled(!count);
+		//this.getRemoveAllBtn().setDisabled(!count);
+	}
+	
+	,onRemoveAllClick:function(btn) {
+		if(true === this.uploading) {
+			this.stopAll();
+		}else{
+			this.removeAll();
+		}
+	} 
+	
+	,removeAll:function() {
+		this.uploadStore.removeAll();
+		//this.getUploadBtn().setDisabled(true);
+		//this.getRemoveAllBtn().setDisabled(true);
+	} 
+	
+	
 });

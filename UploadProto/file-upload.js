@@ -38,7 +38,7 @@ Ext.onReady(function() {
             xtype: 'asyncfileupload',
 			fieldLabel: 'Suppalabel'
 			}
-			/*,{
+			,{
 				xtype: 'filefield',
 				fieldLabel: 'tiss'
 				,id:'addbtn1'
@@ -48,7 +48,7 @@ Ext.onReady(function() {
 				,buttonText: 'Add..'
 				,buttonConfig: {iconCls: 'icon-plus'}
 				,handler: this.onAddFile	
-			}*/
+			}
 			,{
 				xtype: 'myeditor',
 				fieldLabel: 'Source'
