@@ -35,7 +35,7 @@ Ext.define('Ext.ux.layout.component.field.AsyncFileUpload', {
         var toolbar = this.owner.getToolbar();
 		var uploadItems = this.owner.getUploadItems();
         // The toolbar may not exist if we're destroying
-        return toolbar ? [toolbar, uploadItems, this.owner.pb, this.owner.splitter] : [];
+        return toolbar ? [toolbar, uploadItems, this.owner.pb/*, this.owner.splitter*/] : [];
     },
     
     getRenderTarget: function() {

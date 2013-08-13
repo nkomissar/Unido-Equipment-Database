@@ -39,6 +39,20 @@ border: 1px solid #b5b8c8;
 .ux-up-icon-queued {
 	background-image:url('images/page_white_get.png');
 }
+.ux-up-icon-uploading {
+	background-image:url('images/icon-uploading.gif') ! important;
+}
+.ux-up-icon-done {
+	background-image:url('images/accept.png');
+}
+.ux-up-icon-failed {
+	background-image:url('images/error.png');
+}
+.ux-up-icon-stopped {
+	background-image:url('images/stop.png');
+}
+
+
 .ux-up-icon-file {
 	width:16px;
 	height:16px;

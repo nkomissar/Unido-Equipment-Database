@@ -148,15 +148,17 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			itemId: 'pb',
 			hidden: true,
 			ownerCt: me
+			,ownerLayout: me.getComponentLayout()
 		});
 		me.pb = pb;
 		
-		var splitter =  Ext.widget('splitter', 
+		/*var splitter =  Ext.widget('splitter', 
 		{
 			id: me.id + '-splitter',
 			ownerCt: me
+            ,ownerLayout: me.getComponentLayout()
 		});
-		me.splitter = splitter;
+		me.splitter = splitter;*/
 		
         uploadItems = Ext.widget('dataview', {
             id: me.id + '-dataview',
@@ -196,7 +198,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     finishRenderChildren: function () {
         this.callParent();
 		this.pb.finishRender();
-		this.splitter.finishRender();
+		//this.splitter.finishRender();
 		this.uploadItems.finishRender();
 		this.toolbar.finishRender();
     },
@@ -232,7 +234,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
         
         me.beforeSubTpl = '<div id="' + me.id + '-wrapEl" class="async-file-uploader-wrap">' 
         	+ Ext.DomHelper.markup(me.pb.getRenderTree())
-        	+ Ext.DomHelper.markup(me.splitter.getRenderTree())
+        	//+ Ext.DomHelper.markup(me.splitter.getRenderTree())
         	+ Ext.DomHelper.markup(me.uploadItems.getRenderTree())
 			+ Ext.DomHelper.markup(me.toolbar.getRenderTree());
         
@@ -273,8 +275,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 
     , onViewRender: function(view) {
     		//this.uploadpanelView=view; 
-		debugger;
-    	this.pb=this.getComponent('pb');
+    	//this.pb=this.getComponent('pb');
 				//this.singleUpload=this.getUploadpanel().singleUpload;
 				//this.concurrentUpload=this.getUploadpanel().concurrentUpload;
       }
@@ -322,7 +323,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		if(!records.getCount()) {
 			return;
 		}else{
-			this.beforeallstart()
+//			this.beforeallstart()
 		}
 		
 		//this.singleUpload=this.getUploadpanel().singleUpload;
@@ -393,7 +394,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		}
 		var path = "myUpload";//this.path;	
 		var o = {
-			 url:this.getUploadpanel().uploadUrl+'?PID='+progressId+'&path='+path
+			 url:/*this.getUploadpanel().uploadUrl*/ '/uploadUrl'+'?PID='+progressId+'&path='+path
 			,method:'post'
 			,isUpload:true
 			,scope:this
@@ -410,6 +411,209 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		return p;
 	}	
 	
+	,createForm:function(record) {
+		var progressId = parseInt(Math.random() * 1e10, 10);
+		debugger;
+		var form = Ext.getBody().createChild({
+			 tag:'form'
+			,method:'post'
+			,cls:'hidden'
+			,id:Ext.id()
+			,cn:[{
+				 tag:'input'
+				,type:'hidden'
+				,name:'APC_UPLOAD_PROGRESS'
+				,value:progressId
+			},{
+				 tag:'input'
+				,type:'hidden'
+				,name: 'UPLOAD_PROGRESS'//this.getUploadpanel().progressIdName
+				,value:progressId
+			},{
+				 tag:'input'
+				,type:'hidden'
+				,name:'MAX_FILE_SIZE'
+				,value: 1048576//this.getUploadpanel().maxFileSize
+			}]
+		}); 
+		if(record) {
+			record.set('id', 'same-same'/*id*/ );
+			record.set('form', form);
+			record.set('progressId', progressId);
+		}
+		else {
+			this.progressId = progressId;
+		}
+		return form;
+	} 
+	,deleteForm:function(form, record) {
+		form.remove();
+		if(record) {
+			record.set('form', null);
+		}
+	} 
+	
+	,uploadCallback:function(options, success, response) {
+		var o;
+		this.form = false;
+
+		if(true === success) {
+			try 
+			{
+				o = Ext.decode(response.responseText);
+			}
+			catch(e) {
+				this.processFailure(options, response, /*this.getUploadpanel().jsonErrorText*/ 'jsonErrorText');
+				return;
+			}
+
+			if(true === o.success) {
+				this.processSuccess(options, response, o);
+			}
+			else {
+				this.processFailure(options, response, o);
+			}
+		}
+		else 
+		{
+			this.processFailure(options, response);
+		}
+		
+		this.fireFinishEvents(options);
+		
+	} 
+	
+	,processSuccess:function(options, response, o) {
+		var record = false;
+		if(this.singleUpload) {
+			this.uploadStore.each(function(r) {
+				r.set('state', 'done');
+				r.set('error', '');
+				r.commit();
+			});
+		}else{
+			record = options.record;
+			record.set('state', 'done');
+			record.set('error', '');
+			record.commit();		
+			this.truncate();
+		}
+		this.deleteForm(options.form, record);
+	} 
+	
+	,processFailure:function(options, response, error) {
+		var record = options.record;
+		var records;
+		 
+		if(this.singleUpload) 
+		{
+			records = this.uploadStore.queryBy(
+				function(r)
+				{
+					var state = r.get('state');
+					return 'done' !== state && 'uploading' !== state;
+				});
+
+			records.each(
+				function(record) {
+				var e = error.errors ? error.errors[record.id] : /*this.getUploadpanel().unknownErrorText*/'unknownErrorText';
+				if(e) {
+					record.set('state', 'failed');
+					record.set('error', e);
+					Ext.getBody().appendChild(record.get('inputEl'));
+				} else {
+					record.set('state', 'done');
+					record.set('error', '');
+				}
+				
+				record.commit();
+				this.truncate();
+				
+				}, this);
+     
+			this.deleteForm(options.form);
+		}
+		else
+		{
+			if(error && 'object' === Ext.type(error)) {
+				record.set('error', error.errors && error.errors[record.id] ? error.errors[record.id] : /*this.getUploadpanel().unknownErrorText*/ 'unknownErrorText');
+			}else if(error) {
+				record.set('error', error);
+			}else if(
+				response && response.responseText) {
+				record.set('error', response.responseText);
+			}else{
+				record.set('error', this.getUploadpanel().unknownErrorText);
+			}
+			
+			record.set('state', 'failed');
+			record.commit();
+			
+			this.truncate();
+		}
+	}
+	
+	,fireFinishEvents:function() 
+	{
+		if(!this.singleUpload && !this.concurrentUpload){
+			var records = this.uploadStore.queryBy(function(r){return 'queued' === r.get('state') });
+			if(records.getCount()) {
+				this.uploadFile(records.items[0]);
+			}else{
+				this.allfinished();
+			}
+		}
+
+		if(this.singleUpload || this.concurrentUpload){
+			var records = this.uploadStore.queryBy(function(r){return 'uploading' === r.get('state');});
+			if(!records.getCount()){	
+				this.allfinished();
+			}
+		}
+	} 
+	
+	,allfinished:function()
+	{
+		if(this.singleUpload)
+		{
+			this.pbValue=1;
+			this.pb.updateProgress(1,'100%',false);
+			var pbHide = new Ext.util.DelayedTask(function(){		
+				this.pb.updateProgress(0,'0%',false);	
+				this.pb.hide();
+				this.pbinfo.setDisplayed('none');
+			},this);				
+			pbHide.delay(2000);
+		}
+		
+		this.stopProgress();
+		this.uploading = false;
+		this.updateButtons();
+		this.truncate();
+	}	
+	
+	,getIframe:function(record) 
+	{
+		var iframe = null;
+		var form = record.get('form');
+		if(form && form.dom && form.dom.target) 
+		{
+			iframe = Ext.get(form.dom.target);		
+		}
+		return iframe;
+	} 	
+	,startProgress:function() {
+		if(!this.progressTask) {
+			this.progressTask = new Ext.util.DelayedTask(function(){this.requestProgress()},this);
+		}
+     this.progressTask.delay(this.getUploadpanel().progressInterval/2);    				
+	} 
+	
+	,stopProgress:function() {
+		if(this.progressTask) {
+			  this.progressTask.cancel();
+		}
+	} 
 	,onAddFile: function(addBtn) {
         inputEl = addBtn.fileInputEl;
         inputEl.addCls('x-hidden');
