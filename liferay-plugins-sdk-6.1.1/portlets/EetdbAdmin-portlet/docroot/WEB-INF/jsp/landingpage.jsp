@@ -216,3 +216,30 @@
 </aui:script>
 
 <a href="javascript:(function(){var a,l,o=(Ext?Ext.util.Observable.prototype:false);if(!o){alert('Ext not in page');return;}if(!(l=console?console.log:false)){alert('Use Firefox with Firebug');return;}o.fireEvent=Ext.Function.createInterceptor(o.fireEvent, function(evt){a=arguments;console.log(this,' fired event ',evt,' with args ',Array.prototype.slice.call(a,1,a.length));});})();">Log all Ext events</a>
+
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<!-- File Upload -->
+ 
+      <portlet:actionURL var="fileUploadURL">
+                <portlet:param name="formAction" value="fileUpload" />      
+      </portlet:actionURL>
+       
+      <form:form name="fileUploader" commandName="springFileVO" method="post"
+                action="${fileUploadURL}"  enctype="multipart/form-data">
+                 
+                <c:out value="${springFileVO.message}" />
+                 
+                <label> Select a File</label>
+                <form:input path="fileData" type="file"/>
+                 
+                <button type="submit">Submit</button>
+                 
+      </form:form>
+       
+<!-- File Download  --> 
+    <portlet:resourceURL var="fileDownloadURL" id="fileDownload">
+    </portlet:resourceURL>
+      
+     </br>
+     <a href="#" onClick="window.location ='${fileDownloadURL}';"> Download </a>

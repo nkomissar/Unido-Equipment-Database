@@ -39,6 +39,11 @@
 		
 	<!-- <bean id="portletMultipartResolver"
       class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver"/>-->
-
+    <!-- File Upload -->
+    <bean id="portletMultipartResolver" class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
+ 
+    <!-- one of the properties available; the maximum file size in bytes -->
+    <property name="maxUploadSize" value="10000000"/>
+    </bean>
 
 </beans>
