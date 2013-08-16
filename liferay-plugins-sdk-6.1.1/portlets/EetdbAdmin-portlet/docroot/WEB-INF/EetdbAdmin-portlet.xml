@@ -3,6 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:util="http://www.springframework.org/schema/util" xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xsi:schemaLocation="
         http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
@@ -12,6 +13,8 @@
 		http://www.springframework.org/schema/util/spring-util-3.2.xsd
 		http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+        http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
         ">
 
 	<!-- Auto-detect controllers in these packages -->
@@ -40,10 +43,21 @@
 	<!-- <bean id="portletMultipartResolver"
       class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver"/>-->
     <!-- File Upload -->
-    <bean id="portletMultipartResolver" class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
+    <!--bean id="portletMultipartResolver" class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
  
-    <!-- one of the properties available; the maximum file size in bytes -->
     <property name="maxUploadSize" value="10000000"/>
+    </bean-->
+      
+  	<bean id="routesProgressListener" 
+  			class="org.unido.eetdb.admin.util.RoutesProgressListener"  scope="session">
+  		<aop:scoped-proxy/>
+  	</bean>
+  			
+    <bean id="portletMultipartResolver" class="org.unido.eetdb.admin.util.RoutesMultipartResolver"  scope="session">
+ 
+	    <!-- one of the properties available; the maximum file size in bytes -->
+	    <property name="maxUploadSize" value="1000000000"/>
+        <property name="progressListener" ref="routesProgressListener" />
+        <aop:scoped-proxy/>
     </bean>
-
 </beans>

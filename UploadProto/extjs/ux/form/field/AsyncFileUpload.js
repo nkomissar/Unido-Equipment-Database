@@ -89,6 +89,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			xtype: 'filefield'
 			,id:'addbtn'
 			,itemId:'addbtn'
+			,name:'fileData'
 			,buttonOnly: true
 			,hideLabel: true
 			,buttonText: 'Add..'
@@ -394,8 +395,9 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		}
 		var path = "myUpload";//this.path;	
 		var o = {
-			 url:/*this.getUploadpanel().uploadUrl*/ '/uploadUrl'+'?PID='+progressId+'&path='+path
-			,method:'post'
+			 //url:/*this.getUploadpanel().uploadUrl*/ '/uploadUrl'+'?PID='+progressId+'&path='+path
+			 url:'/web/test/subpage?p_auth=RW1slAjd&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload&_EetdbAdmin_WAR_EetdbAdminportlet_PID=' + progressId			
+			 ,method:'post'
 			,isUpload:true
 			,scope:this
 			,callback:this.uploadCallback
