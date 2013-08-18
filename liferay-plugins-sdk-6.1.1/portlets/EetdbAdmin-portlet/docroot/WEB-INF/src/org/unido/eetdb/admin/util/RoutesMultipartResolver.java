@@ -28,7 +28,7 @@ public class RoutesMultipartResolver extends CommonsPortletMultipartResolver {
 	public MultipartActionRequest resolveMultipart(
 			ActionRequest request) throws MultipartException {
 		
-		String pid = request.getParameter("PID");
+		String pid = request.getParameter("pid");
 		
 		String encoding = determineEncoding(request);
 		FileUpload fileUpload = prepareFileUpload(encoding);

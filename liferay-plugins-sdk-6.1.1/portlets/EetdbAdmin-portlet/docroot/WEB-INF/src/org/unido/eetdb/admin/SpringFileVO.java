@@ -14,7 +14,7 @@ public class SpringFileVO {
     public void setMessage(String message) {
         this.message = message;
     }
- 
+
     public CommonsMultipartFile getFileData() {
         return fileData;
     }

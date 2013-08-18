@@ -23,6 +23,14 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     
 	, componentLayout: 'asyncfileupload'
 	
+	, uploadUrl: '/web/test/subpage?p_auth=5kXErBwA&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
+	
+	, progressUrl:  '/web/test/subpage?p_auth=5kXErBwA&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_mode=view&_EetdbAdmin_WAR_EetdbAdminportlet_action=getProgress'
+	, progressIdName: '_EetdbAdmin_WAR_EetdbAdminportlet_pid'
+	
+	, enableProgress: true
+	, progressInterval: 1500
+	
     , initComponent: function()
     {
     	
@@ -297,6 +305,56 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		this.truncate();
 	}
 
+	,onProgress:function(obj){
+		var bytesTotal, bytesUploaded, pctComplete, state, idx, item, width, pgWidth;
+		if (this.singleUpload){
+			if(this.pbValue!=1){
+			this.pbValue=parseInt(obj.pct_complete)/100;
+			this.pbText=obj.pct_complete;
+			
+			pbupdate='<font size=1>uploaded: '+obj.bytes_uploaded+' of '+obj.bytes_total+ '&nbsp;&nbsp;&nbsp;&nbsp;';
+			pbupdate +='speed: '+obj.speed_now+'/sec&nbsp;&nbsp;&nbsp;&nbsp;';
+			pbupdate +='time left: '+obj.time_left+'</font>';
+				
+			this.pbinfo.dom.innerHTML=pbupdate;
+    	this.pb.updateProgress(this.pbValue,this.pbText,true);
+    	}
+		}else{
+			record=obj;
+			state = record.get('state');
+			bytesTotal = record.get('bytesTotal') || 1;
+			bytesUploaded = record.get('bytesUploaded') || 0;
+			if('uploading' === state) {
+				pctComplete = parseInt(record.get('pctComplete'),10);
+				timeLeft=record.get('timeLeft');
+				speedNow=record.get('speedNow');
+			}
+			else if('done' === state) {
+				pctComplete = 100;
+			}
+			else {
+				pctComplete = 0;
+			}
+			record.set('pctComplete', pctComplete);
+			this.truncate();
+				if('uploading' === state) 
+				{
+					idx = this.uploadStore.indexOf(record);
+					item = Ext.get(this.uploadpanelView.getNode(idx));
+					if(item) 
+					{	
+						width = item.getWidth();
+						if(pctComplete!='')
+						{
+							item.applyStyles({'background-position':width * pctComplete / 100 + 'px'})
+							item.applyStyles({'background-color':'#AAC7EC'})
+						}
+					}
+				}
+		}
+		this.truncate();
+	} 	
+	
 	,onUpload:function() {	
 		/*selModel = this.getFiletree().getSelectionModel();
 		record=selModel.getLastSelected();
@@ -339,7 +397,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			this.uploadFile(records.items[0]);
 		}
 		
-		if(true === this.uploadItems.enableProgress) {
+		if(true === this.enableProgress) {
 			this.startProgress();
 		}
 	}
@@ -396,8 +454,8 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		var path = "myUpload";//this.path;	
 		var o = {
 			 //url:/*this.getUploadpanel().uploadUrl*/ '/uploadUrl'+'?PID='+progressId+'&path='+path
-			 url:'/web/test/subpage?p_auth=RW1slAjd&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=normal&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload&_EetdbAdmin_WAR_EetdbAdminportlet_PID=' + progressId			
-			 ,method:'post'
+			url: this.uploadUrl			
+			,method:'post'
 			,isUpload:true
 			,scope:this
 			,callback:this.uploadCallback
@@ -424,6 +482,11 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			,cn:[{
 				 tag:'input'
 				,type:'hidden'
+				,name:this.progressIdName
+				,value:progressId
+			}/*,{
+				 tag:'input'
+				,type:'hidden'
 				,name:'APC_UPLOAD_PROGRESS'
 				,value:progressId
 			},{
@@ -436,7 +499,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				,type:'hidden'
 				,name:'MAX_FILE_SIZE'
 				,value: 1048576//this.getUploadpanel().maxFileSize
-			}]
+			}*/]
 		}); 
 		if(record) {
 			record.set('id', 'same-same'/*id*/ );
@@ -604,11 +667,88 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		}
 		return iframe;
 	} 	
+	
+	,requestProgress:function() 
+	{
+		var records, p;
+		var o = {
+			 url: this.progressUrl 
+			,method:'get'
+			,params:{}
+			,scope:this
+			,callback:function(options, success, response) {
+				var o;
+				if(true !== success) {
+					return;
+				}
+				try {
+					o = Ext.decode(response.responseText);
+				}
+				catch(e) {
+					return;
+				}
+				if('object' !== Ext.type(o) || true !== o.success) {
+					return;
+				}
+
+		if (this.singleUpload){	
+			if(o.bytes_uploaded == "!--=-->0"){
+			}else{
+				if(true !== this.eventsSuspended) {
+					this.onProgress(o);
+				}
+			}
+		}else{
+			records = this.uploadStore.queryBy(function(r){return r.get('progressId') === o.progress_id});
+			records.each(function(r) {						
+					for(p in o) {
+						if(o.bytes_uploaded == "!--=-->0"){}
+						else{
+							if(this.getUploadpanel().progressMap[p] && r) {
+								r.set(this.getUploadpanel().progressMap[p],o[p]);
+							}
+						}
+					}
+					if(r) {
+						r.commit();
+						if(true !== this.eventsSuspended) {
+							this.onProgress(r);
+						}
+					}
+				}, this);		
+			}				
+				var records = this.uploadStore.queryBy(function(r){return 'uploading' === r.get('state');});
+				if(records.getCount()){
+					this.progressTask.delay(this.getUploadpanel().progressInterval);
+				}
+
+			}		
+		};
+		
+		if(this.singleUpload) {
+			o.params[this.progressIdName] = this.progressId;
+			o.params.APC_UPLOAD_PROGRESS = this.progressId;
+			var task = new Ext.util.DelayedTask(function(){						
+				Ext.Ajax.request(o);
+			});
+   		task.delay(this.progressInterval);
+		}else{
+			records = this.uploadStore.queryBy(function(r){return 'uploading' === r.get('state');});
+			debugger;
+			records.each(function(r) {				
+				o.params[this.progressIdName] = r.get('progressId');
+				o.params.APC_UPLOAD_PROGRESS = o.params[this.progressIdName];
+				o.record = r;						
+				Ext.Ajax.request(o);
+			}, this);
+		}
+	} 
+	
 	,startProgress:function() {
 		if(!this.progressTask) {
 			this.progressTask = new Ext.util.DelayedTask(function(){this.requestProgress()},this);
 		}
-     this.progressTask.delay(this.getUploadpanel().progressInterval/2);    				
+     this.progressTask.delay(this.progressInterval/2);    				
 	} 
 	
 	,stopProgress:function() {
