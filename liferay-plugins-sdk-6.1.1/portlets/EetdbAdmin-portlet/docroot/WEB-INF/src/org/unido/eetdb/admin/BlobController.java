@@ -57,19 +57,19 @@ public class BlobController {
 	}
 
 	@RenderMapping(params = "action=uploadResult")
-	public ModelAndView renderUploadResult(RenderRequest request) {
+	public String renderUploadResult(RenderRequest request) {
 
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
 
-		return new ModelAndView(jsonView, data);
+		return "uploadresult";
 
 	}
 	
 	
 	
 	@RenderMapping(params="action=getProgress")
-	public ModelAndView getProgress(@RequestParam String pid, RenderRequest request)
+	public ModelAndView getProgress(@RequestParam long pid, RenderRequest request)
 	{
 		Map<String, Object> data = new HashMap<String, Object>();
 
