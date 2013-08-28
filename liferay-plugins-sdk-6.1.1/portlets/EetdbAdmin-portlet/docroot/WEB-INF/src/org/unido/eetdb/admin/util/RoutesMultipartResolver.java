@@ -22,6 +22,7 @@ public class RoutesMultipartResolver extends CommonsPortletMultipartResolver {
 	private ProgressListener progressListener;
 
 	public void setProgressListener(ProgressListener progressListener) {
+        System.out.println("RoutesMultipartResolver -> setProgressListener");
 		this.progressListener = progressListener;
 	}
 
@@ -29,19 +30,26 @@ public class RoutesMultipartResolver extends CommonsPortletMultipartResolver {
 			ActionRequest request) throws MultipartException {
 		
 		String pid = request.getParameter("pid");
+
+		System.out.println("RoutesMultipartResolver -> resolveMultipart for pid:" + pid);
 		
 		String encoding = determineEncoding(request);
 		FileUpload fileUpload = prepareFileUpload(encoding);
-		
-		RoutesProgressListener listener = new RoutesProgressListener();
+
 		PortletSession session = request.getPortletSession();
 		
+		RoutesProgressListener listener = new RoutesProgressListener();
+		listener.setPid(pid);
 		session.setAttribute("listener" + pid, listener);
+		fileUpload.setProgressListener(listener);
 		
-		if (progressListener != null) {
-			//fileUpload.setProgressListener(progressListener);
-			fileUpload.setProgressListener(listener);
-		}
+		/*if (progressListener != null) {
+			fileUpload.setProgressListener(progressListener);
+			((RoutesProgressListener)progressListener).setPid(pid);
+			
+			session.setAttribute("listener" + pid, progressListener);
+		}*/
+		
 		try {
 			List<FileItem> fileItems = ((PortletFileUpload) fileUpload)
 					.parseRequest(request);

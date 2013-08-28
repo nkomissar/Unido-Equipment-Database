@@ -22,6 +22,7 @@ Ext.onReady(function() {
     Ext.create('Ext.form.Panel', {
         renderTo: 'async-form',
         width: 500,
+		height: 600,
         frame: true,
         title: 'Async File Upload Form',
         bodyPadding: '10 10 10',
@@ -34,31 +35,36 @@ Ext.onReady(function() {
         },
 
         items: [
-			{
-            xtype: 'asyncfileupload',
+		{
+			xtype: 'asyncfileupload',
 			fieldLabel: 'Suppalabel'
-			}
-			,{
-				xtype: 'filefield',
-				fieldLabel: 'tiss'
-				,id:'addbtn1'
-				,itemId:'addbtn1'
-				,buttonOnly: true
-				,hideLabel: true
-				,buttonText: 'Add..'
-				,buttonConfig: {iconCls: 'icon-plus'}
-				,handler: this.onAddFile	
-			}
-			,{
-				xtype: 'myeditor',
-				fieldLabel: 'Source'
-			},
-			/*,
-			
-			{
-			xtype: 'htmleditor',
+		}
+		, {
+			xtype: 'asyncfileupload',
+			fieldLabel: 'Suppalabel'
+		}
+
+		/*,{
+			xtype: 'filefield',
+			fieldLabel: 'tiss'
+			,id:'addbtn1'
+			,itemId:'addbtn1'
+			,buttonOnly: true
+			,hideLabel: true
+			,buttonText: 'Add..'
+			,buttonConfig: {iconCls: 'icon-plus'}
+			,handler: this.onAddFile	
+		}
+		,{
+			xtype: 'myeditor',
 			fieldLabel: 'Source'
-			}*/
-			]
+		},*/
+		/*,
+		
+		{
+		xtype: 'htmleditor',
+		fieldLabel: 'Source'
+		}*/
+		]
 	});
 });

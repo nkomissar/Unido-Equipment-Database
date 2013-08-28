@@ -48,16 +48,16 @@
     <property name="maxUploadSize" value="10000000"/>
     </bean-->
       
-  	<bean id="routesProgressListener" 
-  			class="org.unido.eetdb.admin.util.RoutesProgressListener"  scope="session">
+  	<!-- bean id="routesProgressListener" 
+  			class="org.unido.eetdb.admin.util.RoutesProgressListener"  scope="request">
   		<aop:scoped-proxy/>
-  	</bean>
+  	</bean-->
   			
-    <bean id="portletMultipartResolver" class="org.unido.eetdb.admin.util.RoutesMultipartResolver"  scope="session">
+    <bean id="portletMultipartResolver" class="org.unido.eetdb.admin.util.RoutesMultipartResolver" scope="request">
  
 	    <!-- one of the properties available; the maximum file size in bytes -->
 	    <property name="maxUploadSize" value="1000000000"/>
-        <property name="progressListener" ref="routesProgressListener" />
+        <!-- property name="progressListener" ref="routesProgressListener" /-->
         <aop:scoped-proxy/>
     </bean>
 </beans>

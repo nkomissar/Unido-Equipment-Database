@@ -13,4 +13,4 @@
 <portlet:defineObjects />
 <liferay-theme:defineObjects/>
 
-{"success":true,"progress_id":"5829849923"}
+{"success":<c:out value="${success}" />,"progress_id":"<c:out value="${pid}" />"}

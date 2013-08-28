@@ -12,6 +12,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			, 'Ext.ProgressBar'
 			, 'Ext.resizer.Splitter'
 			, 'Ext.ux.layout.component.field.AsyncFileUpload'
+			, 'Ext.ux.form.field.AsyncFileUploadOverrides'
 		],
     
     fieldSubTpl: [
@@ -23,13 +24,15 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     
 	, componentLayout: 'asyncfileupload'
 	
-	, uploadUrl: '/web/test/subpage?p_auth=wb5uGML5&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
+	, uploadUrl: '/web/test/subpage?p_auth=mgy7fD4H&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
 	
-	, progressUrl:  '/web/test/subpage?p_auth=wb5uGML5&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=getProgress'
+	, progressUrl:  '/web/test/subpage?p_auth=mgy7fD4H&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=getProgress'
 	, progressIdName: '_EetdbAdmin_WAR_EetdbAdminportlet_pid'
 	
 	, enableProgress: true
 	, progressInterval: 1500
+	, singleUpload: false
+	, concurrentUpload: true
 	
 	,progressMap:{
 		progress_id:'progressId'
@@ -86,11 +89,15 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
         });
 
 		me.callParent(arguments);
+		
+		Ext.ux.form.field.AsyncFileUploadOverrides.loadOverrides();
+		
 		me.createGrid(me);
 		
 		// Init mixins
 		me.initLabelable();
 		me.initField();
+
     }
     
     , getRefItems: function() {
@@ -105,8 +112,8 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		
 		var addCfg = {
 			xtype: 'filefield'
-			,id:'addbtn'
-			,itemId:'addbtn'
+			//,id:'addbtn'
+			//,itemId:'addbtn'
 			,name:'fileData'
 			,buttonOnly: true
 			,hideLabel: true
@@ -122,7 +129,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 
 			var upCfg = {
 				xtype:'button'
-				,id:'upbtn'
+				//,id:'upbtn'
 				,iconCls:'icon-upload'
 				,text:'Upload'
 				,scope:editor
@@ -132,7 +139,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 
 			var removeAllCfg = {
 				xtype:'button'
-				,id:'removeallbtn'
+				//,id:'removeallbtn'
 				,iconCls:'icon-cross'
 				,text:'Remove All'
 				,scope:this
@@ -292,7 +299,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
       //  this.relayCmd(btn.getItemId());
     }
 
-    , onViewRender: function(view) {
+    ,onViewRender: function(view) {
     		//this.uploadpanelView=view; 
     	//this.pb=this.getComponent('pb');
 				//this.singleUpload=this.getUploadpanel().singleUpload;
@@ -317,19 +324,19 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 
 	,onProgress:function(obj){
 		var bytesTotal, bytesUploaded, pctComplete, state, idx, item, width, pgWidth;
-		debugger;
 		if (this.singleUpload){
-			if(this.pbValue!=1){
-			this.pbValue=parseInt(obj.pct_complete)/100;
-			this.pbText=obj.pct_complete;
-			
-			pbupdate='<font size=1>uploaded: '+obj.bytes_uploaded+' of '+obj.bytes_total+ '&nbsp;&nbsp;&nbsp;&nbsp;';
-			pbupdate +='speed: '+obj.speed_now+'/sec&nbsp;&nbsp;&nbsp;&nbsp;';
-			pbupdate +='time left: '+obj.time_left+'</font>';
+			if(this.pbValue!=1)
+			{
+				this.pbValue=parseInt(obj.pct_complete)/100;
+				this.pbText=obj.pct_complete;
 				
-			this.pbinfo.dom.innerHTML=pbupdate;
-    	this.pb.updateProgress(this.pbValue,this.pbText,true);
-    	}
+				pbupdate='<font size=1>uploaded: '+obj.bytes_uploaded+' of '+obj.bytes_total+ '&nbsp;&nbsp;&nbsp;&nbsp;';
+				pbupdate +='speed: '+obj.speed_now+'/sec&nbsp;&nbsp;&nbsp;&nbsp;';
+				pbupdate +='time left: '+obj.time_left+'</font>';
+					
+				this.pbinfo.dom.innerHTML=pbupdate;
+				this.pb.updateProgress(this.pbValue,this.pbText,true);
+			}
 		}else{
 			record=obj;
 			state = record.get('state');
@@ -389,11 +396,17 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 
 		this.truncate();*/
 		
-		var records = this.uploadStore.queryBy(function(r){return 'done' !== r.get('state')});
+		var records = this.uploadStore
+							.queryBy(
+								function(r)
+								{
+									return 'done' !== r.get('state')
+								});
+								
 		if(!records.getCount()) {
 			return;
 		}else{
-//			this.beforeallstart()
+			this.beforeallstart()
 		}
 		
 		//this.singleUpload=this.getUploadpanel().singleUpload;
@@ -647,7 +660,36 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			}
 		}
 	} 
-	
+			
+	,beforeallstart:function() 
+	{
+		this.uploading = true;
+		this.updateButtons();
+		if(this.singleUpload){
+			this.pbValue=0;
+			this.pbText='0%';
+			this.pb.show();
+			this.pbinfo=Ext.get('pbinfo');
+			this.pbinfo.setDisplayed('block');
+		}
+	}
+	,allstopped:function()
+	{
+		if(this.singleUpload){
+			var pbHide = new Ext.util.DelayedTask(function()
+			{		
+				this.pb.updateProgress(0,'0%',false);	
+				this.pb.hide();
+				this.pbinfo.setDisplayed('none');
+			},this);				
+		  pbHide.delay(2000); 						
+		}
+		this.stopProgress();
+		this.uploading = false;
+		this.updateButtons();
+		this.truncate();
+	}
+		
 	,allfinished:function()
 	{
 		if(this.singleUpload)
@@ -682,7 +724,6 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	,requestProgress:function() 
 	{
 		var records, p;
-		debugger;
 		var o = {
 			 url: this.progressUrl 
 			,method:'get'
@@ -745,19 +786,20 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			}		
 		};
 		
-		if(this.singleUpload) {
+		if(this.singleUpload) 
+		{
 			o.params[this.progressIdName] = this.progressId;
-			o.params.APC_UPLOAD_PROGRESS = this.progressId;
 			var task = new Ext.util.DelayedTask(function(){						
 				Ext.Ajax.request(o);
 			});
-   		task.delay(this.progressInterval);
-		}else{
+			task.delay(this.progressInterval);
+		}
+		else
+		{
 			records = this.uploadStore.queryBy(function(r){return 'uploading' === r.get('state');});
-			debugger;
-			records.each(function(r) {				
+			records.each(function(r) 
+			{				
 				o.params[this.progressIdName] = r.get('progressId');
-				//o.params.APC_UPLOAD_PROGRESS = o.params[this.progressIdName];
 				o.record = r;						
 				Ext.Ajax.request(o);
 			}, this);
@@ -792,16 +834,9 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
                     state: 'queued'
                 }])
         }, this);
-        /*if (!this.uploading) {
-            this.getUploadBtn().enable(true);
-            this.getRemoveAllBtn().enable(true);
-        }*/
 		
-		if (addBtn.rendered) {
-            //addBtn.fileInputEl.remove();
-            addBtn.createFileInput();
-            addBtn.inputEl.dom.value = '';
-        }
+		addBtn.extractFileInput();
+		
         this.truncate();
     }
 	,truncate:function(){
@@ -822,23 +857,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	{
 		return 'qtip';
 	}
-	
-	,onViewClick:function(view, record, html, index,e) {
-		if(!this.singleUpload){
-			var t = e.getTarget('div:any(.ux-up-icon-queued|.ux-up-icon-failed|.ux-up-icon-done|.ux-up-icon-stopped)');
-			if(t) {
-				this.onRemoveFile(view,record,html,index,e);
-			}
-		}
-		if(!this.singleUpload){
-			var t = e.getTarget('div.ux-up-icon-uploading');
-			if(t) {
-				this.stopUpload(record);
-			}
-		}
-		this.truncate();
-	}
-	
+
 	,onRemoveFile:function(view,record,html,index,e) {
 		this.uploadStore.remove(record);
 		var count = this.uploadStore.getCount();
@@ -860,5 +879,70 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		//this.getRemoveAllBtn().setDisabled(true);
 	} 
 	
+	,stopUpload:function(record) {	
+		var iframe = false;
+		iframe = this.getIframe(record);
+		this.stopIframe(iframe);
+		record.set('state', 'stopped');
+		this.fireStopEvents(record);
+		this.truncate();
+	} 
+	
+	,stopIframe:function(iframe) {
+		if(iframe) {
+			try {
+				if( navigator.appName == "Microsoft Internet Explorer" ){
+					iframe.dom.contentWindow.document.execCommand('Stop');
+				}else{
+					iframe.dom.contentWindow.stop();
+				}
+				Ext.defer(iframe.remove,250)
+			}
+			catch(e){}
+		}
+	}
+		
+	,fireStopEvents:function() {
+		if(!this.singleUpload && !this.concurrentUpload){
+			var records = this.uploadStore.queryBy(function(r){return 'queued' === r.get('state') });
+			if(records.getCount()) {
+				this.uploadFile(records.items[0]);
+			}else{
+				this.allstopped();
+			}
+		}
+
+		if(this.singleUpload || this.concurrentUpload){
+			var records = this.uploadStore.queryBy(function(r){return 'uploading' === r.get('state');});
+			if(!records.getCount()){	
+				this.allstopped();
+			}
+		}
+	} 
+	
+	, updateButtons:function()
+	{
+	
+		if(true === this.uploading) {
+			/*if(this.concurrentUpload || this.singleUpload){
+				this.getAddBtn().disable();
+			}
+			this.getUploadBtn().disable();
+			this.getRemoveAllBtn().setIconCls(this.getUploadpanel().stopIconCls);
+			this.getRemoveAllBtn().setText(this.getUploadpanel().stopAllText);
+			*/
+		}
+		else {
+			var records = this.uploadStore.queryBy(function(r){return 'done' !== r.get('state') });
+			if(records.getCount()) {
+				//this.getUploadBtn().enable();
+			}
+			/*
+			this.getAddBtn().enable();
+			this.getRemoveAllBtn().setIconCls(this.getUploadpanel().removeAllIconCls);
+			this.getRemoveAllBtn().setText(this.getUploadpanel().removeAllText);
+			*/
+		}	
+	}
 	
 });

@@ -10,6 +10,7 @@ import javax.portlet.RenderRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
@@ -35,32 +36,40 @@ public class BlobController {
     public SpringFileVO getCommandObject() 
     {
         System.out.println("SpringFileController -> getCommandObject -> Building VO");
-        return new SpringFileVO();
+        return new SpringFileVO(); 
     }
     
 	@ActionMapping(params="formAction=fileUpload")
-    public void fileUpload(@ModelAttribute SpringFileVO springFileVO, BindingResult bindingResult,
+    public void fileUpload(@RequestParam String pid, @ModelAttribute SpringFileVO springFileVO, BindingResult bindingResult,
             ActionRequest request, ActionResponse response, SessionStatus sessionStatus){
         System.out.println("SpringFileController -> fileUpload -> Started");
          
         System.out.println("File Name :"+springFileVO.getFileData().getOriginalFilename());
         System.out.println("File Type :"+springFileVO.getFileData().getContentType());
+        System.out.println("Pid :"+pid);
          
         //File data processing logic here 
         springFileVO.setMessage(springFileVO.getFileData().getOriginalFilename() +" is upload successfully");
          
         System.out.println("SpringFileController -> FileUpload -> Completed");
-        sessionStatus.setComplete();
+        //sessionStatus.setComplete();
 		
         response.setRenderParameter("action", "uploadResult");
+        response.setRenderParameter("pid", pid);
 
 	}
 
 	@RenderMapping(params = "action=uploadResult")
-	public String renderUploadResult(RenderRequest request) {
+	public String renderUploadResult(@RequestParam long pid, ModelMap model, RenderRequest request) {
 
-		Map<String, Object> data = new HashMap<String, Object>();
-		data.put("success", Boolean.TRUE);
+		//Map<String, Object> data = new HashMap<String, Object>();
+		//data.put("success", Boolean.TRUE);
+        System.out.println("Render Pid :"+pid);
+	
+		
+		model.addAttribute("success", Boolean.TRUE);
+		model.addAttribute("pid", pid);
+
 
 		return "uploadresult";
 
@@ -85,7 +94,7 @@ public class BlobController {
 		    /*if (xpl.) {
 		        request.getSession().removeAttribute("ProgressListener_" + key);
 		    }*/
-		    
+		     
 			data.put("success", Boolean.TRUE);
 			data.put("bytes_total", status.getTotalSize());
 			data.put("bytes_uploaded", status.getBytesRead());
