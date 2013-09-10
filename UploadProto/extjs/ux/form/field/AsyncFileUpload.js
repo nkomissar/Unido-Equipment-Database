@@ -24,9 +24,9 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     
 	, componentLayout: 'asyncfileupload'
 	
-	, uploadUrl: '/web/test/subpage?p_auth=mgy7fD4H&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
+	, uploadUrl: '/web/test/subpage?p_auth=mwEshkT0&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
 	
-	, progressUrl:  '/web/test/subpage?p_auth=mgy7fD4H&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=getProgress'
+	, progressUrl:  '/web/test/subpage?p_auth=mwEshkT0&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=getProgress'
 	, progressIdName: '_EetdbAdmin_WAR_EetdbAdminportlet_pid'
 	
 	, enableProgress: true
@@ -48,6 +48,8 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     {
     	
     	var me = this;
+		
+		Ext.tip.QuickTipManager.init();
     	
         Ext.define('UploadItem', {
             extend: 'Ext.data.Model',
@@ -79,13 +81,6 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
         this.uploadStore = Ext.create('Ext.data.Store', 
         {
            model: 'UploadItem'
-           /*
-		   ,data:
-        	   [{id: '1', shortName:2, fileName: 3, filePath: 4, fileCls: 5, input: 6, form: 7, state: 8, error: 9, progressId: 10, bytesTotal: 11, bytesUploaded: 12, estSec: 13, filesUploaded: 14, 
-        	   speedAverage: 15, speedLast: 16, timeLast: 17, timeStart: 18, pctComplete: 19},
-			   {id: '2', shortName:22, fileName: 3, filePath: 4, fileCls: 5, input: 6, form: 7, state: 8, error: 9, progressId: 10, bytesTotal: 11, bytesUploaded: 12, estSec: 13, filesUploaded: 14, 
-        	   speedAverage: 15, speedLast: 16, timeLast: 17, timeStart: 18, pctComplete: 19}]
-			*/	
         });
 
 		me.callParent(arguments);
@@ -324,6 +319,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 
 	,onProgress:function(obj){
 		var bytesTotal, bytesUploaded, pctComplete, state, idx, item, width, pgWidth;
+		
 		if (this.singleUpload){
 			if(this.pbValue!=1)
 			{
@@ -337,64 +333,49 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				this.pbinfo.dom.innerHTML=pbupdate;
 				this.pb.updateProgress(this.pbValue,this.pbText,true);
 			}
-		}else{
+		}
+		else
+		{
 			record=obj;
 			state = record.get('state');
 			bytesTotal = record.get('bytesTotal') || 1;
 			bytesUploaded = record.get('bytesUploaded') || 0;
-			if('uploading' === state) {
+			
+			if('uploading' === state) 
+			{
 				pctComplete = parseInt(record.get('pctComplete'),10);
 				timeLeft=record.get('timeLeft');
 				speedNow=record.get('speedNow');
 			}
-			else if('done' === state) {
+			else if('done' === state) 
+			{
 				pctComplete = 100;
 			}
-			else {
+			else 
+			{
 				pctComplete = 0;
 			}
 			record.set('pctComplete', pctComplete);
-			this.truncate();
-				if('uploading' === state) 
-				{
-					idx = this.uploadStore.indexOf(record);
-					item = Ext.get(this.uploadItems.getNode(idx));
-					if(item) 
-					{	
-						width = item.getWidth();
-						if(pctComplete!='')
-						{
-							item.applyStyles({'background-position':width * pctComplete / 100 + 'px'})
-							item.applyStyles({'background-color':'#AAC7EC'})
-						}
+			
+			if('uploading' === state) 
+			{
+				idx = this.uploadStore.indexOf(record);
+				item = Ext.get(this.uploadItems.getNode(idx));
+				if(item) 
+				{	
+					width = item.getWidth();
+					if(pctComplete!='')
+					{
+						item.applyStyles({'background-position':width * pctComplete / 100 + 'px'})
+						item.applyStyles({'background-color':'#AAC7EC'})
 					}
 				}
+			}
 		}
 		this.truncate();
 	} 	
 	
 	,onUpload:function() {	
-		/*selModel = this.getFiletree().getSelectionModel();
-		record=selModel.getLastSelected();
-		if(record){
-			if(record.isLeaf()){
-				this.path=record.parentNode.get('id');
-			}else{
-				this.path=record.get('id');
-			}
-		}else{
-			this.path=this.getUploadpanel().rootPath;
-			record=this.getFiletree().getRootNode() ;
-				this.getFiletree().view.select(record,false,true); 
-		}		
-
-		if(!record.isLeaf() || record.isRoot()){
-			this.record=record
-		}else{
-			this.record=record.parentNode;
-		}
-
-		this.truncate();*/
 		
 		var records = this.uploadStore
 							.queryBy(
@@ -408,9 +389,6 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		}else{
 			this.beforeallstart()
 		}
-		
-		//this.singleUpload=this.getUploadpanel().singleUpload;
-		//this.concurrentUpload=this.getUploadpanel().concurrentUpload;
 		
 		if(this.singleUpload){
 			this.uploadSingle();
@@ -503,27 +481,6 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			,method:'post'
 			,cls:'hidden'
 			,id:Ext.id()
-			,cn:[/*{
-				 tag:'input'
-				,type:'hidden'
-				,name:this.progressIdName
-				,value:progressId
-			}*//*,{
-				 tag:'input'
-				,type:'hidden'
-				,name:'APC_UPLOAD_PROGRESS'
-				,value:progressId
-			},{
-				 tag:'input'
-				,type:'hidden'
-				,name: 'UPLOAD_PROGRESS'//this.getUploadpanel().progressIdName
-				,value:progressId
-			},{
-				 tag:'input'
-				,type:'hidden'
-				,name:'MAX_FILE_SIZE'
-				,value: 1048576//this.getUploadpanel().maxFileSize
-			}*/]
 		}); 
 		if(record) {
 			record.set('id', 'same-same'/*id*/ );
@@ -586,9 +543,30 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			record.set('error', '');
 			record.commit();		
 			this.truncate();
+			
 		}
 		this.deleteForm(options.form, record);
 	} 
+	
+	, setValuePrivate: function(value)
+	{
+	
+        var me = this,
+            i, len, record,
+            dataObj,
+            matchedRecords = [],
+            displayTplData = [],
+            processedValue = [];
+			
+        // This method processes multi-values, so ensure value is an array.
+        value = Ext.Array.from(value);
+		
+		if (!Ext.isDefined(me.value)) {
+            me.value = null;
+        }
+		
+		me.mixins.field.setValue.call(me, value);
+	}
 	
 	,processFailure:function(options, response, error) {
 		var record = options.record;
@@ -729,61 +707,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			,method:'get'
 			,params:{}
 			,scope:this
-			,callback:function(options, success, response) 
-			{
-				var o;
-				if(true !== success) {
-					return;
-				}
-				try {
-					o = Ext.decode(response.responseText);
-				}
-				catch(e) {
-					return;
-				}
-				if('object' !== Ext.type(o) || true !== o.success) {
-					return;
-				}
-
-				if (this.singleUpload){	
-					if(o.bytes_uploaded == "!--=-->0"){
-					}else{
-						if(true !== this.eventsSuspended) {
-							this.onProgress(o);
-						}
-					}
-				}else{
-					records = this.uploadStore.queryBy(function(r){return r.get('progressId') === o.progress_id});
-					records.each(function(r) {						
-							for(p in o) {
-								if(o.bytes_uploaded == "!--=-->0"){}
-								else{
-									if(this.progressMap[p] && r) {
-										r.set(this.progressMap[p],o[p]);
-									}
-								}
-							}
-							if(r) {
-								r.commit();
-								if(true !== this.eventsSuspended) {
-									this.onProgress(r);
-								}
-							}
-						}, this);		
-					}				
-					var records = this
-									.uploadStore
-									.queryBy(
-										function(r)
-										{
-											return 'uploading' === r.get('state');
-										});
-					
-					if(records.getCount()){
-						this.progressTask.delay(this.progressInterval);
-				}
-
-			}		
+			,callback:this.requestProgressCallback 
 		};
 		
 		if(this.singleUpload) 
@@ -796,29 +720,124 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		}
 		else
 		{
-			records = this.uploadStore.queryBy(function(r){return 'uploading' === r.get('state');});
-			records.each(function(r) 
-			{				
-				o.params[this.progressIdName] = r.get('progressId');
-				o.record = r;						
-				Ext.Ajax.request(o);
-			}, this);
+			records = 
+				this
+					.uploadStore
+					.queryBy(
+						function(r)
+						{
+							return 'uploading' === r.get('state');
+						});
+						
+			records.each(
+				function(r) 
+				{				
+					o.params[this.progressIdName] = r.get('progressId');
+					o.record = r;						
+					Ext.Ajax.request(o);
+				}, this);
 		}
+	}
+	
+	,requestProgressCallback: function(options, success, response) 
+	{
+		var o;
+		if(true !== success) {
+			return;
+		}
+		
+		try {
+			o = Ext.decode(response.responseText);
+		}
+		catch(e) {
+			return;
+		}
+		
+		if('object' !== Ext.type(o) || true !== o.success) {
+			return;
+		}
+
+		if (this.singleUpload)
+		{	
+			if (o.bytes_uploaded > 0 && 
+				true !== this.eventsSuspended) 
+			{
+				this.onProgress(o);
+			}
+		}
+		else
+		{
+			records = this.uploadStore.queryBy(
+					function(r)
+					{
+						return r.get('progressId') === o.progress_id
+					});
+			
+			records.each(
+				function(r) 
+				{
+					if(!r)
+					{
+						return;
+					}
+					for(p in o) 
+					{
+						if(o.bytes_uploaded > 0 
+							&& this.progressMap[p]) 
+						{
+							r.set(this.progressMap[p],o[p]);
+						}
+					}
+					
+					r.commit();
+					if(true !== this.eventsSuspended) 
+					{
+						this.onProgress(r);
+					}
+					
+				}, this);		
+		}				
+
+		var records = this
+						.uploadStore
+						.queryBy(
+							function(r)
+							{
+								return 'uploading' === r.get('state');
+							});
+		
+		if(records.getCount())
+		{
+			this.progressTask.delay(this.progressInterval);
+		}
+	}
+	
+	,startProgress:function() 
+	{
+		if(!this.progressTask) 
+		{
+			this.progressTask = 
+				new Ext.util.DelayedTask(
+					function()
+					{
+						this.requestProgress()
+					},this);
+		}
+		
+		this.progressTask.delay(this.progressInterval/2);    				
+		
 	} 
 	
-	,startProgress:function() {
-		if(!this.progressTask) {
-			this.progressTask = new Ext.util.DelayedTask(function(){this.requestProgress()},this);
-		}
-     this.progressTask.delay(this.progressInterval/2);    				
-	} 
-	
-	,stopProgress:function() {
-		if(this.progressTask) {
+	,stopProgress:function() 
+	{
+		if(this.progressTask) 
+		{
 			  this.progressTask.cancel();
 		}
 	} 
-	,onAddFile: function(addBtn) {
+	
+	,onAddFile: function(addBtn) 
+	{
         inputEl = addBtn.fileInputEl;
         inputEl.addCls('x-hidden');
         input = addBtn.fileInputEl.dom;
@@ -855,7 +874,65 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     }
     ,getQtip:function(values) 
 	{
-		return 'qtip';
+		var qtip = '';
+		
+		switch(values.state) 
+		{
+			case 'queued':
+				qtip = 'Size: <b>'+values.fileSize+'</b>';
+				qtip += '<br>Queued for upload';
+				if(!this.singleUpload)
+				{
+					qtip += '<br>Click to remove';
+				}
+				break;
+
+			case 'uploading':
+				if(!this.singleUpload)
+				{
+					qtip = 'Uploading...';
+					qtip += '<br>' + Ext.util.Format.elapsedTime(values.timeLeft) + ' remaining -- at ' + values.speedNow + ' bytes/sec)';
+					qtip += '<br>' + values.bytesUploaded + ' Kb of '+values.bytesTotal+' Kb ('+values.pctComplete+'% done)';
+					qtip += '<br>Click to stop';
+				}
+				else
+				{
+					qtip = 'Size: <b>'+values.fileSize+'</b>';
+					qtip += '<br>Uploading..';
+				}
+				break;
+
+			case 'done':
+				qtip = 'Size: <b>'+values.fileSize+'</b>';
+				qtip += '<br>Successfully uploaded';
+				if(!this.singleUpload)
+				{
+					qtip += '<br>Click to remove';
+				}
+				break;
+
+			case 'failed':
+				qtip = 'Size: <b>'+values.fileSize+'</b>';
+				qtip += '<br>Failed to upload';
+				qtip += '<br>Error:' + values.error;
+				if(!this.singleUpload)
+				{
+					qtip += '<br>Click to remove';
+				}
+				break;
+
+			case 'stopped':
+				qtip = 'Size: <b>'+values.fileSize+'</b>';
+				qtip += '<br>Stopped by user';
+				if(!this.singleUpload)
+				{
+					qtip += '<br>Click to remove';
+				}
+				break;
+		}
+		
+		return qtip;
+		
 	}
 
 	,onRemoveFile:function(view,record,html,index,e) {
@@ -902,25 +979,47 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		}
 	}
 		
-	,fireStopEvents:function() {
-		if(!this.singleUpload && !this.concurrentUpload){
-			var records = this.uploadStore.queryBy(function(r){return 'queued' === r.get('state') });
-			if(records.getCount()) {
+	,fireStopEvents:function() 
+	{
+		if(!this.singleUpload && !this.concurrentUpload)
+		{
+			var records = 
+				this
+					.uploadStore
+					.queryBy(
+						function(r)
+						{
+							return 'queued' === r.get('state') 
+						});
+						
+			if(records.getCount()) 
+			{
 				this.uploadFile(records.items[0]);
-			}else{
+			}
+			else
+			{
 				this.allstopped();
 			}
 		}
 
 		if(this.singleUpload || this.concurrentUpload){
-			var records = this.uploadStore.queryBy(function(r){return 'uploading' === r.get('state');});
-			if(!records.getCount()){	
+			var records = 
+				this
+					.uploadStore
+					.queryBy(
+						function(r)
+						{
+							return 'uploading' === r.get('state');
+						});
+						
+			if(!records.getCount())
+			{	
 				this.allstopped();
 			}
 		}
 	} 
 	
-	, updateButtons:function()
+	,updateButtons:function()
 	{
 	
 		if(true === this.uploading) {
@@ -944,5 +1043,11 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			*/
 		}	
 	}
+	
+	 /**
+     * Overridden to do nothing
+     * @method
+     */
+    , setValue: Ext.emptyFn
 	
 });

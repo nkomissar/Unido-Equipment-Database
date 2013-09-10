@@ -19,6 +19,18 @@ Ext.onReady(function() {
         Ext.getBody().addCls('x-debug');
     }*/
 
+// The data store containing the list of states
+var states = Ext.create('Ext.data.Store', {
+    fields: ['abbr', 'name'],
+    data : [
+        {"abbr":"AL", "name":"Alab, ama"},
+        {"abbr":"AK", "name":"Alaska"},
+        {"abbr":"AZ", "name":"Arizona"}
+        //...
+    ]
+});
+	
+	
     Ext.create('Ext.form.Panel', {
         renderTo: 'async-form',
         width: 500,
@@ -44,6 +56,28 @@ Ext.onReady(function() {
 			fieldLabel: 'Suppalabel'
 		}
 
+		// Create the combo box, attached to the states data store
+		, {
+			xtype: 'combobox',
+			fieldLabel: 'Choose State',
+			store: states,
+			queryMode: 'local',
+			displayField: 'name',
+			multiSelect: true,
+			valueField: 'abbr',
+			listeners:{
+				scope: this,
+				'select': function(combo, records, eOpts)
+				{
+					debugger;
+					
+					var s;
+					
+					s = combo.getSubmitValue();
+				},
+
+			}
+		}
 		/*,{
 			xtype: 'filefield',
 			fieldLabel: 'tiss'

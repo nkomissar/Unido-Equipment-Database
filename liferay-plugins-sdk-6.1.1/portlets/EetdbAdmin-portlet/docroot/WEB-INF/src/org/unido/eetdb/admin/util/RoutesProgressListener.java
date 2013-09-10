@@ -11,6 +11,7 @@ public class RoutesProgressListener implements ProgressListener {
 	private long fiveKBRead = -1;
 	private UploadInfoBean uploadInfoBean = null;
 	private String pId;
+	final long startTime = System.currentTimeMillis();
 
 	public RoutesProgressListener() {
 		uploadInfoBean = new UploadInfoBean();
@@ -25,7 +26,6 @@ public class RoutesProgressListener implements ProgressListener {
 		return pId;
 	}
 
-	// function called from javascript to retrieve the status of the upload
 	public UploadInfoBean getStatus() {
 		// per looks like 0% - 100%, remove % before submission
 		uploadInfoBean.setTotalSize(fileSize / 1024);
@@ -34,6 +34,26 @@ public class RoutesProgressListener implements ProgressListener {
 				(double) bytesTransferred / (double) fileSize);
 		uploadInfoBean.setPercentage(Integer.parseInt(per.substring(0,
 				per.length() - 1)));
+
+		long currentTime = System.currentTimeMillis();
+        double seconds = (((double)(currentTime - startTime)) / ((double)1000.0));
+        long speed = (long)(((double)totalBytesRead) / ((double)seconds));
+        
+        double averageSpeed = uploadInfoBean.getAverageSpeed();
+        double prevSpeed = uploadInfoBean.getPrevSpeed();
+        
+        averageSpeed = (((double)(averageSpeed + speed)) / 2.0);
+        if (prevSpeed != averageSpeed)
+        {
+            prevSpeed = averageSpeed;
+        }
+        
+        uploadInfoBean.setAverageSpeed(averageSpeed);
+        uploadInfoBean.setPrevSpeed(prevSpeed);
+        uploadInfoBean.setCurrentSpeed(speed);
+        
+        uploadInfoBean.setSecondsLeft((fileSize - totalBytesRead) / speed);
+		
 		return uploadInfoBean;
 	}
 
@@ -42,19 +62,21 @@ public class RoutesProgressListener implements ProgressListener {
 	public void update(long bytesRead, long contentLength, int items) {
 		// update bytesTransferred and fileSize (if required) every 5 KB is read
  		long fiveKB = bytesRead / 5120;
-        //System.out.println("Got bytes for pid :"+pId + " bytesRead:" + bytesRead);
  		
- 		try {
- 		    Thread.sleep(100);
- 		} catch(InterruptedException ex) {
+ 		try 
+ 		{
+ 		    Thread.sleep(10);
+ 		} 
+ 		catch(InterruptedException ex) 
+ 		{
  		    Thread.currentThread().interrupt();
  		}
  		
 		totalBytesRead = bytesRead;
-		if (fiveKBRead == fiveKB) {
+		if (fiveKBRead == fiveKB) 
+		{
 			return;
 		}
-        System.out.println("Got segment for pid :"+pId + " segments:" + fiveKB);
 
 		fiveKBRead = fiveKB;
 		bytesTransferred = bytesRead;
