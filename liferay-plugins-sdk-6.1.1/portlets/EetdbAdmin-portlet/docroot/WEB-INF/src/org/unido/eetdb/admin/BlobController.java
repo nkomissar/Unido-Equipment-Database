@@ -1,6 +1,10 @@
 package org.unido.eetdb.admin;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -10,6 +14,9 @@ import javax.portlet.RenderRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -17,6 +24,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
@@ -26,13 +35,17 @@ import org.springframework.web.servlet.View;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.client.RestTemplate;
+import org.unido.eetdb.admin.util.CommonsMultipartFileResource;
 import org.unido.eetdb.admin.util.ConfigWrapper;
-import org.unido.eetdb.admin.util.RoutesProgressListener;
+import org.unido.eetdb.admin.util.BlobProgressListener;
 import org.unido.eetdb.admin.util.UploadInfoBean;
-import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.ValueBlob;
+
+import com.liferay.portal.kernel.exception.PortalException;
+import com.liferay.portal.kernel.exception.SystemException;
+import com.liferay.portal.model.User;
+import com.liferay.portal.util.PortalUtil;
 
 @Controller
 @RequestMapping("view")
@@ -55,28 +68,35 @@ public class BlobController {
     				@ModelAttribute SpringFileVO springFileVO, 
     				BindingResult bindingResult,
     				ActionRequest request, 
-    				ActionResponse response)
+    				ActionResponse response) throws PortalException, SystemException
 	{
 
-		System.out.println("SpringFileController -> fileUpload -> Started");
-         
-        System.out.println("File Name :"+springFileVO.getFileData().getOriginalFilename());
-        System.out.println("File Type :"+springFileVO.getFileData().getContentType());
-        System.out.println("Pid :"+pid);
-         
-        //File data processing logic here 
-        springFileVO.setMessage(springFileVO.getFileData().getOriginalFilename() +" is upload successfully");
-         
-        System.out.println("SpringFileController -> FileUpload -> Completed");
-        //sessionStatus.setComplete();
-        
+        	
         CommonsMultipartFile fileData = springFileVO.getFileData();
-        
         
         ValueBlob valueBlob = new ValueBlob();
         valueBlob.setMimeType(fileData.getContentType());
         valueBlob.setName(fileData.getOriginalFilename());
         
+        User user = PortalUtil.getUser(request);
+        valueBlob.setLastUpdatedBy(user.getFullName());
+        
+		MultiValueMap<String, Object> parts = new LinkedMultiValueMap<String, Object>();
+		parts.add("json-blob-data", valueBlob);
+		
+		CommonsMultipartFileResource resource = new CommonsMultipartFileResource(fileData);
+		parts.add("file-data", resource);
+		
+		HttpHeaders headers = new HttpHeaders();
+		
+		List<MediaType> mediaTypes = new LinkedList<MediaType>();
+		mediaTypes.add(new MediaType("text","plain"));
+		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+		headers.setAccept(mediaTypes);
+		
+		HttpEntity<MultiValueMap<String, Object>> hEntity = 
+						new HttpEntity<MultiValueMap<String, Object>>(parts, headers);
+
 		if (ConfigWrapper.useFiddlerProxy(request))
 		{
 			
@@ -86,24 +106,13 @@ public class BlobController {
 			 
 		}
 
-        RestTemplate tmpl = new RestTemplate();
+		RestTemplate tmpl = new RestTemplate();
 		String url = ConfigWrapper.getServUrl(request) + "/blob";
 
-		
-		
-		HttpHeaders headers = new HttpHeaders();
-		headers.setContentType(MediaType.APPLICATION_JSON);
-		
-		HttpEntity<ValueBlob> hEntity = 
-						new HttpEntity<ValueBlob>(new ValueBlob(), headers);
-		
 		ResponseEntity<String> responseWrapper = 
 						tmpl.exchange(url, HttpMethod.POST, hEntity, String.class);
 		
 		String resp = responseWrapper.getBody();
-        
-        
-        
 		
         response.setRenderParameter("action", "uploadResult");
         response.setRenderParameter("pid", pid);
@@ -136,7 +145,7 @@ public class BlobController {
 	{
 		Map<String, Object> data = new HashMap<String, Object>();
 
-		RoutesProgressListener xpl = (RoutesProgressListener) request
+		BlobProgressListener xpl = (BlobProgressListener) request
 											.getPortletSession()
 											.getAttribute("listener" + pid);
 

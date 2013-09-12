@@ -24,9 +24,9 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     
 	, componentLayout: 'asyncfileupload'
 	
-	, uploadUrl: '/web/test/subpage?p_auth=mwEshkT0&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
+	, uploadUrl: '/web/test/subpage?p_auth=c31tqbvQ&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
 	
-	, progressUrl:  '/web/test/subpage?p_auth=mwEshkT0&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=getProgress'
+	, progressUrl:  '/web/test/subpage?p_auth=c31tqbvQ&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=getProgress'
 	, progressIdName: '_EetdbAdmin_WAR_EetdbAdminportlet_pid'
 	
 	, enableProgress: true
