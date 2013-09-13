@@ -3,7 +3,7 @@ package org.unido.eetdb.admin.util;
 import java.text.NumberFormat;
 import org.apache.commons.fileupload.ProgressListener;
 
-public class RoutesProgressListener implements ProgressListener {
+public class BlobProgressListener implements ProgressListener {
 
 	private long bytesTransferred = 0;
 	private long fileSize = -100;
@@ -13,7 +13,8 @@ public class RoutesProgressListener implements ProgressListener {
 	private String pId;
 	final long startTime = System.currentTimeMillis();
 
-	public RoutesProgressListener() {
+	public BlobProgressListener() 
+	{
 		uploadInfoBean = new UploadInfoBean();
 	}
 	
