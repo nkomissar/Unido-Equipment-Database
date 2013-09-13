@@ -283,7 +283,7 @@ public class DataAccessServiceImpl implements DataAccessService
         return (ValueBlob) sessionFactory.getCurrentSession().load(ValueBlob.class, blobId);
     }
     
-    public void saveValueBlob(ValueBlob valueBlob, byte[] blobData)
+    public long saveValueBlob(ValueBlob valueBlob, byte[] blobData)
     {
         Blob blob = Hibernate.getLobCreator(sessionFactory.getCurrentSession()).createBlob(blobData);
             
@@ -292,6 +292,8 @@ public class DataAccessServiceImpl implements DataAccessService
         sessionFactory.getCurrentSession().merge(valueBlob);
 
         sessionFactory.getCurrentSession().flush();
+        
+        return valueBlob.getId();
     }
 
     private static class Helper

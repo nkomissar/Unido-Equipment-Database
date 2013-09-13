@@ -74,10 +74,8 @@ public class BlobController
     @RequestMapping(method = RequestMethod.POST, value = "/blob")
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public @ResponseBody
-    String saveValueBlob(@RequestPart("json-blob-data") ValueBlob valueBlob, @RequestPart("file-data") MultipartFile blobData) throws IOException
+    Long saveValueBlob(@RequestPart("json-blob-data") ValueBlob valueBlob, @RequestPart("file-data") MultipartFile blobData) throws IOException
     {
-        dataAccessService.saveValueBlob(valueBlob, blobData.getBytes());
-
-        return "OK";
+        return dataAccessService.saveValueBlob(valueBlob, blobData.getBytes());
     }
 }

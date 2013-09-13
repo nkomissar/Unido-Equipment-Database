@@ -38,5 +38,5 @@ public interface DataAccessService
     public List<Entity> searchForEntities(String templateCode, String params);
     
     public ValueBlob getValueBlob(Long blobId);
-    public void saveValueBlob(ValueBlob valueBlob, byte[] blobData);
+    public long saveValueBlob(ValueBlob valueBlob, byte[] blobData);
 }
