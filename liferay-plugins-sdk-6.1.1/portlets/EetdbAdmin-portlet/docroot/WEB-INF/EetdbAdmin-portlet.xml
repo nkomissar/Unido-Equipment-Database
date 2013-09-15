@@ -39,25 +39,12 @@
 	<bean id="jsonview"
 		class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"
 		p:objectMapper="#{jsonObjectMapper.setAnnotationIntrospector(jaxbAnnotationBinder)}" />
-		
-	<!-- <bean id="portletMultipartResolver"
-      class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver"/>-->
-    <!-- File Upload -->
-    <!--bean id="portletMultipartResolver" class="org.springframework.web.portlet.multipart.CommonsPortletMultipartResolver">
- 
-    <property name="maxUploadSize" value="10000000"/>
-    </bean-->
-      
-  	<!-- bean id="routesProgressListener" 
-  			class="org.unido.eetdb.admin.util.RoutesProgressListener"  scope="request">
-  		<aop:scoped-proxy/>
-  	</bean-->
   			
-    <bean id="portletMultipartResolver" class="org.unido.eetdb.admin.util.RoutesMultipartResolver" scope="request">
+    <bean id="portletMultipartResolver" class="org.unido.eetdb.admin.util.ObservablePortletMultipartResolver" scope="request">
  
 	    <!-- one of the properties available; the maximum file size in bytes -->
 	    <property name="maxUploadSize" value="1000000000"/>
-        <!-- property name="progressListener" ref="routesProgressListener" /-->
         <aop:scoped-proxy/>
     </bean>
+    
 </beans>

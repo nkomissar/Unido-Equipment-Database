@@ -49,7 +49,15 @@ var states = Ext.create('Ext.data.Store', {
         items: [
 		{
 			xtype: 'asyncfileupload',
-			fieldLabel: 'Suppalabel'
+			fieldLabel: 'Suppalabel',
+			listeners: 
+			{
+				scope: this,
+				'change': function()
+				{
+					console.log('got changes');
+				}
+			}
 		}
 		, {
 			xtype: 'asyncfileupload',

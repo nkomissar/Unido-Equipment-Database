@@ -7,8 +7,8 @@
 <hibernate-mapping package="org.unido.eetdb.common.model">
 	<class name="ValueBlob" table="UNIDO_BLOB" lazy="false">
 	    <id name="id" column="BLOB_ID">
-        	<generator class="identity"/>
-    	</id>
+        	<generator class="org.unido.eetdb.service.IdGenerator"/>
+    	</id> 
 
     	<version name="version" column="VERSION" />
 

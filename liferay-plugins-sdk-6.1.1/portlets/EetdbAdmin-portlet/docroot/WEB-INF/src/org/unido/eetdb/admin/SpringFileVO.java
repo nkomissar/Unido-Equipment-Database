@@ -1,7 +1,10 @@
 package org.unido.eetdb.admin;
 
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
- 
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties({"fileData"})
 public class SpringFileVO {
  
     private CommonsMultipartFile fileData;

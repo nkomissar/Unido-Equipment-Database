@@ -1,10 +1,6 @@
 package org.unido.eetdb.admin;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -14,9 +10,6 @@ import javax.portlet.RenderRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.InputStreamResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -27,18 +20,18 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.commons.CommonsMultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.servlet.View;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.client.RestTemplate;
+import org.unido.eetdb.admin.util.BlobProgressListener;
 import org.unido.eetdb.admin.util.CommonsMultipartFileResource;
 import org.unido.eetdb.admin.util.ConfigWrapper;
-import org.unido.eetdb.admin.util.BlobProgressListener;
 import org.unido.eetdb.admin.util.UploadInfoBean;
 import org.unido.eetdb.common.model.ValueBlob;
 
@@ -55,12 +48,12 @@ public class BlobController {
 	@Qualifier("jsonview")
 	private View jsonView;
 	
-    @ModelAttribute("springFileVO")
+    /*@ModelAttribute("springFileVO")
     public SpringFileVO getCommandObject() 
     {
         System.out.println("SpringFileController -> getCommandObject -> Building VO");
         return new SpringFileVO(); 
-    }
+    }*/
     
 	@ActionMapping(params="formAction=fileUpload")
     public void fileUpload(
@@ -89,10 +82,7 @@ public class BlobController {
 		
 		HttpHeaders headers = new HttpHeaders();
 		
-		List<MediaType> mediaTypes = new LinkedList<MediaType>();
-		mediaTypes.add(new MediaType("text","plain"));
 		headers.setContentType(MediaType.MULTIPART_FORM_DATA);
-		headers.setAccept(mediaTypes);
 		
 		HttpEntity<MultiValueMap<String, Object>> hEntity = 
 						new HttpEntity<MultiValueMap<String, Object>>(parts, headers);
@@ -109,13 +99,14 @@ public class BlobController {
 		RestTemplate tmpl = new RestTemplate();
 		String url = ConfigWrapper.getServUrl(request) + "/blob";
 
-		ResponseEntity<String> responseWrapper = 
-						tmpl.exchange(url, HttpMethod.POST, hEntity, String.class);
+		ResponseEntity<ValueBlob> responseWrapper = 
+						tmpl.exchange(url, HttpMethod.POST, hEntity, ValueBlob.class);
 		
-		String resp = responseWrapper.getBody();
+		ValueBlob resp = responseWrapper.getBody();
 		
         response.setRenderParameter("action", "uploadResult");
         response.setRenderParameter("pid", pid);
+        response.setRenderParameter("blobId", String.valueOf(resp.getId()));
         response.setRenderParameter("success", Boolean.TRUE.toString());
 
 	}
@@ -123,16 +114,25 @@ public class BlobController {
 	@RenderMapping(params = "action=uploadResult")
 	public String renderUploadResult(
 				@RequestParam long pid,
-				@RequestParam Boolean success, 
-				ModelMap model, 
+				@RequestParam long blobId,
+				@RequestParam Boolean success,
+				ModelMap model,
 				RenderRequest request) 
 	{
-
-
-		System.out.println("Render Pid :"+pid);
+		
+		//Map<String, Object> data = new HashMap<String, Object>();
 		
 		model.addAttribute("success", success);
 		model.addAttribute("pid", pid);
+		model.addAttribute("blobId", blobId);
+		
+		/*
+		data.put("success", success);
+		data.put("pid", pid);
+		data.put("blobId", blobId);
+
+		
+		return new ModelAndView(jsonView, data);*/
 
 		return "uploadresult";
 

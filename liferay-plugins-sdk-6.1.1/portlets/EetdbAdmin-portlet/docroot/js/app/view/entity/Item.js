@@ -25,6 +25,18 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
         var me = this;
         me.callParent(arguments);
         
+		var pUrl = portletUrl.createActionURL();
+		pUrl.setPortletId(portletId);
+		pUrl.setWindowState(exclusiveWindowState);
+		
+		pUrl.setParameter('formAction', 'fileUpload');
+		
+		this.blobUploadUrl = pUrl.toString();
+
+		pUrl.setParameter('formAction', 'getProgress');
+		
+		this.blobProgressUrl = pUrl.toString();
+        
     },
     
     loadRecord: function (record) {
@@ -139,14 +151,16 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			break;
 			
 		case "IMG":
-			debugger;
+			
 			me.add(Ext.widget('asyncfileupload', {
 				name: 'value',
 				columnWidth: 0.5,
 	            fieldLabel: this.getLabel(record.TemplateProperty),
-	            defaults: { anchor: '100%' },
+	            defaults: { anchor: '100%'},
 	            layout: 'anchor',
-	            value: record.get('value')
+	            uploadUrl: this.blobUploadUrl,
+	            progressUrl: this.blobProgressUrl
+	            //,value: record.get('value')
 	        }));
 			
 			break;			

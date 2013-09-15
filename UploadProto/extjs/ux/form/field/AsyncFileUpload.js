@@ -24,9 +24,9 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     
 	, componentLayout: 'asyncfileupload'
 	
-	, uploadUrl: '/web/test/subpage?p_auth=c31tqbvQ&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
+	, uploadUrl: '/web/test/subpage?p_auth=O0PXj3ni&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
 	
-	, progressUrl:  '/web/test/subpage?p_auth=c31tqbvQ&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=getProgress'
+	, progressUrl:  '/web/test/subpage?p_auth=O0PXj3ni&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=getProgress'
 	, progressIdName: '_EetdbAdmin_WAR_EetdbAdminportlet_pid'
 	
 	, enableProgress: true
@@ -74,6 +74,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
                      ,{name:'timeStart', type:'int', system:true}
                      ,{name:'pctComplete', type:'int', system:true}
 					 ,{name:'inputEl', system:true}
+					 ,{name:'blobId', system:true}
 					 ,{name:'fileSize', system:true}
             ]
         });
@@ -81,6 +82,12 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
         this.uploadStore = Ext.create('Ext.data.Store', 
         {
            model: 'UploadItem'
+		   ,listeners : 
+		   {
+				update : this.extractFieldValue
+				,datachanged : this.extractFieldValue
+				,scope: this
+           }
         });
 
 		me.callParent(arguments);
@@ -473,26 +480,44 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		return p;
 	}	
 	
-	,createForm:function(record) {
-		var progressId = parseInt(Math.random() * 1e10, 10);
-		debugger;
-		var form = Ext.getBody().createChild({
-			 tag:'form'
-			,method:'post'
-			,cls:'hidden'
-			,id:Ext.id()
-		}); 
-		if(record) {
+	,createForm:function(record) 
+	{
+
+		var form, progressId = parseInt(Math.random() * 1e10, 10);
+
+		if(record)
+		{
+			form = record.get('form');
+		}
+		
+		if(!form)
+		{
+			form = Ext.getBody()
+					.createChild(
+					{
+						 tag:'form'
+						,method:'post'
+						,cls:'hidden'
+						,id:Ext.id()
+					}); 
+		}
+		
+		if(record) 
+		{
 			record.set('id', 'same-same'/*id*/ );
 			record.set('form', form);
 			record.set('progressId', progressId);
 		}
-		else {
+		else 
+		{
 			this.progressId = progressId;
 		}
+		
 		return form;
-	} 
-	,deleteForm:function(form, record) {
+	}
+	
+	,deleteForm:function(form, record) 
+	{
 		form.remove();
 		if(record) {
 			record.set('form', null);
@@ -530,7 +555,21 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	} 
 	
 	,processSuccess:function(options, response, o) {
-		var record = false;
+		var record = false, o;
+		
+		try 
+		{
+			o = Ext.decode(response.responseText);
+		}
+		catch(e) 
+		{
+			return;
+		}
+		
+		if('object' !== Ext.type(o) || true !== o.success) {
+			return;
+		}
+		
 		if(this.singleUpload) {
 			this.uploadStore.each(function(r) {
 				r.set('state', 'done');
@@ -541,31 +580,38 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			record = options.record;
 			record.set('state', 'done');
 			record.set('error', '');
+			record.set('blobId', o.blobId);
 			record.commit();		
 			this.truncate();
 			
 		}
+
 		this.deleteForm(options.form, record);
+		
 	} 
 	
-	, setValuePrivate: function(value)
+	, extractFieldValue: function()
 	{
 	
         var me = this,
-            i, len, record,
-            dataObj,
-            matchedRecords = [],
-            displayTplData = [],
             processedValue = [];
 			
-        // This method processes multi-values, so ensure value is an array.
-        value = Ext.Array.from(value);
-		
+		this.uploadStore.each(function(r) 
+			{
+				var blobId = r.get('blobId');
+				
+				if (blobId !== '')
+				{
+					processedValue.push(blobId);
+				}
+				
+			});
+			
 		if (!Ext.isDefined(me.value)) {
             me.value = null;
         }
 		
-		me.mixins.field.setValue.call(me, value);
+		me.mixins.field.setValue.call(me, processedValue);
 	}
 	
 	,processFailure:function(options, response, error) {
@@ -582,23 +628,23 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				});
 
 			records.each(
-				function(record) {
-				var e = error.errors ? error.errors[record.id] : /*this.getUploadpanel().unknownErrorText*/'unknownErrorText';
-				if(e) {
-					record.set('state', 'failed');
-					record.set('error', e);
-					Ext.getBody().appendChild(record.get('inputEl'));
-				} else {
-					record.set('state', 'done');
-					record.set('error', '');
-				}
-				
-				record.commit();
-				this.truncate();
+				function(record) 
+				{
+					var e = error.errors ? error.errors[record.id] : /*this.getUploadpanel().unknownErrorText*/'unknownErrorText';
+					if(e) {
+						record.set('state', 'failed');
+						record.set('error', e);
+						Ext.getBody().appendChild(record.get('inputEl'));
+					} else {
+						record.set('state', 'done');
+						record.set('error', '');
+					}
+					
+					record.commit();
+						this.truncate();
 				
 				}, this);
      
-			this.deleteForm(options.form);
 		}
 		else
 		{
@@ -618,6 +664,8 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			
 			this.truncate();
 		}
+
+		//this.deleteForm(options.form);
 	}
 	
 	,fireFinishEvents:function() 
