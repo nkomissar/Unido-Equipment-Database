@@ -5,7 +5,7 @@ set @last_id = eetdb.add_entity('VENDOR', 'Adrian Group');
 call add_entity_property(@last_id, 'PICTURE', 'http://www.adrian.eu/images/parts/logo.gif', null, null, null);
 call add_entity_property(@last_id, 'URL', 'http://www.adrian.eu', null, null, null);
 call add_entity_property(@last_id, 'DESCRIPTION', 'Компания предлагает комплексную систему отопления, которая состоит не только из газовых инфракрасных обогревателей и тепловоздушных агрегатов собственного производства, но и включает системы управления, приборы дестратификации и рекуперации, мониторинг, оптимизацию, а также элементы оценки качества окружающей среды и безопасности.', null, null, null);
-call add_entity_property(@last_id, 'DETAILS', null, null, null, null);
+call add_entity_property(@last_id, 'DETAILS', '', null, null, null);
 call add_entity_property(@last_id, 'ADDRESS', 'ADRIAN GROUP s.r.o. Lazovná 53 97401 Banská Bystrica Slovakia', null, null, null);
 call add_entity_property(@last_id, 'PHONE', '+421 48 471 04 44', null, null, null);
 
