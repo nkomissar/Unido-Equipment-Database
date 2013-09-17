@@ -172,7 +172,8 @@ border: 1px solid #b5b8c8;
 {
 	background-image: url(images/mime/xlsx.gif) ! important;
 }
-,.file-ods 
+
+.file-ods 
 ,.file-xlc 
 ,.file-xll 
 ,.file-xlm 
@@ -218,7 +219,7 @@ border: 1px solid #b5b8c8;
 	background-image: url(images/mime/pptx.gif) ! important;
 }
 
-,.file-odp 
+.file-odp 
 ,.file-ppz 
 ,.file-ppt 
 {

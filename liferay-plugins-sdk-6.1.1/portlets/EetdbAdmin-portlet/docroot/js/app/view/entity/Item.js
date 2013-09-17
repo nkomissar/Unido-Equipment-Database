@@ -33,9 +33,17 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 		
 		this.blobUploadUrl = pUrl.toString();
 
-		pUrl.setParameter('formAction', 'getProgress');
+		var renderUrl = portletUrl.createRenderURL();
+		renderUrl.setPortletId(portletId);
+		renderUrl.setWindowState(exclusiveWindowState);
 		
-		this.blobProgressUrl = pUrl.toString();
+		renderUrl.setParameter('action', 'getProgress');
+		
+		this.blobProgressUrl = renderUrl.toString();
+
+		renderUrl.setParameter('action', 'doBlobMetaLoad');
+		
+		this.fetchInitialItemUrl = renderUrl.toString();
         
     },
     
@@ -159,8 +167,9 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 	            defaults: { anchor: '100%'},
 	            layout: 'anchor',
 	            uploadUrl: this.blobUploadUrl,
-	            progressUrl: this.blobProgressUrl
-	            //,value: record.get('value')
+	            progressUrl: this.blobProgressUrl,
+				fetchInitialItemUrl: this.fetchInitialItemUrl,
+				initialValue: record.get('value')
 	        }));
 			
 			break;			

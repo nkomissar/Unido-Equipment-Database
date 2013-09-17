@@ -177,4 +177,30 @@ public class BlobController {
 		return new ModelAndView(jsonView, data);
 	    
 	}
+	
+	@RenderMapping(params = "action=doBlobMetaLoad")
+	public ModelAndView loadBlobMeta(@RequestParam long blobId,
+			RenderRequest renderRequest) {
+
+		if (ConfigWrapper.useFiddlerProxy(renderRequest))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost"); 
+			props.put("http.proxyPort", "8888");
+			 
+		}
+		RestTemplate tmpl = new RestTemplate();
+
+		ValueBlob blob = tmpl.getForObject(
+				ConfigWrapper.getServUrl(renderRequest) + "/blob-meta/{id}",
+				ValueBlob.class, blobId);
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("blob", blob);
+
+		return new ModelAndView(jsonView, data);
+
+	}	
 }

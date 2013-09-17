@@ -13,26 +13,30 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			, 'Ext.resizer.Splitter'
 			, 'Ext.ux.layout.component.field.AsyncFileUpload'
 			, 'Ext.ux.form.field.AsyncFileUploadOverrides'
-		],
+		]
     
-    fieldSubTpl: [
+    /*,fieldSubTpl: [
                     '<div class="bold">fieldSubTpl</div>',
                   {
                       disableFormats: true
                   }
-              ]
+              ]*/
     
 	, componentLayout: 'asyncfileupload'
 	
 	, uploadUrl: '/web/test/subpage?p_auth=O0PXj3ni&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_lifecycle=1&p_p_state=exclusive&p_p_mode=view&p_p_col_id=column-1&p_p_col_count=1&_EetdbAdmin_WAR_EetdbAdminportlet_formAction=fileUpload'
 	
 	, progressUrl:  '/web/test/subpage?p_auth=O0PXj3ni&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=getProgress'
+	, fetchInitialItemUrl:  '/web/test/subpage?p_auth=O0PXj3ni&p_p_id=EetdbAdmin_WAR_EetdbAdminportlet&p_p_state=exclusive&action=doBlobMetaLoad'
 	, progressIdName: '_EetdbAdmin_WAR_EetdbAdminportlet_pid'
+	, fetchIntialIdName: '_EetdbAdmin_WAR_EetdbAdminportlet_blobId'
 	
 	, enableProgress: true
 	, progressInterval: 1500
 	, singleUpload: false
 	, concurrentUpload: true
+	
+	, delimiter: ','
 	
 	,progressMap:{
 		progress_id:'progressId'
@@ -99,6 +103,8 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		// Init mixins
 		me.initLabelable();
 		me.initField();
+		
+		me.fetchInitialValue();
 
     }
     
@@ -109,8 +115,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     
     createGrid : function(editor)
     {
-        var me = this, uploadItems, items = [],
-        baseCSSPrefix = Ext.baseCSSPrefix, undef;
+        var me = this, uploadItems, items = [];
 		
 		var addCfg = {
 			xtype: 'filefield'
@@ -325,7 +330,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	}
 
 	,onProgress:function(obj){
-		var bytesTotal, bytesUploaded, pctComplete, state, idx, item, width, pgWidth;
+		var pctComplete, state, idx, item, width;
 		
 		if (this.singleUpload){
 			if(this.pbValue!=1)
@@ -373,8 +378,8 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 					width = item.getWidth();
 					if(pctComplete!='')
 					{
-						item.applyStyles({'background-position':width * pctComplete / 100 + 'px'})
-						item.applyStyles({'background-color':'#AAC7EC'})
+						item.applyStyles({'background-position':width * pctComplete / 100 + 'px'});
+						item.applyStyles({'background-color':'#AAC7EC'});
 					}
 				}
 			}
@@ -388,21 +393,21 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 							.queryBy(
 								function(r)
 								{
-									return 'done' !== r.get('state')
+									return 'done' !== r.get('state');
 								});
 								
 		if(!records.getCount()) {
 			return;
 		}else{
-			this.beforeallstart()
+			this.beforeallstart();
 		}
 		
 		if(this.singleUpload){
 			this.uploadSingle();
 		}else if(this.concurrentUpload){
-			records.each(function(r){this.uploadFile(r)}, this);
+			records.each(function(r){this.uploadFile(r);}, this);
 		}else{
-			records.each(function(r){r.set('state', 'queued')}, this);
+			records.each(function(r){r.set('state', 'queued');}, this);
 			this.uploadFile(records.items[0]);
 		}
 		
@@ -455,13 +460,17 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	} 
 	
 	,getOptions:function(record, params) {
-		if(record){
-			progressId=record.get('progressId')
-		}else{
-			progressId=this.progressId
+		if(record)
+		{
+			progressId=record.get('progressId');
 		}
-		var path = "myUpload";//this.path;	
-		var o = {
+		else
+		{
+			progressId=this.progressId;
+		}
+
+		var o = 
+		{
 			 //url:/*this.getUploadpanel().uploadUrl*/ '/uploadUrl'+'?PID='+progressId+'&path='+path
 			url: this.uploadUrl + "&" + this.progressIdName + "=" + progressId
 			,method:'post'
@@ -590,7 +599,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		
 	} 
 	
-	, extractFieldValue: function()
+	,extractFieldValue: function()
 	{
 	
         var me = this,
@@ -612,6 +621,77 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
         }
 		
 		me.mixins.field.setValue.call(me, processedValue);
+	}
+	
+	,fetchInitialValue: function()
+	{
+		var me = this;
+		
+		if(!Ext.isDefined(me.initialValue))
+		{
+			return;
+		}
+		
+		value = me.initialValue;
+		
+		if (Ext.isString(value)) 
+		{
+            value = value.split(me.delimiter);
+        }
+        
+		value = Ext.Array.from(value, true);
+		
+		Ext.Array
+			.forEach( 
+				value,
+				function(item, index, allItems)
+				{
+					var o = 
+					{
+						 url: this.fetchInitialItemUrl 
+						,method:'get'
+						,params:{}
+						,scope:this
+						,callback:this.fetchInitialValueCallback 
+					};
+					
+					o.params[this.fetchIntialIdName] = item;
+					Ext.Ajax.request(o);
+				},
+				this);
+		
+	}
+	
+	,fetchInitialValueCallback: function(options, success, response) 
+	{
+		var o;
+		if(true !== success) {
+			return;
+		}
+		
+		try {
+			o = Ext.decode(response.responseText);
+		}
+		catch(e) {
+			return;
+		}
+		
+		if('object' !== Ext.type(o) || true !== o.success) 
+		{
+			return;
+		}
+	
+		this.uploadStore
+			.insert(
+				0, 
+				Ext.create('UploadItem', 
+							{ 
+								blobId: o.blob.id, 
+								fileCls: this.getFileCls(o.blob.name),
+								shortName: o.blob.name,
+								state: 'done'
+							}));
+		
 	}
 	
 	,processFailure:function(options, response, error) {
@@ -671,7 +751,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	,fireFinishEvents:function() 
 	{
 		if(!this.singleUpload && !this.concurrentUpload){
-			var records = this.uploadStore.queryBy(function(r){return 'queued' === r.get('state') });
+			var records = this.uploadStore.queryBy(function(r){return 'queued' === r.get('state'); });
 			if(records.getCount()) {
 				this.uploadFile(records.items[0]);
 			}else{
@@ -749,7 +829,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	
 	,requestProgress:function() 
 	{
-		var records, p;
+		var records;
 		var o = {
 			 url: this.progressUrl 
 			,method:'get'
@@ -818,7 +898,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			records = this.uploadStore.queryBy(
 					function(r)
 					{
-						return r.get('progressId') === o.progress_id
+						return r.get('progressId') === o.progress_id;
 					});
 			
 			records.each(
@@ -868,7 +948,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				new Ext.util.DelayedTask(
 					function()
 					{
-						this.requestProgress()
+						this.requestProgress();
 					},this);
 		}
 		
@@ -899,7 +979,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
                     fileSize: Ext.util.Format.fileSize(file.size),
                     fileCls: this.getFileCls(file.name),
                     state: 'queued'
-                }])
+                }]);
         }, this);
 		
 		addBtn.extractFileInput();
@@ -909,7 +989,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	,truncate:function(){
 		truncateEl = Ext.select('.truncate');
 		width = this.uploadItems.getWidth();
-		truncateEl.applyStyles({'width':width-50+'px'})
+		truncateEl.applyStyles({'width':width-50+'px'});
 	}	
 	,getFileCls: function(name) {
         var atmp = name.split('.');
@@ -985,7 +1065,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 
 	,onRemoveFile:function(view,record,html,index,e) {
 		this.uploadStore.remove(record);
-		var count = this.uploadStore.getCount();
+		//var count = this.uploadStore.getCount();
 		//this.getUploadBtn().setDisabled(!count);
 		//this.getRemoveAllBtn().setDisabled(!count);
 	}
@@ -1021,7 +1101,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				}else{
 					iframe.dom.contentWindow.stop();
 				}
-				Ext.defer(iframe.remove,250)
+				Ext.defer(iframe.remove,250);
 			}
 			catch(e){}
 		}
@@ -1037,7 +1117,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 					.queryBy(
 						function(r)
 						{
-							return 'queued' === r.get('state') 
+							return 'queued' === r.get('state');
 						});
 						
 			if(records.getCount()) 
@@ -1080,7 +1160,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			*/
 		}
 		else {
-			var records = this.uploadStore.queryBy(function(r){return 'done' !== r.get('state') });
+			var records = this.uploadStore.queryBy(function(r){return 'done' !== r.get('state'); });
 			if(records.getCount()) {
 				//this.getUploadBtn().enable();
 			}

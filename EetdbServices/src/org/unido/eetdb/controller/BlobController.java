@@ -78,4 +78,13 @@ public class BlobController
     {
         return dataAccessService.saveValueBlob(valueBlob, blobData.getBytes());
     }
+    
+    @RequestMapping(method = RequestMethod.GET, value = "/blob-meta/{id}")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    public @ResponseBody
+    ValueBlob getValueBlobMeta(@PathVariable Long id, HttpServletResponse response)
+    {
+        return dataAccessService.getValueBlob(id);
+    }
+
 }
