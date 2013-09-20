@@ -1,1 +1,25 @@
+.taglib-search-toggle-advanced .aui-fieldset .eetdb-search-min-max {
+  display: inline-block;
+  width: 49%; }
+
+.aui-field-wrapper-content {
+  margin: 0px !important; }
+
+.aui-fieldset .aui-field-content {
+  margin-top: 0px !important; }
+
+.eetdb-home-search-terms {
+  display: inline-block;
+  width: 49%; }
+
+.eetdb-home-search .aui-fieldset .aui-field-content,
+.eetdb-home-search .aui-fieldset .aui-field-element,
+.eetdb-home-search .aui-fieldset .aui-field-input {
+  width: 100%; }
+
+.eetdb-home-search-button-basic {
+  margin: 0px 10px; }
+
+.eetdb-basic-search-results .results-header {
+  display: none; }
 
