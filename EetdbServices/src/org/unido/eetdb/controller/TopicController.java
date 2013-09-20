@@ -30,7 +30,7 @@ public class TopicController
     @RequestMapping(method = RequestMethod.GET, value = "/topic/{id}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    Topic getTopic(@PathVariable Long id)
+    Topic getTopic(@PathVariable("id") Long id)
     {
         return dataAccessService.getTopic(id);
     }

@@ -37,7 +37,7 @@ public class BlobController
     @RequestMapping(method = RequestMethod.GET, value = "/blob/{id}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    String getValueBlob(@PathVariable Long id, HttpServletResponse response)
+    String getValueBlob(@PathVariable("id") Long id, HttpServletResponse response)
     {
         ValueBlob retVal = dataAccessService.getValueBlob(id);
         ObjectMapper jsonMapper = new ObjectMapper();
@@ -82,7 +82,7 @@ public class BlobController
     @RequestMapping(method = RequestMethod.GET, value = "/blob-meta/{id}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    ValueBlob getValueBlobMeta(@PathVariable Long id, HttpServletResponse response)
+    ValueBlob getValueBlobMeta(@PathVariable("id") Long id, HttpServletResponse response)
     {
         return dataAccessService.getValueBlob(id);
     }

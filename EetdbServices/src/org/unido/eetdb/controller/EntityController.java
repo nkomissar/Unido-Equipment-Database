@@ -31,7 +31,7 @@ public class EntityController
     @RequestMapping(method = RequestMethod.GET, value = "/entity/{id}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    Entity getEntity(@PathVariable Long id, @MatrixVariable(required=true) int skip_childs)
+    Entity getEntity(@PathVariable("id") Long id, @MatrixVariable(required=true) int skip_childs)
     {
         return dataAccessService.getEntity(id, skip_childs == 1 ? true : false);
     }
@@ -65,7 +65,7 @@ public class EntityController
     @RequestMapping(method = RequestMethod.GET, value = "/entities-by-code/{code}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    Set<Entity> getEntitiesByTemplateCode(@PathVariable String code)
+    Set<Entity> getEntitiesByTemplateCode(@PathVariable("code") String code)
     {
         return dataAccessService.getEntitiesByTemplateCode(code);
     }
@@ -73,7 +73,7 @@ public class EntityController
     @RequestMapping(method = RequestMethod.GET, value = "/entities-by-topic/{topicId}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    Set<Entity> getEntitiesByTopic(@PathVariable Long topicId)
+    Set<Entity> getEntitiesByTopic(@PathVariable("topicId") Long topicId)
     {
         return dataAccessService.getEntitiesByTopic(topicId);
     }
