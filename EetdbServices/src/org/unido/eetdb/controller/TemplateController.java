@@ -38,7 +38,7 @@ public class TemplateController
     @RequestMapping(method = RequestMethod.GET, value = "/template/{id}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
-    EntityTemplate getTemplate(@PathVariable("id") Long id, @MatrixVariable(required=true) int skip_childs)
+    EntityTemplate getTemplate(@PathVariable("id") Long id, @MatrixVariable(value="skip_childs", required=true) int skip_childs)
     {
         return dataAccessService.getEntityTemplate(id, skip_childs == 1 ? true : false);
     }
