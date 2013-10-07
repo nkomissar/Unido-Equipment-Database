@@ -41,8 +41,8 @@ public class TopicsController {
 
 		Topic topic = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/topic/{0};skip_childs=0", Topic.class, topicId);
 		
-		//Entity[] entities = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/entities-by-topic/{topicId}", Entity[].class, topicId);
-		Entity[] entities = Mocks.GetMockEntities(20, 4);
+		Entity[] entities = tmpl.getForObject(ConfigWrapper.getServUrl(request) + "/entities-by-topic/{topicId}", Entity[].class, topicId);
+		//Entity[] entities = Mocks.GetMockEntities(20, 4);
 		
 		PortletURL entitiesIteratorUrl = response.createRenderURL();
 
