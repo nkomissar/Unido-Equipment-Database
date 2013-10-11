@@ -203,7 +203,7 @@ public class SearchController
 			entities = Mocks.GetMockEntitySearchResults(15);
 		}
 		
-		entities = Mocks.GetMockEntitySearchResults(15);
+		//entities = Mocks.GetMockEntitySearchResults(15);
 		
 		try {
 

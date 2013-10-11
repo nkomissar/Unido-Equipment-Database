@@ -21,6 +21,7 @@ Ext.define('EetdbAdmin.model.Entity', {
         }
         ,{name: 'name', type: 'string'}
         ,{name: 'version', type: 'long'}
+        ,{name: 'status', type: 'string'}
     ]
 
     ,hasOne: 
