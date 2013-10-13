@@ -109,7 +109,7 @@
 								</c:forTokens>
 							</c:when>
 							<c:otherwise>
-								<c:out value="${prop.value}" />
+								<c:out value="${prop.value}" escapeXml="false" />
 							</c:otherwise>
 						</c:choose>
 						
@@ -164,7 +164,7 @@
 								</c:forTokens>
 							</c:when>
 							<c:otherwise>
-								<c:out value="${prop.value}" />
+								<c:out value="${prop.value}" escapeXml="false"/>
 							</c:otherwise>
 						</c:choose>
 					</aui:column>

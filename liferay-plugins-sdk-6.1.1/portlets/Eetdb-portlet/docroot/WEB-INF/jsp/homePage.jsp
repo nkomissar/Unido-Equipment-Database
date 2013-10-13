@@ -13,8 +13,12 @@
 <portlet:defineObjects />
 <liferay-theme:defineObjects />
 
+<p style="font-size:14px;font-weight:bold">Каталог энергосберегающих технологий и оборудования</p>
+<br/>
+<p>В этом разделе представлена информация о технологиях, мероприятиях и оборудовании, внедрение которых позволяет более эффективно использовать топливно-энергетические ресурсы и существенно снизить денежные затраты.</p>
+<br/><br/>
 <liferay-ui:panel-container>
-	<liferay-ui:panel id="rootTopics" title="Отрасли" collapsible="true"
+	<liferay-ui:panel id="rootTopics" title="Рубрикаторы" collapsible="true"
 		extended="true">
 
 		<aui:layout>
