@@ -61,8 +61,17 @@ BEGIN
 	end if;
 
 	SET @query = CONCAT('
-				select ue.*
-					 , uep.*
+				select ue.ENTITY_ID
+                     , ue.ENTITY_TEMPLATE_ID
+                     , ue.ENTITY_NAME
+					 , ue.VERSION
+                     , ue.STATUS
+                     , ue.UPDATED_BY
+                     , ue.UPDATE_DATE
+					 , uep.ENTITY_PROPERTY_ID
+                     , uep.TEMPLATE_PROPERTY_ID
+                     , uep.VALUE
+					 , uep.VERSION
 				  from UNIDO_ENTITY ue
 					 , UNIDO_ENTITY_TEMPLATE uet
 					 , UNIDO_ENTITY_PROPERTY uep

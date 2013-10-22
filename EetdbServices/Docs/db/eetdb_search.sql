@@ -6,7 +6,7 @@ DROP PROCEDURE IF EXISTS `SEARCH_TOPIC`
 DROP PROCEDURE IF EXISTS `SEARCH`
 //
 
-CREATE PROCEDURE EETDB.SEARCH_TOPIC(P_TEXT varchar(200))
+CREATE PROCEDURE SEARCH_TOPIC(P_TEXT varchar(200))
 BEGIN
 	declare v_text VARCHAR(200);
 	set v_text = format_search_string(p_text);
@@ -20,7 +20,7 @@ BEGIN
 	ORDER BY REL DESC;
 END//
 
-CREATE PROCEDURE EETDB.SEARCH(P_TEXT varchar(200))
+CREATE PROCEDURE SEARCH(P_TEXT varchar(200))
 BEGIN
 	declare v_text VARCHAR(200);
 	set v_text = format_search_string(p_text);
