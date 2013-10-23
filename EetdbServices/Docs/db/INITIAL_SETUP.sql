@@ -49,6 +49,10 @@ INSERT INTO eetdb.UNIDO_VALUE_TYPE
 (VALUE_TYPE_ID, FORMAT, TYPE, UPDATED_BY, UPDATE_DATE) 
 VALUES (9, 'BINARY', 'IMG', 'system', sysdate());
 
+INSERT INTO eetdb.UNIDO_VALUE_TYPE
+(VALUE_TYPE_ID, FORMAT, TYPE, UPDATED_BY, UPDATE_DATE) 
+VALUES (10, '', 'HTML', 'system', sysdate());
+
 -- -------------------------------------------------------------------
 -- fill TOPIC
 -- -------------------------------------------------------------------

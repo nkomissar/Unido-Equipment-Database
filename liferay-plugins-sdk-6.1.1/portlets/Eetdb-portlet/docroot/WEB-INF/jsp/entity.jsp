@@ -108,6 +108,9 @@
 																		
 								</c:forTokens>
 							</c:when>
+							<c:when test="${prop.templateProperty.valueType.type == 'HTML'}">
+								<c:out value="${prop.value}" escapeXml="false"/>
+							</c:when>
 							<c:otherwise>
 								<c:out value="${prop.value}" escapeXml="false" />
 							</c:otherwise>
@@ -163,8 +166,11 @@
 																		
 								</c:forTokens>
 							</c:when>
-							<c:otherwise>
+							<c:when test="${prop.templateProperty.valueType.type == 'HTML'}">
 								<c:out value="${prop.value}" escapeXml="false"/>
+							</c:when>
+							<c:otherwise>
+								<c:out value="${prop.value}" escapeXml="true"/>
 							</c:otherwise>
 						</c:choose>
 					</aui:column>
