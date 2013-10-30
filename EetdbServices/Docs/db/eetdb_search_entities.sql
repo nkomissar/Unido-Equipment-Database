@@ -71,7 +71,6 @@ BEGIN
 					 , uep.ENTITY_PROPERTY_ID
                      , uep.TEMPLATE_PROPERTY_ID
                      , uep.VALUE
-					 , uep.VERSION
 				  from UNIDO_ENTITY ue
 					 , UNIDO_ENTITY_TEMPLATE uet
 					 , UNIDO_ENTITY_PROPERTY uep
