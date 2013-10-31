@@ -10,6 +10,7 @@ public class Entity extends GenericObject
     private Set<Entity>         childEntities = new HashSet<Entity>();
     private Set<Topic>          parentTopics  = new HashSet<Topic>();
     private EntityTemplate      entityTemplate;
+    private String		 		status;
 
     public String getName()
     {
@@ -60,4 +61,14 @@ public class Entity extends GenericObject
     {
         this.parentTopics = parentTopics;
     }
+
+	public String getStatus() 
+	{
+		return status;
+	}
+
+	public void setStatus(String status) 
+	{
+		this.status = status;
+	}
 }

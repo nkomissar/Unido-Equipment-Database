@@ -192,7 +192,7 @@ Ext.define('EetdbAdmin.controller.Entities', {
     	var searchDataview = this.getEntityData();
         var searchStore = this.getEntitySearchResultStore();
         
-        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntitySearchResult', { entityId: 0, entityName: 'New Entity'} ));
+        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntitySearchResult', { entityId: 0, entityName: 'New Entity', status:'PENDING'} ));
         
         searchDataview.getSelectionModel().select(0);
 
@@ -355,7 +355,8 @@ Ext.define('EetdbAdmin.controller.Entities', {
 		var templateStore = this.getEntityTemplateStore();
 		var newEntity = Ext.create('EetdbAdmin.model.Entity', 
 									{
-										name: existingData["name"]
+										name: existingData["name"],
+										status: existingData["status"],
 									});
 		var newPropsStore = newEntity.properties();
 		

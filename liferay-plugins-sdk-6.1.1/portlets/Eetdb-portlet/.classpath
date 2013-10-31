@@ -27,7 +27,7 @@
 	<classpathentry kind="lib" path="docroot/WEB-INF/lib/spring-expression-3.2.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="docroot/WEB-INF/lib/spring-instrument-3.2.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="docroot/WEB-INF/lib/spring-instrument-tomcat-3.2.1.RELEASE.jar"/>
-	<classpathentry kind="lib" path="docroot/WEB-INF/lib/spring-web-3.2.1.RELEASE.jar"/>
+	<classpathentry kind="lib" path="docroot/WEB-INF/lib/spring-web-3.2.1.RELEASE.jar" sourcepath="C:/Users/Anyutka/Downloads/org.springframework.web-sources-3.2.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="docroot/WEB-INF/lib/spring-webmvc-3.2.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="docroot/WEB-INF/lib/spring-webmvc-portlet-3.2.1.RELEASE.jar"/>
 	<classpathentry kind="lib" path="docroot/WEB-INF/lib/eetdb-common-0.0.1.jar" sourcepath="/EetdbCommon/src/org/unido/eetdb/common/model"/>

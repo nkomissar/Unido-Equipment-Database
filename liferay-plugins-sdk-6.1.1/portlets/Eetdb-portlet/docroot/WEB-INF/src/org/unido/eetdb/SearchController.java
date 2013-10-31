@@ -176,6 +176,7 @@ public class SearchController
 		catch(Exception ex)
 		{
 			entities = Mocks.GetMockEntities(15, 6);
+			ex.printStackTrace();
 		}
 
 		EntityHelper.BuildEntitiesGridViewModel(entities, model, entitiesIteratorUrl, request);
@@ -201,9 +202,10 @@ public class SearchController
 		catch(Exception ex)
 		{
 			entities = Mocks.GetMockEntitySearchResults(15);
+			ex.printStackTrace();
 		}
 		
-		entities = Mocks.GetMockEntitySearchResults(15);
+		//entities = Mocks.GetMockEntitySearchResults(15);
 		
 		try {
 

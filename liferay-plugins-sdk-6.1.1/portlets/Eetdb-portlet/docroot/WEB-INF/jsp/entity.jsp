@@ -95,8 +95,24 @@
 									
 								</c:forTokens>
 							</c:when>
+							<c:when test="${prop.templateProperty.valueType.type == 'IMG'}">
+								
+								<c:forTokens items="${prop.value}" delims="," var="strId">
+								
+									<portlet:resourceURL var="showBoobURL">
+										<portlet:param name="action" value="showBoob" />
+					      				<portlet:param name="blobId" value="${strId}" />
+									</portlet:resourceURL>
+								
+									<img src="${showBoobURL}" alt="Image returned by portlet." />&nbsp;
+																		
+								</c:forTokens>
+							</c:when>
+							<c:when test="${prop.templateProperty.valueType.type == 'HTML'}">
+								<c:out value="${prop.value}" escapeXml="false"/>
+							</c:when>
 							<c:otherwise>
-								<c:out value="${prop.value}" />
+								<c:out value="${prop.value}" escapeXml="false" />
 							</c:otherwise>
 						</c:choose>
 						
@@ -123,7 +139,40 @@
 						<c:out value="${prop.templateProperty.name}" />
 					</aui:column>
 					<aui:column>
-						<c:out value="${prop.value}" />
+						<c:choose>
+							<c:when test="${prop.templateProperty.valueType.type == 'REFERENCE'}">
+								<c:forTokens items="${prop.value}" delims="," var="strId">
+								
+									<portlet:renderURL var="showEnityURL">
+					      				<portlet:param name="action" value="showEntity" />
+					      				<portlet:param name="entityId" value="${strId}" />
+					    			</portlet:renderURL>
+					    											
+									<aui:a href="${showEnityURL}"><c:out value="${referencedEntities.get(strId).getName()}"/></aui:a>
+									&nbsp;
+									
+								</c:forTokens>
+							</c:when>
+							<c:when test="${prop.templateProperty.valueType.type == 'IMG'}">
+								
+								<c:forTokens items="${prop.value}" delims="," var="strId">
+								
+									<portlet:resourceURL var="showBoobURL" id="showBoob">
+										<portlet:param name="action" value="showBoob" />
+					      				<portlet:param name="blobId" value="${strId}" />
+									</portlet:resourceURL>
+								
+									<img src="${showBoobURL}" alt="Image returned by portlet." />&nbsp;
+																		
+								</c:forTokens>
+							</c:when>
+							<c:when test="${prop.templateProperty.valueType.type == 'HTML'}">
+								<c:out value="${prop.value}" escapeXml="false"/>
+							</c:when>
+							<c:otherwise>
+								<c:out value="${prop.value}" escapeXml="true"/>
+							</c:otherwise>
+						</c:choose>
 					</aui:column>
 				</aui:layout>
 				

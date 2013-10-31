@@ -15,6 +15,7 @@
 
     	<property name="name" column="ENTITY_NAME"/>
     	<property name="lastUpdatedBy" column="UPDATED_BY"/>
+    	<property name="status" column="STATUS"/>
 
     	<many-to-one name="entityTemplate" fetch="join" column="ENTITY_TEMPLATE_ID" unique="true" />
 

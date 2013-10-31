@@ -100,6 +100,18 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 	        }));
 			
 			break;
+		case "HTML":
+			
+			me.add(Ext.widget('htmleditor', {
+				name: 'value',
+	            columnWidth: 0.5,
+	            fieldLabel: this.getLabel(record.TemplateProperty),
+	            defaults: { anchor: '100%' },
+	            layout: 'anchor',
+	            value: record.get('value')
+	        }));
+			
+			break;
 		default:
 		case "STRING":
 			
@@ -243,6 +255,10 @@ Ext.define('EetdbAdmin.view.entity.Item', {
         	        //editable: false,
         	        
         	    },{
+        			xtype: 'checkbox',
+        			name: 'status',
+        			fieldLabel: 'Approved'
+        		},{
         			xtype: 'hidden',
         			name: 'id'
         		},{
@@ -398,6 +414,9 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 		
     	var entityTemplateCombo = form.down('[isFormField][name="entityTemplate"]');
     	entityTemplateCombo.setValue(entity.GetEntityTemplate().get('id'));
+
+    	var statusCheck = form.down('[isFormField][name="status"]');
+    	statusCheck.setValue(entity.get('status') == 'ACTIVE');
 		
 		var items = form.query('entitypropertyfieldset');
 		
@@ -462,6 +481,7 @@ Ext.define('EetdbAdmin.view.entity.Item', {
     	
     	var id = form.down('[isFormField][name="id"]');
     	var nm = form.down('[isFormField][name="name"]');
+    	var status = form.down('[isFormField][name="status"]');
     	var version = form.down('[isFormField][name="version"]');
     	var fieldSets = form.query('entitypropertyfieldset');
     	var entityTemplateCombo = form.down('[isFormField][name="entityTemplate"]');
@@ -476,6 +496,11 @@ Ext.define('EetdbAdmin.view.entity.Item', {
     	if(typeof nm != 'undefined')
     	{
     		entity['name'] = nm.getValue();
+    	}
+
+    	if(typeof status != 'undefined')
+    	{
+    		entity['status'] = status.getValue() ? 'ACTIVE' : 'PENDING';
     	}
 
     	if(typeof version != 'undefined')
