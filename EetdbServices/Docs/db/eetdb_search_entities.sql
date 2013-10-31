@@ -64,12 +64,10 @@ BEGIN
 				select ue.ENTITY_ID
                      , ue.ENTITY_TEMPLATE_ID
                      , ue.ENTITY_NAME
-					 , ue.VERSION
-                     , ue.STATUS
-                     , ue.UPDATED_BY
-                     , ue.UPDATE_DATE
 					 , uep.ENTITY_PROPERTY_ID
                      , uep.TEMPLATE_PROPERTY_ID
+                     , uept.PROPERTY_NAME
+                     , uept.VALUE_TYPE_ID
                      , uep.VALUE
 				  from UNIDO_ENTITY ue
 					 , UNIDO_ENTITY_TEMPLATE uet
