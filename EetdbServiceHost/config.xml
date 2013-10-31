@@ -10,7 +10,7 @@
         <property name="maxActive" value="-1" />
         <property name="maxIdle" value="1" />
         <property name="url"
-            value="jdbc:mysql://50.56.189.15:3306/eetdb?characterEncoding=UTF-8&amp;noAccessToProcedureBodies=true" />
+            value="jdbc:mysql://217.199.222.71:3306/eetdb?characterEncoding=UTF-8&amp;noAccessToProcedureBodies=true" />
         <property name="username" value="eetSite" />
         <property name="password" value="eetdb" />
     </bean>
@@ -51,7 +51,6 @@
         <property name="services">
             <list>
                 <ref bean="fileDaemon" />
-                <ref bean="pop3Daemon" />
             </list>
         </property>
     </bean>

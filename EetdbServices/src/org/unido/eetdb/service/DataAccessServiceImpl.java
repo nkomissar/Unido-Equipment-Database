@@ -1,8 +1,11 @@
 package org.unido.eetdb.service;
 
 import java.sql.Blob;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.hibernate.Hibernate;
@@ -265,16 +268,44 @@ public class DataAccessServiceImpl implements DataAccessService
                 .setParameter("templateCode", templateCode)
                 .setParameter("params", params);
 
-        List<Entity> retVal = query.list();
+        List<Object> resultSet = query.list();
         
-        for (Entity entity : retVal)
+        Map<Integer, Entity> entities = new HashMap<Integer, Entity>();
+        
+        for(int i = 0; i < resultSet.size(); i++)
         {
-            entity.setParentTopics(null);
-            entity.setChildEntities(null);
-            entity.setEntityTemplate(null);
+            Object[] row = (Object[])resultSet.get(i);
+            Entity entity = null;
+            EntityProperty property = new EntityProperty();
+            EntityTemplateProperty templateProperty = new EntityTemplateProperty();
+            ValueType valueType = new ValueType();
+            
+            if(entities.containsKey(row[0]))
+                entity = entities.get(row[0]);
+            else
+            {
+                entity = new Entity();
+                
+                entity.setName((String)row[2]);
+                entity.setId((Integer)row[0]);
+                
+                entities.put((Integer)row[0], entity);
+            }
+
+            valueType.setId((Integer)row[6]);
+            
+            templateProperty.setId((Integer)row[4]);
+            templateProperty.setValueType(valueType);
+            templateProperty.setName((String)row[5]);
+            
+            property.setId((Integer)row[3]);
+            property.setValue((String)row[7]);
+            property.setTemplateProperty(templateProperty);
+            
+            entity.getProperties().add(property);
         }
 
-        return retVal;
+        return new ArrayList<Entity>(entities.values());
     }
 
     @Override
