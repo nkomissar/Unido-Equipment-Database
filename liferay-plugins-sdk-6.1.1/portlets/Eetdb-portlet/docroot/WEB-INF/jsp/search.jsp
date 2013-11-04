@@ -86,6 +86,15 @@
 										
 									</aui:field-wrapper>
 								</c:when>
+								<c:when test="${templateProperty.valueType.type == 'REFERENCE'}">
+									<aui:select name="${templateProperty.code}"
+												label="${eetdb:getTemplatePropertyNameDecorated(templateProperty)}">
+										<c:forEach items="${refEntities[templateProperty.code]}" var="refEntity">
+											<aui:option value="${refEntity.id}" 
+														label="${refEntity.name}" />
+										</c:forEach>
+									</aui:select>
+								</c:when>
 								<c:otherwise>
 
 									<aui:input name="${templateProperty.code}"
@@ -101,6 +110,7 @@
 
 
 </aui:form>
+
 
 <c:set var="searchContainer" value="${searchContainers.entrySet().iterator().next().value}"/>
 

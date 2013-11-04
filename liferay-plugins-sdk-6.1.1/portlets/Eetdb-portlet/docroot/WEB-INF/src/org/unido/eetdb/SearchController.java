@@ -1,9 +1,11 @@
 package org.unido.eetdb;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -61,18 +63,31 @@ public class SearchController
 					EntityTemplate.class, selectedTemplate);
 			
 			Set<EntityTemplateProperty> searchTerms = new HashSet<EntityTemplateProperty>();
+			Map<String, Entity[]> refEntities = new HashMap<String, Entity[]>();
 			
 			for(EntityTemplateProperty property : loadedTemplate.getProperties())
 			{
 				
-				if (property.isSearchable())
+				if (!property.isSearchable())
 				{
-					searchTerms.add(property);
+					continue;
+				}
+
+				searchTerms.add(property);
+				
+				if (property.getValueType().getType().equals("REFERENCE"))
+				{
+					Entity[] entities = tmpl.getForObject(
+							ConfigWrapper.getServUrl(request) + "/entities-by-code/{code}", 
+							Entity[].class, property.getCode());
+					
+					refEntities.put(property.getCode(), entities);
 				}
 				
 			}
 			
 			model.addAttribute("searchableProperties", searchTerms);
+			model.addAttribute("refEntities", refEntities);
 			
 		}
 		
