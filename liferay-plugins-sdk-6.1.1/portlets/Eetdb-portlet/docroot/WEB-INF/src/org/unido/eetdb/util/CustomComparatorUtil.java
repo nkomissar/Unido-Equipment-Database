@@ -50,8 +50,21 @@ public class CustomComparatorUtil {
 				{
 					public int compare(EntityProperty p1, EntityProperty p2) 
 					{
-						return p1.getTemplateProperty().getCode()
-								.compareTo(p2.getTemplateProperty().getCode());
+						String code1 = p1.getTemplateProperty().getCode();
+						String code2 = p2.getTemplateProperty().getCode();
+						
+						if (code1 == null)
+						{
+							code1 = "";
+						}
+						
+						if (code2 == null)
+						{
+							code2 = "";
+						}
+						
+						return code1
+								.compareTo(code2);
 					}
 				});
 

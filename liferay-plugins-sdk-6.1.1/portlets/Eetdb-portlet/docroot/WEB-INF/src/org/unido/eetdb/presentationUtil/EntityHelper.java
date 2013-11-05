@@ -69,11 +69,13 @@ public class EntityHelper {
 		{
 			EntityTemplateProperty templateProperty = 
 					property.getTemplateProperty();
-			
-			if(!templateProperty
+
+			String type = templateProperty
 					.getValueType()
-					.getType()
-					.equalsIgnoreCase("REFERENCE"))
+					.getType();
+			
+			if(type == null 
+				|| !type.equalsIgnoreCase("REFERENCE"))
 			{
 				continue;
 			}

@@ -136,11 +136,14 @@ public class SearchController
 		List<NameValuePair> searchParams = new LinkedList<NameValuePair>();
 
 		EntityTemplate[] templates = (EntityTemplate[]) model.get("templates");
+		EntityTemplate selectedTemplateObj = null;
 		
 		for(EntityTemplate template: templates)
 		{
 			if(template.getId() == selectedTemplate)
 			{
+				
+				selectedTemplateObj = template;
 				
 				searchParams.add(new BasicNameValuePair("templateId", String.valueOf(template.getId())));
 				searchParams.add(new BasicNameValuePair("templateCode", template.getCode()));
@@ -187,6 +190,15 @@ public class SearchController
 			entities = tmpl.getForObject(
 				ConfigWrapper.getServUrl(request) + "/search?" + URLEncodedUtils.format(searchParams, "utf-8"), 
 				Entity[].class);
+			
+			//read from cache instead of search results. Optimized away at search results.
+			for(Entity entity : entities)
+			{
+				if(entity.getEntityTemplate() == null)
+				{
+					entity.setEntityTemplate(selectedTemplateObj);
+				}
+			}
 		}
 		catch(Exception ex)
 		{
