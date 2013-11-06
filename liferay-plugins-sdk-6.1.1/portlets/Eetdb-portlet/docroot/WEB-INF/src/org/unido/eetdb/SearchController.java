@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.unido.eetdb.common.model.Entity;
+import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
@@ -88,6 +89,7 @@ public class SearchController
 			
 			model.addAttribute("searchableProperties", searchTerms);
 			model.addAttribute("refEntities", refEntities);
+			model.addAttribute("selectedTemplateObj", loadedTemplate);
 			
 		}
 		
@@ -136,23 +138,36 @@ public class SearchController
 		List<NameValuePair> searchParams = new LinkedList<NameValuePair>();
 
 		EntityTemplate[] templates = (EntityTemplate[]) model.get("templates");
-		EntityTemplate selectedTemplateObj = null;
 		
-		for(EntityTemplate template: templates)
+		EntityTemplate selectedTemplateObj = null;
+		if(model.containsKey("selectedTemplateObj"))
 		{
-			if(template.getId() == selectedTemplate)
+			selectedTemplateObj = (EntityTemplate) model.get("selectedTemplateObj");
+		}
+		
+		if (selectedTemplateObj == null)
+		{
+			for(EntityTemplate template: templates)
 			{
-				
-				selectedTemplateObj = template;
-				
-				searchParams.add(new BasicNameValuePair("templateId", String.valueOf(template.getId())));
-				searchParams.add(new BasicNameValuePair("templateCode", template.getCode()));
-
-				entitiesIteratorUrl.setParameter("selectedTemplate", String.valueOf(template.getId()));
-
-				break;
+				if(template.getId() == selectedTemplate)
+				{
+					
+					searchParams.add(new BasicNameValuePair("templateId", String.valueOf(template.getId())));
+					searchParams.add(new BasicNameValuePair("templateCode", template.getCode()));
+	
+					entitiesIteratorUrl.setParameter("selectedTemplate", String.valueOf(template.getId()));
+	
+					break;
+				}
 			}
-		}			
+		}
+		else 
+		{
+			searchParams.add(new BasicNameValuePair("templateId", String.valueOf(selectedTemplateObj.getId())));
+			searchParams.add(new BasicNameValuePair("templateCode", selectedTemplateObj.getCode()));
+
+			entitiesIteratorUrl.setParameter("selectedTemplate", String.valueOf(selectedTemplateObj.getId()));
+		}
 
 		
 		@SuppressWarnings("unchecked")
@@ -197,6 +212,27 @@ public class SearchController
 				if(entity.getEntityTemplate() == null)
 				{
 					entity.setEntityTemplate(selectedTemplateObj);
+				}
+				
+				Map<Long, EntityTemplateProperty> propertiesHash = 
+						new HashMap<Long, EntityTemplateProperty>();
+				for(EntityTemplateProperty templateProperty: selectedTemplateObj.getProperties())
+				{
+					propertiesHash.put(templateProperty.getId(), templateProperty);
+				}
+				
+				for(EntityProperty entityProperty: entity.getProperties())
+				{
+					
+					EntityTemplateProperty templateProperty = entityProperty.getTemplateProperty();
+					Long id = templateProperty.getId();
+					
+					if(templateProperty.getCode() == null 
+							&& id > 0
+							&& propertiesHash.containsKey(id))
+					{
+						entityProperty.setTemplateProperty(propertiesHash.get(id));
+					}
 				}
 			}
 		}
