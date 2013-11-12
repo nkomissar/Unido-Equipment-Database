@@ -103,6 +103,11 @@ public class DataAccessServiceImpl implements DataAccessService
         Helper.ensureParent(entity);
 
         entity = (Entity) sessionFactory.getCurrentSession().merge(entity);
+        
+        for(Topic topic : entity.getParentTopics())
+        {
+            topic = (Topic) sessionFactory.getCurrentSession().merge(topic);
+        }
 
         sessionFactory.getCurrentSession().flush();
 
