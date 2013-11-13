@@ -21,10 +21,10 @@ BEGIN
 		set v_where = '';
 
 		WHILE v_rownum <= v_count DO 
-			set v_code = extractvalue(p_filter , '//child::*[$v_rownum]/@code');
-			set v_value = extractvalue(p_filter , '//child::*[$v_rownum]/@value');
-			set v_min = extractvalue(p_filter , '//child::*[$v_rownum]/@min');
-			set v_max = extractvalue(p_filter , '//child::*[$v_rownum]/@max');
+			set v_code = extractvalue(p_filter , '//child::*[$v_rownum]/code');
+			set v_value = extractvalue(p_filter , '//child::*[$v_rownum]/value');
+			set v_min = 0 + extractvalue(p_filter , '//child::*[$v_rownum]/min');
+			set v_max = 0 + extractvalue(p_filter , '//child::*[$v_rownum]/max');
 		
 			IF v_min > v_max THEN
 				set v_max = v_min;
@@ -38,8 +38,8 @@ BEGIN
 								where uep.ENTITY_ID = ue.ENTITY_ID
 								  and uetp.ENTITY_TEMPLATE_ID = ue.ENTITY_TEMPLATE_ID
 								  and uep.TEMPLATE_PROPERTY_ID = uetp.TEMPLATE_PROPERTY_ID
-								  and uetp.PROPERTY_CODE = ', v_code, ' 
-								  and uep.VALUE = \'', v_value,'\') ');
+								  and uetp.PROPERTY_CODE = \'', v_code, '\' 
+								  and uep.VALUE = \'', v_value, '\') ');
 			END IF;
 
 			IF v_min < v_max THEN
@@ -50,7 +50,7 @@ BEGIN
 								where uep.ENTITY_ID = ue.ENTITY_ID
 								  and uetp.ENTITY_TEMPLATE_ID = ue.ENTITY_TEMPLATE_ID
 								  and uep.TEMPLATE_PROPERTY_ID = uetp.TEMPLATE_PROPERTY_ID
-								  and uetp.PROPERTY_CODE = ', v_code, ' 
+								  and uetp.PROPERTY_CODE = \'', v_code, '\' 
 								  and CAST(uep.VALUE as DECIMAL) between ', 
 								  v_min, ' and ', v_max,') ');
 			END IF;
