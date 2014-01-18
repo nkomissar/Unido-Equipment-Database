@@ -7,6 +7,7 @@ import org.unido.eetdb.common.model.Entity;
 import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.Topic;
+import org.unido.eetdb.common.model.UploadItem;
 import org.unido.eetdb.common.model.ValueBlob;
 import org.unido.eetdb.common.model.ValueType;
 
@@ -39,4 +40,8 @@ public interface DataAccessService
     
     public ValueBlob getValueBlob(Long blobId);
     public ValueBlob saveValueBlob(ValueBlob valueBlob, byte[] blobData);
+
+    public UploadItem getUploadItem(Long uploadItemId);
+    public Set<UploadItem> getUploadItems();
+
 }

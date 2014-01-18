@@ -21,6 +21,7 @@ import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.common.model.Topic;
+import org.unido.eetdb.common.model.UploadItem;
 import org.unido.eetdb.common.model.ValueBlob;
 import org.unido.eetdb.common.model.ValueType;
 
@@ -330,6 +331,30 @@ public class DataAccessServiceImpl implements DataAccessService
         sessionFactory.getCurrentSession().flush();
         
         return valueBlob;
+    }
+    
+    @Override
+    public UploadItem getUploadItem(Long uploadItemId)
+    {
+
+    	UploadItem retVal = (UploadItem) sessionFactory.getCurrentSession().load(UploadItem.class, uploadItemId);
+
+        return retVal;
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Override
+    public Set<UploadItem> getUploadItems()
+    {
+        Set<UploadItem> retVal = new HashSet<UploadItem>(sessionFactory.getCurrentSession()
+                .createQuery("from UploadItem").list());
+
+        /*for (UploadItem template : retVal)
+        {
+            Helper.ensureChilds(template, true);
+        }*/
+
+        return retVal;
     }
 
     private static class Helper

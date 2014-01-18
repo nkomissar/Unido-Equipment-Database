@@ -4,7 +4,8 @@ Ext.define('EetdbAdmin.view.Viewer', {
     
     requires: ['EetdbAdmin.view.entitytemplate.Item'
                	,'EetdbAdmin.view.entity.Item'
-               	,'EetdbAdmin.view.topic.Item'],
+               	,'EetdbAdmin.view.topic.Item'
+               	,'EetdbAdmin.view.catalogUpload.UploadItem'],
     
     activeItem: 0,
     
@@ -25,6 +26,10 @@ Ext.define('EetdbAdmin.view.Viewer', {
               xtype: 'topicitem',
               title: 'Topic'
               ,id: 'topicitem'
+          },{
+              xtype: 'uploaditem',
+              title: 'Upload Item'
+              ,id: 'uploaditem'
           }];
         
         

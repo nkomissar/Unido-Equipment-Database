@@ -9,7 +9,29 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
             activeGroup: 0,
             collapsible: true,
             
-            items: [{
+            items: [
+                {
+                    items: [{
+                            title: 'Bulk Upload'
+                        },  /*{
+                        title: 'Status',
+                        layout: 'fit',
+                        items: [{
+                                xtype: 'uploadStatus'
+                            }]
+                    },*/{
+                            title: 'Queue',
+                            layout: 'fit',
+                            id: 'uploadQueueTab',
+                            items: [{
+                                    xtype: 'uploadQueue'
+                                }]
+                        }
+                    
+                    ]
+                }, 
+                
+                {
                     action: 'templatesGroup',
                     mainItem: 0,
                     items: [{
@@ -43,8 +65,8 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                                 }]
                         }, {
                             title: 'Add Entity',
-                            	id: 'addEntityTab',
-                                action: 'addentity'
+                            id: 'addEntityTab',
+                            action: 'addentity'
                         }, {
                             title: 'Remove Entity',
                             id: 'removeEntityTab',
@@ -54,132 +76,134 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                     expanded: false,
                     items: [{
                             title: 'Topics'
-	                    }, {
-	                        title: 'Search',
+                        }, {
+                            title: 'Search',
                             layout: 'fit',
-	                        items: [{
-	                                xtype: 'topiclist',
+                            items: [{
+                                    xtype: 'topiclist',
                                     topicListInstance: 'mainTopicSearch'
-	                            }]
-	                    }, {
-	                        title: 'Add Topic',
-	                        	id: 'addTopicTab',
-	                            action: 'addtopic'
-	                    }, {
-	                        title: 'Remove Topic',
-	                        id: 'removeTopicTab',
-	                        action: 'removetopic'
-	                    }]
+                                }]
+                        }, {
+                            title: 'Add Topic',
+                            id: 'addTopicTab',
+                            action: 'addtopic'
+                        }, {
+                            title: 'Remove Topic',
+                            id: 'removeTopicTab',
+                            action: 'removetopic'
+                        }]
                 }]
         
         }],
     
     
     initComponent: function() {
-    	
-    	var me = this;
-    	
-    	me.on('afterlayout', function() {
-        	
-    		me.selectTemplateSearch();
-    		me.activateTemplateControls(false);
+        
+        var me = this;
+        
+        me.on('afterlayout', function() {
 
-    		var tabs = me.down('grouptabpanel treepanel');
+            //me.selectTemplateSearch();
+            me.activateTemplateControls(false);
+            me.selectUploadQueue();
+            
+            var tabs = me.down('grouptabpanel treepanel');
             tabs.on('select', 
-            	function(selModel, node, idx) 
-            	{
-            	
-	            	if (!node.data.leaf)
-	            	{
-	            		
-	            		tabs.getSelectionModel().select(node.firstChild);
-	            		
-	            		return false;
-	            		
-	            	}
-	            	
-	            	return true;
-            	
-            	});
+            function(selModel, node, idx) 
+            {
+                
+                if (!node.data.leaf) 
+                {
+                    
+                    tabs.getSelectionModel().select(node.firstChild);
+                    
+                    return false;
+                
+                }
+                
+                return true;
+            
+            });
             
             tabs.on('beforeselect', 
-                	function(selModel, node, idx) 
-                	{
-                	
-    	            	if (node.get('id') == 'removeTemplateTab')
-    	            	{
-    	            		me.fireEvent('removetemplateselected');
-    	            		return false;
-    	            	}
-
-    	            	if (node.get('id') == 'removeEntityTab')
-    	            	{
-    	            		me.fireEvent('removeentityselected');
-    	            		return false;
-    	            	}
-
-    	            	if (node.get('id') == 'removeTopicTab')
-    	            	{
-    	            		me.fireEvent('removetopicselected');
-    	            		return false;
-    	            	}
-    	            	
-    	            	return true;
-                	
-                	});
-                            
-                        
+            function(selModel, node, idx) 
+            {
+                
+                if (node.get('id') == 'removeTemplateTab') 
+                {
+                    me.fireEvent('removetemplateselected');
+                    return false;
+                }
+                
+                if (node.get('id') == 'removeEntityTab') 
+                {
+                    me.fireEvent('removeentityselected');
+                    return false;
+                }
+                
+                if (node.get('id') == 'removeTopicTab') 
+                {
+                    me.fireEvent('removetopicselected');
+                    return false;
+                }
+                
+                return true;
+            
+            });
+        
+        
         });
         
         me.addEvents(
-                /**
+        /**
                  * @event removetemplateselected
                  * Fires when 'Remove Template' tab selected.
                  */
-                'removetemplateselected',
-                'removeentityselected',
-                'removetopicselected'
-        		);
+        'removetemplateselected', 
+        'removeentityselected', 
+        'removetopicselected'
+        );
         
         this.callParent(arguments);
     }
-
-	,selectTemplateSearch: function()
-	{
-    	var tabs = this.down('grouptabpanel treepanel');
+    
+    ,selectTab: function(nodeId) 
+    {
+        var tabs = this.down('grouptabpanel treepanel');
         var store = tabs.getStore();
-        var searchNode = store.getNodeById('searchTemplateTab');
-                    
+        var searchNode = store.getNodeById(nodeId);
+        
         tabs.getSelectionModel().select(searchNode);
-	}
-	
-	,activateTemplateControls: function(activate)
-	{
-    	var tabs = this.down('grouptabpanel treepanel');
+    }
+    
+    ,selectTemplateSearch: function() 
+    {
+        this.selectTab('searchTemplateTab');
+    }
+    
+    ,activateTemplateControls: function(activate) 
+    {
+        var tabs = this.down('grouptabpanel treepanel');
         var store = tabs.getStore();
         var addNode = store.getNodeById('addTemplateTab');
         var removeNode = store.getNodeById('removeTemplateTab');
         
         addNode.enabled = activate;
         removeNode.enadled = activate;
-	}
-	
-	,selectEntitySearch: function()
-	{
-    	var tabs = this.down('grouptabpanel treepanel');
-        var store = tabs.getStore();
-        var searchNode = store.getNodeById('searchEntityTab');
-                    
-        tabs.getSelectionModel().select(searchNode);
-	}
+    }
+    
+    ,selectEntitySearch: function() 
+    {
+        this.selectTab('searchEntityTab');
+    }
+    
+    ,selectTopicSearch: function() 
+    {
+        this.selectTab('searchTopicTab');
+    }
+    ,selectUploadQueue: function() 
+    {
+        this.selectTab('uploadQueueTab');
+    }
 
-	,selectTopicSearch: function()
-	{
-    	var tabs = this.down('grouptabpanel treepanel');
-        var store = tabs.getStore();
-        var searchNode = store.getNodeById('searchTopicTab');
-                    
-        tabs.getSelectionModel().select(searchNode);
-	}
-	
 });

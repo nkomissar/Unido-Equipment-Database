@@ -19,9 +19,23 @@
 	<portlet:param name="action" value="doEntityTemplateList" />
 </portlet:renderURL>
 
+<c:url var="extUrl" context="${renderRequest.contextPath}" value="/js/extjs/ext-dev.js" />
 <c:url var="extUxUrl" context="${renderRequest.contextPath}" value="/js/extjs/ux" />
 
 <div id="landingBody"></div>
+
+<!-- Override Theme's ExtJs library -->
+<script type="text/javascript">
+<!--
+	//restore things broken by broke-extjs-loading-from-theme.js (called from liferay-portlet.xml)
+	if(typeof nativeDateConstructor != 'undefined')
+	{
+		Date = nativeDateConstructor;
+	}
+	Ext = null;
+//-->
+</script>
+<script type="text/javascript" src="${extUrl}" ></script>
 
 <script type="text/javascript">
 
@@ -203,6 +217,7 @@
 	        'Topics',
 	        'EntityTemplates',
 	        'GroupTabs'
+	        ,'CatalogUpload'
 	    ],
 	    
 	    autoCreateViewport: true,

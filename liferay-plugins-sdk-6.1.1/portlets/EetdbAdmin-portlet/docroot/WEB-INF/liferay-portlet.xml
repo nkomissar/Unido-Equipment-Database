@@ -12,10 +12,13 @@
 		<header-portlet-css>/resources/css/ux/BoxSelect.css</header-portlet-css>
 		<header-portlet-css>/resources/css/ux/AsyncFileUpload.css</header-portlet-css>
 		<header-portlet-css>/css/main.css</header-portlet-css>
-		<!-- header-portlet-javascript>http://cdn.sencha.io/ext-4.2.0-gpl/ext.js</header-portlet-javascript-->
-		<!-- header-portlet-javascript>/js/extjs/ext-all.js</header-portlet-javascript-->
-		<header-portlet-javascript>/js/main.js</header-portlet-javascript>
+		<!-- overriden by Unido theme. For portlet debugging see library at landingpage.jsp -->
+		<!-- header-portal-javascript>/js/extjs/ext-all.js</header-portal-javascript-->
+		<!-- broke something to prevent ExtJs loading from portal theme. Broken things should be restored later (on landingpage.jsp). -->
+		<!-- header-portlet-javascript>/js/broke-extjs-loading-from-theme.js</header-portlet-javascript -->
+		<!-- header-portlet-javascript>/js/main.js</header-portlet-javascript-->
 		<css-class-wrapper>EetdbAdmin-portlet</css-class-wrapper>
+		
 	</portlet>
 	<role-mapper>
 		<role-name>administrator</role-name>

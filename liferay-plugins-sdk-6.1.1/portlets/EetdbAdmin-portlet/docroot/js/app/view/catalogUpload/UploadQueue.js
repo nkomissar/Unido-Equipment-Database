@@ -1,14 +1,28 @@
-Ext.define('EetdbAdmin.view.entitytemplate.List', {
+Ext.define('EetdbAdmin.view.catalogUpload.UploadQueue', {
     extend: 'Ext.panel.Panel',
-    alias: 'widget.entitytemplatelist',
+    alias: 'widget.uploadQueue',
 
-    title: 'Templates',
+    title: 'Upload Queue',
     border: false,
     layout: 'fit',
 
     initComponent: function() {
+    	
+    	
+    	
+        /*Ext.apply(this, {
+        	
+            items: [{
+                	xtype: 'panel',
+                	trackOver: true,
+                	overflowY: 'auto',
+                	autoHeight:true,
+                	html: 'Disable me'
+                }]
 
-    	Ext.apply(this, {
+        });*/
+    	
+        Ext.apply(this, {
         	
             items: [{
                 	xtype: 'dataview',
@@ -19,11 +33,13 @@ Ext.define('EetdbAdmin.view.entitytemplate.List', {
                 	cls: 'entitytemplate-list',
                 	itemSelector: '.entitytemplate-list-item',
                 	overItemCls: 'entitytemplate-list-item-hover',
-                	tpl: '<tpl for="."><div class="entitytemplate-list-item">{name}</div></tpl>',
+                	tpl: '<tpl for="."><div class="entitytemplate-list-item">{fileName}</div></tpl>',
                 }]
 
         });
 
+
         this.callParent(arguments);
+        
     }
 });

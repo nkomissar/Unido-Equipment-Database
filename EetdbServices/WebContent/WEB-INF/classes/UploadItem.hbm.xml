@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping 
+	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.unido.eetdb.common.model">
+	<class name="UploadItem" table="UNIDO_LOAD_LOG" lazy="false">
+
+	    <id name="id" column="LOAD_LOG_ID">
+        	<generator class="org.unido.eetdb.service.IdGenerator"/>
+    	</id>
+
+    	<version name="version" column="VERSION" />
+
+    	<property name="fileName" column="FILE_NAME"/>
+    	<property name="filePath" column="FILE_PATH"/>
+    	<property name="fileSize" column="FILE_SIZE"/>
+    	<property name="lastUpdatedBy" column="UPDATED_BY"/>
+    	<property name="status" column="STATUS"/>
+
+	</class>
+</hibernate-mapping>
