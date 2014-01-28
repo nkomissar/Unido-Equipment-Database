@@ -16,6 +16,7 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.servlet.View;
 import org.unido.eetdb.admin.util.ConfigWrapper;
+import org.unido.eetdb.common.model.UploadError;
 import org.unido.eetdb.common.model.UploadItem;
 
 @Controller
@@ -100,7 +101,7 @@ public class CatalogUploadController
 		RestTemplate tmpl = new RestTemplate();
 		
 		UploadItem uploadItem = tmpl.getForObject(
-					ConfigWrapper.getServUrl(renderRequest) + "/uploadItem/{uploadItemId}", 
+					ConfigWrapper.getServUrl(renderRequest) + "/uploadItems/{uploadItemId}", 
 					UploadItem.class, uploadItemId);
 		
 		/*Map<String, String> uploadItem = new HashMap<String, String>();
@@ -112,6 +113,41 @@ public class CatalogUploadController
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("success", Boolean.TRUE);
 		data.put("uploadItem", uploadItem);
+
+		return new ModelAndView(jsonView, data);
+
+	}
+	
+	@RenderMapping(params = "action=getUploadItemErrors")
+	public ModelAndView getUploadItemErrors(
+			@RequestParam long uploadItemId,
+			RenderRequest renderRequest) 
+	{
+ 
+		if (ConfigWrapper.useFiddlerProxy(renderRequest))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost"); 
+			props.put("http.proxyPort", "8888");
+			 
+		}
+		
+		RestTemplate tmpl = new RestTemplate();
+		
+		UploadError[] uploadErrors = tmpl.getForObject(
+					ConfigWrapper.getServUrl(renderRequest) + "/uploadItems/{uploadItemId}/uploadErrors", 
+					UploadError[].class, uploadItemId);
+		
+		/*Map<String, String> uploadItem = new HashMap<String, String>();
+		uploadItem.put("id", Long.toString(uploadItemId));
+		uploadItem.put("fileName", "Upload #" + uploadItemId);
+		uploadItem.put("fileSize", "a25");
+		uploadItem.put("fileCls", "JPEG");*/
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		data.put("success", Boolean.TRUE);
+		data.put("uploadErrors", uploadErrors);
 
 		return new ModelAndView(jsonView, data);
 

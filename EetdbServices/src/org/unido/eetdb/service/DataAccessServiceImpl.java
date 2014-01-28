@@ -21,6 +21,7 @@ import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.common.model.Topic;
+import org.unido.eetdb.common.model.UploadError;
 import org.unido.eetdb.common.model.UploadItem;
 import org.unido.eetdb.common.model.ValueBlob;
 import org.unido.eetdb.common.model.ValueType;
@@ -357,6 +358,18 @@ public class DataAccessServiceImpl implements DataAccessService
         return retVal;
     }
 
+    @SuppressWarnings("unchecked")
+    @Override
+    public Set<UploadError> getUploadErrors(Long uploadItemId)
+    {
+        Set<UploadError> retVal = new HashSet<UploadError>(sessionFactory.getCurrentSession()
+                .createQuery("from UploadError as uploadError where uploadError.uploadItem.id = ?")
+                .setLong(0, uploadItemId)
+                .list());
+
+        return retVal;
+    }
+    
     private static class Helper
     {
         public static void ensureParent(EntityTemplate template)

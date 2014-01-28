@@ -18,4 +18,4 @@ Ext.define('EetdbAdmin.model.UploadItem', {
 			//,{name:'speedNow', type:'string', system:true}
 			//,{name:'timeLeft', type:'string', system:true}
     ]
-});
+}); 

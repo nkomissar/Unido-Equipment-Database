@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping 
+	PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="org.unido.eetdb.common.model">
+	<class name="UploadError" table="UNIDO_LOAD_ERROR" lazy="false">
+
+	    <id name="id" column="LOAD_ERROR_ID">
+        	<generator class="org.unido.eetdb.service.IdGenerator"/>
+    	</id>
+
+    	<property name="rowNumber" column="ROW_NUMBER"/>
+    	<property name="message" column="ERROR_MESSAGE"/>
+    	<property name="lastUpdatedBy" column="UPDATED_BY"/>
+
+    	<many-to-one name="uploadItem" fetch="join" column="LOAD_LOG_ID" unique="true" />
+
+	</class>
+</hibernate-mapping>

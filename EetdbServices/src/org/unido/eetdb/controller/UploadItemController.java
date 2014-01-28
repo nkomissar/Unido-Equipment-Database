@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.unido.eetdb.common.model.UploadError;
 import org.unido.eetdb.common.model.UploadItem;
 import org.unido.eetdb.service.DataAccessService;
 
@@ -26,7 +27,7 @@ public class UploadItemController
         this.dataAccessService = dataAccessService;
     }
     
-    @RequestMapping(method = RequestMethod.GET, value = "/uploadItem/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/uploadItems/{id}")
     @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
     public @ResponseBody
     UploadItem getUploadItem(@PathVariable("id") Long id)
@@ -42,4 +43,13 @@ public class UploadItemController
         return dataAccessService.getUploadItems();
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/uploadItems/{id}/uploadErrors")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    public @ResponseBody
+    Set<UploadError> getUploadErrors(@PathVariable("id") Long id)
+    {
+    	Set<UploadError> result = dataAccessService.getUploadErrors(id);
+        return result;
+    }
+    
 }

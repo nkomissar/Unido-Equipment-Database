@@ -18,7 +18,9 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadItem', {
                 	'<tpl if="!this.isDataEmpty(values, xcount)">',
                     '<h3>{fileName}</h3>',
                     '<h4>Size {fileSize:this.formatFileSize}</h4>',
-                	'</tpl>',
+                    '<div id="errorsgridplaceholder">',
+                    '</div>',
+                    '</tpl>',
                 '</div>',{
 
                 formatFileSize: function(value) {
