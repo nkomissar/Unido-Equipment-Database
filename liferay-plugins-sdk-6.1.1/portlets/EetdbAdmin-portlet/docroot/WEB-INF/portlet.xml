@@ -30,6 +30,10 @@
 				<value>http://localhost:8080/EetdbServices</value>
 			</preference>
 			<preference>
+				<name>uploadFolderPath</name>
+				<value>/usr/download</value>
+			</preference>
+			<preference>
 				<name>useFiddlerProxy</name>
 				<value>false</value>
 			</preference>

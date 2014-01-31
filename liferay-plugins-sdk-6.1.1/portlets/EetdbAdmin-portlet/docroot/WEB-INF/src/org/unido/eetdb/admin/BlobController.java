@@ -1,5 +1,7 @@
 package org.unido.eetdb.admin;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -48,13 +50,6 @@ public class BlobController {
 	@Qualifier("jsonview")
 	private View jsonView;
 	
-    /*@ModelAttribute("springFileVO")
-    public SpringFileVO getCommandObject() 
-    {
-        System.out.println("SpringFileController -> getCommandObject -> Building VO");
-        return new SpringFileVO(); 
-    }*/
-    
 	@ActionMapping(params="formAction=fileUpload")
     public void fileUpload(
     				@RequestParam String pid, 
@@ -202,5 +197,43 @@ public class BlobController {
 
 		return new ModelAndView(jsonView, data);
 
-	}	
+	}
+	
+	@ActionMapping(params="formAction=catalogUpload")
+    public void catalogUpload(
+    				@ModelAttribute SpringFileVO springFileVO, 
+    				BindingResult bindingResult,
+    				ActionRequest request, 
+    				ActionResponse response)
+	{
+        	
+        CommonsMultipartFile fileData = springFileVO.getFileData();
+        
+        if(!bindingResult.hasErrors())
+        {
+	        FileOutputStream outputStream = null;
+	        String filePath = ConfigWrapper.getUploadFolderPath(request) + fileData.getOriginalFilename();
+	        try 
+	        {
+	            outputStream = new FileOutputStream(new File(filePath));
+	            outputStream.write(fileData.getFileItem().get());
+	            outputStream.close();
+	        } 
+	        catch (Exception e) 
+	        {
+	            System.out.println("Error while saving file");
+	            response.setRenderParameter("success", Boolean.FALSE.toString());
+	            return;
+	        }
+        }
+        else
+        {
+            response.setRenderParameter("success", Boolean.FALSE.toString());
+            return;
+        }
+		
+        response.setRenderParameter("success", Boolean.TRUE.toString());
+
+	}
+	
 }

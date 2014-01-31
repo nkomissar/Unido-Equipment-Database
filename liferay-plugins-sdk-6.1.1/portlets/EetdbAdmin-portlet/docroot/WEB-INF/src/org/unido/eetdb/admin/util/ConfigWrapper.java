@@ -70,5 +70,33 @@ public class ConfigWrapper
 					preferences.getValue("useFiddlerProxy", null)
 					);
 	}
+	
+	public static String getUploadFolderPath(PortletRequest request) {
+		
+		PortletPreferences preferences = request.getPreferences();
+		String portletResource = ParamUtil.getString(request, "portletResource");
+		
+		if (Validator.isNotNull(portletResource)) {
+			try 
+			{
+				
+				preferences = PortletPreferencesFactoryUtil.getPortletSetup(
+						request, portletResource);
+				
+			} 
+			catch (PortalException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			catch (SystemException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		return preferences.getValue("uploadFolderPath", System.getProperty("java.io.tmpdir") + "/");
+	}
 
 }

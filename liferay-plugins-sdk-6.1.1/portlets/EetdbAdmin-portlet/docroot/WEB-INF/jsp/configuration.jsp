@@ -30,6 +30,8 @@
 
 	String eetDbServicesUrl = preferences.getValue("eetDbServicesUrl",
 			null);
+	String uploadFolderPath = preferences.getValue("uploadFolderPath",
+			null);
 	String useFiddlerProxy = preferences.getValue("useFiddlerProxy",
 			"false");
 
@@ -48,6 +50,9 @@
 
 	<aui:input name="preferences--eetDbServicesUrl--"
 		type="text" label="EetDb Services Url" value="<%= eetDbServicesUrl %>" />
+
+	<aui:input name="preferences--uploadFolderPath--"
+		type="text" label="Catalog Upload Folder" value="<%= uploadFolderPath %>" />
 		
 	<aui:input name="preferences--useFiddlerProxy--"
 		type="checkbox" label="Use Fiddler Proxy" value="<%=useFiddlerProxy%>" />
