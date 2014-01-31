@@ -13,19 +13,19 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                 {
                     items: [{
                             title: 'Bulk Upload'
-                        },  /*{
-                        title: 'Status',
-                        layout: 'fit',
-                        items: [{
-                                xtype: 'uploadStatus'
-                            }]
-                    },*/{
+                        }
+                        , {
                             title: 'Queue',
                             layout: 'fit',
                             id: 'uploadQueueTab',
                             items: [{
                                     xtype: 'uploadQueue'
                                 }]
+                        }
+                        , {
+                            title: 'Upload Catalog',
+                            id: 'uploadCatalogTab',
+                            action: 'uploadcatalog'
                         }
                     
                     ]
@@ -147,6 +147,12 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                     return false;
                 }
                 
+                if (node.get('id') == 'uploadCatalogTab') 
+                {
+                    me.fireEvent('uploadcatalogselected');
+                    return false;
+                }
+                
                 return true;
             
             });
@@ -161,7 +167,8 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                  */
         'removetemplateselected', 
         'removeentityselected', 
-        'removetopicselected'
+        'removetopicselected', 
+        'uploadcatalogselected'
         );
         
         this.callParent(arguments);
@@ -201,6 +208,7 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
     {
         this.selectTab('searchTopicTab');
     }
+    
     ,selectUploadQueue: function() 
     {
         this.selectTab('uploadQueueTab');
