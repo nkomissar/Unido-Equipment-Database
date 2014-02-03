@@ -16,7 +16,7 @@ Ext.define('EetdbAdmin.view.Viewport', {
     ],
     
     layout: 'fit',
-    height: 400,
+    height: 438,
     
     renderTo: myDiv,
     

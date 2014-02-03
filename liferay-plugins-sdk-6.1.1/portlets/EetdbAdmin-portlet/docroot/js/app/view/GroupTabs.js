@@ -11,27 +11,6 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
             
             items: [
                 {
-                    items: [{
-                            title: 'Bulk Upload'
-                        }
-                        , {
-                            title: 'Queue',
-                            layout: 'fit',
-                            id: 'uploadQueueTab',
-                            items: [{
-                                    xtype: 'uploadQueue'
-                                }]
-                        }
-                        , {
-                            title: 'Upload Catalog',
-                            id: 'uploadCatalogTab',
-                            action: 'uploadcatalog'
-                        }
-                    
-                    ]
-                }, 
-                
-                {
                     action: 'templatesGroup',
                     mainItem: 0,
                     items: [{
@@ -92,6 +71,23 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                             id: 'removeTopicTab',
                             action: 'removetopic'
                         }]
+                }, {
+                    items: [{
+                            title: 'Bulk Upload'
+                        }
+                        , {
+                            title: 'Queue',
+                            layout: 'fit',
+                            id: 'uploadQueueTab',
+                            items: [{
+                                    xtype: 'uploadQueue'
+                                }]
+                        }
+                        , {
+                            title: 'Upload Catalog',
+                            id: 'uploadCatalogTab',
+                            action: 'uploadcatalog'
+                        }]
                 }]
         
         }],
@@ -103,9 +99,9 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
         
         me.on('afterlayout', function() {
 
-            //me.selectTemplateSearch();
+            me.selectTemplateSearch();
             me.activateTemplateControls(false);
-            me.selectUploadQueue();
+            //me.selectUploadQueue();
             
             var tabs = me.down('grouptabpanel treepanel');
             tabs.on('select', 

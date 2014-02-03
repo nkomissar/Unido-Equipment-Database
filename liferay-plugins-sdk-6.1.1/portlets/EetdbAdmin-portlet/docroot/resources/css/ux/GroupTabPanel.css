@@ -141,7 +141,7 @@
 }
 
 .x-grouptabbar .x-panel-body  {
-    background-color: #4E78B1;
+    background-color: #4E78B1 !important;
 }
 
 .x-grouptabbar {

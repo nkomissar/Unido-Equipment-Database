@@ -8,7 +8,7 @@ Ext.define('EetdbAdmin.model.UploadItem', {
 			,{name:'fileCls', type:'string'}
 			//,{name:'inputEl', system:true}
 			//,{name:'form', system:true}
-			,{name:'state', type:'string'}
+			,{name:'status', type:'string'}
 			//,{name:'error', type:'text', system:true}
 			//,{name:'progressId', type:'int', system:true}
 			//,{name:'bytesTotal', type:'string', system:true}

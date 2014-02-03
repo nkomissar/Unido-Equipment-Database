@@ -25,6 +25,7 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadItem', {
                         	'</tpl>',
                         	'<tpl if="!this.isDataEmpty(values, xcount)">',
                             '<h3>File name: {fileName}</h3>',
+                            '<h4>Status: {status}</h4>',
                             '<h4>Size: {fileSize:this.formatFileSize}</h4>',
                             '</tpl>',
                         '</div>',{
