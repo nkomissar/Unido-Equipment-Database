@@ -103,6 +103,7 @@ public class BlobController {
         response.setRenderParameter("pid", pid);
         response.setRenderParameter("blobId", String.valueOf(resp.getId()));
         response.setRenderParameter("success", Boolean.TRUE.toString());
+        response.setRenderParameter("fileName", fileData.getOriginalFilename());
 
 	}
 
@@ -111,29 +112,19 @@ public class BlobController {
 				@RequestParam long pid,
 				@RequestParam long blobId,
 				@RequestParam Boolean success,
+				@RequestParam String fileName,
 				ModelMap model,
 				RenderRequest request) 
 	{
 		
-		//Map<String, Object> data = new HashMap<String, Object>();
-		
 		model.addAttribute("success", success);
 		model.addAttribute("pid", pid);
 		model.addAttribute("blobId", blobId);
-		
-		/*
-		data.put("success", success);
-		data.put("pid", pid);
-		data.put("blobId", blobId);
-
-		
-		return new ModelAndView(jsonView, data);*/
+		model.addAttribute("fileName", fileName);
 
 		return "uploadresult";
 
 	}
-	
-	
 	
 	@RenderMapping(params="action=getProgress")
 	public ModelAndView getProgress(@RequestParam long pid, RenderRequest request)
@@ -208,6 +199,10 @@ public class BlobController {
 	{
         	
         CommonsMultipartFile fileData = springFileVO.getFileData();
+
+        response.setRenderParameter("action", "uploadResult");
+        response.setRenderParameter("pid", "0");
+        response.setRenderParameter("blobId", "0");
         
         if(!bindingResult.hasErrors())
         {
@@ -218,6 +213,8 @@ public class BlobController {
 	            outputStream = new FileOutputStream(new File(filePath));
 	            outputStream.write(fileData.getFileItem().get());
 	            outputStream.close();
+
+	            response.setRenderParameter("fileName", fileData.getOriginalFilename());
 	        } 
 	        catch (Exception e) 
 	        {

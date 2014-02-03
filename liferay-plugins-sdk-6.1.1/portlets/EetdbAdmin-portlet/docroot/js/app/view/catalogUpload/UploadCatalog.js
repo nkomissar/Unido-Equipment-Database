@@ -14,6 +14,9 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadCatalog', {
     
     initComponent: function() 
     {
+    	
+    	var me = this;
+    	
         Ext.apply(this, {
             
             closeAction: 'hide',
@@ -53,9 +56,17 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadCatalog', {
 	                            form.submit({
 	                                url: pUrl.toString(),
 	                                waitMsg: 'Uploading your catalog...',
-	                                success: function(fp, o) {
-	                                    Ext.Msg.alert('Success', 'Your catalog "' + o.result.file + '" has been uploaded.');
-	                                }
+	                                success: function(fp, o) 
+	                                {
+	                                    Ext.Msg.alert(
+	                                    		'Success', 
+	                                    		'Your catalog "' + o.result.fileName + '" has been uploaded.',
+	                                    		function() { me.fireEvent('cataloguploaded'); } );
+	                                },
+	                                failure: function(form, action)
+	                                {
+	                                	
+	                                },
 	                            });
 	                        }
 	                    }

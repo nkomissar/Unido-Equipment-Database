@@ -30,7 +30,10 @@ Ext.define('EetdbAdmin.controller.CatalogUpload', {
             },
             '#uploadQueueTab': {
                 show: this.showDetails
-            },
+            }
+            ,'*': {
+                cataloguploaded: this.onCatalogUploaded
+            }
         });
         
         this.application.on(
@@ -54,6 +57,13 @@ Ext.define('EetdbAdmin.controller.CatalogUpload', {
         
         popup.show();
     
+    },
+    
+    onCatalogUploaded: function()
+    {
+        var popup = this.getUploadCatalogWindow();
+        
+        popup.hide();
     },
     
     onLaunch: function() {
