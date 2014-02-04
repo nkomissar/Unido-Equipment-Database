@@ -4,6 +4,92 @@ Ext.require([
     'Ext.ux.form.field.AsyncFileUpload',
     ]);
 
+
+
+/**
+ * Override for default Ext.form.TextArea.  Growing to near full-screen/full-window on double-click.
+ * 
+ * Makes all text areas enlargable by default on double-click - to prevent this behaviour set "popout:false" in the config
+ * By default the fieldLabel of the enhanced field is the fieldLabel of the popout - this can be set separately with "popoutLabel:'some string'"  this will also inherit the same labelSeparator config value as that of the enhanced parent.
+ * The close text for the button defaults to "Close" but can be overriden by setting the "popoutClose:'some other text'" config
+ */
+
+Ext.override(Ext.form.TextArea, {
+    popout: true,
+    onRender: function(ct, position) {
+        if (!this.el) {
+            this.defaultAutoCreate = {
+                tag: "textarea",
+                style: "width:100px;height:60px;",
+                autocomplete: "off"
+            };
+        }
+        Ext.form.TextArea.superclass.onRender.call(this, ct, position);
+        if (this.grow) {
+            this.textSizeEl = Ext.DomHelper.append(document.body, {
+                tag: "pre",
+                cls: "x-form-grow-sizer"
+            });
+            if (this.preventScrollbars) {
+                this.el.setStyle("overflow", "hidden");
+            }
+            this.el.setHeight(this.growMin);
+        }
+        if (this.popout && !this.readOnly) {
+
+            if (!this.popoutLabel) {
+                this.popoutLabel = this.fieldLabel;
+            }
+            this.popoutClose = 'Close';
+            var field = this;
+            this.getEl().on('dblclick',
+            function() {
+                field.popoutTextArea(this.id);
+            });
+        };
+    },
+    popoutTextArea: function(elId) {
+        var field = this;
+        tBox = new Ext.form.TextArea({
+            popout: false,
+            anchor: '100% 100%',
+            labelStyle: 'font-weight:bold; font-size:14px;',
+            value: Ext.getCmp(elId).getValue(),
+            fieldLabel: field.popoutLabel,
+            labelSeparator: field.labelSeparator
+        });
+
+        viewSize = Ext.getBody().getViewSize();
+        textAreaWin = new Ext.Window({
+            width: viewSize.width - 50,
+            height: viewSize.height - 50,
+            closable: false,
+            draggable: false,
+            border: false,
+            bodyStyle: 'background-color:#badffd;',
+            //bodyBorder:false,
+            modal: true,
+            layout: 'form',
+            // explicitly set layout manager: override the default (layout:'auto')
+            labelAlign: 'top',
+            items: [tBox],
+            buttons: [{
+                text: field.popoutClose,
+                handler: function() {
+                    Ext.getCmp(elId).setValue(tBox.getValue());
+                    textAreaWin.hide(Ext.getCmp(elId).getEl(),
+                    function(win) {
+                        win.close();
+                    });
+                }
+            }]
+        }).show(Ext.getCmp(elId).getEl());
+    }
+
+});
+
+
+
 Ext.define('Ext.form.EntityPropertyFieldSet', {
     extend: 'Ext.form.FieldSet',
     
@@ -91,6 +177,7 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 		case "TEXT":
 			
 			me.add(Ext.widget('textarea', {
+				popout: true,
 				name: 'value',
 	            columnWidth: 0.5,
 	            fieldLabel: this.getLabel(record.TemplateProperty),

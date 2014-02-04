@@ -74,6 +74,8 @@ Ext.define('Ext.form.TemplateClosableFieldSet', {
     	var version = me.down('[isFormField][name="version"]');
     	var vt = me.down('[isFormField][name="valueType"]');
     	
+    	me.setTitle("Property: " + record.get('name'));
+    	
     	if(typeof id != 'undefined')
     	{
     		id.setValue(record.get('id'));
