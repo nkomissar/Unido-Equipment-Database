@@ -1,0 +1,14 @@
+.popout {
+	overflow: hidden;
+	width: 15px ! important;
+	height: 15px ! important;
+	cursor: pointer;
+	background-color: transparent;
+	background-repeat: no-repeat ! important;
+	background-image: url('../../../resources/themes/images/default/tools/tool-sprites.gif');
+	margin: 0;
+}
+.popout-maximize {
+	background-position: 0 -30px  ! important;
+}
+

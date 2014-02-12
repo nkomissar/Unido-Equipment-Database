@@ -11,6 +11,7 @@
 		<header-portlet-css>/resources/css/ux/GroupTabPanel.css</header-portlet-css>
 		<header-portlet-css>/resources/css/ux/BoxSelect.css</header-portlet-css>
 		<header-portlet-css>/resources/css/ux/AsyncFileUpload.css</header-portlet-css>
+		<header-portlet-css>/resources/css/ux/PopOutable.css</header-portlet-css>
 		<header-portlet-css>/css/main.css</header-portlet-css>
 		<!-- overriden by Unido theme. For portlet debugging see library at landingpage.jsp -->
 		<!-- header-portal-javascript>/js/extjs/ext-all.js</header-portal-javascript-->
