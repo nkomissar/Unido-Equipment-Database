@@ -199,15 +199,23 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
             cls: Ext.baseCSSPrefix + 'uploader-dv',
 			height: 100,
 			tpl: this.tpl || new Ext.XTemplate(
-						'<div id=pbinfo style="display:none;padding-bottom:7px"></div>'
+					'<div id=pbinfo style="display:none;padding-bottom:7px"></div>'
 					+ '<tpl for=".">'
 					+ '<div class="ux-up-item">'
 						+ '<div class="ux-up-icon-file {fileCls}">&#160;</div>'
-					+ '<div class="ux-up-text x-unselectable truncate" >{shortName}</div>'
-					+ '<div id="remove-{[values.inputEl.id]}" class="ux-up-icon-state ux-up-icon-{state}"'
-					+ 'data-qtip="{[this.scope.getQtip(values)]}">&#160;</div>'
+						+ '<div class="ux-up-text x-unselectable truncate" >{shortName}</div>'
+						+ '<div class="ux-up-right-wraper">'
+							+ '<div class="ux-up-icon-state ux-up-copy-tag-{[this.scope.formatCopyTag(values)]}"'
+								+ 'data-clipboard-text="{[this.scope.getTag(values)]}"'
+								+ 'data-qtip="{[this.scope.getTagQtip(values)]}">&#160;</div>'
+							+ '<div id="remove-{[values.inputEl.id]}" class="ux-up-icon-state ux-up-icon-{state}"'
+								+ 'data-qtip="{[this.scope.getQtip(values)]}">&#160;</div>'
+						+ '</div>'
 					+ '</div>'
-					+ '</tpl>', {scope:this}
+					+ '</tpl>', 
+					{
+						scope:this
+					}
 				)
 			,itemSelector:'div.ux-up-item'
 			,emptyText: 'nofiles'
@@ -220,6 +228,9 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 				itemclick: editor.onViewClick,
 				resize: editor.truncate,
 				afterrender: editor.onViewRender,
+				itemadd:editor.onItemAdd,
+				itemupdate:editor.onItemUpdate,
+				refresh:editor.onRefresh,
 				scope: editor,
 				
 			}
@@ -289,8 +300,15 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
         };
     },
 
-    getSubTplMarkup: function() {
-        return this.getTpl('fieldSubTpl').apply(this.getSubTplData());
+    getSubTplMarkup: function() 
+    {
+    	var fSubTpl = this.getTpl('fieldSubTpl');
+    	if (fSubTpl == null)
+		{
+    		return;
+		}
+    	
+        return fSubTpl.apply(this.getSubTplData());
     },
 
     getToolbar : function(){
@@ -311,8 +329,52 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
     	//this.pb=this.getComponent('pb');
 				//this.singleUpload=this.getUploadpanel().singleUpload;
 				//this.concurrentUpload=this.getUploadpanel().concurrentUpload;
-      }
+     }
+	,onItemAdd:function(records, index, nodes)
+	{
+		var divs = nodes;
+    	var ln = divs.length,
+    	i=0;
+    	
+    	for (; i < ln; i++)
+		{
+    		var div = Ext.dom.Query.select('div:any(.ux-up-copy-tag-enabled)', divs[i]);
+    		this.ensureZeroClipboard(div);
+		}
+	}
+	,onItemUpdate:function(records, index, node)
+	{
+		var div = Ext.dom.Query.selectNode('div:any(.ux-up-copy-tag-enabled)', node);
 	
+		this.ensureZeroClipboard(div);
+	}
+	,onRefresh:function(view)
+	{
+		var divs = Ext.dom.Query.select('div:any(.ux-up-copy-tag-enabled)', view.el.dom);
+    	var ln = divs.length, i=0;
+    	
+    	for (; i < ln; i++)
+		{
+    		var div = divs[i];
+    		this.ensureZeroClipboard(div);
+		}
+	}
+	
+    ,ensureZeroClipboard:function(div)
+    {
+    		
+		if(typeof div === 'undefined')
+			return;
+		
+        ZeroClipboard.config({moviePath: zeroClipboardUrl});
+        
+        var client = new ZeroClipboard(div);
+        
+        client.on('wrongflash noflash', function() {
+            ZeroClipboard.destroy();
+        });
+    	
+    }
 	,onViewClick:function(view, record, html, index,e) {
 		if(!this.singleUpload){
 			var t = e.getTarget('div:any(.ux-up-icon-queued|.ux-up-icon-failed|.ux-up-icon-done|.ux-up-icon-stopped)');
@@ -324,6 +386,12 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 			var t = e.getTarget('div.ux-up-icon-uploading');
 			if(t) {
 				this.stopUpload(record);
+			}
+		}
+		if(!this.singleUpload){
+			var t = e.getTarget('div:any(.ux-up-copy-tag-enabled)');
+			if(t) {
+				this.onCopyTag(record);
 			}
 		}
 		this.truncate();
@@ -989,7 +1057,7 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 	,truncate:function(){
 		truncateEl = Ext.select('.truncate');
 		width = this.uploadItems.getWidth();
-		truncateEl.applyStyles({'width':width-50+'px'});
+		truncateEl.applyStyles({'width':width-100+'px'});
 	}	
 	,getFileCls: function(name) {
         var atmp = name.split('.');
@@ -1062,7 +1130,63 @@ Ext.define('Ext.ux.form.field.AsyncFileUpload', {
 		return qtip;
 		
 	}
-
+    ,getTagQtip:function(values) 
+	{
+		var qtip = '';
+		if(values.blobId > 0)
+		{
+			qtip = this.getTag(values);
+			qtip += '<br>Click to copy to clipboard';
+		}
+		else
+		{
+			qtip += 'Tag will be available after upload.';
+		}
+		return qtip;
+		
+	}
+    ,getTag:function(values) 
+	{
+		var tag = '';
+		if(values.blobId > 0)
+		{
+			tag = '[attachment='+values.blobId+']'+values.shortName+'[/attachment]';
+		}
+		return tag;
+		
+	}
+	,formatCopyTag:function(values)
+	{
+		if (values.blobId > 0)
+			return 'enabled';
+		else
+			return 'disabled';
+	}
+	
+    ,onCopyTag: function(record) 
+    {
+        var str = '[attachment=' + record.get('blobId') + ']' + record.get('shortName') + '[/attachment]';
+        
+        ZeroClipboard.config({moviePath: zeroClipboardUrl});
+        
+        var client = new ZeroClipboard();
+        
+        client.on('load', function(client) 
+        {
+            // alert( "movie is loaded" );
+            
+            client.setText(str);
+        });
+        
+        client.on( 'complete', function ( client, args ) {
+        	  alert("Copied text to clipboard: " + args.text );
+        	} );
+        
+        client.on('wrongflash noflash', function() {
+            ZeroClipboard.destroy();
+        });
+    }
+	
 	,onRemoveFile:function(view,record,html,index,e) {
 		this.uploadStore.remove(record);
 		//var count = this.uploadStore.getCount();

@@ -6,6 +6,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui"%>
+<%@ taglib uri="/WEB-INF/tld/eetdb.tld" prefix="eetdb"%>
 
 <%@ page import="com.liferay.portal.service.persistence.PortletUtil"%>
 <%@ page import="com.liferay.portal.util.PortalUtil"%>
@@ -109,13 +110,15 @@
 								</c:forTokens>
 							</c:when>
 							<c:when test="${prop.templateProperty.valueType.type == 'HTML'}">
-								<c:out value="${prop.value}" escapeXml="false"/>
+								<portlet:resourceURL var="showBoobURL">
+									<portlet:param name="action" value="showBoob" />
+								</portlet:resourceURL>
+								<c:out value="${eetdb:extractImageTags(entity, prop.value, pageContext)}" escapeXml="false"/>
 							</c:when>
 							<c:otherwise>
 								<c:out value="${prop.value}" escapeXml="false" />
 							</c:otherwise>
 						</c:choose>
-						
 					</aui:column>
 				</aui:layout>
 				
@@ -167,7 +170,10 @@
 								</c:forTokens>
 							</c:when>
 							<c:when test="${prop.templateProperty.valueType.type == 'HTML'}">
-								<c:out value="${prop.value}" escapeXml="false"/>
+								<portlet:resourceURL var="showBoobURL">
+									<portlet:param name="action" value="showBoob" />
+								</portlet:resourceURL>
+								<c:out value="${eetdb:extractImageTags(entity, prop.value, pageContext)}" escapeXml="false"/>
 							</c:when>
 							<c:otherwise>
 								<c:out value="${prop.value}" escapeXml="true"/>

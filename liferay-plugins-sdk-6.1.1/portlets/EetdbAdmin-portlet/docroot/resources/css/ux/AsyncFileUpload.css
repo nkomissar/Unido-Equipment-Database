@@ -27,14 +27,23 @@
         text-overflow: ellipsis;
 }
 .async-file-uploader-wrap {
-border: 1px solid #b5b8c8;
+	border: 1px solid #b5b8c8;
+}
+
+.ux-up-copy-tag-enabled {
+	background-image:url('images/copy.png') ! important;
+}
+
+.ux-up-right-wraper {
+	float:right;
+	z-index:-1;
 }
 .ux-up-icon-state {
 	width:16px;
-	float:right;
 	margin-right:2px;
 	cursor:pointer;
-	z-index:-1;
+	background-repeat: no-repeat;
+	display: inline-block;
 }
 .ux-up-icon-queued {
 	background-image:url('images/page_white_get.png');

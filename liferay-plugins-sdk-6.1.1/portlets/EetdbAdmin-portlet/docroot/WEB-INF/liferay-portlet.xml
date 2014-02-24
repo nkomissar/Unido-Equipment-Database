@@ -18,6 +18,7 @@
 		<!-- broke something to prevent ExtJs loading from portal theme. Broken things should be restored later (on landingpage.jsp). -->
 		<!-- header-portlet-javascript>/js/broke-extjs-loading-from-theme.js</header-portlet-javascript -->
 		<!-- header-portlet-javascript>/js/main.js</header-portlet-javascript-->
+		<header-portlet-javascript>/js/ZeroClipboard.js</header-portlet-javascript>
 		<css-class-wrapper>EetdbAdmin-portlet</css-class-wrapper>
 		
 	</portlet>

@@ -8,11 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
+import javax.portlet.ResourceURL;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.jsp.PageContext;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.web.client.RestTemplate;
@@ -416,5 +422,34 @@ public class EntityHelper {
 
 		return searchContainer;
 	}
+	
+	public static String extractImageTags(Entity entity, String html, PageContext pageContext)
+	{
+		
+		ServletRequest request = pageContext.getRequest();
+		RenderResponse renderResponse = (RenderResponse) request.getAttribute("javax.portlet.response");
+		
+		ResourceURL pUrl = renderResponse.createResourceURL();
+		pUrl.setResourceID("showBoob");
+		pUrl.setParameter("action", "showBoob");
+		
+   		Pattern patt = Pattern.compile("\\[attachment=([0-9]*)\\]([^\\[]*)\\[\\/attachment\\]");
+		Matcher m = patt.matcher(html);
+		StringBuffer sb = new StringBuffer(html.length());
+		while (m.find()) 
+		{
+			String blobId = m.group(1);
+			String text = m.group(2);
+
+			pUrl.setParameter("blobId", blobId);
+			
+			String imgTag = String.format("<img src=\"%s\" alt=\"%s\"/>", pUrl.toString(), text);
+			
+			m.appendReplacement(sb, Matcher.quoteReplacement(imgTag));
+		}
+		m.appendTail(sb);
+		return sb.toString();
+	}
+	
 	
 }

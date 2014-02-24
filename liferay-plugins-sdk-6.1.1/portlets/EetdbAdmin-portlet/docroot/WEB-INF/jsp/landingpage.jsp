@@ -19,8 +19,10 @@
 	<portlet:param name="action" value="doEntityTemplateList" />
 </portlet:renderURL>
 
-<c:url var="extUrl" context="${renderRequest.contextPath}" value="/js/extjs/ext-dev.js" />
+<c:url var="extUrl" context="${renderRequest.contextPath}" value="/js/extjs/ext-all.js" />
 <c:url var="extUxUrl" context="${renderRequest.contextPath}" value="/js/extjs/ux" />
+
+<c:url var="zeroClipboardUrl" context="${renderRequest.contextPath}" value="/js/ZeroClipboard.swf" />
 
 <div id="landingBody"></div>
 
@@ -40,7 +42,7 @@
 <script type="text/javascript">
 
 	var doEntityLoadURL, doEntityTemplateListURL
-		,entityTemplateControllerURL, portletUrl;
+		,entityTemplateControllerURL, portletUrl, zeroClipboardUrl;
 	
 	var portletId = '<%= portletDisplay.getId() %>';
 	var exclusiveWindowState = '<%= LiferayWindowState.EXCLUSIVE.toString() %>';
@@ -60,6 +62,8 @@
 	              'Ext.util.*',
 	              'Ext.data.proxy.*',
 	              'Ext.ux.GroupTabPanel']);
+	
+	zeroClipboardUrl = '${zeroClipboardUrl}';
 	
 	doEntityLoadURL = '${doEntityLoadURL}';
 	

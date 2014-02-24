@@ -35,4 +35,9 @@
         <function-class>org.unido.eetdb.presentationUtil.TemplateHelper</function-class>
         <function-signature>java.lang.Boolean IsNumeric(org.unido.eetdb.common.model.EntityTemplateProperty)</function-signature>
     </function>
+    <function>
+        <name>extractImageTags</name>
+        <function-class>org.unido.eetdb.presentationUtil.EntityHelper</function-class>
+        <function-signature>java.lang.String extractImageTags(org.unido.eetdb.common.model.Entity, java.lang.String, javax.servlet.jsp.PageContext)</function-signature>
+    </function>
   </taglib>

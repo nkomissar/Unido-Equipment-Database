@@ -41,6 +41,7 @@ Ext.define('EetdbAdmin.view.entity.List', {
 					{
 					    xtype: 'searchfield',
 					    emptyText: 'enter search term'
+					    //,value: 'дрыг'
 					}
 					]
             }]
