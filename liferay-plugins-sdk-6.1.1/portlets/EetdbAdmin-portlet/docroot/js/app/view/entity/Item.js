@@ -177,6 +177,7 @@ Ext.define('Ext.form.EntityPropertyFieldSet', {
 			break;
 			
 		case "IMG":
+		case "FILE":
 			
 			me.add(Ext.widget('asyncfileupload', {
 				name: 'value',

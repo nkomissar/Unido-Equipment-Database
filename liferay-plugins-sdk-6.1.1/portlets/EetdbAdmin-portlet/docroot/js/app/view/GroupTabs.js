@@ -38,6 +38,7 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                         }, {
                             title: 'Search',
                             layout: 'fit',
+                            id: 'searchEntityTab',
                             items: [{
                                     xtype: 'entitylist',
                                     entityListInstance: 'mainEntitySearch'
@@ -58,6 +59,7 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                         }, {
                             title: 'Search',
                             layout: 'fit',
+                            id: 'searchTopicTab',
                             items: [{
                                     xtype: 'topiclist',
                                     topicListInstance: 'mainTopicSearch'
@@ -136,10 +138,22 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                     me.fireEvent('removeentityselected');
                     return false;
                 }
+
+                if (node.get('id') == 'addEntityTab') 
+                {
+                    me.fireEvent('addentityselected');
+                    return false;
+                }
                 
                 if (node.get('id') == 'removeTopicTab') 
                 {
                     me.fireEvent('removetopicselected');
+                    return false;
+                }
+
+                if (node.get('id') == 'addTopicTab') 
+                {
+                    me.fireEvent('addtopicselected');
                     return false;
                 }
                 
