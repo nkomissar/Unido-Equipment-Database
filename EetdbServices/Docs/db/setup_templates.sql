@@ -16,7 +16,7 @@ set @last_id = eetdb.add_template('PIPE', 'Труба');
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'DIAMETER', 'Номинальный диаметр', 'NUMBER', 'мм', 1, 1, 1);
@@ -32,7 +32,7 @@ call add_template_property(@last_id, 'BOILER_TYPE', 'Тип нагревател
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
@@ -48,7 +48,7 @@ call add_template_property(@last_id, 'BIO_BOILER_TYPE', 'Тип котла', 'RE
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
@@ -63,7 +63,7 @@ call add_template_property(@last_id, 'BOILERS_BLOCK_TYPE', 'Тип котель�
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
@@ -79,7 +79,7 @@ call add_template_property(@last_id, 'BURNER_TYPE', 'Тип горелки', 'RE
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
@@ -95,7 +95,7 @@ call add_template_property(@last_id, 'HEAT_SOURCE', 'Тепловой источ
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 1, 1);
@@ -111,7 +111,7 @@ set @last_id = eetdb.add_template('SOLAR_WATERHEATER', 'Солнечный во�
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 1, 1);
@@ -126,7 +126,7 @@ call add_template_property(@last_id, 'INFRARED_GAS_HEATER_TYPE', 'Тип наг�
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 1, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PI', 'КПД', 'NUMBER', '%', 1, 0, 1);
@@ -139,7 +139,7 @@ set @last_id = eetdb.add_template('MICRO_HYDRO_TURBINE', 'Микро ГЭС');
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВт', 1, 0, 1);
@@ -152,7 +152,7 @@ set @last_id = eetdb.add_template('MICRO_WIND_TURBINES', 'Микро ВЭУ');
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВт', 1, 0, 1);
@@ -164,7 +164,7 @@ set @last_id = eetdb.add_template('PHOTOVOLTAIC_SYSTEM', 'Фотоэлектри
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВт', 1, 0, 1);
@@ -177,7 +177,7 @@ set @last_id = eetdb.add_template('SMALL_SCALE_CHP', 'Мини-когенера�
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'FUEL', 'Топливо', 'REFERENCE', '', 1, 1, 1);
@@ -194,7 +194,7 @@ call add_template_property(@last_id, 'TRANSFORMER_TYPE', 'Тип трансфо�
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВА', 1, 0, 1);
@@ -210,7 +210,7 @@ call add_template_property(@last_id, 'COMPENSATOR_TYPE', 'Тип компенс�
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВАр', 1, 0, 1);
@@ -224,7 +224,7 @@ call add_template_property(@last_id, 'HEAT_EXCHANGER_TYPE', 'Тип теплоо
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'PRIMARY_MEDIUM', 'Первичная среда', 'REFERENCE', '', 1, 0, 1);
@@ -241,7 +241,7 @@ call add_template_property(@last_id, 'COMPRESSOR_TYPE', 'Тип компресс
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'Нм3/ч', 1, 0, 1);
@@ -254,7 +254,7 @@ set @last_id = eetdb.add_template('AIR_RECEIVER', 'Резервуар сжато
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Объем', 'NUMBER', 'Нм3', 1, 0, 1);
@@ -268,7 +268,7 @@ call add_template_property(@last_id, 'DESICCANT_DRYER_TYPE', 'Тип осуши�
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'Нм3/ч', 1, 0, 1);
@@ -282,7 +282,7 @@ call add_template_property(@last_id, 'ENGINE_IE_CLASS', 'Класс двигат
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВт', 1, 0, 1);
@@ -297,7 +297,7 @@ set @last_id = eetdb.add_template('DRIVE', 'Частотный преобраз�
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВт', 1, 0, 1);
@@ -311,7 +311,7 @@ call add_template_property(@last_id, 'PUMP_TYPE', 'Тип насоса', 'REFERE
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'м3/ч', 1, 0, 1);
@@ -326,7 +326,7 @@ call add_template_property(@last_id, 'FAN_TYPE', 'Тип вентилятора'
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'м3/ч', 1, 0, 1);
@@ -338,7 +338,7 @@ set @last_id = eetdb.add_template('CHILLER', 'Чиллер для холодил
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'кВт', 1, 0, 1);
@@ -353,7 +353,7 @@ call add_template_property(@last_id, 'HVAC_TYPE', 'Тип системы', 'REFE
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'CAPACITY', 'Мощность', 'NUMBER', 'м3/ч', 1, 0, 1);
@@ -366,7 +366,7 @@ call add_template_property(@last_id, 'GLAZING_TYPE', 'Тип остеклени�
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'FACTOR', 'Коэффициент теплопередачи', 'NUMBER', 'Вт/[м2/K]', 1, 0, 1);
@@ -379,7 +379,7 @@ call add_template_property(@last_id, 'INSULATION_TYPE', 'Тип изоляции
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'WIDTH', 'Толщина', 'NUMBER', 'мм', 1, 0, 1);
@@ -391,7 +391,7 @@ set @last_id = eetdb.add_template('GATE', 'Высокоскоростные во
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'AREA', 'Площадь', 'NUMBER', 'м2', 1, 0, 1);
@@ -404,7 +404,7 @@ call add_template_property(@last_id, 'LIGHTING_TYPE', 'Тип светильни
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'IMAGE', 'Иллюстрация', 'IMG', '', 0, 0, 0);
@@ -416,7 +416,7 @@ call add_template_property(@last_id, 'MONITORING_TYPE', 'Тип системы �
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'IMAGE', 'Иллюстрация', 'IMG', '', 0, 0, 0);
@@ -428,7 +428,7 @@ call add_template_property(@last_id, 'SEED_DRYER_TYPE', 'Тип зерносуш
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'IMAGE', 'Иллюстрация', 'IMG', '', 0, 0, 0);
@@ -440,7 +440,7 @@ call add_template_property(@last_id, 'AGRO_GPS_TYPE', 'Тип техники', '
 call add_template_property(@last_id, 'PICTURE', 'Изображение', 'URL', '', 0, 0, 0);
 call add_template_property(@last_id, 'URL', 'Оригинальный источник', 'URL', '', 1, 1, 1);
 call add_template_property(@last_id, 'DESCRIPTION', 'Краткое описание', 'STRING', '', 0, 1, 1);
-call add_template_property(@last_id, 'DETAILS', 'Дополнительные характеристики', 'TEXT', '', 0, 0, 0);
+call add_template_property(@last_id, 'DETAILS', 'Описание', 'HTML', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR_CODE', 'Код в каталоге производителя', 'STRING', '', 0, 0, 0);
 call add_template_property(@last_id, 'VENDOR', 'Производитель', 'REFERENCE', '', 1, 1, 1);
 call add_template_property(@last_id, 'IMAGE', 'Иллюстрация', 'IMG', '', 0, 0, 0);
