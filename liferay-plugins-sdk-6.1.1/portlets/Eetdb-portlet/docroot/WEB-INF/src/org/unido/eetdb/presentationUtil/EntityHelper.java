@@ -27,6 +27,7 @@ import org.unido.eetdb.common.model.EntityProperty;
 import org.unido.eetdb.common.model.EntitySearchResult;
 import org.unido.eetdb.common.model.EntityTemplate;
 import org.unido.eetdb.common.model.EntityTemplateProperty;
+import org.unido.eetdb.common.model.ValueBlob;
 import org.unido.eetdb.util.ConfigWrapper;
 import org.unido.eetdb.util.CustomComparatorUtil;
 
@@ -56,6 +57,41 @@ public class EntityHelper {
 		
 		return null;
 		
+	}
+	public static Map<String, ValueBlob> fetchBlobMeta(PortletRequest request, Entity sourceEntity)
+	{
+		if (ConfigWrapper.useFiddlerProxy(request))
+		{
+			
+			Properties props = System.getProperties();
+			props.put("http.proxyHost", "localhost");
+			props.put("http.proxyPort", "8888");
+			 
+		}
+		RestTemplate tmpl = new RestTemplate();
+		
+		ValueBlob[] valueBlobs = 
+				tmpl.getForObject(
+						ConfigWrapper.getServUrl(request) + "/entity/{id}/blob-meta", 
+						ValueBlob[].class, 
+						sourceEntity.getId());
+		
+		Map<String, ValueBlob> result = new HashMap<String, ValueBlob>();
+
+		for(ValueBlob blobMeta: valueBlobs)
+		{
+			String strId = String.valueOf(blobMeta.getId());
+			
+			if (result.containsKey(strId))
+			{
+				continue;
+			}
+			
+			result.put(strId, blobMeta);
+			
+		}
+		
+		return result;
 	}
 	
 	public static Map<String, Entity> fetchReferencedEntities(PortletRequest request, Map<String, Entity> referencedEntities, Set<String> refCodes, Entity sourceEntity)

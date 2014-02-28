@@ -2,6 +2,7 @@ package org.unido.eetdb.controller;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -85,6 +86,14 @@ public class BlobController
     ValueBlob getValueBlobMeta(@PathVariable("id") Long id, HttpServletResponse response)
     {
         return dataAccessService.getValueBlob(id);
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/entity/{id}/blob-meta")
+    @Transactional(propagation = Propagation.REQUIRES_NEW, readOnly = true)
+    public @ResponseBody
+    Set<ValueBlob> getValueBlobMetaForEntity(@PathVariable("id") Long id, HttpServletResponse response)
+    {
+        return dataAccessService.getValueBlobMetaForEntity(id);
     }
 
 }

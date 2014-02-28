@@ -40,6 +40,7 @@ public interface DataAccessService
     public List<Entity> searchForEntities(String templateCode, String params);
     
     public ValueBlob getValueBlob(Long blobId);
+    public Set<ValueBlob> getValueBlobMetaForEntity(Long entityId);
     public ValueBlob saveValueBlob(ValueBlob valueBlob, byte[] blobData);
 
     public UploadItem getUploadItem(Long uploadItemId);

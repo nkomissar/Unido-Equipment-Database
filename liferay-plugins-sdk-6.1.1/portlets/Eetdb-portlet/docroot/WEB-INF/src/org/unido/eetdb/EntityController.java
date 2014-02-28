@@ -55,6 +55,7 @@ public class EntityController {
 		model.addAttribute("isInComparison", ComparisonHelper.isInComparison(entity, request));
 		model.addAttribute("comparisonCount", ComparisonHelper.getComparison(request).size());
 		model.addAttribute("referencedEntities", EntityHelper.fetchReferencedEntities(request, referencedEntities, refCodes, entity));
+		model.addAttribute("blobMeta", EntityHelper.fetchBlobMeta(request, entity));
 		
 		return "entity";
 	}

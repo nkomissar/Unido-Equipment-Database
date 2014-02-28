@@ -96,6 +96,19 @@
 									
 								</c:forTokens>
 							</c:when>
+							<c:when test="${prop.templateProperty.valueType.type == 'FILE'}">
+								
+								<c:forTokens items="${prop.value}" delims="," var="strId">
+								
+									<portlet:resourceURL var="showBoobURL">
+										<portlet:param name="action" value="showBoob" />
+					      				<portlet:param name="blobId" value="${strId}" />
+									</portlet:resourceURL>
+								
+									<a href="${showBoobURL}">${strId}</a>
+																		
+								</c:forTokens>
+							</c:when>
 							<c:when test="${prop.templateProperty.valueType.type == 'IMG'}">
 								
 								<c:forTokens items="${prop.value}" delims="," var="strId">
@@ -154,6 +167,19 @@
 									<aui:a href="${showEnityURL}"><c:out value="${referencedEntities.get(strId).getName()}"/></aui:a>
 									&nbsp;
 									
+								</c:forTokens>
+							</c:when>
+							<c:when test="${prop.templateProperty.valueType.type == 'FILE'}">
+								
+								<c:forTokens items="${prop.value}" delims="," var="strId">
+								
+									<portlet:resourceURL var="showBoobURL">
+										<portlet:param name="action" value="showBoob" />
+					      				<portlet:param name="blobId" value="${strId}" />
+									</portlet:resourceURL>
+								
+									<a href="${showBoobURL}">${strId}</a>
+																		
 								</c:forTokens>
 							</c:when>
 							<c:when test="${prop.templateProperty.valueType.type == 'IMG'}">
