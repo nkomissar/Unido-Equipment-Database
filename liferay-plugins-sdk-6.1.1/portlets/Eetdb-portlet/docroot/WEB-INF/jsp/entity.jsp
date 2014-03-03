@@ -178,7 +178,7 @@
 					      				<portlet:param name="blobId" value="${strId}" />
 									</portlet:resourceURL>
 								
-									<a href="${showBoobURL}">${strId}</a>
+									<a href="${showBoobURL}">${blobMeta.get(strId).getName()}</a>
 																		
 								</c:forTokens>
 							</c:when>

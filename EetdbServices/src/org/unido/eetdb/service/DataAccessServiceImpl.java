@@ -325,32 +325,29 @@ public class DataAccessServiceImpl implements DataAccessService
 	@Override
     public Set<ValueBlob> getValueBlobMetaForEntity(Long entityId)
     {
-        HashSet<ValueBlob> retVal = new HashSet<ValueBlob>(sessionFactory
-                .getCurrentSession()
-                .createQuery(
-                        "select blob from ValueBlob blob "
-                		+ "where blob.id in ("
-//                        		+ "select SUBSTR(csv,1,INSTR(csv,',')-1) as csv from ("
-	                				+ "select props.value as csv from Entity entity "
-	                                + "inner join entity.properties props "
-	                                + "inner join entity.entityTemplate "
-	                                + "inner join props.templateProperty tprop "
-	                                + "inner join tprop.valueType valType "
-	                                + "where valType.type IN ('FILE','IMG') "
-	                                + "and entity.id = ? "
-//                                + ")"
-                        + ")"
-                                )
-                .setLong(0, entityId).list());
+        Query query = sessionFactory.getCurrentSession().getNamedQuery("getBlobsMetaForEntity")
+                .setParameter("entityId", entityId);
 
-        /*for (ValueBlob entity : retVal)
+        List<Object> resultSet = query.list();
+        
+        Set<ValueBlob> blobs = new HashSet<ValueBlob>();
+        
+        for(int i = 0; i < resultSet.size(); i++)
         {
-            entity.setParentTopics(null);
-            entity.setChildEntities(null);
-            entity.getEntityTemplate().setProperties(null);
-        }*/
+            Object[] row = (Object[])resultSet.get(i);
+            ValueBlob blob = new ValueBlob();
+            
+            blob.setId((Integer)row[0]);
+            blob.setMimeType((String)row[1]);
+            blob.setName((String)row[2]);
+            blob.setVersion((Integer)row[3]);
+            blob.setLastUpdatedBy((String)row[4]);
+            
+            blobs.add(blob);
 
-        return retVal;
+        }
+
+        return blobs;
     }
     
     public ValueBlob saveValueBlob(ValueBlob valueBlob, byte[] blobData)

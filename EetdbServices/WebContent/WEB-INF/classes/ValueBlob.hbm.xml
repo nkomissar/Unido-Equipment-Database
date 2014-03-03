@@ -17,4 +17,9 @@
 		<property name="name" column="FILE_NAME" />
 		<property name="lastUpdatedBy" column="UPDATED_BY"/>	
 	</class>
+	
+    <sql-query name="getBlobsMetaForEntity">
+        <![CDATA[CALL GET_ENTITY_BLOBS(:entityId)]]>
+    </sql-query>
+    	
 </hibernate-mapping>
