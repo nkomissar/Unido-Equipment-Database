@@ -330,7 +330,7 @@ public class DataAccessServiceImpl implements DataAccessService
                 .createQuery(
                         "select blob from ValueBlob blob "
                 		+ "where blob.id in ("
-                        		+ "select SUBSTR(csv,1,INSTR(csv,',')-1) as csv from ("
+//                        		+ "select SUBSTR(csv,1,INSTR(csv,',')-1) as csv from ("
 	                				+ "select props.value as csv from Entity entity "
 	                                + "inner join entity.properties props "
 	                                + "inner join entity.entityTemplate "
@@ -338,7 +338,7 @@ public class DataAccessServiceImpl implements DataAccessService
 	                                + "inner join tprop.valueType valType "
 	                                + "where valType.type IN ('FILE','IMG') "
 	                                + "and entity.id = ? "
-                                + ")"
+//                                + ")"
                         + ")"
                                 )
                 .setLong(0, entityId).list());
