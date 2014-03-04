@@ -173,7 +173,7 @@
 								
 								<c:forTokens items="${prop.value}" delims="," var="strId">
 								
-									<portlet:resourceURL var="showBoobURL">
+									<portlet:resourceURL var="showBoobURL" id="showBoob">
 										<portlet:param name="action" value="showBoob" />
 					      				<portlet:param name="blobId" value="${strId}" />
 									</portlet:resourceURL>
