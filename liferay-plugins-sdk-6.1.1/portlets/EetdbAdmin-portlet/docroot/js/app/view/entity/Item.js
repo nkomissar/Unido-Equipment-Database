@@ -435,7 +435,22 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 			
 		});
 		
-		Ext.each(entity.GetEntityTemplate().properties().data.items, 
+		Ext.each(
+				Ext.Array.sort(
+					entity.GetEntityTemplate().properties().data.items,
+					function(a,b)
+					{
+						if(a.get('id') < b.get('id'))
+						{
+							return -1;
+						}
+						if(a.get('id') > b.get('id'))
+						{
+							return 1;
+						}
+						return 0;
+					}
+				), 
 				function(templProperty)
 				{
 					var entityProp = null;
