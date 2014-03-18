@@ -1,6 +1,7 @@
 package org.unido.eetdb.service;
 
 import java.sql.Blob;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -44,6 +45,8 @@ public class DataAccessServiceImpl implements DataAccessService
         Entity retVal = (Entity) sessionFactory.getCurrentSession().load(Entity.class, entityId);
 
         Helper.ensureChilds(retVal, skipChilds);
+        
+        this.getHtmlBlobs(retVal);
 
         return retVal;
     }
@@ -58,6 +61,9 @@ public class DataAccessServiceImpl implements DataAccessService
 
         for (Entity entity : retVal)
         {
+
+        	this.getHtmlBlobs(entity);
+
             Helper.ensureChilds(entity, true);
         }
 
@@ -81,6 +87,9 @@ public class DataAccessServiceImpl implements DataAccessService
 
         for (Entity entity : retVal)
         {
+            
+        	this.getHtmlBlobs(entity);
+       	
             entity.setParentTopics(null);
             entity.setChildEntities(null);
             entity.getEntityTemplate().setProperties(null);
@@ -93,16 +102,106 @@ public class DataAccessServiceImpl implements DataAccessService
     public Entity createEntity(Entity entity)
     {
         Helper.ensureParent(entity);
-
+        
+        this.saveHtmlBlobs(entity);
+        
         sessionFactory.getCurrentSession().save(entity);
 
         return entity;
+    }
+    
+    private void saveHtmlBlobs(Entity entity)
+    {
+        for(EntityProperty property: entity.getProperties())
+        {
+        	EntityTemplateProperty templateProperty = property.getTemplateProperty();
+        	if (!templateProperty.getValueType().getType().equals("HTML"))
+        	{
+        		continue;
+        	}
+
+        	long blobId = 0;
+    		String value = property.getValue();
+    		
+    		if (property.getId() > 0)
+    		{
+    			EntityProperty originalProperty = (EntityProperty) sessionFactory.getCurrentSession().load(EntityProperty.class, property.getId());
+    			blobId = originalProperty.getId();
+    		}
+    		
+    		ValueBlob blob = new ValueBlob();
+    		blob.setId(blobId);
+    		blob.setLastUpdatedBy(entity.getLastUpdatedBy());
+    		blob.setName(templateProperty.getCode());
+    		blob.setMimeType("text/html");
+    		
+    		if (value != null && !value.isEmpty())
+    		{
+        		blob = this.saveValueBlob(blob, property.getValue().getBytes());
+        		property.setValue(String.valueOf(blob.getId()));
+    		}
+    		else if (blob.getId() > 0)
+    		{
+        		sessionFactory.getCurrentSession().delete(blob);
+        		property.setValue(null);
+    		}
+        		
+        }
+    }
+
+    private void getHtmlBlobs(Entity entity)
+    {
+        for(EntityProperty property: entity.getProperties())
+        {
+        	EntityTemplateProperty templateProperty = property.getTemplateProperty();
+    		String value = property.getValue();
+    		
+    		
+        	
+        	if (!templateProperty.getValueType().getType().equals("HTML")
+        			|| value == null
+        			|| value.isEmpty())
+        	{
+        		continue;
+        	}
+        	
+        	long blobId;
+        	try
+        	{
+        		blobId = Long.parseLong(value);
+        		if (blobId <= 0)
+        		{
+        			continue;
+        		}
+        	}
+        	catch(NumberFormatException ex)
+        	{
+        		continue;
+        	}
+    		
+    		ValueBlob blob = this.getValueBlob(blobId);
+    		Blob bdata = blob.getContent();
+    		
+    		try
+    		{
+	    		byte[] blobbytes = bdata.getBytes(1, (int) bdata.length());
+	    		String html = new String(blobbytes);
+	    		
+	        	property.setValue(html);
+    		}
+    		catch (SQLException ex)
+    		{
+    			continue;
+    		}
+        }
     }
 
     @Override
     public Entity updateEntity(Entity entity)
     {
         Helper.ensureParent(entity);
+        
+        this.saveHtmlBlobs(entity);
 
         entity = (Entity) sessionFactory.getCurrentSession().merge(entity);
         
@@ -114,6 +213,10 @@ public class DataAccessServiceImpl implements DataAccessService
         sessionFactory.getCurrentSession().flush();
 
         Helper.ensureChilds(entity, false);
+        
+        sessionFactory.getCurrentSession().evict(entity);
+        
+        this.getHtmlBlobs(entity);
 
         return entity;
     }
@@ -310,6 +413,9 @@ public class DataAccessServiceImpl implements DataAccessService
             property.setTemplateProperty(templateProperty);
             
             entity.getProperties().add(property);
+            
+            this.getHtmlBlobs(entity);
+
         }
 
         return new ArrayList<Entity>(entities.values());
