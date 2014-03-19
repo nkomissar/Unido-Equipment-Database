@@ -106,6 +106,10 @@ public class DataAccessServiceImpl implements DataAccessService
         this.saveHtmlBlobs(entity);
         
         sessionFactory.getCurrentSession().save(entity);
+        
+        sessionFactory.getCurrentSession().evict(entity);
+        
+        this.getHtmlBlobs(entity);
 
         return entity;
     }
