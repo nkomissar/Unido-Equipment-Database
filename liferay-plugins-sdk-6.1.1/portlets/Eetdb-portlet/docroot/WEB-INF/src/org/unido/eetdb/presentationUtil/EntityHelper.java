@@ -332,6 +332,18 @@ public class EntityHelper {
 			searchContainers.put(template, searchContainer);
 
 		}
+		
+		if (searchContainers.isEmpty())
+		{
+			SearchContainer<Entity> searchContainer = 
+					new SearchContainer<Entity>(
+							renderRequest,
+							entitiesIteratorUrl,
+							null, // headerNames,
+							"нет записей");
+			
+			searchContainers.put(new EntityTemplate(), searchContainer);
+		}
 
 		return searchContainers;
 	}

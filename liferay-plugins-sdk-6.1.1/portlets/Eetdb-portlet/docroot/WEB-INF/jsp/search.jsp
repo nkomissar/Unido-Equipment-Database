@@ -112,10 +112,13 @@
 
 </aui:form>
 
+<c:if test="${searchContainers.entrySet().iterator().hasNext()}">
+	
+	<c:set var="searchContainer" value="${searchContainers.entrySet().iterator().next().value}"/>
 
-<c:set var="searchContainer" value="${searchContainers.entrySet().iterator().next().value}"/>
-
-<%@include file="entityGrid.jsp" %>					
+	<%@include file="entityGrid.jsp" %>
+			
+</c:if>
 
 <c:set var="searchContainer" value="${basicSearchContainer}"/>
 
