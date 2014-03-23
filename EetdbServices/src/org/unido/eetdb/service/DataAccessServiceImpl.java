@@ -162,7 +162,11 @@ public class DataAccessServiceImpl implements DataAccessService
     		
     		
         	
-        	if (!templateProperty.getValueType().getType().equals("HTML")
+        	if (
+        			templateProperty == null
+        			|| templateProperty.getValueType() == null
+        			|| templateProperty.getValueType().getType() == null
+        			|| !templateProperty.getValueType().getType().equals("HTML")
         			|| value == null
         			|| value.isEmpty())
         	{
