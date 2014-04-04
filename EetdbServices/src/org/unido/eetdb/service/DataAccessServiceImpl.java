@@ -125,22 +125,38 @@ public class DataAccessServiceImpl implements DataAccessService
         	}
 
         	long blobId = 0;
+        	ValueBlob blob = null;
     		String value = property.getValue();
     		
     		if (property.getId() > 0)
     		{
     			EntityProperty originalProperty = (EntityProperty) sessionFactory.getCurrentSession().load(EntityProperty.class, property.getId());
-    			blobId = originalProperty.getId();
+    			String originalValue = originalProperty.getValue();
+            	try
+            	{
+            		blobId = Long.parseLong(originalValue);
+            	}
+            	catch(NumberFormatException ex)
+            	{
+            	}
     		}
     		
-    		ValueBlob blob = new ValueBlob();
-    		blob.setId(blobId);
-    		blob.setLastUpdatedBy(entity.getLastUpdatedBy());
-    		blob.setName(templateProperty.getCode());
-    		blob.setMimeType("text/html");
+    		if (blobId > 0 )
+    		{
+				blob = (ValueBlob) sessionFactory.getCurrentSession().load(ValueBlob.class, blobId);
+    		}
+    		else
+    		{
+    			blob = new ValueBlob();
+    		}
     		
     		if (value != null && !value.isEmpty())
     		{
+        		
+    			blob.setLastUpdatedBy(entity.getLastUpdatedBy());
+        		blob.setName(templateProperty.getCode());
+        		blob.setMimeType("text/html");
+
         		blob = this.saveValueBlob(blob, property.getValue().getBytes());
         		property.setValue(String.valueOf(blob.getId()));
     		}
