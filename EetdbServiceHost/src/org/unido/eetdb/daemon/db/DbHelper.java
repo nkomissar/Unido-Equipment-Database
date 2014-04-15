@@ -1,5 +1,6 @@
 package org.unido.eetdb.daemon.db;
 
+import java.io.ByteArrayInputStream;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -61,6 +62,14 @@ public class DbHelper
     private static final String              GET_TOPIC_BY_CODE_SQL      = "SELECT topic_id FROM UNIDO_TOPIC WHERE UPPER(topic_name)=? ";
 
     private static final String              INSERT_REFERENCE_SQL       = "INSERT INTO "
+                                                                                + "UNIDO_BLOB("
+                                                                                + "data_type, "
+                                                                                + "content, "
+                                                                                + "version, "
+                                                                                + "updated_by) "
+                                                                                + "VALUES(?, ?, ?, ?)";
+
+    private static final String              INSERT_BLOB_SQL            = "INSERT INTO "
                                                                                 + "UNIDO_ENTITY_REFERENCE("
                                                                                 + "entity_id, "
                                                                                 + "topic_id) "
@@ -144,6 +153,46 @@ public class DbHelper
 
                     for (EntityProperty entityProperty : entity.getProperties())
                     {
+                        if (entityProperty.getTemplateProperty().getValueType().getType()
+                                .equals("HTML"))
+                        {
+                            PreparedStatement blobInsert = null;
+                            ByteArrayInputStream in = null;
+
+                            try
+                            {
+
+                                blobInsert = connection.prepareStatement(INSERT_BLOB_SQL,
+                                        PreparedStatement.RETURN_GENERATED_KEYS);
+                                in = new ByteArrayInputStream(entityProperty.getValue().getBytes());
+
+                                blobInsert.setString(1, "text/html");
+                                blobInsert.setBlob(2, in);
+                                blobInsert.setInt(3, 0);
+                                blobInsert.setString(4, "SYSTEM");
+
+                                blobInsert.executeUpdate();
+
+                                ResultSet keyResultSet = blobInsert.getGeneratedKeys();
+                                if (keyResultSet.next())
+                                {
+                                    entityProperty.setValue(String.valueOf(keyResultSet.getInt(1)));
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                            }
+                            finally
+                            {
+                                closeStatement(blobInsert);
+                                if (in != null)
+                                {
+                                    in.close();
+                                }
+                            }
+
+                        }
+
                         entityPropertyStatement.setLong(1, entityId);
                         entityPropertyStatement.setLong(2, entityProperty.getTemplateProperty()
                                 .getId());
