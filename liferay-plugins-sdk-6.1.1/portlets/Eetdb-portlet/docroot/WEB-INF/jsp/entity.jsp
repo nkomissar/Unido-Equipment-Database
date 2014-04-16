@@ -79,7 +79,7 @@
 
 				<aui:layout>
 					<aui:column>
-						<c:out value="${prop.templateProperty.name}" />
+						<c:out value="${prop.templateProperty.name}" />: &nbsp;
 					</aui:column>
 					<aui:column>
 						<c:choose>
@@ -152,7 +152,7 @@
 
 				<aui:layout>
 					<aui:column>
-						<c:out value="${prop.templateProperty.name}" />
+						<c:out value="${prop.templateProperty.name}" />: &nbsp;
 					</aui:column>
 					<aui:column>
 						<c:choose>
