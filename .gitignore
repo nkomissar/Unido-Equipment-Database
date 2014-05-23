@@ -4,3 +4,4 @@ liferay-plugins-sdk-6.1.1/portlets/EetdbAdmin-portlet/docroot/resources/css/ux/.
 liferay-plugins-sdk-6.1.1/portlets/Eetdb-portlet/docroot/WEB-INF/classes/*
 liferay-plugins-sdk-6.1.1/portlets/EetdbAdmin-portlet/docroot/WEB-INF/classes/*
 EetdbServiceHost/bin/org/unido/eetdb/daemon/parser/*.class
+EetdbServiceHost/bin/org/unido/eetdb/daemon/db/*.class
