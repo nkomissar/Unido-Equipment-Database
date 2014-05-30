@@ -305,6 +305,12 @@ public class DataAccessServiceImpl implements DataAccessService
     @Override
     public Topic createTopic(Topic topic)
     {
+    	
+    	for(Topic childTopic : topic.getChildTopics())
+    	{
+    		sessionFactory.getCurrentSession().evict(childTopic);
+    	}
+    	
         sessionFactory.getCurrentSession().save(topic);
 
         return topic;
@@ -314,6 +320,11 @@ public class DataAccessServiceImpl implements DataAccessService
     public Topic updateTopic(Topic topic)
     {
         topic = (Topic) sessionFactory.getCurrentSession().merge(topic);
+        
+    	for(Topic childTopic : topic.getChildTopics())
+    	{
+    		sessionFactory.getCurrentSession().evict(childTopic);
+    	}
 
         sessionFactory.getCurrentSession().flush();
 
