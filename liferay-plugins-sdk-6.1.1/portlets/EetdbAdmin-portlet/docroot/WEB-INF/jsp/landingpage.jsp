@@ -21,6 +21,7 @@
 
 <c:url var="extUrl" context="${renderRequest.contextPath}" value="/js/extjs/ext-all.js" />
 <c:url var="extUxUrl" context="${renderRequest.contextPath}" value="/js/extjs/ux" />
+<c:url var="resourcesUrl" context="${renderRequest.contextPath}" value="/resources" />
 
 <c:url var="zeroClipboardUrl" context="${renderRequest.contextPath}" value="/js/ZeroClipboard.swf" />
 
@@ -53,6 +54,7 @@
 	
 	Ext.Loader.setConfig({enabled:true});
 	Ext.Loader.setPath('Ext.ux', '${extUxUrl}');
+	Ext.Loader.setPath('Ux', '${extUxUrl}');
 	/*Ext.Loader.setPath("Ext", "http://cdn.sencha.io/ext-4.2.0-gpl/src");
 	Ext.Loader.setPath("Ext.ux", "http://cdn.sencha.io/ext-4.2.0-gpl/examples/ux");*/
 	
@@ -61,7 +63,23 @@
 	              'Ext.tab.Panel', 
 	              'Ext.util.*',
 	              'Ext.data.proxy.*',
-	              'Ext.ux.GroupTabPanel']);
+	              'Ext.ux.GroupTabPanel',
+				'Ux.locale.Manager',
+				'Ux.locale.override.extjs.Button',
+				'Ux.locale.override.extjs.Panel',
+				'Ux.locale.override.extjs.Text']
+	              , function() 
+	              {
+				    Ux.locale.Manager.setConfig(
+				    {
+				        ajaxConfig : {
+				            method : 'GET'
+				        },
+				        language   : 'en',
+				        tpl        : '${resourcesUrl}/locales/{locale}.json',
+				        type       : 'ajax'
+			    	});
+				});
 	
 	zeroClipboardUrl = '${zeroClipboardUrl}';
 	
@@ -228,6 +246,8 @@
 	    
 	    launch : function() {
         	EetdbAdmin.app = this;
+        	Ux.locale.Manager.init();
+            Ux.locale.Manager.updateLocale('ru');
     	}
 	});
 	

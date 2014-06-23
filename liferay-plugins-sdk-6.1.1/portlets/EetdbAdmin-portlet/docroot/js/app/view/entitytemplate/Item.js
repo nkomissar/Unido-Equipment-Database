@@ -221,6 +221,9 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
         		},{
         			xtype: 'button',
         			text: 'Add Property',
+                    locales : {
+                        text : 'buttons.addproperty'
+                    },
         			handler: function(btn){
         				var form = btn.up('form');
         				this.addProperty(form);
