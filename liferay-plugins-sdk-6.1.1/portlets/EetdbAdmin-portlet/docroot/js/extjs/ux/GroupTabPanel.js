@@ -270,6 +270,7 @@ Ext.define('Ext.ux.GroupTabPanel', {
 
             // Create the root node of the group
             groupRoot.id = rootItem.id;
+            debugger;
             groupRoot.text = rootItem.title;
             groupRoot.iconCls = rootItem.iconCls;
 

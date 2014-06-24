@@ -15,6 +15,10 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                     mainItem: 0,
                     items: [{
                             title: 'Templates'
+            				,locales : {
+            					title : 'titles.templates'
+                            }
+
                         }, {
                             title: 'Search',
                             id: 'searchTemplateTab',

@@ -16,6 +16,12 @@
             "firstName"    : "First Name",
             "lastName"     : "Last Name",
             "chooseLocale" : "Choose Your Locale"
+            ,"name"        : "Name"
+            ,"code"        : "Code"
         }
-    }
+    },
+    "titles" : {
+        "templates" : "Templates",
+        "addproperty": "Добавить свойство"
+    },
 }

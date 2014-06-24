@@ -106,6 +106,10 @@ Ext.define('Ux.locale.Manager', {
             if (typeof cmp.setLocale == 'function') {
                 cmp.setLocale(language);
             }
+            else
+            {
+            	debugger;
+            }
         }
     },
 

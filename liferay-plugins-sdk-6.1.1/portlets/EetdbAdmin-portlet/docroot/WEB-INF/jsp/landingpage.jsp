@@ -75,7 +75,7 @@
 				        ajaxConfig : {
 				            method : 'GET'
 				        },
-				        language   : 'en',
+				        language   : '<%= pageContext.getRequest().getLocale().getLanguage() %>',
 				        tpl        : '${resourcesUrl}/locales/{locale}.json',
 				        type       : 'ajax'
 			    	});
@@ -247,7 +247,7 @@
 	    launch : function() {
         	EetdbAdmin.app = this;
         	Ux.locale.Manager.init();
-            Ux.locale.Manager.updateLocale('<%= pageContext.getRequest().getLocale().getLanguage() %>');
+            //Ux.locale.Manager.updateLocale('<%= pageContext.getRequest().getLocale().getLanguage() %>');
     	}
 	});
 	

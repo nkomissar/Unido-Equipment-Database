@@ -208,10 +208,16 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
         			xtype: 'textfield',
         			name: 'name',
         			fieldLabel: 'Name'
+    				,locales : {
+    					fieldLabel : 'fields.labels.name'
+                    }
         		},{
         			xtype: 'textfield',
         			name: 'code',
         			fieldLabel: 'Code'
+    				,locales : {
+    					fieldLabel : 'fields.labels.code'
+                    }
         		},{
         			xtype: 'hidden',
         			name: 'id'
@@ -233,6 +239,9 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
         		buttons: [{
         			text: 'Save',
         			action: 'create'
+    				,locales : {
+                        text : 'buttons.save'
+                    }
         		}]
         	}]
         	

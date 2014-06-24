@@ -8,7 +8,7 @@
         }
     },
     "buttons" : {
-        "save" : "Save",
+        "save" : "Сохранить",
         "addproperty": "Добавить свойство"
     },
     "fields"  : {
@@ -16,6 +16,12 @@
             "firstName"    : "First Name",
             "lastName"     : "Last Name",
             "chooseLocale" : "Choose Your Locale"
+            ,"name"        : "Наименование"
+            ,"code"        : "Код"
         }
-    }
+    },
+    "titles" : {
+        "templates" : "Шаблоны",
+        "addproperty": "Добавить свойство"
+    },
 }
