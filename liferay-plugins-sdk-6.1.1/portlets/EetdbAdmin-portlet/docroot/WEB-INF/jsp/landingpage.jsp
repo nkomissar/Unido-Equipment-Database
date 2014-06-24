@@ -247,7 +247,7 @@
 	    launch : function() {
         	EetdbAdmin.app = this;
         	Ux.locale.Manager.init();
-            Ux.locale.Manager.updateLocale('ru');
+            Ux.locale.Manager.updateLocale('<%= pageContext.getRequest().getLocale().getLanguage() %>');
     	}
 	});
 	
