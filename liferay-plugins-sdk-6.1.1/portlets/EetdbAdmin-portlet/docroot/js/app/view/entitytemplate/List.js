@@ -5,6 +5,9 @@ Ext.define('EetdbAdmin.view.entitytemplate.List', {
     title: 'Templates',
     border: false,
     layout: 'fit',
+	locales : {
+		title : 'titles.templates'
+    },
 
     initComponent: function() {
 

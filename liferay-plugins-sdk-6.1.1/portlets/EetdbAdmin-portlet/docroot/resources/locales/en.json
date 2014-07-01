@@ -8,8 +8,10 @@
         }
     },
     "buttons" : {
-        "save" : "Save",
-        "addproperty": "Add Property"
+        "save" 			: "Save",
+        "addproperty"	: "Add Property"
+        "add"			: "Add",
+        "remove"		: "Remove",
     },
     "fields"  : {
         "labels" : {
@@ -18,10 +20,26 @@
             "chooseLocale" : "Choose Your Locale"
             ,"name"        : "Name"
             ,"code"        : "Code"
-        }
+            ,"template"    : "Template"
+            ,"approved"    : "Approved"
+         }
     },
     "titles" : {
-        "templates" : "Templates",
-        "addproperty": "Добавить свойство"
+        "templates" 	: "Templates",
+        "search"		: "Search",
+        "addtemplate"	: "Add Template",
+        "removetemplate": "Remove Template",
+        "entities"		: "Entities",
+        "addentity"		: "Add Entity",
+        "removeentity"	: "Remove Entity",
+        "topics"		: "Topics",
+        "addtopic"		: "Add Topic",
+        "removetopic"	: "Remove Topic",
+        "bulkupload"	: "Bulk Upload",
+        "uploadqueue"	: "Upload Queue",
+        "uploadcatalog"	: "Upload Catalog",
+        "properties"	: "Properties",
+        "linkedentities": "Linked Entities",
+        "parenttopics"	: "Parent Topics",
     },
 }

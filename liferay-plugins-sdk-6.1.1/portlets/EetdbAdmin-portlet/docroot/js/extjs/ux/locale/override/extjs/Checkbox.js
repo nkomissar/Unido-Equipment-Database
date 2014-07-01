@@ -1,5 +1,5 @@
-Ext.define('Ux.locale.override.extjs.Text', {
-    override : 'Ext.form.field.Text',
+Ext.define('Ux.locale.override.extjs.Checkbox', {
+    override : 'Ext.form.field.Checkbox',
 
     requires : [
         'Ux.locale.override.extjs.Component'

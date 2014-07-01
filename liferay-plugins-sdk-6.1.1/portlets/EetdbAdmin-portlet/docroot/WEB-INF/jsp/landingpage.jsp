@@ -19,7 +19,7 @@
 	<portlet:param name="action" value="doEntityTemplateList" />
 </portlet:renderURL>
 
-<c:url var="extUrl" context="${renderRequest.contextPath}" value="/js/extjs/ext-all.js" />
+<c:url var="extUrl" context="${renderRequest.contextPath}" value="/js/extjs/ext-debug.js" />
 <c:url var="extUxUrl" context="${renderRequest.contextPath}" value="/js/extjs/ux" />
 <c:url var="resourcesUrl" context="${renderRequest.contextPath}" value="/resources" />
 
@@ -67,7 +67,8 @@
 				'Ux.locale.Manager',
 				'Ux.locale.override.extjs.Button',
 				'Ux.locale.override.extjs.Panel',
-				'Ux.locale.override.extjs.Text']
+				'Ux.locale.override.extjs.Text',
+				'Ux.locale.override.extjs.Checkbox']
 	              , function() 
 	              {
 				    Ux.locale.Manager.setConfig(

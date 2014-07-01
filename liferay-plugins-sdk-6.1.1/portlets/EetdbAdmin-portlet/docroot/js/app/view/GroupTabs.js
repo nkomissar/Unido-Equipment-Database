@@ -26,19 +26,31 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                             items: [{
                                     xtype: 'entitytemplatelist'
                                 }]
+	        				,locales : {
+	        					title : 'titles.search'
+	                        }
                         }, {
                             title: 'Add Template',
                             id: 'addTemplateTab',
                             action: 'addtemplate'
+	        				,locales : {
+	        					title : 'titles.addtemplate'
+	                        }
                         }, {
                             title: 'Remove Template',
                             id: 'removeTemplateTab',
                             action: 'removetemplate'
+	        				,locales : {
+	        					title : 'titles.removetemplate'
+	                        }
                         }]
                 }, {
                     expanded: false,
                     items: [{
                             title: 'Entities'
+	        				,locales : {
+	        					title : 'titles.entities'
+	                        }
                         }, {
                             title: 'Search',
                             layout: 'fit',
@@ -47,19 +59,31 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                                     xtype: 'entitylist',
                                     entityListInstance: 'mainEntitySearch'
                                 }]
+	        				,locales : {
+	        					title : 'titles.search'
+	                        }
                         }, {
                             title: 'Add Entity',
                             id: 'addEntityTab',
                             action: 'addentity'
+	        				,locales : {
+	        					title : 'titles.addentity'
+	                        }
                         }, {
                             title: 'Remove Entity',
                             id: 'removeEntityTab',
                             action: 'removeentity'
+	        				,locales : {
+	        					title : 'titles.removeentity'
+	                        }
                         }]
                 }, {
                     expanded: false,
                     items: [{
                             title: 'Topics'
+	        				,locales : {
+	        					title : 'titles.topics'
+	                        }
                         }, {
                             title: 'Search',
                             layout: 'fit',
@@ -68,18 +92,30 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                                     xtype: 'topiclist',
                                     topicListInstance: 'mainTopicSearch'
                                 }]
+	        				,locales : {
+	        					title : 'titles.search'
+	                        }
                         }, {
                             title: 'Add Topic',
                             id: 'addTopicTab',
                             action: 'addtopic'
+	        				,locales : {
+	        					title : 'titles.addtopic'
+	                        }
                         }, {
                             title: 'Remove Topic',
                             id: 'removeTopicTab',
                             action: 'removetopic'
+	        				,locales : {
+	        					title : 'titles.removetopic'
+	                        }
                         }]
                 }, {
                     items: [{
                             title: 'Bulk Upload'
+	        				,locales : {
+	        					title : 'titles.bulkupload'
+	                        }
                         }
                         , {
                             title: 'Queue',
@@ -88,11 +124,17 @@ Ext.define('EetdbAdmin.view.GroupTabs', {
                             items: [{
                                     xtype: 'uploadQueue'
                                 }]
+		    				,locales : {
+		    					title : 'titles.uploadqueue'
+		                    }
                         }
                         , {
                             title: 'Upload Catalog',
                             id: 'uploadCatalogTab',
                             action: 'uploadcatalog'
+	        				,locales : {
+	        					title : 'titles.uploadcatalog'
+	                        }
                         }]
                 }]
         

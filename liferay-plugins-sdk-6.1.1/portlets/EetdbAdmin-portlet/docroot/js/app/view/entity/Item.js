@@ -251,10 +251,16 @@ Ext.define('EetdbAdmin.view.entity.Item', {
         			xtype: 'textfield',
         			name: 'name',
         			fieldLabel: 'Name'
+    				,locales : {
+    					fieldLabel : 'fields.labels.name'
+                    }
         		},{
         	        xtype: 'combobox',
         	        name : 'entityTemplate',
         	        fieldLabel: 'Template',
+    				locales : {
+    					fieldLabel : 'fields.labels.template'
+                    },
         	        displayField: 'name',
         	        queryMode: 'local',
         	        valueField: 'id',
@@ -265,6 +271,9 @@ Ext.define('EetdbAdmin.view.entity.Item', {
         			xtype: 'checkbox',
         			name: 'status',
         			fieldLabel: 'Approved'
+    				,locales : {
+    					fieldLabel : 'fields.labels.approved'
+                    }         				
         		},{
         			xtype: 'hidden',
         			name: 'id'
@@ -281,8 +290,14 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 	                	bodyPadding: 10,
 	                	overflowY: 'scroll',
 	                	itemId: 'propertiesTab'
+        				,locales : {
+        					title : 'titles.properties'
+                        } 	                		
 	                },{
                         title:'Linked Entities',
+                        locales : {
+        					title : 'titles.linkedentities'
+                        },
 	                	layout: 'anchor',
 	                	bodyPadding: 10,
 	                	items:[{
@@ -321,11 +336,17 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 							items:[{
 									xtype: 'button',
 									text: 'Add',
+			                        locales : {
+			        					text : 'buttons.add'
+			                        },									
 									action: 'addchildentity',
 									margin: '5 5 0 5'
 								},{
 									xtype: 'button',
 									text: 'Remove',
+			                        locales : {
+			        					text : 'buttons.remove'
+			                        },
 									action: 'removechildentity',
 									margin: '5 5 0 5',
 									disabled: true
@@ -334,6 +355,9 @@ Ext.define('EetdbAdmin.view.entity.Item', {
                     	
                     },{
                         title:'Parent Topics',
+                        locales : {
+        					title : 'titles.parenttopics'
+                        },
 	                	layout: 'anchor',
 	                	bodyPadding: 10,
 	                	items:[{
@@ -372,11 +396,17 @@ Ext.define('EetdbAdmin.view.entity.Item', {
 							items:[{
 									xtype: 'button',
 									text: 'Add',
+			                        locales : {
+			        					text : 'buttons.add'
+			                        },
 									action: 'addparenttopic',
 									margin: '5 5 0 5'
 								},{
 									xtype: 'button',
 									text: 'Remove',
+			                        locales : {
+			        					text : 'buttons.remove'
+			                        },
 									action: 'removeparenttopic',
 									margin: '5 5 0 5',
 									disabled: true
@@ -387,7 +417,10 @@ Ext.define('EetdbAdmin.view.entity.Item', {
         		}],
         		buttons: [{
         			text: 'Save',
-        			action: 'create'
+        			action: 'create',
+                    locales : {
+    					text : 'buttons.save'
+                    }        			
         		}]
         	}]
         	

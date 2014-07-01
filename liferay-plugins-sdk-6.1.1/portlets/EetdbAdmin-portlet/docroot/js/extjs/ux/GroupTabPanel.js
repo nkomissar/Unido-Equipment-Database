@@ -167,7 +167,13 @@ Ext.define('Ext.ux.GroupTabPanel', {
         
         treeNode.data.text = newTitle;
         
+        // Ensure the items do not get headers
+        delete panel.title;
+        panel.header.hide();
+        
         me.down('treepanel').getSelectionModel().view.refresh();
+        
+        return false;
         
     },
     

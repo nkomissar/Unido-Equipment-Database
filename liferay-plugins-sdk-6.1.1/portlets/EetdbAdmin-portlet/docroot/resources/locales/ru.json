@@ -8,8 +8,10 @@
         }
     },
     "buttons" : {
-        "save" : "Сохранить",
-        "addproperty": "Добавить свойство"
+        "save" 			: "Сохранить",
+        "addproperty"	: "Добавить свойство",
+        "add"			: "Добавить",
+        "remove"		: "Удалить",
     },
     "fields"  : {
         "labels" : {
@@ -18,10 +20,26 @@
             "chooseLocale" : "Choose Your Locale"
             ,"name"        : "Наименование"
             ,"code"        : "Код"
+            ,"template"    : "Шаблон"
+            ,"approved"    : "Согласовано"
         }
     },
     "titles" : {
-        "templates" : "Шаблоны",
-        "addproperty": "Добавить свойство"
+        "templates" 	: "Шаблоны",
+        "search"		: "Поиск",
+        "addtemplate"	: "Добавить шаблон",
+        "removetemplate": "Удалить шаблон",
+        "entities"		: "Сущности",
+        "addentity"		: "Добавить сущность",
+        "removeentity"	: "Удалить сущность",
+        "topics"		: "Темы",
+        "addtopic"		: "Добавить тему",
+        "removetopic"	: "Удалить тему",
+        "bulkupload"	: "Загрузка",
+        "uploadqueue"	: "Очередь",
+        "uploadcatalog"	: "Загрузить каталог",
+        "properties"	: "Свойства",
+        "linkedentities": "Связанные сущности",
+        "parenttopics"	: "Темы",
     },
 }

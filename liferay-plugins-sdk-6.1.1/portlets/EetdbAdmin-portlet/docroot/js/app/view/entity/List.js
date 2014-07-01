@@ -8,6 +8,9 @@ Ext.define('EetdbAdmin.view.entity.List', {
     title: 'Entities',
     border: false,
     layout: 'fit',
+	locales : {
+		title : 'titles.entities'
+    },    
 
     initComponent: function() {
         Ext.apply(this, {
