@@ -21,7 +21,6 @@ Ext.define('Ux.locale.override.extjs.Panel', {
             defaultText = '',
             text;
 
-        debugger;
         if (title) {
             if (Ext.isObject(title)) {
                 defaultText = title.defaultText;

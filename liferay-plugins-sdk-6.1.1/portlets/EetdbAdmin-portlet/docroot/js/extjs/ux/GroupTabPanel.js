@@ -159,6 +159,18 @@ Ext.define('Ext.ux.GroupTabPanel', {
         return cls;
     },
 
+    onNodeTitleChange: function(panel, newTitle, oldTitle)
+    {
+    	
+        var me = this;
+        var treeNode = me.store.getNodeById(panel.id);
+        
+        treeNode.data.text = newTitle;
+        
+        me.down('treepanel').getSelectionModel().view.refresh();
+        
+    },
+    
     /**
      * @private
      * Node selection listener.
@@ -252,7 +264,7 @@ Ext.define('Ext.ux.GroupTabPanel', {
      * Creates the TreeStore used by the GroupTabBar.
      */
     createTreeStore: function() {
-        var me = this,
+         var me = this,
             groups = me.prepareItems(me.items),
             data = {
                 text: '.',
@@ -270,7 +282,6 @@ Ext.define('Ext.ux.GroupTabPanel', {
 
             // Create the root node of the group
             groupRoot.id = rootItem.id;
-            debugger;
             groupRoot.text = rootItem.title;
             groupRoot.iconCls = rootItem.iconCls;
 
@@ -303,8 +314,13 @@ Ext.define('Ext.ux.GroupTabPanel', {
                 // Ensure the items do not get headers
                 delete leafItem.title;
                 delete leafItem.iconCls;
+                
+                leafItem.on('titlechange', me.onNodeTitleChange, me);
+                
                 cards.push(leafItem);
             });
+
+            rootItem.on('titlechange', me.onNodeTitleChange, me);
 
             data.children.push(groupRoot);
       });
