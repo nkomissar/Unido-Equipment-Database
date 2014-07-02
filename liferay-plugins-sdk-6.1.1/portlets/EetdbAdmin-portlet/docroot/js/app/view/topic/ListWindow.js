@@ -10,6 +10,9 @@ Ext.define('EetdbAdmin.view.topic.ListWindow', {
     width: 400,
     height: 400,
     title: 'Select Topics',
+    locales: {
+    	title: 'titles.selecttopics'
+    },    
     //iconCls: 'feed-add',
     layout: 'fit',
     modal: true,
@@ -22,10 +25,16 @@ Ext.define('EetdbAdmin.view.topic.ListWindow', {
             
         	buttons: [{
                 text: 'OK',
+                locales: {
+                	text: 'buttons.ok'
+                },                 
                 action: 'add',
                 disabled: true
             }, {
                 text: 'Cancel',
+                locales: {
+                	text: 'buttons.cancel'
+                },                 
                 scope: this,
                 handler: this.close
             }],

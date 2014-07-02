@@ -21,11 +21,17 @@ Ext.define('EetdbAdmin.view.topic.Item', {
         			xtype: 'textfield',
         			name: 'name',
         			fieldLabel: 'Name',
+    				locales : {
+    					fieldLabel : 'fields.labels.name'
+                    },        			
         			anchor: '100%'
         		},{
         			xtype: 'textarea',
         			name: 'description',
         			fieldLabel: 'Description',
+    				locales : {
+    					fieldLabel : 'fields.labels.description'
+                    },        			
         			anchor: '100%'
         		},{
         			xtype: 'hidden',
@@ -38,59 +44,11 @@ Ext.define('EetdbAdmin.view.topic.Item', {
                     plain:true,
                     activeTab: 0,
                     anchor: '100% -95',
-                    items:[/*{
-                        title:'Linked Entities',
-	                	layout: 'anchor',
-	                	bodyPadding: 10,
-	                	items:[{
-							xtype: 'dataview',
-							trackOver: true,
-							overflowY: 'scroll',
-							anchor: '100% -30',
-							store: 
-							{
-								model: 'EetdbAdmin.model.Entity'
-							},
-							cls: 'entity-list',
-							itemSelector: '.entity-list-item',
-							overItemCls: 'entity-list-item-hover',
-							tpl: '<tpl for="."><div class="entity-list-item">{name}</div></tpl>',
-							name: 'linkedEntities',
-							listeners: {
-								selectionchange: function(selModel, selected){
-									 
-									var btnRemove = this.ownerCt.down('button[action=removechildentity]');
-									
-									if (selected.length > 0)
-									{
-										btnRemove.enable();
-									}
-									else
-									{
-										btnRemove.disable();
-									}
-									
-								}
-							}
-	                	},{
-							xtype: 'container',
-							anchor: '100%',
-							items:[{
-									xtype: 'button',
-									text: 'Add',
-									action: 'addchildentity',
-									margin: '5 5 0 5'
-								},{
-									xtype: 'button',
-									text: 'Remove',
-									action: 'removechildentity',
-									margin: '5 5 0 5',
-									disabled: true
-								}]
-	                	}]
-                    	
-                    },*/{
+                    items:[{
                         title:'Linked Topics',
+        				locales : {
+        					title : 'titles.linkedtopics'
+                        },
 	                	layout: 'anchor',
 	                	bodyPadding: 10,
 	                	items:[{
@@ -129,11 +87,17 @@ Ext.define('EetdbAdmin.view.topic.Item', {
 							items:[{
 									xtype: 'button',
 									text: 'Add',
+			        				locales : {
+			        					text : 'buttons.add'
+			                        },
 									action: 'addchildtopic',
 									margin: '5 5 0 5'
 								},{
 									xtype: 'button',
 									text: 'Remove',
+			        				locales : {
+			        					text : 'buttons.remove'
+			                        },
 									action: 'removechildtopic',
 									margin: '5 5 0 5',
 									disabled: true
@@ -145,6 +109,9 @@ Ext.define('EetdbAdmin.view.topic.Item', {
         		],
         		buttons: [{
         			text: 'Save',
+    				locales : {
+    					text : 'buttons.save'
+                    },
         			action: 'create'
         		}]
         	}]

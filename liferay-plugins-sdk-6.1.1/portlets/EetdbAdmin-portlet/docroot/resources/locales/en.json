@@ -12,6 +12,9 @@
         "addproperty"	: "Add Property"
         "add"			: "Add",
         "remove"		: "Remove",
+        "ok"			: "Ok",
+        "cancel"		: "Cancel",
+        "selectfile"	: "Select File ...",
     },
     "fields"  : {
         "labels" : {
@@ -22,6 +25,8 @@
             ,"code"        : "Code"
             ,"template"    : "Template"
             ,"approved"    : "Approved"
+            ,"entersearchterm"    : "enter search term"
+            ,"description" : "Description"
          }
     },
     "titles" : {
@@ -41,5 +46,8 @@
         "properties"	: "Properties",
         "linkedentities": "Linked Entities",
         "parenttopics"	: "Parent Topics",
+        "selectentities": "Select Entities",
+        "selecttopics"	: "Select Topics",
+        "linkedtopics"	: "Linked Topics"
     },
 }

@@ -3,7 +3,8 @@ Ext.define('EetdbAdmin.view.entity.List', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.entitylist',
 
-    requires: ['Ext.toolbar.Toolbar'],
+    requires: ['Ext.toolbar.Toolbar'
+               ,'Ext.ux.form.field.SearchField'],
 
     title: 'Entities',
     border: false,
@@ -44,9 +45,11 @@ Ext.define('EetdbAdmin.view.entity.List', {
 					{
 					    xtype: 'searchfield',
 					    emptyText: 'enter search term'
+					    ,locales: {
+					    	emptyText: 'fields.labels.entersearchterm'
+					    }
 					    //,value: 'дрыг'
-					}
-					]
+					}]
             }]
         });
 

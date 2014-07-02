@@ -7,6 +7,9 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadCatalog', {
     width: 450,
     height: 200,
     title: 'Catalog Upload',
+	locales : {
+		title : 'titles.uploadcatalog'
+    },
     layout: 'fit',
     modal: true,
     plain: true,
@@ -35,6 +38,9 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadCatalog', {
         			hideLabel: true,
         			anchor: '100%',
         			buttonText: 'Select File ...',
+    				locales : {
+    					buttonText : 'buttons.selectfile'
+                    },
         			allowBlank: false,
         			flex: 1
         		}],

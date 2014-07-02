@@ -3,9 +3,13 @@ Ext.define('EetdbAdmin.view.topic.List', {
     extend: 'Ext.panel.Panel',
     alias: 'widget.topiclist',
 
-    requires: ['Ext.toolbar.Toolbar'],
+    requires: ['Ext.toolbar.Toolbar'
+               ,'Ext.ux.form.field.SearchField'],
 
     title: 'Topics',
+	locales : {
+		title : 'titles.topics'
+    },    
     border: false,
     layout: 'fit',
 
@@ -41,8 +45,10 @@ Ext.define('EetdbAdmin.view.topic.List', {
 					{
 					    xtype: 'searchfield',
 					    emptyText: 'enter search term'
-					}
-					]
+					    ,locales: {
+					    	emptyText: 'fields.labels.entersearchterm'
+					    }
+					}]
             }]
         });
 

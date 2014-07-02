@@ -12,6 +12,9 @@
         "addproperty"	: "Добавить свойство",
         "add"			: "Добавить",
         "remove"		: "Удалить",
+        "ok"			: "Ok",
+        "cancel"		: "Отмена",
+        "selectfile"	: "Выберите файл ...",
     },
     "fields"  : {
         "labels" : {
@@ -22,6 +25,8 @@
             ,"code"        : "Код"
             ,"template"    : "Шаблон"
             ,"approved"    : "Согласовано"
+            ,"entersearchterm"    : "поиск"
+            ,"description" : "Описание"
         }
     },
     "titles" : {
@@ -41,5 +46,8 @@
         "properties"	: "Свойства",
         "linkedentities": "Связанные сущности",
         "parenttopics"	: "Темы",
+        "selectentities": "Выберите сущности",
+        "selecttopics"	: "Выберите темы",
+        "linkedtopics"	: "Связанные темы"
     },
 }
