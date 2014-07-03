@@ -48,6 +48,10 @@
         "parenttopics"	: "Темы",
         "selectentities": "Выберите сущности",
         "selecttopics"	: "Выберите темы",
+        "uploaderrors"	: "Ошибки загрузки",
+        "uploadqueue"	: "Очередь загрузки",
+        "rownum"		: "№ строки",
+        "message"		: "Сообщение",
         "linkedtopics"	: "Связанные темы"
     },
 }

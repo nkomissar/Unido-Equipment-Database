@@ -37,7 +37,7 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadCatalog', {
         			name: 'fileData',
         			hideLabel: true,
         			anchor: '100%',
-        			buttonText: 'Select File ...',
+        			buttonText: '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select File ...&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;',
     				locales : {
     					buttonText : 'buttons.selectfile'
                     },
@@ -48,6 +48,9 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadCatalog', {
             
 	            buttons: [{
 	                    text: 'OK',
+	                	locales : {
+	                		text : 'buttons.ok'
+	                    },                  
 	                    //this is not MVC at all...
 	                    handler: function() {
 	                        var form = this.up('form').getForm();
@@ -78,14 +81,42 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadCatalog', {
 	                    }
 	                }, {
 	                    text: 'Cancel',
+	                	locales : {
+	                		text : 'buttons.cancel'
+	                    },	                    
 	                    scope: this,
 	                    handler: this.close
 	                }]
         	}]
         });
-        
-        
-        this.callParent(arguments);
-    }
 
+        this.callParent(arguments);
+    },
+
+    show: function() 
+    {   
+    	this.callParent(arguments);
+    	this.applyLocales();
+    	this.updateLayout();
+    },
+    
+    applyLocales : function() {
+        var cmps     = Ext.ComponentQuery.query('uploadcatalog component[enableLocale]'),
+            c        = 0,
+            cNum     = cmps.length,
+            language = Ux.locale.Manager.getLanguage(),
+            cmp;
+        
+        for (; c < cNum; c++) {
+            cmp = cmps[c];
+
+            if (typeof cmp.setLocale == 'function') {
+                cmp.setLocale(language);
+            }
+            else
+            {
+            	debugger;
+            }
+        }
+    },    
 });

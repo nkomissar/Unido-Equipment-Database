@@ -9,7 +9,7 @@
     },
     "buttons" : {
         "save" 			: "Save",
-        "addproperty"	: "Add Property"
+        "addproperty"	: "Add Property",
         "add"			: "Add",
         "remove"		: "Remove",
         "ok"			: "Ok",
@@ -48,6 +48,10 @@
         "parenttopics"	: "Parent Topics",
         "selectentities": "Select Entities",
         "selecttopics"	: "Select Topics",
+        "uploaderrors"	: "Upload Errors",
+        "uploadqueue"	: "Upload Queue",
+        "rownum"		: "Row #",
+        "message"		: "Message",
         "linkedtopics"	: "Linked Topics"
     },
 }

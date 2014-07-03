@@ -3,7 +3,10 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadQueue', {
     alias: 'widget.uploadQueue',
 
     title: 'Upload Queue',
-    border: false,
+	locales:{
+		title: 'titles.uploadqueue'
+	},
+	border: false,
     layout: 'fit',
 
     initComponent: function() {

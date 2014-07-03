@@ -66,10 +66,12 @@
 	              'Ext.ux.GroupTabPanel',
 				'Ux.locale.Manager',
 				'Ux.locale.override.extjs.Button',
+				'Ux.locale.override.extjs.File',
 				'Ux.locale.override.extjs.Panel',
 				'Ux.locale.override.extjs.Text',
 				'Ux.locale.override.extjs.Checkbox',
-				'Ux.locale.override.extjs.SearchField']
+				'Ux.locale.override.extjs.SearchField',
+				'Ux.locale.override.extjs.Window']
 	              , function() 
 	              {
 				    Ux.locale.Manager.setConfig(

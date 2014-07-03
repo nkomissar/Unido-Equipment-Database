@@ -45,6 +45,9 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadItem', {
     			xtype: 'grid'
     			,region: 'south'
             	,title: 'Upload Errors'
+            	,locales:{
+            		title: 'titles.uploaderrors'
+            	}
                 ,overflowY: 'auto'
                 ,height: 200
     		    //,bodyStyle: 'padding:15px'
@@ -55,11 +58,17 @@ Ext.define('EetdbAdmin.view.catalogUpload.UploadItem', {
                 {
                     id: 'rownum',
                     text: "Row #",
+                    locales: {
+                    	text: 'titles.rownum'
+                    },
                     dataIndex: 'rowNumber',
                     flex: 1,
                     sortable: false
                 },{
                     text: "Message",
+                    locales: {
+                    	text: 'titles.message'
+                    },
                     dataIndex: 'message',
                     flex: 2,
                     sortable: false

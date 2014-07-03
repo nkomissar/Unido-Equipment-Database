@@ -18,6 +18,7 @@ Ext.define('Ux.locale.Manager', {
     _locale     : {},
     _locales    : [
         { abbr : 'en', text : 'English' },
+        { abbr : 'ru', text : 'Russian' },
         { abbr : 'fr', text : 'French'  }
     ],
     _tpl        : '',
@@ -25,7 +26,6 @@ Ext.define('Ux.locale.Manager', {
 
     _decoder : function(options, success, response) {
         var text = response.responseText;
-
         return Ext.decode(text);
     },
 
@@ -99,7 +99,7 @@ Ext.define('Ux.locale.Manager', {
             cNum     = cmps.length,
             language = this._language,
             cmp;
-
+        
         for (; c < cNum; c++) {
             cmp = cmps[c];
 
