@@ -6,4 +6,16 @@
 		<pattern>/showTopic/{topicId:\d+}</pattern>
 		<implicit-parameter name="action">showTopic</implicit-parameter>
 	</route>
+	<route>
+		<pattern>/showEntity/{entityId:\d+}</pattern>
+		<implicit-parameter name="action">showEntity</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/showSearch</pattern>
+		<implicit-parameter name="action">showSearch</implicit-parameter>
+	</route>
+	<route>
+		<pattern>/doSearch</pattern>
+		<implicit-parameter name="action">doSearch</implicit-parameter>
+	</route>
 </routes>
