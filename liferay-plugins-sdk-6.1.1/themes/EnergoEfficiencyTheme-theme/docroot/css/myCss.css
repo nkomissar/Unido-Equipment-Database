@@ -1,0 +1,305 @@
+.x-menu-body{
+				font-weight: normal;
+				 background: none repeat scroll 0 0 #FFFFFF !important;
+			}
+			
+			body {
+				background-color: #dddddd; 
+			}
+			a{
+				text-decoration: none;
+				color: inherit;
+			}
+			#wrapper{
+				background-color: #DDDDDD;
+				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/bgMainPage.png");
+				background-repeat: no-repeat;
+				background-position: center top;
+				position: relative;
+				width: 1200px;
+				z-index: 0;
+			}
+			#mainPageBgDecor{
+				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/bottomBg.png");
+				background-position: right bottom !important;
+				background-repeat: no-repeat;
+				bottom: 0;
+				height: 300px;
+				left: 720px;
+				position: fixed;
+				width: 515px;
+				z-index: -1;
+			}
+			#mainContent{				
+				height: 100%;
+				overflow-x: hidden;
+				width: 1000px;
+			}
+			#header{
+				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/headerBg.png");
+				background-repeat: no-repeat;
+				height: 66px;
+				margin-top: 5px;
+			}			
+			#logoImg{
+				margin: 0 0 5px 25px;
+				float: left;
+				position: relative;
+				z-index: 1;
+				cursor: pointer;
+			}
+			#logoTitle{
+				position: relative;
+				top: 5px;
+			}					
+			#searchField{
+				cursor: pointer;
+				float: right;
+				left: -20px;
+				position: relative;
+				z-index: 2;
+			}
+			#searchField input {
+				border: 1px inset #02458B;
+				height: 18px;
+				width: 200px;
+			}
+			#searchField input.focus{
+				border: 1px inset #02458B;				
+			}
+			#searchFieldIcon{
+				height: 17px;
+				margin-bottom: -4px;
+			}			
+			.flagImg{
+				
+			}
+			#sign-in{
+				top: -8px;
+			}
+			#content{
+				position: relative;
+				top: -70px;
+			}
+			#headerTitle{
+				float: left;
+			}
+			#headerWelcome{
+				color: inherit;
+				font-size: 8pt;
+				font-weight: bold;
+				position: relative;
+				text-align: right;
+				text-decoration: none;
+				top: 5px;
+				width: 985px;
+			}
+			#headerWelcome img{
+				height: 17px;
+				margin-bottom: -4px;
+			}
+			#headerBottomLine{
+				
+			}
+			#headerTopLine {
+    			color: #003BD4;
+				font-size: 19px;
+				font-weight: bold;
+				height: 30px;
+				text-shadow: -1px -1px 2px #FFFFFF, 3px 3px 3px #666666;
+			}
+			#pageLinks{
+				margin-top: 5px;
+				text-align: left;
+			}
+			#pageLinks .x-btn-default-small {
+				background-color: transparent !important;
+				background-image: none !important;
+				border: medium none !important;
+				margin-right: 20px;
+			}
+			#pageLinks .x-btn-default-small td{
+				background-color: transparent !important;
+				background-image: none !important;
+			}			
+			.pageLinksButton .x-btn-inner{
+				font-family: arial !important;
+				font-size: 9pt !important;
+				font-weight: bold !important;
+			}
+			.pageLinksButton .x-btn-arrow{
+				background-image: url(/EnergoEfficiencyTheme-theme/images/myPics/headerPageArrow.png) !important;
+				padding-right: 17px;
+			}
+			.x-menu-item-link {				
+				padding: 6px 2px 3px 6px !important;
+			}
+			.portlet-column-content-only, .ltr .portlet-column-content-first, .rtl .portlet-column-content-last {
+				padding: 0 !important;
+			}
+			.x-menu-item-text {
+				text-transform: uppercase !important;
+				font-size: 11px;
+			}
+			.x-panel-body-default {
+				background-color: transparent !important;
+				border:0 !important;
+			}
+			.x-panel-body{
+				background-color: #fff !important;
+			}			
+			.x-menu-body{
+				font-weight: normal;
+				background: none repeat scroll 0 0 #FFFFFF !important;
+			}
+			.x-menu-item-active .x-menu-item-link{
+				background-color: transparent !important;
+				background-image: none !important;
+				border-radius: none !important;
+				box-shadow: none !important;
+				border: 0px !important;				
+			}
+			.x-menu-item-active{
+				background-color: #FFFFFF !important;
+				opacity: 1;
+				font-weight: bold;
+				background-image: none !important;
+				border-radius: 2px 2px 2px 2px !important;
+				box-shadow: 0 0 2px 2px #CCCCCC;
+				border-color: #CCCCCC !important;
+			}
+			.pageLinksMenu-body{
+				background-color: transparent !important;
+				background-image: none !important;
+			}
+			.pageLinksMenu-body-default{
+				background-color: #fff !important;
+				opacity: 0.9;
+			}
+			#copyRightContent{
+				font-size: 10pt;
+				margin-left: 40%;
+				position: absolute;
+				text-align: center;
+				z-index: 1;
+			}
+			
+			
+			/** my Portlets */
+			
+			.portlet-asset-publisher .asset-small-image{
+				width: 100px;
+			}
+			.default-asset-publisher{
+				margin-top: -30px;
+			}
+			.final-separator{
+				margin-bottom: 10px !important;
+			}
+
+			.portlet{
+				background-color: transparent !important;
+				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/portletBg.png") !important;
+				border-radius: 10px;
+				-moz-border-radius: 10px;
+				-webkit-border-radius: 10px;
+				overflow: visible;
+				padding: 0 !important;
+				box-shadow: 3px 3px 3px #444444;
+				width: 99%;
+				
+			}
+			.portlet-column-last{
+				padding-left: 10px;
+			}
+			.portlet-title {
+				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/portlets/nestedPortletHeaderHorizLine.png");
+				background-position: 160px 30px;
+				background-repeat: no-repeat;
+				color: #0038CF;
+				font-size: 12pt;
+				margin-top: 0;
+				padding: 0 0 0 65px;
+				text-align: left;
+			}
+			.portlet-title-text {
+				position: relative;
+				top: -35px;
+				/**text-shadow: 1px 1px 1px #DDDDDD, 2px 2px 2px #888888;*/
+			}
+			.portlet-title .icon{
+				display: none;
+			}
+			.portlet-topper{
+				height: 60px;
+				box-shadow: none;
+				border-width: 0;
+				background-image: url(/EnergoEfficiencyTheme-theme/images/myPics/portletTitleBg.png);
+				border-top-left-radius: 10px;
+				border-top-right-radius: 10px;
+				-moz-border-top-left-radius: 10px;
+				-moz-border-top-right-radius: 10px;
+				-webkit-border-top-left-radius: 10px;
+				-webkit-border-top-right-radius: 10px;
+			}
+			
+			.portlet-title {
+				text-shadow: none;
+			}
+			
+			/** Portlets in left column styling */
+			.my-portlet-column-content-first  .portlet-topper{
+				height: 30px !important;
+			}
+			.my-portlet-column-content-first  .portlet-title{
+				padding-left: 10px !important;
+				font-size: 11pt !important;
+			}
+			.my-portlet-column-content-first  .portlet-title-text{
+				top: 4px !important;
+				text-shadow: 1px 1px 1px #DDDDDD, 1px 1px 1px #888888 !important;
+			}
+			.my-portlet-column-content-first  .portlet-content{
+				padding: 0;
+			}
+			
+			
+			/** admin menu for portlet should be over top portlet icon */
+			.portlet-topper-toolbar{
+				z-index: 1;
+			}
+			
+			/** for Documents and Media folder dive fix: http://issues.liferay.com/browse/LPS-25186 + relocating breadcrumbs to main portlet header where needed */
+			.site-breadcrumbs{
+				display: none;
+			}
+			
+			/** Common page layout - nested portlet with columns-1-2. Empty containers in the bottom have not 0 height because of padding. This causes to blank space in the bottom. */
+			.columns-1-2 .portlet-column-content.empty{
+				padding: 0px;
+			}
+			
+			/** Comments styling */
+			.taglib-discussion .lfr-discussion-message {
+				margin-left: 15px;
+				text-align: justify;
+			}
+			
+			.tag-cloud .tag-popularity-6 {
+			    font-size: 19pt !important;
+			}
+			.tag-cloud .tag-popularity-5 {
+			    font-size: 17pt !important;
+			}
+			.tag-cloud .tag-popularity-4 {
+			    font-size: 15pt !important;
+			}
+			.tag-cloud .tag-popularity-3 {
+			    font-size: 13pt !important;
+			}
+			.tag-cloud .tag-popularity-2 {
+			    font-size: 11pt !important;
+			}
+			.tag-cloud .tag-popularity-1 {
+			    font-size: 9pt !important;
+			}

@@ -1,0 +1,5 @@
+<nav class="sort-pages modify-pages" id="navigation">
+	<h1>
+		<span>#language("navigation")</span>
+	</h1>
+</nav>

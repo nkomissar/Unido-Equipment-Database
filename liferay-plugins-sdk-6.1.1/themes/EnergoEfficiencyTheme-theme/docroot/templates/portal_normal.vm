@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+
+#parse ($init)
+
+<html class="#language("lang.dir")" dir="#language("lang.dir")" lang="$w3c_language_id">
+
+<head>
+	<META HTTP-EQUIV="Expires" CONTENT="1-Jan-80 00:00:00 GMT">
+	<META HTTP-EQUIV="Pragma: no-cache">
+	<META HTTP-EQUIV="Cache-Control: no-cache">
+
+	<title>$the_title - $company_name</title>
+	
+	$theme.include($top_head_include)
+	
+	<link rel="stylesheet" type="text/css" href="/ExtJS4Lib/lib/resources/css/ext-all.css">
+	<link rel="stylesheet" type="text/css" href="/EnergoEfficiencyTheme-theme/css/myCss.css">	
+	<script type="text/javascript" src="/ExtJS4Lib/lib/ext-all-debug.js"></script>
+	<!-- <script type="text/javascript" src="/ExtJS4Lib/lib/locale/ext-lang-ru.js"></script> -->
+	<script type="text/javascript" src="/EnergoEfficiencyTheme-theme/js/util.js?languageId=$themeDisplay.getLanguageId()"></script>
+	
+	<style>
+			
+	</style>
+		
+		<script>
+			Ext.onReady(function(){
+				
+				if (themeDisplay.getLanguageId() == 'ru_RU'){
+					Ext.Ajax.request({
+				        url: '/ExtJS4Lib/lib/locale/ext-lang-ru.js',
+				        success: function(response) {
+				            eval(response.responseText);
+				        },
+				        failure: function() {
+				        	if (console)
+				        		console.log('Failed to load locale file.');
+				            //Ext.Msg.alert('Failure', 'Failed to load locale file.');
+				        },
+				        scope: this
+				    });
+				}
+				
+				var tryToHideMenu = function(button){
+					Ext.defer(function(){
+						var menu = button.menu;
+						if (!button.menu.myIsActive&&!button.menu.myMenuButtonIsOver){
+							menu.hide();	
+							menu.myIsActive = false;
+							button.menu.myMenuButtonIsOver = true;
+						}
+					},500);
+				};
+				
+				#set ($counter = 0)
+				#foreach ($nav_item in $nav_items)
+					
+					#if ($nav_item.hasChildren())
+						var menuItemsArray = [];
+						#foreach ($nav_item_second_stage in $nav_item.getChildren())
+							var navItemsThirdStage = [];
+							#foreach ($nav_item_third_stage in $nav_item_second_stage.getChildren())
+								navItemsThirdStage.push({
+									text: '$nav_item_third_stage.getName()',
+									href: '$nav_item_third_stage.getURL()'
+								});
+							#end
+							var secondStageMenuItemConfig = {
+								text: '$nav_item_second_stage.getName()',
+								href: '$nav_item_second_stage.getURL()'
+							};
+							if (navItemsThirdStage.length>0){
+								secondStageMenuItemConfig.menu={
+									plain: true,
+									shadow: false,
+									enableKeyNav: false,
+									baseCls: 'pageLinksMenu',
+									items: navItemsThirdStage
+								};
+							}
+							menuItemsArray.push(secondStageMenuItemConfig);								
+						#end		
+					#end
+					
+					Ext.create('Ext.button.Button', {
+						cls: 'pageLinksButton',
+						text: '$nav_item.getName()',
+						#if (!$nav_item.hasChildren())
+							href: '$nav_item.getURL()',
+							hrefTarget: '_self',
+						#else
+							menu: {
+								plain: true,
+								shadow: false,
+								enableKeyNav: false,
+								baseCls: 'pageLinksMenu',
+								items: menuItemsArray,
+								listeners:{
+									'mouseleave': function(menu,evt,opts){
+										menu.myIsActive = false;
+										tryToHideMenu(menu.ownerButton);
+									},
+									'mouseenter': function(menu,evt,opts){
+										menu.myIsActive = true;
+									}
+								}
+							},
+						#end
+						renderTo: 'button$counter',
+						listeners: {
+							'mouseover': function(button,evt,eOpts){
+								if (button.menu){
+									var menu = button.menu;
+									var buttonPos = button.getPosition();
+									menu.setPosition(buttonPos[0],buttonPos[1]+20);
+									menu.show(button);
+									
+									button.menu.myMenuButtonIsOver = true;
+								}
+							},'mouseout': function(button,evt,eOpts){
+								if (button.menu){
+									var menu = button.menu;
+									menu.myMenuButtonIsOver = false;
+									tryToHideMenu(button);
+								}														
+							}
+						}
+					});
+					#set ($counter = $counter + 1)
+				#end
+				
+				var searchFromHeader = function(){
+					var keyWords = Ext.get('headerSearchStr').getValue();
+					window.location = "poisk-po-portalu?p_p_id=3&_3_struts_action=%2Fsearch%2Fsearch&_3_format=&_3_groupId=0&_3_entryClassName=&_3_modified=&_3_modifiedselection=0&_3_modifiedfrom=&_3_modifiedto=&_3_keywords="+keyWords+"*";
+				};
+				
+				var searchTextFieldKeyPress = function(evt,el,opts){
+					if (evt.getKey() == 13)
+						searchFromHeader();
+				};
+
+				Ext.get('headerSearchStr').addListener({
+					keypress: searchTextFieldKeyPress
+				});
+				Ext.get('searchFieldIcon').addListener({
+					click: searchFromHeader
+				});				
+				
+				
+					var windowSize = function() {
+					  var myWidth = 0, myHeight = 0;
+					  if( typeof( window.innerWidth ) == 'number' ) {
+						//Non-IE
+						myWidth = window.innerWidth;
+						myHeight = window.innerHeight;
+					  } else if( document.documentElement && ( document.documentElement.clientWidth || document.documentElement.clientHeight ) ) {
+						//IE 6+ in 'standards compliant mode'
+						myWidth = document.documentElement.clientWidth;
+						myHeight = document.documentElement.clientHeight;
+					  } else if( document.body && ( document.body.clientWidth || document.body.clientHeight ) ) {
+						//IE 4 compatible
+						myWidth = document.body.clientWidth;
+						myHeight = document.body.clientHeight;
+					  }
+					  return{
+						x: myWidth,
+						y: myHeight
+					  };
+					}
+					var replaceCopyRight = function(){
+						var bodyHeight = Ext.getBody().getHeight();
+						var windowHeight = windowSize().y;
+						var copyRightContentTop = bodyHeight>windowHeight?bodyHeight-40:windowHeight-40;
+						Ext.get('copyRightContent').setTop(copyRightContentTop);
+						Ext.defer(replaceCopyRight,500);
+					}
+					replaceCopyRight();
+					
+				
+				// Main portlet title rendering. Get navigation info from breadcrumb
+				var nestedPortletTitle = Ext.DomQuery.selectNode('.portlet-nested-portlets header .portlet-title-text');
+				if (nestedPortletTitle){
+					nestedPortletTitle.innerHTML = '';
+					var breadCrumbHrefs = Ext.DomQuery.select('ul.breadcrumbs-horizontal li[class != "first"] span a');
+					var counter = 0;
+					Ext.each(breadCrumbHrefs, function(breadCrumbHref){
+						if (counter < 2){
+							if (counter != 0)
+								Ext.get(nestedPortletTitle).insertHtml('beforeEnd',' -> ');
+							Ext.get(nestedPortletTitle).insertHtml('beforeEnd','<font style="font-weight: normal">'+breadCrumbHref.innerHTML+'</font>');
+							counter++;
+						}
+					});
+					Ext.get(nestedPortletTitle).insertHtml('afterEnd','<br/>');
+				}
+			});
+			
+		</script>
+	
+</head>
+
+<body class="$css_class">
+
+#if($permissionChecker.isOmniadmin())
+	#dockbar()
+#end
+
+<div id="wrapper">
+	<center>
+		<div id="mainContent">
+			<div id="header">
+				<img src="$images_folder/myPics/logo.png" id="logoImg"/ onClick="window.location=baseLayoutURL+'home'">
+				<div id="headerTopLine">
+					<div id="headerTitle">						
+						<!--<img src="/EnergoEfficiencyTheme-theme/images/myPics/logoTitle.png" id="logoTitle">-->
+						#language("portalLogo")
+					</div>
+					<div id="headerWelcome">
+					#if(!$is_signed_in)
+						<a rel="nofollow" href="$sign_in_url">#language("login")</a>
+						<a rel="nofollow" href="$company_url/home?p_p_id=58&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&saveLastPath=0&_58_struts_action=%2Flogin%2Fcreate_account" style="margin: 0 7px;">#language("create-account")</a>
+					#else
+						<a rel="nofollow" href="$sign_out_url">#language("logout")</a>
+					#end						
+					
+					#set ($language_portlet_url = $portletURLFactory.create($request, "82", $page.getPlid(), "ACTION_PHASE"))
+
+					$language_portlet_url.setWindowState("normal")
+					$language_portlet_url.setPortletMode("view")
+					$language_portlet_url.setParameter("struts_action", "/language/view")
+					$language_portlet_url.setParameter("groupId", "$page.getGroupId()")
+					$language_portlet_url.setParameter("privateLayout", "false")
+					$language_portlet_url.setParameter("redirect", "$theme_display.getURLCurrent()")
+					
+					$language_portlet_url.setParameter("languageId", "ru_RU")
+						<a href="$language_portlet_url">
+							<img src="$images_folder/myPics/flagRU.png" 
+								onMouseOver="this.src='$images_folder/myPics/flagRUOver.png'"
+								onMouseOut="this.src='$images_folder/myPics/flagRU.png'"/>
+						</a>
+					$language_portlet_url.setParameter("languageId", "en_US")
+						<a href="$language_portlet_url">
+							<img src="/EnergoEfficiencyTheme-theme/images/myPics/flagGB.png"
+								onMouseOver="this.src='$images_folder/myPics/flagGBOver.png'"
+								onMouseOut="this.src='$images_folder/myPics/flagGB.png'"/>
+						</a>
+					</div>
+				</div>
+				<div id="headerBottomLine">
+					<div id="searchField">
+						<input type="text" id="headerSearchStr"/>
+						<img src="$images_folder/myPics/headerSearchFieldIcon.png" id="searchFieldIcon"/>
+					</div>
+					<div id="pageLinks">
+						#set ($counter = 0)
+						#foreach ($nav_item in $nav_items)
+							<font id="button$counter"></font>
+							#set ($counter = $counter + 1)
+						#end						
+					</div>					
+				</div>		
+			</div>
+			
+			#if ($update_available_url)
+				<div class="popup-alert-notice">
+					<a class="update-available" href="$update_available_url">#language("updates-are-available-for-liferay")</a>
+				</div>
+			#end
+
+			<!--#if ($has_navigation)
+				#parse ("$full_templates_path/navigation.vm")
+			#end-->
+			
+		
+			<table width="100%" cellpadding="0" cellspacing="0"><tr>	
+			<td valign="top" style="height:100%;width:100%;">
+			<div id="content">
+				<nav class="site-breadcrumbs" id="breadcrumbs">
+					<h1>
+					<span>#language("breadcrumbs")</span>
+					</h1>
+
+					#breadcrumbs()
+				</nav>	
+				#if ($selectable)
+					$theme.include($content_include)
+				#else
+					$portletDisplay.recycle()
+
+					$portletDisplay.setTitle($the_title)
+
+					$theme.wrapPortlet("portlet.vm", $content_include)
+				#end
+			</div>
+			</td>
+			</tr></table>
+			<div id="mainPageBgDecor">&nbsp;</div>
+		</div>
+	</center>
+</div>
+
+</body>
+
+$theme.include($bottom_include)
+
+<div id="copyRightContent">
+	Copyright (c) 2012 UNIDO<br/>
+	#language("trademarks")
+</div>
+
+</html>

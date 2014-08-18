@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<!DOCTYPE project>
+
+<project name="EnergoEfficiencyTheme-theme" basedir="." default="war">
+	<import file="../build-common-theme.xml" />
+</project>
