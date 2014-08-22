@@ -58,7 +58,7 @@
 			<aui:fieldset>
 		 
 		 			<aui:input name="keywords" 
-								placeholder="Enter search terms" 
+								placeholder="Введите критерий поиска" 
 								label=""  
 								cssClass="eetdb-home-search-terms"/>
 					

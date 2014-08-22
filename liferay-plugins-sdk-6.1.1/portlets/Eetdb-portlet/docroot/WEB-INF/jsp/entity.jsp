@@ -45,9 +45,9 @@
 	<c:out value="${entity.name}" />
 </h1>
 
-<h2>
+<h3>
 	<c:out value="${entity.entityTemplate.name}" />
-</h2>
+</h3>
 
 <p>
 	<c:choose>
@@ -74,14 +74,14 @@
 		collapsible="true" extended="true">
 
 		<c:forEach var="prop" items="${entity.properties}" varStatus="index">
-			<c:if test="${prop.templateProperty.displayInGrid}">
+			<c:if test="${prop.templateProperty.displayInGrid && prop.value != ''}">
 			
 
 				<aui:layout>
-					<aui:column>
+					<aui:column cssClass="aui-column-name">
 						<c:out value="${prop.templateProperty.name}" />: &nbsp;
 					</aui:column>
-					<aui:column>
+					<aui:column cssClass="aui-column-value">
 						<c:choose>
 							<c:when test="${prop.templateProperty.valueType.type == 'REFERENCE'}">
 								<c:forTokens items="${prop.value}" delims="," var="strId">
@@ -130,6 +130,7 @@
 							</c:when>
 							<c:otherwise>
 								<c:out value="${prop.value}" escapeXml="false" />
+								<c:out value="${prop.templateProperty.unitOfMeasure}" escapeXml="false" />
 							</c:otherwise>
 						</c:choose>
 					</aui:column>
@@ -147,14 +148,14 @@
 		collapsible="true" extended="true">
 
 		<c:forEach var="prop" items="${entity.properties}" varStatus="index">
-			<c:if test="${!prop.templateProperty.displayInGrid}">
+			<c:if test="${!prop.templateProperty.displayInGrid && prop.value != ''}">
 			
 
 				<aui:layout>
-					<aui:column>
+					<aui:column cssClass="aui-column-name">
 						<c:out value="${prop.templateProperty.name}" />: &nbsp;
 					</aui:column>
-					<aui:column>
+					<aui:column cssClass="aui-column-value">
 						<c:choose>
 							<c:when test="${prop.templateProperty.valueType.type == 'REFERENCE'}">
 								<c:forTokens items="${prop.value}" delims="," var="strId">
@@ -203,6 +204,7 @@
 							</c:when>
 							<c:otherwise>
 								<c:out value="${prop.value}" escapeXml="true"/>
+								<c:out value="${prop.templateProperty.unitOfMeasure}" escapeXml="false" />
 							</c:otherwise>
 						</c:choose>
 					</aui:column>

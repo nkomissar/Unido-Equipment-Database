@@ -211,10 +211,10 @@
 			<div id="header">
 				<img src="$images_folder/myPics/logo.png" id="logoImg"/ onClick="window.location=baseLayoutURL+'home'">
 				<div id="headerTopLine">
-					<div id="headerTitle">						
+					<!--<div id="headerTitle">-->						
 						<!--<img src="/EnergoEfficiencyTheme-theme/images/myPics/logoTitle.png" id="logoTitle">-->
-						#language("portalLogo")
-					</div>
+						<!--#language("portalLogo")-->
+					<!--</div>-->
 					<div id="headerWelcome">
 					#if(!$is_signed_in)
 						<a rel="nofollow" href="$sign_in_url">#language("login")</a>

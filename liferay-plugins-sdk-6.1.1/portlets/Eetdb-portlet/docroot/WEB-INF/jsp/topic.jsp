@@ -53,40 +53,42 @@
 	<c:out value="${topic.name}" />
 </h1>
 
-<div>
+<h3>
 	<c:out value="${topic.description}" />
-</div>
+</h3>
 
-<liferay-ui:panel-container>
-	<liferay-ui:panel id="subTopics" title="Связанные отрасли"
-		collapsible="true" extended="true">
-
-		<aui:layout>
-			<c:forEach var="oddOrEven" begin="0" end="1" step="1">
-				<aui:column>
-					<c:forEach var="subtopic" items="${topic.childTopics}"
-						varStatus="index">
-						<c:if test="${index.getIndex() % 2 == oddOrEven}">
-							<h1>
-
-								<portlet:renderURL var="topicDetailsUrl">
-									<portlet:param name="action" value="showTopic" />
-									<portlet:param name="topicId" value="${subtopic.id}" />
-								</portlet:renderURL>
-
-								<aui:a href="${topicDetailsUrl}">
-									<c:out value="${subtopic.name}" />
-								</aui:a>
-
-							</h1>
-						</c:if>
-					</c:forEach>
-				</aui:column>
-			</c:forEach>
-		</aui:layout>
-
-	</liferay-ui:panel>
-</liferay-ui:panel-container>
+<c:if test="${!topic.childTopics.isEmpty()}">
+	<liferay-ui:panel-container>
+		<liferay-ui:panel id="subTopics" title="Связанные отрасли"
+			collapsible="true" extended="true">
+	
+			<aui:layout>
+				<c:forEach var="oddOrEven" begin="0" end="1" step="1">
+					<aui:column>
+						<c:forEach var="subtopic" items="${topic.childTopics}"
+							varStatus="index">
+							<c:if test="${index.getIndex() % 2 == oddOrEven}">
+								<h4>
+	
+									<portlet:renderURL var="topicDetailsUrl">
+										<portlet:param name="action" value="showTopic" />
+										<portlet:param name="topicId" value="${subtopic.id}" />
+									</portlet:renderURL>
+	
+									<aui:a href="${topicDetailsUrl}">
+										<c:out value="${subtopic.name}" />
+									</aui:a>
+	
+								</h4>
+							</c:if>
+						</c:forEach>
+					</aui:column>
+				</c:forEach>
+			</aui:layout>
+	
+		</liferay-ui:panel>
+	</liferay-ui:panel-container>
+</c:if>
 
 <aui:layout>
 	<c:forEach var="oddOrEvenTemplates" begin="0" end="1" step="1">
@@ -100,17 +102,16 @@
 				<c:if test="${distinctTemplateIndex.getIndex() % 2 == oddOrEvenTemplates}">
 
 					<liferay-ui:panel-container>
-						<liferay-ui:panel id="childEntities" title="${'Применяемое оборудование : '}${template.name}"
+						<liferay-ui:panel id="childEntities" title="${'Сопутсвующее оборудование : '}${template.name}"
 							collapsible="true" extended="true">
 
 <%@include file="entityGrid.jsp" %>					
 					
-						</liferay-ui:panel>
-					</liferay-ui:panel-container>
-
+							</liferay-ui:panel>
+						</liferay-ui:panel-container>
+	
 				</c:if>
 			</c:forEach>
 		</aui:column>
 	</c:forEach>
 </aui:layout>
-

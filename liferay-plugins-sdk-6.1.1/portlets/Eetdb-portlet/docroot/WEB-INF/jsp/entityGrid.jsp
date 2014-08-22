@@ -28,13 +28,13 @@
 					
 									<liferay-ui:search-container-column-text name="Id" property="id" orderable="true" orderableProperty="id" href="${showEnityURL}"/>
 									<liferay-ui:search-container-column-text name="Название" property="name" orderable="true" orderableProperty="name" href="${showEnityURL}"/>
-									<liferay-ui:search-container-column-text name="Тип" value="${entity.entityTemplate.name}" />
+									<!-- liferay-ui:search-container-column-text name="Тип" value="${entity.entityTemplate.name}" /-->
 									
 									<c:forEach items="${eetdb:sortPropertyByCode(entity.properties)}" var="property">
 									
 										<c:if test="${property.templateProperty.displayInGrid}">
 											
-											<liferay-ui:search-container-column-text name="${eetdb:getPropertyNameDecorated(property)}">
+											<liferay-ui:search-container-column-text name="${eetdb:getPropertyNameDecorated(property)}" orderable="false">
 												<c:choose>
 													<c:when test="${property.templateProperty.valueType.type == 'REFERENCE'}">
 														<c:forTokens items="${property.value}" delims="," var="strId">

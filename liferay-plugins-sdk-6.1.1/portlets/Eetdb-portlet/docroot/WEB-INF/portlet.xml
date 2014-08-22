@@ -19,6 +19,7 @@
 		<supports>
 			<mime-type>text/html</mime-type>
 		</supports>
+	    <resource-bundle>content.language-ext_ru</resource-bundle>
 		<portlet-info>
 			<title>Eetdb</title>
 			<short-title>Eetdb</short-title>
@@ -47,5 +48,6 @@
 			<role-name>user</role-name>
 		</security-role-ref>
 	</portlet>
+    <resource-bundle>content.language-ext_ru</resource-bundle>
     <default-namespace>org.unido.eetdb</default-namespace>
 </portlet-app>
