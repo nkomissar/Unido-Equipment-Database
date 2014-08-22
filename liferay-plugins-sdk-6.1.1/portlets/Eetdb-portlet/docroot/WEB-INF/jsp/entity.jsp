@@ -155,7 +155,7 @@
 					<aui:column cssClass="aui-column-name">
 						<c:out value="${prop.templateProperty.name}" />: &nbsp;
 					</aui:column>
-					<aui:column cssClass="aui-column-value">
+					<aui:column  cssClass="aui-column-value">
 						<c:choose>
 							<c:when test="${prop.templateProperty.valueType.type == 'REFERENCE'}">
 								<c:forTokens items="${prop.value}" delims="," var="strId">

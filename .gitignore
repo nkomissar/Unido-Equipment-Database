@@ -6,3 +6,4 @@ liferay-plugins-sdk-6.1.1/portlets/EetdbAdmin-portlet/docroot/WEB-INF/classes/*
 EetdbServiceHost/bin/org/unido/eetdb/daemon/parser/*.class
 EetdbServiceHost/bin/org/unido/eetdb/daemon/db/*.class
 liferay-plugins-sdk-6.1.1/themes/EnergoEfficiencyTheme-theme/docroot/css/.sass-cache*
+liferay-plugins-sdk-6.1.1/dist/*
