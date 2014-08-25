@@ -102,7 +102,7 @@ Ext.define('EetdbAdmin.controller.EntityTemplates', {
     	var searchDataview = this.getEntityTemplateData();
         var searchStore = this.getEntityTemplateSearchResultStore();
         
-        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntityTemplate', { id: 0, name: 'New Template'} ));
+        searchStore.insert(0, Ext.create('EetdbAdmin.model.EntityTemplate', { id: 0, name: 'New Template', isReference: false} ));
         
         searchDataview.getSelectionModel().select(0);
 

@@ -15,6 +15,7 @@ Ext.define('EetdbAdmin.model.EntityTemplate', {
          {name: 'id',  type: 'long'}
         ,{name: 'name', type: 'string'}
         ,{name: 'code', type: 'string'}
+        ,{name: 'isReference', type: 'boolean'}
         ,{name: 'version', type: 'long'}
     ]
     

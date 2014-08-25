@@ -15,6 +15,7 @@
 
 		<property name="name" column="TEMPLATE_NAME" />
 		<property name="code" column="TEMPLATE_CODE" />
+		<property name="isReference" column="IS_REFERENCE" />
 		<property name="lastUpdatedBy" column="UPDATED_BY" />
 
 		<set name="properties" table="UNIDO_ENTITY_TEMPLATE_PROPERTY" inverse="true" cascade="all-delete-orphan">

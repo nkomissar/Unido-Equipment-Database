@@ -94,7 +94,7 @@ public class SearchController
 		}
 		
 		
-		model.addAttribute("templates", templates);
+		model.addAttribute("templates", TemplateHelper.FilterReference(templates));
 		
 		return "search";
 	}

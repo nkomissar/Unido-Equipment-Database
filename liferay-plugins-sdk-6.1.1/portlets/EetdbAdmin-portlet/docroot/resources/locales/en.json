@@ -24,6 +24,7 @@
             ,"name"        : "Name"
             ,"code"        : "Code"
             ,"template"    : "Template"
+            ,"isreference" : "Is Reference"
             ,"approved"    : "Approved"
             ,"entersearchterm"    : "enter search term"
             ,"description" : "Description"

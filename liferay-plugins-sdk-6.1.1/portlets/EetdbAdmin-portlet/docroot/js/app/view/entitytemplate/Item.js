@@ -218,7 +218,14 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
     				,locales : {
     					fieldLabel : 'fields.labels.code'
                     }
-        		},{
+        	    },{
+        	    	fieldLabel: 'Is Reference',
+        	    	xtype: 'checkbox',
+        	    	name: 'isreference'
+    				,locales : {
+    					fieldLabel : 'fields.labels.isreference'
+                    }
+        	    },{
         			xtype: 'hidden',
         			name: 'id'
         		},{
@@ -269,6 +276,12 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
 		var form = this.down('form');
 		
 		form.loadRecord(record);
+
+    	var isReference = form.down('[isFormField][name="isreference"]');
+    	if(typeof isReference != 'undefined')
+    	{
+    		isReference.setValue(record.get('isReference'));
+    	}
 		
 		var props = form.query('templateclosablefieldset');
 		
@@ -300,6 +313,7 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
     	var id = form.down('[isFormField][name="id"]');
     	var nm = form.down('[isFormField][name="name"]');
     	var code = form.down('[isFormField][name="code"]');
+    	var isReference = form.down('[isFormField][name="isreference"]');
     	var version = form.down('[isFormField][name="version"]');
     	var fieldSets = form.query('fieldset');
 
@@ -316,6 +330,11 @@ Ext.define('EetdbAdmin.view.entitytemplate.Item', {
     	if(typeof code != 'undefined')
     	{
     		template['code'] = code.getValue();
+    	}
+
+    	if(typeof isReference != 'undefined')
+    	{
+    		template['isReference'] = isReference.getValue();
     	}
 
     	if(typeof version != 'version')

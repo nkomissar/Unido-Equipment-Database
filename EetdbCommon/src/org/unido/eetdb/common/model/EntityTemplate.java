@@ -7,6 +7,7 @@ public class EntityTemplate extends GenericObject
 {
     private String                      name;
     private String                      code;
+    private boolean                     isReference;
     private Set<EntityTemplateProperty> properties = new HashSet<EntityTemplateProperty>();
 
     public String getName()
@@ -34,6 +35,16 @@ public class EntityTemplate extends GenericObject
     public void setCode(String code)
     {
         this.code = code;
+    }
+    
+    public boolean getIsReference()
+    {
+    	return isReference;
+    }
+    
+    public void setIsReference(boolean isReference)
+    {
+    	this.isReference = isReference;
     }
     
     public boolean equals(Object obj)

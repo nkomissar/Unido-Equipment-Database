@@ -8,7 +8,7 @@
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/eetdb?characterEncoding=UTF-8&amp;noAccessToProcedureBodies=true" />
+		<property name="url" value="jdbc:mysql://50.56.189.15:3306/eetdb?characterEncoding=UTF-8&amp;noAccessToProcedureBodies=true" />
 		<!-- property name="url" value="jdbc:mysql://217.199.222.71:3306/eetdb?characterEncoding=UTF-8&amp;noAccessToProcedureBodies=true" /-->
 		<property name="maxActive" value="-1" />
 		<property name="maxIdle" value="1" />

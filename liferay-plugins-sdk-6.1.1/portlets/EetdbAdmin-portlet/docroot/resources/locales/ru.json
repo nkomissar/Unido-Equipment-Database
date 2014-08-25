@@ -18,12 +18,13 @@
     },
     "fields"  : {
         "labels" : {
-            "firstName"    : "First Name",
-            "lastName"     : "Last Name",
+            "firstName"    : "Имя",
+            "lastName"     : "Фамилия",
             "chooseLocale" : "Choose Your Locale"
             ,"name"        : "Наименование"
             ,"code"        : "Код"
             ,"template"    : "Шаблон"
+            ,"isreference" : "Ссылочный тип"
             ,"approved"    : "Согласовано"
             ,"entersearchterm"    : "поиск"
             ,"description" : "Описание"
