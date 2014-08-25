@@ -374,7 +374,6 @@ body #banner .logo a {
 }
 
 /* --- Customization ---*/
-
 .aui-column-name{
 text-align: left; 
 font-style: normal;
@@ -395,6 +394,7 @@ font-family: verdana,sans-serif;
 font-size: 1.0em; 
 display: inline;
 float: left;
+width: 70%;
 }
 .lfr-panel-container a {
 color: rgb(62, 116, 181);
@@ -423,8 +423,8 @@ padding: 0.2em 0.3em; font-size: 1em; color: rgb(51, 51, 51);
 .lfr-panel-container {
 border-width: 1px; border-style: solid; border-color: rgb(222, 222, 222) rgb(191, 191, 191) rgb(191, 191, 191) rgb(191, 191, 191);
 }
-.aui-column-content .lfr-panel-container {
-padding: 0px; margin: 0px;
+.aui-column .aui-column-content {
+padding-top: 3px; padding-bottom: 3px; padding-right: 0px; padding-left: 0px; margin: 0px;
 }
 .aui-field-content .aui-field-label-inline-label {
 font-size: 0.9em;

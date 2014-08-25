@@ -151,7 +151,7 @@
 		<if>
 			<available file="docroot/_diffs" />
 			<then>
-				<copy todir="docroot" overwrite="true" preservelastmodified="true">
+				<copy todir="docroot" overwrite="true"> <!-- preservelastmodified="true"-->
 					<fileset
 						dir="docroot/_diffs"
 					/>
