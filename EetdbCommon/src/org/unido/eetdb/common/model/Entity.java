@@ -71,4 +71,31 @@ public class Entity extends GenericObject
 	{
 		this.status = status;
 	}
+	
+    public boolean equals(Object obj)
+    {
+        if (obj == null) { return false; }
+
+        Entity target = null;
+
+        try
+        {
+        	target = (Entity) obj;
+        }
+        catch (ClassCastException cce)
+        {
+            return false;
+        }
+
+        long anotherId = target.getId();
+        long thisId = getId();
+
+        return thisId == anotherId;
+    }
+
+    public int hashCode()
+    {
+        long value = getId();
+        return (int) (value ^ (value >>> 32));
+    }
 }

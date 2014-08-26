@@ -99,7 +99,7 @@
 				<c:set var="template" value="${entry.key}"/>
 				<c:set var="searchContainer" value="${entry.value}"/>
 						
-				<c:if test="${distinctTemplateIndex.getIndex() % 2 == oddOrEvenTemplates}">
+				<c:if test="${distinctTemplateIndex.getIndex() % 2 == oddOrEvenTemplates && searchContainer.total > 0}">
 
 					<liferay-ui:panel-container>
 						<liferay-ui:panel id="childEntities" title="${'Сопутсвующее оборудование : '}${template.name}"
