@@ -7,7 +7,7 @@
 		<icon>/icon.png</icon>
 		<configuration-action-class>com.liferay.portal.kernel.portlet.DefaultConfigurationAction</configuration-action-class>
 		<instanceable>false</instanceable>
-		<!-- header-portlet-css>/resources/css/ext-all.css</header-portlet-css-->
+		<header-portlet-css>/resources/css/ext-all.css</header-portlet-css>
 		<header-portlet-css>/resources/css/ux/GroupTabPanel.css</header-portlet-css>
 		<header-portlet-css>/resources/css/ux/BoxSelect.css</header-portlet-css>
 		<header-portlet-css>/resources/css/ux/AsyncFileUpload.css</header-portlet-css>
