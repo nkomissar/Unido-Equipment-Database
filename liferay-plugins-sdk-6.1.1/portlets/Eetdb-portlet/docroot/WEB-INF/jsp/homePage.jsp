@@ -13,10 +13,9 @@
 <portlet:defineObjects />
 <liferay-theme:defineObjects />
 
-<p style="font-size:14px;font-weight:bold">Каталог энергосберегающих технологий и оборудования</p>
-<br/>
-<p>В этом разделе представлена информация о технологиях, мероприятиях и оборудовании, внедрение которых позволяет более эффективно использовать топливно-энергетические ресурсы и существенно снизить денежные затраты.</p>
-<br/><br/>
+<H1>Каталог энергосберегающих технологий и оборудования</H1>
+<h3>В этом разделе представлена информация о технологиях, мероприятиях и оборудовании, внедрение которых позволяет более эффективно использовать топливно-энергетические ресурсы и существенно снизить денежные затраты.</h3>
+
 <liferay-ui:panel-container>
 	<liferay-ui:panel id="rootTopics" title="Рубрикаторы" collapsible="true"
 		extended="true">
@@ -26,7 +25,7 @@
 				<aui:column>
 					<c:forEach var="topic" items="${listOfTopics}" varStatus="index">
 						 <c:if test="${index.index % 2 == oddOrEven}">
-							<h1>
+							<h3>
 								
 								<portlet:renderURL var="topicDetailsUrl">
 									<portlet:param name="action" value="showTopic" />
@@ -37,7 +36,7 @@
 									<c:out value="${topic.name}" />
 								</aui:a>
 								
-							</h1>
+							</h3>
 						</c:if>
 					</c:forEach>
 				</aui:column>

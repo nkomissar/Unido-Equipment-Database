@@ -398,24 +398,29 @@ width: 70%;
 }
 .lfr-panel-container a {
 color: rgb(62, 116, 181);
-font-family: verdana,sans-serif; 
 font-size: 1.0em; 
 font-style: underline;
+
 }
 .lfr-panel-container a:hover{
 color: rgb(181, 62, 62);
-font-family: verdana,sans-serif; 
 font-size: 1.0em; 
 font-style: underline;
 }
 h1 {
-font-size: 1.8em; color: rgb(62, 116, 181); 
+font-size: 1.8em;
+color: rgb(62, 116, 181);
+font-family: verdana,sans-serif;
+margin-top: 6px;
+margin-bottom: 6px;
 }
 h3 {
 font-size: 1.2em; color: rgb(100, 100, 100); 
+margin-top: 3px;
+margin-bottom: 3px;
 }
 p {
-font-size: 0.8em; color: black; float: right; display: block;
+font-size: 0.9em; color: black; float: right; display: block;
 }
 .lfr-panel-title {
 padding: 0.2em 0.3em; font-size: 1em; color: rgb(51, 51, 51); 
@@ -424,7 +429,7 @@ padding: 0.2em 0.3em; font-size: 1em; color: rgb(51, 51, 51);
 border-width: 1px; border-style: solid; border-color: rgb(222, 222, 222) rgb(191, 191, 191) rgb(191, 191, 191) rgb(191, 191, 191);
 }
 .aui-column .aui-column-content {
-padding-top: 3px; padding-bottom: 3px; padding-right: 0px; padding-left: 0px; margin: 0px;
+padding-top: 3px; padding-bottom: 3px; padding-right: 10px; padding-left: 0px; margin: 0px;
 }
 .aui-field-content .aui-field-label-inline-label {
 font-size: 0.9em;
