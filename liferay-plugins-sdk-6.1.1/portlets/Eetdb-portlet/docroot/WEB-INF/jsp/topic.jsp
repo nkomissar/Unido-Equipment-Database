@@ -65,7 +65,7 @@
 			<aui:layout>
 				<c:forEach var="oddOrEven" begin="0" end="1" step="1">
 					<aui:column>
-						<c:forEach var="subtopic" items="${topic.childTopics}"
+						<c:forEach var="subtopic" items="${eetdb:sortById(topic.childTopics)}"
 							varStatus="index">
 							<c:if test="${index.getIndex() % 2 == oddOrEven}">
 								<h4>

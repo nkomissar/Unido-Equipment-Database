@@ -13,7 +13,7 @@
 	
 	$theme.include($top_head_include)
 	
-	<link rel="stylesheet" type="text/css" href="/ExtJS4Lib/lib/resources/css/ext-all.css">
+	<!--<link rel="stylesheet" type="text/css" href="/ExtJS4Lib/lib/resources/css/ext-all.css">-->
 	<link rel="stylesheet" type="text/css" href="/EnergoEfficiencyTheme-theme/css/myCss.css">	
 	<script type="text/javascript" src="/ExtJS4Lib/lib/ext-all-debug.js"></script>
 	<!-- <script type="text/javascript" src="/ExtJS4Lib/lib/locale/ext-lang-ru.js"></script> -->

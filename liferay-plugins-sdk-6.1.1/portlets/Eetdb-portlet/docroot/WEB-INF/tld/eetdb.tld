@@ -11,6 +11,11 @@
     <uri>/WEB-INF/tld/eetdb.tld</uri>
 
     <function>
+        <name>sortById</name>
+        <function-class>org.unido.eetdb.util.CustomComparatorUtil</function-class>
+        <function-signature>java.util.List sortById(java.lang.Object)</function-signature>
+    </function>
+    <function>
         <name>asSortedList</name>
         <function-class>org.unido.eetdb.util.CustomComparatorUtil</function-class>
         <function-signature>java.util.List asSortedList(java.util.Collection)</function-signature>

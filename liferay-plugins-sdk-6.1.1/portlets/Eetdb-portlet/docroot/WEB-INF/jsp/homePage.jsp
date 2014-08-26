@@ -6,6 +6,7 @@
 <%@ taglib uri="http://liferay.com/tld/ui" prefix="liferay-ui"%>
 <%@ taglib uri="http://liferay.com/tld/aui" prefix="aui"%>
 <%@ taglib uri="http://liferay.com/tld/theme" prefix="liferay-theme" %>
+<%@ taglib uri="/WEB-INF/tld/eetdb.tld" prefix="eetdb"%>
 
 <%@ page import="com.liferay.portlet.PortletURLFactory"%>
 <%@ page import="com.liferay.portal.theme.ThemeDisplay" %>
@@ -23,7 +24,7 @@
 		<aui:layout>
 			<c:forEach var="oddOrEven" begin="0" end="1" step="1">
 				<aui:column>
-					<c:forEach var="topic" items="${listOfTopics}" varStatus="index">
+					<c:forEach var="topic" items="${eetdb:sortById(listOfTopics)}" varStatus="index">
 						 <c:if test="${index.index % 2 == oddOrEven}">
 							<h3>
 								
