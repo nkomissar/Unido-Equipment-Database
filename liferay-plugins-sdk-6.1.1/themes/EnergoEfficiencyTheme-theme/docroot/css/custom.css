@@ -439,21 +439,6 @@ margin-botton: 5px;
 .aui-column .aui-column-content {
 padding-top: 3px; padding-bottom: 3px; padding-right: 10px; padding-left: 0px; margin: 0px;
 }
-.aui-field-content .aui-field-label-inline-label {
-font-size: 0.9em;
-}
-.page-links .first {
-font-size: 0.9em;
-}
-.page-links .previous {
-font-size: 0.9em;
-}
-.page-links .next {
-font-size: 0.9em;
-}
-.page-links .last {
-font-size: 0.9em;
-}
 .aui-field-input-text {
 height: 1.8em;
 }
