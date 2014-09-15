@@ -8,7 +8,8 @@
 
 body {
 	background: #FFFFFF;
-	font-size: 11px;
+	font-size: 62.5%;
+	font-family: Verdana, sans-serif;
 }
 
 a {
@@ -396,11 +397,14 @@ display: inline;
 float: left;
 width: 70%;
 }
+.eetdb-search-result-title {
+color: rgb(62, 116, 181);
+font-size: 1.1em; 
+}
 .lfr-panel-container a {
 color: rgb(62, 116, 181);
 font-size: 1.0em; 
 font-style: underline;
-
 }
 .lfr-panel-container a:hover{
 color: rgb(181, 62, 62);
@@ -426,23 +430,51 @@ font-size: 0.9em; color: black; float: right; display: block;
 padding: 0.2em 0.3em; font-size: 1em; color: rgb(51, 51, 51); 
 }
 .lfr-panel-container {
-border-width: 1px; border-style: solid; border-color: rgb(222, 222, 222) rgb(191, 191, 191) rgb(191, 191, 191) rgb(191, 191, 191);
+border-width: 1px;
+border-style: solid;
+border-color: rgb(222, 222, 222) rgb(191, 191, 191) rgb(191, 191, 191) rgb(191, 191, 191);
+margin-top: 5px;
+margin-botton: 5px;
 }
 .aui-column .aui-column-content {
 padding-top: 3px; padding-bottom: 3px; padding-right: 10px; padding-left: 0px; margin: 0px;
 }
-.aui-field-content .aui-field-label-inline-label {
-font-size: 0.9em;
+.aui-field-input-text {
+height: 1.8em;
 }
-.page-links .first {
-font-size: 0.9em;
+.toggle_id_eetdb_portlet_entity_searchtoggle-link {
+text-align: right;
+float: right;
+display: block;
 }
-.page-links .previous {
-font-size: 0.9em;
+.aui-search-bar {
+display: inline;
+vertical-align: middle;
 }
-.page-links .next {
-font-size: 0.9em;
+.taglib-search-toggle{
+padding-bottom: 0px;
+vertical-align: bottom;
+width: 100%;
 }
-.page-links .last {
-font-size: 0.9em;
+.aui-field-wrapper {
+overflow: inherit;
+}
+.taglib-search-toggle-advanced{
+margin-bottom: 10px;
+margin-top: 10px;
+}
+.taglib-search-toggle-basic{
+margin-bottom: 10px;
+}
+.aui-field-content{
+margin-bottom: 10px;
+margin-top: 10px;
+}
+.page-links{
+margin-top: 10px;
+margin-bottom: 10px;
+}
+.search-results{
+margin-top: 10px;
+margin-bottom: 10px;
 }
