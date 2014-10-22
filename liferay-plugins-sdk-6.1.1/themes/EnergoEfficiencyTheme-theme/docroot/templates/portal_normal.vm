@@ -217,10 +217,10 @@
 					</div>-->
 					<div id="headerWelcome">
 					#if(!$is_signed_in)
-						<a rel="nofollow" href="$sign_in_url">#language("login")</a>
+						<a rel="nofollow" href="$sign_in_url">#language("dologin")</a>
 						<a rel="nofollow" href="$company_url/home?p_p_id=58&p_p_lifecycle=0&p_p_state=maximized&p_p_mode=view&saveLastPath=0&_58_struts_action=%2Flogin%2Fcreate_account" style="margin: 0 7px;">#language("create-account")</a>
 					#else
-						<a rel="nofollow" href="$sign_out_url">#language("logout")</a>
+						<a rel="nofollow" href="$sign_out_url">#language("dologout")</a>
 					#end						
 					
 					#set ($language_portlet_url = $portletURLFactory.create($request, "82", $page.getPlid(), "ACTION_PHASE"))
