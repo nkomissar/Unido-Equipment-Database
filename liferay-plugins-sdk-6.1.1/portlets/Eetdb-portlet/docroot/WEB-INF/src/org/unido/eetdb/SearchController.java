@@ -29,6 +29,7 @@ import org.unido.eetdb.common.model.EntityTemplateProperty;
 import org.unido.eetdb.presentationUtil.EntityHelper;
 import org.unido.eetdb.presentationUtil.TemplateHelper;
 import org.unido.eetdb.util.ConfigWrapper;
+import org.unido.eetdb.util.CustomComparatorUtil;
 import org.unido.eetdb.util.Mocks;
 
 import com.liferay.portal.kernel.dao.search.SearchContainer;
@@ -87,7 +88,7 @@ public class SearchController
 				
 			}
 			
-			model.addAttribute("searchableProperties", searchTerms);
+			model.addAttribute("searchableProperties", CustomComparatorUtil.asSortedList(searchTerms));
 			model.addAttribute("refEntities", refEntities);
 			model.addAttribute("selectedTemplateObj", loadedTemplate);
 			
