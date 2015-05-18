@@ -12,7 +12,7 @@
 			}
 			#wrapper{
 				background-color: #DDDDDD;
-				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/bgMainPage.png");
+				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/bgHeader.jpg");
 				background-repeat: no-repeat;
 				background-position: center top;
 				position: relative;
@@ -20,14 +20,14 @@
 				z-index: 0;
 			}
 			#mainPageBgDecor{
-				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/bottomBg.png");
+				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/squares.gif");
 				background-position: right bottom !important;
 				background-repeat: no-repeat;
+				opacity: 0.15;
 				bottom: 0;
-				height: 300px;
-				left: 720px;
+				height: 663px;
 				position: fixed;
-				width: 515px;
+				width: 975px;
 				z-index: -1;
 			}
 			#mainContent{				
@@ -36,11 +36,11 @@
 				width: 1000px;
 			}
 			#header{
-				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/headerBg.png");
+				background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/bgHeader.jpg");
 				background-repeat: no-repeat;
-				height: 66px;
-				margin-top: 5px;
-			}			
+				height: 300px;
+				margin-top: 3px;
+			}
 			#logoImg{
 				margin: 0 0 5px 25px;
 				float: left;

@@ -33,3 +33,15 @@
 {
 	display: none;
 }
+.mainPageBgDecor {
+  background-image: url("/EnergoEfficiencyTheme-theme/images/myPics/bottomBg.png");
+  background-position: right bottom !important;
+  background-repeat: no-repeat;
+  bottom: 0;
+  height: 300px;
+  left: 720px;
+  position: fixed;
+  width: 515px;
+  z-index: -1;
+}
+		

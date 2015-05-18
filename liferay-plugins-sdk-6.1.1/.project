@@ -8,4 +8,21 @@
 	</buildSpec>
 	<natures>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>themes/EnergoEfficiencyTheme-theme/docroot/images/myPics/bgHeader.jpg</name>
+			<type>1</type>
+			<location>C:/UNIDO/Unido-Equipment-Database/Unido-Equipment-Database/liferay-plugins-sdk-6.1.1/themes/EnergoEfficiencyTheme-theme/docroot/images/myPics/bgHeader.jpg</location>
+		</link>
+		<link>
+			<name>themes/EnergoEfficiencyTheme-theme/docroot/images/myPics/logo1.png</name>
+			<type>1</type>
+			<location>C:/UNIDO/Unido-Equipment-Database/Unido-Equipment-Database/liferay-plugins-sdk-6.1.1/themes/EnergoEfficiencyTheme-theme/docroot/images/myPics/logo1.png</location>
+		</link>
+		<link>
+			<name>themes/EnergoEfficiencyTheme-theme/docroot/images/myPics/squares.gif</name>
+			<type>1</type>
+			<location>C:/UNIDO/Unido-Equipment-Database/Unido-Equipment-Database/liferay-plugins-sdk-6.1.1/themes/EnergoEfficiencyTheme-theme/docroot/images/myPics/squares.gif</location>
+		</link>
+	</linkedResources>
 </projectDescription>

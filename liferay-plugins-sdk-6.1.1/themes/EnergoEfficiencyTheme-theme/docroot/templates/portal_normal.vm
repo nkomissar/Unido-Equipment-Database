@@ -209,7 +209,7 @@
 	<center>
 		<div id="mainContent">
 			<div id="header">
-				<img src="$images_folder/myPics/logo.png" id="logoImg"/ onClick="window.location=baseLayoutURL+'home'">
+				<img src="$images_folder/myPics/logo1.png" id="logoImg"/ onClick="window.location=baseLayoutURL+'home'">
 				<div id="headerTopLine">
 					<!--<div id="headerTitle">-->						
 						<!--<img src="/EnergoEfficiencyTheme-theme/images/myPics/logoTitle.png" id="logoTitle">-->
